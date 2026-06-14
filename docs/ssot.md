@@ -23,7 +23,9 @@ The command SSOT emits `generated/commands.generated.json`. Go keeps the
 runtime command registry and macOS execution planning in `internal/commands`,
 but its tests load the generated artifact and fail if command names, summaries,
 payload fields, OTT service allowlists, or generated URL targets drift from the
-Lisp-owned catalog.
+Lisp-owned catalog. Flutter static/offline fallback tests also read the same
+artifact and fail if fallback command names or payload fields drift from the
+catalog.
 
 The security SSOT emits `generated/security.generated.json`. Go owns the
 current-tree and Git-history scanners, while the generated policy records that

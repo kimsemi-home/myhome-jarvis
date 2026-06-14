@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 02:05 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Guard Flutter fallback commands against SSOT drift.
+- Files touched: `apps/flutter/test/snapshot_test.dart`, `docs/backlog.md`, `docs/flutter.md`, `docs/ssot.md`, `docs/working-log.md`.
+- Changes: added a Flutter snapshot regression test that reads `generated/commands.generated.json` and compares static/offline fallback command names, payload fields, and default payload keys against the Lisp-owned command catalog.
+- Validation after: `cd apps/flutter && flutter test test/snapshot_test.dart` passed; `cd apps/flutter && flutter test` passed; `cd apps/flutter && flutter analyze` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; full `mhj quality` with Go 1.26.2 passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: run Flutter tests, full quality, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 02:00 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

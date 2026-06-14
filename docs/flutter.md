@@ -52,6 +52,8 @@ Current scope:
   boundary.
 - Optional Bearer token support for LAN daemon clients.
 - Widget and client tests for the first local operations screens.
+- Static/offline fallback command tests read `generated/commands.generated.json`
+  and fail if command names or payload fields drift from the SSOT catalog.
 
 Platform runner files are intentionally deferred until packaging or device
 integration is needed.

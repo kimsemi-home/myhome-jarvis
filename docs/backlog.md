@@ -323,3 +323,9 @@
 - [x] Align Flutter offline command fallback with home-control surface.
   - Acceptance: Flutter static/offline fallback includes `volume-mute` and `mac-sleep` alongside the daemon-sourced command surface; widget tests prove both buttons render without daemon reachability.
   - Validation: `cd apps/flutter && flutter test test/widget_test.dart`; full quality gate; GitHub Actions run.
+
+## P45
+
+- [x] Guard Flutter fallback commands against SSOT drift.
+  - Acceptance: Flutter tests read `generated/commands.generated.json` and fail when static/offline fallback command names or payload fields differ from the Lisp-owned command catalog.
+  - Validation: `cd apps/flutter && flutter test test/snapshot_test.dart`; full quality gate; GitHub Actions run.
