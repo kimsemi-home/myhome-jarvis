@@ -67,9 +67,11 @@ Linear issue templates, quality requirement, and external-write boundary;
 `GET /planner/status` expose only repository-relative planning metadata.
 
 The first Rust domain surface lives in `mhj-core`. It validates finance
-transaction fixtures, commerce purchase fixtures, and Parquet+Zstd-ready lake
-dataset plans before any real external finance, commerce, or storage connectors
-are introduced.
+transaction fixtures, commerce purchase fixtures, and recommendation scoring
+before any real external finance or commerce connectors are introduced. The
+dedicated `mhj-storage` crate owns data lake manifests, repository-relative
+storage paths, and raw JSONL writer smoke coverage before Parquet writing is
+enabled.
 
 The Go daemon exposes the first domain read surface at `GET /domain/summary`.
 It reads local fixture JSONL and generated storage policy only; it does not

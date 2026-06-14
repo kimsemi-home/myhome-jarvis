@@ -3,6 +3,7 @@ members = [
   "crates/mhj-core",
   "crates/mhj-command",
   "crates/mhj-harness",
+  "crates/mhj-storage",
 ]
 resolver = "2"
 

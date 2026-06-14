@@ -51,6 +51,7 @@ sbcl --script lisp/scripts/codegen.lisp
 cargo test --workspace
 cargo test -p mhj-core benchmark_smoke -- --nocapture
 cargo test -p mhj-core household
+cargo test -p mhj-storage
 cd apps/flutter && flutter test && flutter analyze
 ```
 
@@ -74,6 +75,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `crates/mhj-core/src/benchmark.rs`: fixture-pipeline benchmark smoke tests.
 - `crates/mhj-core/src/household.rs`: fixture-only user/spouse/household scope aggregation.
 - `crates/mhj-core/src/recommendations.rs`: fixture-only recommendation scoring skeleton.
+- `crates/mhj-storage`: Rust data lake manifest, safe path planning, and raw JSONL writer smoke.
 - `lisp/ssot`: executable source of truth.
 - `generated`: deterministic artifacts emitted from SSOT.
 - `.github/workflows`: hash-scoped GitHub Actions quality gates.
