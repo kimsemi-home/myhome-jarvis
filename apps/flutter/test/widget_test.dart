@@ -49,8 +49,12 @@ void main() {
     await _scrollCommandIntoView(tester, 'volume-down');
     expect(find.text('volume-down'), findsOneWidget);
     expect(find.widgetWithText(TextField, 'step'), findsWidgets);
+    await _scrollCommandIntoView(tester, 'volume-mute');
+    expect(find.text('volume-mute'), findsOneWidget);
     await _scrollCommandIntoView(tester, 'display-sleep');
     expect(find.text('display-sleep'), findsOneWidget);
+    await _scrollCommandIntoView(tester, 'mac-sleep');
+    expect(find.text('mac-sleep'), findsOneWidget);
     expect(find.byTooltip('Dry-run'), findsWidgets);
   });
 

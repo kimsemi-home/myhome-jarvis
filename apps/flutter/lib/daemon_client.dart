@@ -666,8 +666,9 @@ IconData _commandIcon(String name) {
     case 'volume_set':
     case 'volume_up':
     case 'volume_down':
-    case 'volume_mute':
       return Icons.volume_up_outlined;
+    case 'volume_mute':
+      return Icons.volume_off_outlined;
     case 'sleep_mode':
     case 'mac_sleep':
       return Icons.bedtime_outlined;

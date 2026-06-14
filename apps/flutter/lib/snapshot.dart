@@ -353,9 +353,19 @@ class JarvisSnapshot {
         payloadFields: ['step'],
       ),
       HomeCommand(
+        name: 'volume-mute',
+        payload: '{}',
+        icon: Icons.volume_off_outlined,
+      ),
+      HomeCommand(
         name: 'display-sleep',
         payload: '{}',
         icon: Icons.monitor_outlined,
+      ),
+      HomeCommand(
+        name: 'mac-sleep',
+        payload: '{}',
+        icon: Icons.bedtime_outlined,
       ),
       HomeCommand(
         name: 'movie-mode',

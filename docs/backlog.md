@@ -317,3 +317,9 @@
 - [x] Record current content scanning in security SSOT.
   - Acceptance: Common Lisp SSOT emits generated security policy fields for current-content scanning, private-path skipping, private-identity scan, secret-literal scan, and non-reporting of matched secret contents; Go security tests read the generated artifact and fail on drift.
   - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go test ./internal/security`; full quality gate; GitHub Actions run.
+
+## P44
+
+- [x] Align Flutter offline command fallback with home-control surface.
+  - Acceptance: Flutter static/offline fallback includes `volume-mute` and `mac-sleep` alongside the daemon-sourced command surface; widget tests prove both buttons render without daemon reachability.
+  - Validation: `cd apps/flutter && flutter test test/widget_test.dart`; full quality gate; GitHub Actions run.

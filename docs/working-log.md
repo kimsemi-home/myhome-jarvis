@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 02:00 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Align Flutter offline command fallback with home-control surface.
+- Files touched: `apps/flutter/lib/snapshot.dart`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/widget_test.dart`, `docs/backlog.md`, `docs/flutter.md`, `docs/working-log.md`.
+- Changes: added `volume-mute` and `mac-sleep` to the static/offline Flutter command fallback; updated daemon-sourced `volume_mute` icon mapping; extended widget coverage so those home-control buttons render even when the daemon is unreachable.
+- Validation after: `cd apps/flutter && flutter test test/widget_test.dart` passed; `cd apps/flutter && flutter analyze` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; full `mhj quality` with Go 1.26.2 passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: run Flutter tests, full quality, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 01:55 KST
 
 - Linear issue: local continuation, no external Linear writes executed.
