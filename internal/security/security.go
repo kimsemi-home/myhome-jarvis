@@ -70,7 +70,7 @@ func (err gitCommandError) Unwrap() error {
 var secretHistoryPattern = regexp.MustCompile(`(?i)(BEGIN (RSA|OPENSSH|EC|DSA) PRIVATE KEY|Authorization:[[:space:]]*Bearer[[:space:]]+[A-Za-z0-9._~+/=-]{20,}|(api[_-]?key|secret|password|token)[[:space:]]*[:=][[:space:]]*[A-Za-z0-9._~+/=-]{20,})`)
 
 func Check(root string) (Report, error) {
-	report := Report{Root: root, OK: true}
+	report := Report{Root: ".", OK: true}
 	err := filepath.WalkDir(root, func(path string, entry fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
 			return walkErr

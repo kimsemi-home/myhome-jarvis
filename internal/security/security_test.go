@@ -22,6 +22,20 @@ func TestCheckRejectsPythonFile(t *testing.T) {
 	}
 }
 
+func TestCheckReportDoesNotExposeLocalRoot(t *testing.T) {
+	root := t.TempDir()
+	report, err := Check(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if report.Root != "." {
+		t.Fatalf("root = %q, expected redacted current root", report.Root)
+	}
+	if strings.Contains(report.Root, root) || filepath.IsAbs(report.Root) {
+		t.Fatalf("report leaked local root: %#v", report)
+	}
+}
+
 func TestCheckAllowsPrivateLocalFiles(t *testing.T) {
 	root := t.TempDir()
 	privateDir := filepath.Join(root, "data", "private")

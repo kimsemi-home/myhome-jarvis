@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 01:29 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Redact current-tree security report root.
+- Files touched: `internal/security/security.go`, `internal/security/security_test.go`, `docs/backlog.md`, `docs/security.md`, `docs/working-log.md`.
+- Changes: changed `mhj security check` reports to use `root: "."` instead of the local checkout path; added regression coverage that the current-tree report root is not absolute and does not include the local root; documented the CLI report redaction contract.
+- Validation after: `go1.26.2 test ./internal/security` passed; `go1.26.2 run ./cmd/mhj security check` returned `root: "."`; security check output redaction probe found no local path markers; `go1.26.2 run ./cmd/mhj codegen verify` passed; public safety scans passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 01:25 KST
 
 - Linear issue: local continuation, no external Linear writes executed.
