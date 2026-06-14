@@ -1,0 +1,24 @@
+(in-package #:myhome-jarvis.ssot)
+
+(defparameter *linear-policy*
+  (list :token_env "LINEAR_API_KEY"
+        :token_file "data/private/linear-token.txt"
+        :endpoint "https://api.linear.app/graphql"
+        :personal_api_key_authorization "Authorization: <API_KEY>"
+        :oauth_authorization "Authorization: Bearer <ACCESS_TOKEN>"
+        :offline_queue "data/private/linear-offline-queue.jsonl"
+        :default_poll_seconds 60
+        :sync_claim_requires_api_success t
+        :commands #("mhj linear status"
+                    "mhj linear sync"
+                    "mhj linear pull"
+                    "mhj linear next"
+                    "mhj linear comment <issue-id> <message>"
+                    "mhj linear transition <issue-id> <state>"
+                    "mhj linear create-from-backlog")
+        :offline_action_kinds #("linear_sync"
+                                "linear_pull"
+                                "linear_next"
+                                "linear_comment"
+                                "linear_transition"
+                                "linear_create_from_backlog")))

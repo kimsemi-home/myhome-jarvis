@@ -1,0 +1,11 @@
+[package]
+name = "mhj-command"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+mhj-core = { path = "../mhj-core" }

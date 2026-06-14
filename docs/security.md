@@ -1,0 +1,14 @@
+# Security
+
+Security defaults:
+
+- Bind local services to `127.0.0.1` unless LAN bind is explicitly configured.
+- Keep command execution dry-run unless `MYHOME_EXECUTE=true` or an equivalent
+  local private config is set.
+- Store local tokens only under `data/private`.
+- Keep raw data and lake data under ignored private paths.
+- Reject Python, Node.js, TypeScript, shell-interpolated command execution, and
+  tracked private-data artifacts.
+
+The Go security checker is the first enforceable guard. It scans path names and
+language/dependency files and exits non-zero when a forbidden file is present.

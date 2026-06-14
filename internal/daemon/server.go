@@ -1,0 +1,291 @@
+package daemon
+
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io"
+	"net"
+	"net/http"
+	"os"
+	"path/filepath"
+	"strconv"
+	"strings"
+	"sync/atomic"
+	"time"
+
+	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
+	"github.com/kimsemi-home/myhome-jarvis/internal/domain"
+	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
+)
+
+type Config struct {
+	Root         string
+	Host         string
+	Port         int
+	Execute      bool
+	AllowLANBind bool
+	Version      string
+}
+
+type Server struct {
+	config   Config
+	started  time.Time
+	requests atomic.Uint64
+}
+
+func DefaultConfig(root string, version string) Config {
+	return Config{
+		Root:    root,
+		Host:    envString("MYHOME_BIND_HOST", "127.0.0.1"),
+		Port:    envInt("MYHOME_BIND_PORT", 3888),
+		Execute: os.Getenv("MYHOME_EXECUTE") == "true",
+		Version: version,
+	}
+}
+
+func New(config Config) (*Server, error) {
+	if config.Root == "" {
+		return nil, errors.New("root is required")
+	}
+	if config.Host == "" {
+		config.Host = "127.0.0.1"
+	}
+	if config.Port <= 0 || config.Port > 65535 {
+		return nil, fmt.Errorf("invalid port %d", config.Port)
+	}
+	if isWildcardHost(config.Host) && !config.AllowLANBind {
+		return nil, errors.New("wildcard or LAN bind requires explicit allow-lan flag")
+	}
+	return &Server{config: config, started: time.Now().UTC()}, nil
+}
+
+func (server *Server) ListenAndServe() error {
+	mux := server.Routes()
+	address := net.JoinHostPort(server.config.Host, strconv.Itoa(server.config.Port))
+	httpServer := &http.Server{
+		Addr:              address,
+		Handler:           mux,
+		ReadHeaderTimeout: 5 * time.Second,
+	}
+	return httpServer.ListenAndServe()
+}
+
+func (server *Server) Routes() http.Handler {
+	mux := http.NewServeMux()
+	mux.HandleFunc("GET /health", server.wrap(server.handleHealth))
+	mux.HandleFunc("GET /version", server.wrap(server.handleVersion))
+	mux.HandleFunc("GET /commands", server.wrap(server.handleCommands))
+	mux.HandleFunc("POST /intent", server.wrap(server.handleIntent))
+	mux.HandleFunc("POST /harness/run", server.wrap(server.handleHarnessRun))
+	mux.HandleFunc("GET /linear/status", server.wrap(server.handleLinearStatus))
+	mux.HandleFunc("POST /linear/sync", server.wrap(server.handleLinearSync))
+	mux.HandleFunc("GET /domain/summary", server.wrap(server.handleDomainSummary))
+	mux.HandleFunc("GET /metrics", server.wrap(server.handleMetrics))
+	return mux
+}
+
+type handlerFunc func(http.ResponseWriter, *http.Request) error
+
+func (server *Server) wrap(next handlerFunc) http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		server.requests.Add(1)
+		if err := server.authorize(request); err != nil {
+			writeError(writer, http.StatusUnauthorized, err)
+			return
+		}
+		if err := next(writer, request); err != nil {
+			writeError(writer, http.StatusBadRequest, err)
+		}
+	}
+}
+
+func (server *Server) authorize(request *http.Request) error {
+	host, _, err := net.SplitHostPort(request.RemoteAddr)
+	if err != nil {
+		host = request.RemoteAddr
+	}
+	parsed := net.ParseIP(host)
+	if parsed == nil || parsed.IsLoopback() {
+		return nil
+	}
+	token, err := readLocalToken(server.config.Root)
+	if err != nil {
+		return errors.New("local token is required for non-localhost clients")
+	}
+	header := strings.TrimSpace(request.Header.Get("Authorization"))
+	if header != "Bearer "+token {
+		return errors.New("invalid local token")
+	}
+	return nil
+}
+
+func (server *Server) handleHealth(writer http.ResponseWriter, request *http.Request) error {
+	return writeJSON(writer, http.StatusOK, map[string]any{
+		"ok":       true,
+		"mode":     "local",
+		"dry_run":  true,
+		"host":     server.config.Host,
+		"started":  server.started.Format(time.RFC3339),
+		"requests": server.requests.Load(),
+	})
+}
+
+func (server *Server) handleVersion(writer http.ResponseWriter, request *http.Request) error {
+	return writeJSON(writer, http.StatusOK, map[string]any{
+		"name":    "myhome-jarvis",
+		"version": server.config.Version,
+	})
+}
+
+func (server *Server) handleCommands(writer http.ResponseWriter, request *http.Request) error {
+	return writeJSON(writer, http.StatusOK, commands.Specs())
+}
+
+type intentRequest struct {
+	Command string          `json:"command"`
+	Payload json.RawMessage `json:"payload"`
+	Execute bool            `json:"execute"`
+}
+
+func (server *Server) handleIntent(writer http.ResponseWriter, request *http.Request) error {
+	var body intentRequest
+	if err := decodeBody(request, &body); err != nil {
+		return err
+	}
+	if len(body.Payload) == 0 {
+		body.Payload = []byte("{}")
+	}
+	plan, err := commands.Build(body.Command, body.Payload)
+	if err != nil {
+		return err
+	}
+	executeAllowed := body.Execute && server.config.Execute
+	plan = commands.WithExecuteAllowed(plan, executeAllowed)
+	if body.Execute && !server.config.Execute {
+		plan.Warnings = append(plan.Warnings, "execute was requested but daemon execute mode is disabled")
+	}
+	return writeJSON(writer, http.StatusOK, plan)
+}
+
+type harnessRequest struct {
+	Name string `json:"name"`
+}
+
+func (server *Server) handleHarnessRun(writer http.ResponseWriter, request *http.Request) error {
+	var body harnessRequest
+	if err := decodeBody(request, &body); err != nil {
+		return err
+	}
+	switch strings.TrimSpace(strings.ToLower(body.Name)) {
+	case "", "home":
+		report := commands.RunHomeHarness()
+		status := http.StatusOK
+		if !report.Passed {
+			status = http.StatusBadRequest
+		}
+		return writeJSON(writer, status, report)
+	default:
+		return fmt.Errorf("unknown harness %q", body.Name)
+	}
+}
+
+func (server *Server) handleLinearStatus(writer http.ResponseWriter, request *http.Request) error {
+	status := linear.StatusForRequest(request.Context(), server.config.Root, http.DefaultClient)
+	return writeJSON(writer, http.StatusOK, status)
+}
+
+func (server *Server) handleLinearSync(writer http.ResponseWriter, request *http.Request) error {
+	result := linear.PullIssues(request.Context(), server.config.Root, http.DefaultClient)
+	if !result.Synced {
+		if err := linear.AppendOfflineEvent(server.config.Root, "linear_sync", result.Message); err != nil {
+			return err
+		}
+	}
+	return writeJSON(writer, http.StatusOK, result)
+}
+
+func (server *Server) handleDomainSummary(writer http.ResponseWriter, request *http.Request) error {
+	summary, err := domain.BuildSummary(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, summary)
+}
+
+func (server *Server) handleMetrics(writer http.ResponseWriter, request *http.Request) error {
+	return writeJSON(writer, http.StatusOK, map[string]any{
+		"started":          server.started.Format(time.RFC3339),
+		"uptime_seconds":   int64(time.Since(server.started).Seconds()),
+		"requests":         server.requests.Load(),
+		"execute_enabled":  server.config.Execute,
+		"bind_host":        server.config.Host,
+		"linear_queue":     filepath.Join(server.config.Root, "data", "private", "linear-offline-queue.jsonl"),
+		"dry_run_default":  true,
+		"lan_bind_allowed": server.config.AllowLANBind,
+	})
+}
+
+func decodeBody(request *http.Request, target any) error {
+	defer request.Body.Close()
+	decoder := json.NewDecoder(io.LimitReader(request.Body, 1<<20))
+	decoder.DisallowUnknownFields()
+	if err := decoder.Decode(target); err != nil {
+		if errors.Is(err, io.EOF) {
+			return nil
+		}
+		return fmt.Errorf("invalid json body: %w", err)
+	}
+	return nil
+}
+
+func writeJSON(writer http.ResponseWriter, status int, value any) error {
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(status)
+	encoder := json.NewEncoder(writer)
+	encoder.SetIndent("", "  ")
+	return encoder.Encode(value)
+}
+
+func writeError(writer http.ResponseWriter, status int, err error) {
+	_ = writeJSON(writer, status, map[string]any{
+		"ok":    false,
+		"error": err.Error(),
+	})
+}
+
+func readLocalToken(root string) (string, error) {
+	data, err := os.ReadFile(filepath.Join(root, "data", "private", "local-token.txt"))
+	if err != nil {
+		return "", err
+	}
+	token := strings.TrimSpace(string(data))
+	if token == "" {
+		return "", errors.New("local token is empty")
+	}
+	return token, nil
+}
+
+func envString(name string, fallback string) string {
+	value := strings.TrimSpace(os.Getenv(name))
+	if value == "" {
+		return fallback
+	}
+	return value
+}
+
+func envInt(name string, fallback int) int {
+	value := strings.TrimSpace(os.Getenv(name))
+	if value == "" {
+		return fallback
+	}
+	parsed, err := strconv.Atoi(value)
+	if err != nil {
+		return fallback
+	}
+	return parsed
+}
+
+func isWildcardHost(host string) bool {
+	return host == "0.0.0.0" || host == "::" || host == ""
+}

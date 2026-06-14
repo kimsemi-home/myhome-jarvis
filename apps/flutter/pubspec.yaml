@@ -1,0 +1,17 @@
+name: myhome_jarvis_app
+description: Local-first household operations client for myhome-jarvis.
+publish_to: none
+
+environment:
+  sdk: ">=3.12.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

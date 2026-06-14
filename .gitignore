@@ -1,0 +1,32 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+secrets/
+data/private/*
+!data/private/.keep
+data/lake/**
+*.parquet
+*.duckdb
+*.sqlite
+*.sqlite3
+*.pem
+*.key
+*token*
+*secret*
+*credential*
+*cookie*
+
+# Build outputs
+bin/
+dist/
+build/
+target/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+
+# OS/editor noise
+.DS_Store
+*.swp
