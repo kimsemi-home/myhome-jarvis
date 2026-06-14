@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 02:10 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Include generated command catalog in Flutter CI cache key.
+- Files touched: `.github/workflows/quality.yml`, `docs/backlog.md`, `docs/ci.md`, `docs/working-log.md`.
+- Changes: added `generated/commands.generated.json` to the Flutter unit hash cache key so command SSOT/generated changes rerun Flutter fallback tests that read the generated command catalog.
+- Validation after: workflow YAML parsed; `cd apps/flutter && flutter test test/snapshot_test.dart` passed; `cd apps/flutter && flutter analyze` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; full `mhj quality` with Go 1.26.2 passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: run workflow parse, Flutter snapshot test, full quality, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 02:05 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

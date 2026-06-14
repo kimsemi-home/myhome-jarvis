@@ -329,3 +329,9 @@
 - [x] Guard Flutter fallback commands against SSOT drift.
   - Acceptance: Flutter tests read `generated/commands.generated.json` and fail when static/offline fallback command names or payload fields differ from the Lisp-owned command catalog.
   - Validation: `cd apps/flutter && flutter test test/snapshot_test.dart`; full quality gate; GitHub Actions run.
+
+## P46
+
+- [x] Include generated command catalog in Flutter CI cache key.
+  - Acceptance: the Flutter hash-scoped GitHub Actions unit reruns when `generated/commands.generated.json` changes, because Flutter fallback tests read that artifact directly; unchanged Flutter/generated command hashes still skip heavy setup/tests.
+  - Validation: workflow YAML parses; `cd apps/flutter && flutter test test/snapshot_test.dart`; full quality gate; GitHub Actions run and same-SHA cache-hit rerun.
