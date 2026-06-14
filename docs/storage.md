@@ -22,8 +22,12 @@ Rust storage boundary:
 - Raw dataset plans use JSONL without compression and have a raw writer smoke
   path for fixture-only local files.
 - Bronze, silver, and gold dataset plans use Parquet with Zstd compression in
-  the manifest, but Parquet writing remains deferred until the Parquet phase is
-  explicitly enabled.
+  the manifest.
+- `mhj-storage::write_curated_parquet_from_jsonl` materializes fixture-only
+  finance and commerce JSONL into curated Parquet files with Zstd compression.
+  It rejects the raw layer, validates normalized fixture fields, writes only
+  repo-relative lake paths, and reports row counts without reading credentials
+  or external services.
 - Lake roots and partition paths reject empty segments, absolute paths,
   backslashes, and path traversal.
 
@@ -33,9 +37,8 @@ Schema evolution policy:
 - Additive fields that preserve existing readers increment the minor version.
 - Removed fields, renamed fields, changed meaning, or changed physical format
   increment the major version.
-- Raw JSONL fixture writes may land before Parquet support, but curated
-  bronze/silver/gold writes must not claim success until Parquet+Zstd output is
-  actually produced by Rust.
+- Raw JSONL fixture writes and curated bronze/silver/gold Parquet+Zstd fixture
+  writes are both produced by Rust.
 - Go and Flutter may read summaries from generated policy and fixtures, but
   storage writes remain behind the Rust storage boundary.
 
@@ -48,4 +51,5 @@ Validation:
 
 ```sh
 cargo test -p mhj-storage
+cargo test --workspace
 ```

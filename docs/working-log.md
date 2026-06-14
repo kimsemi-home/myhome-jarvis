@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 22:49 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add fixture-only Parquet+Zstd curated writer.
+- Files touched: `Cargo.lock`, `crates/mhj-storage/Cargo.toml`, `crates/mhj-storage/src/lib.rs`, `docs/architecture.md`, `docs/backlog.md`, `docs/storage.md`, `docs/working-log.md`.
+- Changes: added Rust Arrow/Parquet dependencies to `mhj-storage`; added `write_curated_parquet_from_jsonl` for finance and commerce fixtures; wrote deterministic curated files under repo-relative lake paths; rejected raw-layer curated writes; added tests that verify Parquet magic bytes, row count, and Zstd compression metadata.
+- Validation after: `cargo fmt --check` passed; `cargo test -p mhj-storage` passed; `cargo test --workspace` passed; `cargo clippy --workspace -- -D warnings` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 15-step quality run; generated artifacts had no diff; public safety scans passed; private quality journal redaction scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, subscription, scraping, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 22:42 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

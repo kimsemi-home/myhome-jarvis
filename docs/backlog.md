@@ -131,3 +131,9 @@
 - [x] Add finance and commerce fixture harnesses.
   - Acceptance: `mhj harness finance` and `mhj harness commerce` validate deterministic fixture summaries from local data only; daemon `/harness/run` accepts `finance` and `commerce`; full quality gate includes both harnesses.
   - Validation: `go test ./internal/commands ./internal/daemon`; `go run ./cmd/mhj harness finance`; `go run ./cmd/mhj harness commerce`; full quality gate.
+
+## P13
+
+- [x] Add fixture-only Parquet+Zstd curated writer.
+  - Acceptance: `crates/mhj-storage` materializes finance and commerce JSONL fixtures into bronze/silver/gold Parquet files with Zstd compression; raw layer curated writes are rejected; written files use repo-relative lake paths and metadata proves row count and compression.
+  - Validation: `cargo test -p mhj-storage`; `cargo test --workspace`; full quality gate.
