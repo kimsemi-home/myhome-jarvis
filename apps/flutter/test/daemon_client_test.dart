@@ -180,17 +180,29 @@ void main() {
                 {
                   'kind': 'recurring_purchase_review',
                   'title': 'Compare recurring purchase: Bottled water',
+                  'rationale': 'Coupang appears repeatedly.',
                   'score': 81,
+                  'currency': 'KRW',
+                  'estimated_monthly_minor_units': 11800,
+                  'evidence_count': 2,
                 },
                 {
                   'kind': 'card_usage_review',
                   'title': 'Review card-linked household spend',
+                  'rationale': 'Card-linked debit fixtures exist.',
                   'score': 67,
+                  'currency': 'KRW',
+                  'estimated_monthly_minor_units': 153200,
+                  'evidence_count': 2,
                 },
                 {
                   'kind': 'subscription_review',
                   'title': 'Review household subscriptions',
+                  'rationale': 'Subscription-like debit fixtures exist.',
                   'score': 61,
+                  'currency': 'KRW',
+                  'estimated_monthly_minor_units': 65900,
+                  'evidence_count': 1,
                 },
               ],
             },
@@ -380,6 +392,15 @@ void main() {
       snapshot.recommendationItems,
       contains('61 - Review household subscriptions'),
     );
+    expect(snapshot.recommendations.map((item) => item.kind), [
+      'recurring_purchase_review',
+      'card_usage_review',
+      'subscription_review',
+    ]);
+    expect(snapshot.recommendations.first.score, 81);
+    expect(snapshot.recommendations.first.estimatedMonthlyMinorUnits, 11800);
+    expect(snapshot.recommendations.first.evidenceCount, 2);
+    expect(snapshot.recommendations[1].rationale, contains('Card-linked'));
     expect(snapshot.householdScopes.map((scope) => scope.scope), [
       'user',
       'spouse',

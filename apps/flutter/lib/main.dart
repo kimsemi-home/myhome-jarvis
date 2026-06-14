@@ -142,10 +142,7 @@ class JarvisScaffold extends StatelessWidget {
                 PlainListView(title: 'Linear', items: snapshot.linearItems),
                 PlainListView(title: 'Storage', items: snapshot.storageItems),
                 HouseholdView(scopes: snapshot.householdScopes),
-                PlainListView(
-                  title: 'Optimize',
-                  items: snapshot.recommendationItems,
-                ),
+                OptimizeView(recommendations: snapshot.recommendations),
               ],
             ),
             if (loading) const LinearProgressIndicator(),
@@ -465,6 +462,120 @@ class PurchasesView extends StatelessWidget {
   }
 }
 
+class OptimizeView extends StatelessWidget {
+  const OptimizeView({super.key, required this.recommendations});
+
+  final List<RecommendationInsight> recommendations;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemCount: recommendations.length,
+        separatorBuilder: (_, _) => const SizedBox(height: 8),
+        itemBuilder: (context, index) {
+          final recommendation = recommendations[index];
+          return RecommendationTile(recommendation: recommendation);
+        },
+      ),
+    );
+  }
+}
+
+class RecommendationTile extends StatelessWidget {
+  const RecommendationTile({super.key, required this.recommendation});
+
+  final RecommendationInsight recommendation;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(color: colors.outlineVariant),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 48,
+              height: 48,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: colors.primaryContainer,
+                ),
+                child: Center(
+                  child: Text(
+                    '${recommendation.score}',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: colors.onPrimaryContainer,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        _recommendationIcon(recommendation.kind),
+                        size: 18,
+                        color: colors.primary,
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          recommendation.title,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (recommendation.rationale.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      recommendation.rationale,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      Chip(
+                        label: Text(
+                          _moneyText(
+                            recommendation.estimatedMonthlyMinorUnits,
+                            recommendation.currency,
+                          ),
+                        ),
+                      ),
+                      Chip(
+                        label: Text('${recommendation.evidenceCount} evidence'),
+                      ),
+                      Chip(label: Text(recommendation.kind)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class CommandsView extends StatelessWidget {
   const CommandsView({super.key, required this.commands, required this.client});
 
@@ -726,6 +837,21 @@ String _title(String value) {
     return value;
   }
   return value[0].toUpperCase() + value.substring(1).toLowerCase();
+}
+
+IconData _recommendationIcon(String kind) {
+  switch (kind) {
+    case 'recurring_purchase_review':
+      return Icons.repeat_outlined;
+    case 'card_usage_review':
+      return Icons.credit_card_outlined;
+    case 'subscription_review':
+      return Icons.subscriptions_outlined;
+    case 'cash_buffer':
+      return Icons.account_balance_wallet_outlined;
+    default:
+      return Icons.auto_graph_outlined;
+  }
 }
 
 bool _numericPayloadField(String field) {

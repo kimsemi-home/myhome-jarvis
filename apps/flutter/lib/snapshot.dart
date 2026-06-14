@@ -203,6 +203,27 @@ class PurchaseDashboard {
 }
 
 @immutable
+class RecommendationInsight {
+  const RecommendationInsight({
+    required this.kind,
+    required this.title,
+    required this.rationale,
+    required this.score,
+    required this.currency,
+    required this.estimatedMonthlyMinorUnits,
+    required this.evidenceCount,
+  });
+
+  final String kind;
+  final String title;
+  final String rationale;
+  final int score;
+  final String currency;
+  final int estimatedMonthlyMinorUnits;
+  final int evidenceCount;
+}
+
+@immutable
 class JarvisSnapshot {
   const JarvisSnapshot({
     required this.metrics,
@@ -210,6 +231,7 @@ class JarvisSnapshot {
     required this.linearItems,
     required this.storageItems,
     required this.recommendationItems,
+    required this.recommendations,
     required this.householdScopes,
     required this.financeDashboard,
     required this.purchaseDashboard,
@@ -220,6 +242,7 @@ class JarvisSnapshot {
   final List<String> linearItems;
   final List<String> storageItems;
   final List<String> recommendationItems;
+  final List<RecommendationInsight> recommendations;
   final List<HouseholdScope> householdScopes;
   final FinanceDashboard financeDashboard;
   final PurchaseDashboard purchaseDashboard;
@@ -306,6 +329,47 @@ class JarvisSnapshot {
       '67 - Review card-linked household spend',
       '61 - Review household subscriptions',
       '49 - Keep household cash buffer',
+    ],
+    recommendations: [
+      RecommendationInsight(
+        kind: 'recurring_purchase_review',
+        title: 'Compare recurring purchase: Bottled water 2L x 6',
+        rationale: 'Coupang appears repeatedly in local purchase fixtures.',
+        score: 81,
+        currency: 'KRW',
+        estimatedMonthlyMinorUnits: 11800,
+        evidenceCount: 2,
+      ),
+      RecommendationInsight(
+        kind: 'card_usage_review',
+        title: 'Review card-linked household spend',
+        rationale:
+            'Card-linked debit fixtures exist; keep this as a review-only recommendation, not a card action.',
+        score: 67,
+        currency: 'KRW',
+        estimatedMonthlyMinorUnits: 153200,
+        evidenceCount: 2,
+      ),
+      RecommendationInsight(
+        kind: 'subscription_review',
+        title: 'Review household subscriptions',
+        rationale:
+            'Subscription-like debit fixtures exist; keep this as a review-only recommendation.',
+        score: 61,
+        currency: 'KRW',
+        estimatedMonthlyMinorUnits: 65900,
+        evidenceCount: 1,
+      ),
+      RecommendationInsight(
+        kind: 'cash_buffer',
+        title: 'Keep household cash buffer',
+        rationale:
+            'Fixture cashflow is positive; reserve surplus before recommendations become executable.',
+        score: 49,
+        currency: 'KRW',
+        estimatedMonthlyMinorUnits: 4346800,
+        evidenceCount: 3,
+      ),
     ],
     householdScopes: [
       HouseholdScope(
@@ -427,6 +491,7 @@ class JarvisSnapshot {
       linearItems: const ['Offline queue', 'Local fallback'],
       storageItems: sample.storageItems,
       recommendationItems: sample.recommendationItems,
+      recommendations: sample.recommendations,
       householdScopes: sample.householdScopes,
       financeDashboard: sample.financeDashboard,
       purchaseDashboard: sample.purchaseDashboard,

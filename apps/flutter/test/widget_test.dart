@@ -158,14 +158,16 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(
-        find.text('81 - Compare recurring purchase: Bottled water 2L x 6'),
+        find.text('Compare recurring purchase: Bottled water 2L x 6'),
         findsOneWidget,
       );
-      expect(
-        find.text('67 - Review card-linked household spend'),
-        findsOneWidget,
-      );
-      expect(find.text('61 - Review household subscriptions'), findsOneWidget);
+      expect(find.text('81'), findsOneWidget);
+      expect(find.text('11800 KRW'), findsOneWidget);
+      expect(find.text('2 evidence'), findsWidgets);
+      expect(find.text('Review card-linked household spend'), findsOneWidget);
+      expect(find.text('153200 KRW'), findsOneWidget);
+      expect(find.text('Review household subscriptions'), findsOneWidget);
+      expect(find.text('65900 KRW'), findsOneWidget);
     },
   );
 }

@@ -89,10 +89,11 @@ validate the same read-only fixture summaries without introducing external
 credentials or actions.
 
 The first recommendation surface is fixture-only. Rust owns the scoring
-skeleton, Go projects read-only daemon summaries, and Flutter shows cash
-buffer, subscription, card-linked spend, and recurring purchase review items in
-an Optimize tab. Recommendations never execute purchases, subscription changes,
-card actions, transfers, or investment trades.
+skeleton, Go projects read-only daemon summaries, and Flutter shows structured
+cash buffer, subscription, card-linked spend, and recurring purchase review
+items in an Optimize tab with score, rationale, estimated amount, and evidence
+count. Recommendations never execute purchases, subscription changes, card
+actions, transfers, or investment trades.
 
 The first finance dashboard is fixture-only. Flutter reads finance totals,
 subscription spend, card-linked debit review totals, categories, and owner
@@ -118,6 +119,9 @@ payload commands for search, URL, and volume operations. The Finance tab shows
 fixture cashflow totals and review-only subscription/card-linked spend signals.
 The Purchases tab shows fixture commerce spend and recurring purchase review
 signals without purchase automation.
+The Optimize tab renders structured review-only recommendations from daemon
+summaries, including purchase, subscription, card-linked spend, and cash-buffer
+signals.
 The Status tab also surfaces whether the repository is clean or dirty, whether
 the recorded daemon supervisor state is reachable, and how many command audit
 and quality gate events are recorded.

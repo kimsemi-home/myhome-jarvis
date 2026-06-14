@@ -235,6 +235,7 @@ JarvisSnapshot buildSnapshot({
     linearItems: _linearItems(linear),
     storageItems: _domainItems(domain),
     recommendationItems: _recommendationItems(domain),
+    recommendations: _recommendations(domain),
     householdScopes: _householdScopes(domain),
     financeDashboard: _financeDashboard(domain),
     purchaseDashboard: _purchaseDashboard(domain),
@@ -347,6 +348,37 @@ List<String> _recommendationItems(Map<String, Object?> domain) {
     items.add(score == null ? title : '$score - $title');
   }
   return items.isEmpty ? JarvisSnapshot.sample.recommendationItems : items;
+}
+
+List<RecommendationInsight> _recommendations(Map<String, Object?> domain) {
+  final recommendations = _object(domain['recommendations']);
+  if (recommendations == null) {
+    return JarvisSnapshot.sample.recommendations;
+  }
+  final rawItems = recommendations['items'];
+  if (rawItems is! List<Object?>) {
+    return JarvisSnapshot.sample.recommendations;
+  }
+  final items = <RecommendationInsight>[];
+  for (final item in rawItems.whereType<Map<String, Object?>>()) {
+    final title = _string(item['title']);
+    if (title == null || title.isEmpty) {
+      continue;
+    }
+    items.add(
+      RecommendationInsight(
+        kind: _string(item['kind']) ?? 'review',
+        title: title,
+        rationale: _string(item['rationale']) ?? '',
+        score: _int(item['score']) ?? 0,
+        currency: _string(item['currency']) ?? '',
+        estimatedMonthlyMinorUnits:
+            _int(item['estimated_monthly_minor_units']) ?? 0,
+        evidenceCount: _int(item['evidence_count']) ?? 0,
+      ),
+    );
+  }
+  return items.isEmpty ? JarvisSnapshot.sample.recommendations : items;
 }
 
 List<HouseholdScope> _householdScopes(Map<String, Object?> domain) {
