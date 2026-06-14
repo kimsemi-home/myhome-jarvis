@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 01:44 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Cancel superseded quality runs and harden domain summary public surface.
+- Files touched: `.github/workflows/quality.yml`, `internal/daemon/server_test.go`, `docs/backlog.md`, `docs/ci.md`, `docs/working-log.md`.
+- Changes: added workflow concurrency so newer pushes cancel older in-progress quality runs for the same ref; extended daemon domain summary tests to require repo-relative generated storage root output and reject local checkout/home path leakage.
+- Validation after: workflow YAML parsed; `go1.26.2 test ./internal/daemon` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; full `mhj quality` with Go 1.26.2 passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: run focused tests, full quality, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 01:33 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

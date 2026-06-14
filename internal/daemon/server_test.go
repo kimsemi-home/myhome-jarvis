@@ -621,7 +621,8 @@ func TestQualityStatusReturnsLastPrivateRun(t *testing.T) {
 }
 
 func TestDomainSummaryReturnsFixtureStatus(t *testing.T) {
-	server, err := New(DefaultConfig(repoRoot(t), "test"))
+	root := repoRoot(t)
+	server, err := New(DefaultConfig(root, "test"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -641,9 +642,22 @@ func TestDomainSummaryReturnsFixtureStatus(t *testing.T) {
 		`"recommendations"`,
 		`"household"`,
 		`"long_term_format": "parquet"`,
+		`"private_root": "data/lake"`,
 	} {
 		if !bytes.Contains([]byte(body), []byte(expected)) {
 			t.Fatalf("expected %s in %s", expected, body)
+		}
+	}
+	if bytes.Contains([]byte(body), []byte(root)) {
+		t.Fatalf("domain summary leaked local root in %s", body)
+	}
+	home, err := os.UserHomeDir()
+	if err == nil && home != "" && bytes.Contains([]byte(body), []byte(home)) {
+		t.Fatalf("domain summary leaked local home in %s", body)
+	}
+	for _, forbidden := range []string{`"private_root": "/"`, `"private_root": "\\"`, `"private_root": "../"`} {
+		if bytes.Contains([]byte(body), []byte(forbidden)) {
+			t.Fatalf("domain summary leaked unsafe storage root %s in %s", forbidden, body)
 		}
 	}
 }

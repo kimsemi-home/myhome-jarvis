@@ -13,6 +13,10 @@ public-history risk, even when the Go/Rust/Flutter/SSOT source hashes are
 unchanged. It fetches full history, then runs `mhj security check` and
 `mhj security history`.
 
+The workflow cancels superseded in-progress runs for the same ref. The latest
+push remains authoritative, while older queued or running checks stop instead
+of burning runner time after a newer commit replaces them.
+
 The SSOT, Go, Rust, and Flutter units restore marker caches keyed by each unit's
 input hash. If the exact hash is already known-good, the unit reports a cache
 hit and skips its heavy toolchain setup and tests. A lightweight workflow run

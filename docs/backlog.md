@@ -299,3 +299,9 @@
 - [x] Redact default quality gate CLI output.
   - Acceptance: `mhj quality` prints only overall status plus step names/statuses by default; command argv, raw command output, raw test output, and local absolute paths stay out of stdout while internal pass/fail handling and the private redacted quality journal remain intact.
   - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj quality`; full quality gate.
+
+## P41
+
+- [x] Cancel superseded quality runs and harden domain summary public surface.
+  - Acceptance: GitHub Actions cancels older in-progress quality runs for the same ref when a newer push arrives; daemon `GET /domain/summary` regression coverage proves the generated storage root remains repo-relative and does not leak the local checkout or home path.
+  - Validation: workflow YAML parses; `go test ./internal/daemon`; full quality gate; GitHub Actions run.
