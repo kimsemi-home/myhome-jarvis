@@ -31,6 +31,12 @@ timestamps, and state types may be shown, while raw descriptions, workspace
 URLs, team identities, Linear UUIDs, token source, and absolute private paths
 are kept out of default CLI and daemon surfaces.
 
+`mhj linear pull` and `mhj linear next` keep only active/open issues before
+selection. Set `LINEAR_TEAM_KEY` or `LINEAR_TEAM_ID` in private local config to
+scope those commands to one Linear team. The team scope is used for filtering
+only; default CLI and daemon summaries still do not print team names, team IDs,
+workspace URLs, raw descriptions, or token sources.
+
 Mutation commands use GraphQL variables rather than string interpolation.
 When credentials are unavailable or a GraphQL call fails, the command writes a
 structured `synced=false` event to `data/private/linear-offline-queue.jsonl`.

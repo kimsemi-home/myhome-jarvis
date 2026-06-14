@@ -72,6 +72,11 @@ type backlogSeed struct {
 	Priority    int    `json:"priority"`
 }
 
+type issueScope struct {
+	TeamID  string
+	TeamKey string
+}
+
 func PullIssues(ctx context.Context, root string, client *http.Client) OperationResult {
 	result := baseOperationResult(root)
 	token, err := loadToken(root)
@@ -85,7 +90,7 @@ func PullIssues(ctx context.Context, root string, client *http.Client) Operation
 			Nodes []Issue `json:"nodes"`
 		} `json:"issues"`
 	}
-	query := `query PullIssues { issues { nodes { id identifier title updatedAt state { id name type } } } }`
+	query := `query PullIssues { issues(first: 50) { nodes { id identifier title updatedAt team { id key } state { id name type } } } }`
 	httpStatus, remaining, err := doGraphQL(ctx, client, token.Value, query, nil, &response)
 	result.HTTPStatus = httpStatus
 	result.RateLimitRemaining = remaining
@@ -95,8 +100,8 @@ func PullIssues(ctx context.Context, root string, client *http.Client) Operation
 	}
 	result.Mode = "online"
 	result.Synced = true
-	result.Issues = response.Issues.Nodes
-	result.Message = fmt.Sprintf("Pulled %d Linear issues.", len(result.Issues))
+	result.Issues = filterActiveIssues(response.Issues.Nodes, configuredIssueScope())
+	result.Message = fmt.Sprintf("Pulled %d active Linear issues.", len(result.Issues))
 	return result
 }
 
@@ -370,6 +375,30 @@ func isOpenState(state StateStatus) bool {
 		return false
 	}
 	return true
+}
+
+func configuredIssueScope() issueScope {
+	return issueScope{
+		TeamID:  strings.TrimSpace(os.Getenv("LINEAR_TEAM_ID")),
+		TeamKey: strings.TrimSpace(os.Getenv("LINEAR_TEAM_KEY")),
+	}
+}
+
+func filterActiveIssues(issues []Issue, scope issueScope) []Issue {
+	filtered := make([]Issue, 0, len(issues))
+	for _, issue := range issues {
+		if !isOpenState(issue.State) {
+			continue
+		}
+		if scope.TeamID != "" && !strings.EqualFold(strings.TrimSpace(issue.Team.ID), scope.TeamID) {
+			continue
+		}
+		if scope.TeamKey != "" && !strings.EqualFold(strings.TrimSpace(issue.Team.Key), scope.TeamKey) {
+			continue
+		}
+		filtered = append(filtered, issue)
+	}
+	return filtered
 }
 
 func backlogSeeds() []backlogSeed {

@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 02:51 KST
+
+- Linear issue: KIM-6 created in Linear and kept in progress.
+- Mode: online-capable, local-only implementation after Linear issue creation.
+- Task: Scope Linear pull to active team issues.
+- Files touched: `internal/linear/issues.go`, `internal/linear/issues_test.go`, `internal/linear/status.go`, `lisp/ssot/linear.lisp`, `lisp/ssot/codegen.lisp`, `generated/linear.generated.json`, `docs/backlog.md`, `docs/linear-workflow.md`, `docs/working-log.md`.
+- Changes: make `mhj linear pull` read minimal team key/state fields, filter out completed/canceled issues, optionally restrict to private `LINEAR_TEAM_KEY` or `LINEAR_TEAM_ID`, and keep redacted default summaries unchanged.
+- Validation after: `go1.26.2 test ./internal/linear ./internal/daemon` passed; `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `LINEAR_TEAM_KEY=KIM go1.26.2 run ./cmd/mhj linear next` returned a redacted online summary with KIM-6 selected and completed issues filtered out; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan, forbidden language/dependency scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-6 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, then update Linear issue KIM-6.
+
 ## 2026-06-15 02:44 KST
 
 - Linear issue: KIM-5 created in Linear and kept in progress.

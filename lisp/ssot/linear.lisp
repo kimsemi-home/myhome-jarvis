@@ -2,6 +2,8 @@
 
 (defparameter *linear-policy*
   (list :token_env "LINEAR_API_KEY"
+        :team_key_env "LINEAR_TEAM_KEY"
+        :team_id_env "LINEAR_TEAM_ID"
         :token_file "data/private/linear-token.txt"
         :endpoint "https://api.linear.app/graphql"
         :personal_api_key_authorization "Authorization: <API_KEY>"
@@ -9,6 +11,9 @@
         :offline_queue "data/private/linear-offline-queue.jsonl"
         :default_poll_seconds 60
         :sync_claim_requires_api_success t
+        :pull_active_only t
+        :team_scope_optional t
+        :team_scope_private t
         :commands #("mhj linear status"
                     "mhj linear sync"
                     "mhj linear pull"

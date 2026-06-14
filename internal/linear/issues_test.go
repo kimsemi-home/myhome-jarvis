@@ -13,6 +13,8 @@ import (
 
 func TestPullIssuesUsesDirectGraphQL(t *testing.T) {
 	t.Setenv("LINEAR_API_KEY", "linear-example-key")
+	t.Setenv("LINEAR_TEAM_ID", "")
+	t.Setenv("LINEAR_TEAM_KEY", "")
 	client := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
 		body, err := io.ReadAll(request.Body)
 		if err != nil {
@@ -22,7 +24,12 @@ func TestPullIssuesUsesDirectGraphQL(t *testing.T) {
 		if !strings.Contains(bodyText, "query PullIssues") {
 			t.Fatalf("unexpected body: %s", bodyText)
 		}
-		for _, forbidden := range []string{"description", "url", "team"} {
+		for _, expected := range []string{"issues(first: 50)", "team { id key }", "state { id name type }"} {
+			if !strings.Contains(bodyText, expected) {
+				t.Fatalf("expected %s in %s", expected, bodyText)
+			}
+		}
+		for _, forbidden := range []string{"description", "url", "team { id name }"} {
 			if strings.Contains(bodyText, forbidden) {
 				t.Fatalf("pull query requested %s in %s", forbidden, bodyText)
 			}
@@ -40,8 +47,15 @@ func TestPullIssuesUsesDirectGraphQL(t *testing.T) {
 							"description": "Acceptance text",
 							"url": "https://linear.app/example/issue/MHJ-1",
 							"updatedAt": "2026-06-14T00:00:00.000Z",
-							"team": {"id": "team-id", "name": "Home"},
+							"team": {"id": "team-id", "key": "MHJ"},
 							"state": {"id": "state-id", "name": "Todo", "type": "unstarted"}
+						}, {
+							"id": "done-id",
+							"identifier": "MHJ-2",
+							"title": "Done issue",
+							"updatedAt": "2026-06-14T00:00:00.000Z",
+							"team": {"id": "team-id", "key": "MHJ"},
+							"state": {"id": "done-state-id", "name": "Done", "type": "completed"}
 						}]
 					}
 				}
@@ -55,6 +69,74 @@ func TestPullIssuesUsesDirectGraphQL(t *testing.T) {
 	}
 	if result.Issues[0].Identifier != "MHJ-1" || result.RateLimitRemaining != 4998 {
 		t.Fatalf("unexpected issue/rate data: %#v", result)
+	}
+}
+
+func TestPullIssuesFiltersConfiguredTeamKeyAndOpenStates(t *testing.T) {
+	t.Setenv("LINEAR_API_KEY", "linear-example-key")
+	t.Setenv("LINEAR_TEAM_ID", "")
+	t.Setenv("LINEAR_TEAM_KEY", "KIM")
+	client := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Header:     http.Header{},
+			Body: io.NopCloser(strings.NewReader(`{
+				"data": {
+					"issues": {
+						"nodes": [{
+							"id": "wanted-id",
+							"identifier": "KIM-6",
+							"title": "Scope Linear pull",
+							"updatedAt": "2026-06-14T00:00:00.000Z",
+							"team": {"id": "team-kim", "key": "KIM"},
+							"state": {"id": "todo-state", "name": "Todo", "type": "unstarted"}
+						}, {
+							"id": "other-team-id",
+							"identifier": "OPS-1",
+							"title": "Other team",
+							"updatedAt": "2026-06-14T00:00:00.000Z",
+							"team": {"id": "team-ops", "key": "OPS"},
+							"state": {"id": "todo-state", "name": "Todo", "type": "unstarted"}
+						}, {
+							"id": "done-id",
+							"identifier": "KIM-5",
+							"title": "Completed team issue",
+							"updatedAt": "2026-06-14T00:00:00.000Z",
+							"team": {"id": "team-kim", "key": "KIM"},
+							"state": {"id": "done-state", "name": "Done", "type": "completed"}
+						}]
+					}
+				}
+			}`)),
+		}, nil
+	})}
+
+	result := PullIssues(context.Background(), t.TempDir(), client)
+	if !result.Synced || len(result.Issues) != 1 {
+		t.Fatalf("unexpected filtered result: %#v", result)
+	}
+	if result.Issues[0].Identifier != "KIM-6" {
+		t.Fatalf("selected issue = %s, expected KIM-6", result.Issues[0].Identifier)
+	}
+}
+
+func TestFilterActiveIssuesFiltersConfiguredTeamID(t *testing.T) {
+	issues := []Issue{
+		{
+			Identifier: "KIM-6",
+			Team:       TeamStatus{ID: "team-kim", Key: "KIM"},
+			State:      StateStatus{Name: "Todo", Type: "unstarted"},
+		},
+		{
+			Identifier: "OPS-1",
+			Team:       TeamStatus{ID: "team-ops", Key: "OPS"},
+			State:      StateStatus{Name: "Todo", Type: "unstarted"},
+		},
+	}
+
+	filtered := filterActiveIssues(issues, issueScope{TeamID: "team-kim"})
+	if len(filtered) != 1 || filtered[0].Identifier != "KIM-6" {
+		t.Fatalf("filtered issues = %#v", filtered)
 	}
 }
 

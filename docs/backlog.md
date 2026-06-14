@@ -378,3 +378,10 @@
   - Linear: KIM-5
   - Acceptance: `mhj ci verify` fails on any workflow permission line ending in `write`, such as `id-token: write`, while keeping the public workflow on top-level `contents: read`.
   - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj ci verify`; workflow YAML parses; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P54
+
+- [x] Scope Linear pull to active team issues.
+  - Linear: KIM-6
+  - Acceptance: `mhj linear pull` and `mhj linear next` filter out completed/canceled issues, optionally scope to private `LINEAR_TEAM_KEY` or `LINEAR_TEAM_ID`, and keep default summaries free of raw team names, workspace URLs, descriptions, UUIDs, tokens, and absolute paths.
+  - Validation: `go test ./internal/linear`; `go run ./cmd/mhj linear next`; SSOT validation and codegen verification; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

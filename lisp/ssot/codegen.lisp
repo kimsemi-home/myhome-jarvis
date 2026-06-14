@@ -37,6 +37,10 @@
       (error "Current-tree content scanning must skip private paths"))
     (when (getf *security-policy* :report_matched_secret_contents)
       (error "Security reports must not expose matched secret contents"))
+    (unless (getf *linear-policy* :pull_active_only)
+      (error "Linear pull must stay scoped to active issues by default"))
+    (unless (getf *linear-policy* :team_scope_private)
+      (error "Linear team scope must stay private"))
     (unless (> (length (getf *planner-policy* :task_graph)) 0)
       (error "Planner policy must include a task graph"))
     (unless (find "linear_sync"
