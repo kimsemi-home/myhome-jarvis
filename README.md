@@ -29,6 +29,8 @@ go run ./cmd/mhj linear status
 go run ./cmd/mhj linear pull
 go run ./cmd/mhj linear next
 go run ./cmd/mhj loop once
+go run ./cmd/mhj loop status
+go run ./cmd/mhj loop worker --cycles 1
 go run ./cmd/mhj benchmark smoke
 go run ./cmd/mhj daemon
 cargo test -p mhj-core recommendations
@@ -53,6 +55,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/linear`: Linear offline status and local queue.
 - `internal/domain`: read-only finance, commerce, household, storage, and recommendation summaries.
 - `internal/orchestrator`: one-shot checkpoint loop foundation.
+- `internal/scheduler`: heartbeat, backoff, rate-limit, and recovery state for bounded loop workers.
 - `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading.
 - `crates/mhj-core/src/benchmark.rs`: fixture-pipeline benchmark smoke tests.
 - `crates/mhj-core/src/household.rs`: fixture-only user/spouse/household scope aggregation.

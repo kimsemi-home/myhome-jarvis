@@ -22,6 +22,8 @@
       (error "Household policy must include spouse scope"))
     (unless (find "subscription_review" (coerce (getf *recommendation-policy* :kinds) 'list) :test #'string=)
       (error "Recommendation policy must include subscription review"))
+    (unless (getf *scheduler-policy* :crash_recovery)
+      (error "Scheduler policy must require crash recovery"))
     t))
 
 (defun write-generated-artifacts (root)
@@ -41,6 +43,8 @@
                    *household-policy*)
   (write-json-file (merge-pathnames "generated/recommendations.generated.json" root)
                    *recommendation-policy*)
+  (write-json-file (merge-pathnames "generated/scheduler.generated.json" root)
+                   *scheduler-policy*)
   (write-json-file (merge-pathnames "generated/security.generated.json" root)
                    *security-policy*)
   (write-json-file (merge-pathnames "generated/linear.generated.json" root)

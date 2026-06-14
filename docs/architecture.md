@@ -17,9 +17,14 @@ explicitly enabled and must use argv arrays, never shell interpolation.
 
 The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /commands`, `POST /intent`, `POST /harness/run`, `GET /linear/status`,
-`POST /linear/sync`, `GET /domain/summary`, `GET /household/summary`,
-`GET /recommendations/summary`, and `GET /metrics`. It binds to `127.0.0.1`
-by default.
+`POST /linear/sync`, `GET /loop/status`, `GET /domain/summary`,
+`GET /household/summary`, `GET /recommendations/summary`, and `GET /metrics`.
+It binds to `127.0.0.1` by default.
+
+The first scheduler surface is bounded and local-only. `mhj loop worker
+--cycles N` records heartbeat/checkpoint state under `data/private` and uses
+rate-limit/backoff metadata instead of spinning forever. `GET /loop/status`
+exposes the current closed-loop policy and recovered private state.
 
 The first Rust domain surface lives in `mhj-core`. It validates finance
 transaction fixtures, commerce purchase fixtures, and Parquet+Zstd-ready lake

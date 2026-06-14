@@ -9,6 +9,7 @@
                (:file "storage")
                (:file "household")
                (:file "recommendations")
+               (:file "scheduler")
                (:file "security")
                (:file "linear")
                (:file "planner")

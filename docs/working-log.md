@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 20:46 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add bounded scheduler heartbeat, backoff, checkpoint, and recovery state.
+- Files touched: `internal/scheduler/scheduler.go`, `internal/scheduler/scheduler_test.go`, `cmd/mhj/main.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `lisp/ssot/scheduler.lisp`, `lisp/ssot/codegen.lisp`, `lisp/ssot/package.lisp`, `lisp/ssot/myhome-jarvis.asd`, `lisp/scripts/load-ssot.lisp`, `generated/scheduler.generated.json`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/closed-loop.md`, `docs/scheduler.md`, `docs/working-log.md`.
+- Changes: added Go scheduler policy/state with heartbeat, bounded backoff, rate-limit next-run metadata, private state persistence, and crash recovery; added `mhj loop status`, bounded `mhj loop worker --cycles`, and daemon `GET /loop/status`; added SSOT scheduler policy.
+- Validation after: `go1.26.2 test ./internal/scheduler ./internal/daemon` passed; `go1.26.2 run ./cmd/mhj loop status` passed; `go1.26.2 run ./cmd/mhj loop worker --cycles 1` passed with private state/checkpoint persistence; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed.
+- External-write note: no Linear mutation, purchase, finance, card, investment, or other external write was executed.
+- Next: run public safety scans, then commit and push if clean.
+
 ## 2026-06-14 20:37 local
 
 - Linear issue: local continuation, no external Linear writes executed.

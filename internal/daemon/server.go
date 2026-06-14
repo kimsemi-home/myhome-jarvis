@@ -17,6 +17,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/domain"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
+	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
 )
 
 type Config struct {
@@ -80,6 +81,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("POST /harness/run", server.wrap(server.handleHarnessRun))
 	mux.HandleFunc("GET /linear/status", server.wrap(server.handleLinearStatus))
 	mux.HandleFunc("POST /linear/sync", server.wrap(server.handleLinearSync))
+	mux.HandleFunc("GET /loop/status", server.wrap(server.handleLoopStatus))
 	mux.HandleFunc("GET /domain/summary", server.wrap(server.handleDomainSummary))
 	mux.HandleFunc("GET /household/summary", server.wrap(server.handleHouseholdSummary))
 	mux.HandleFunc("GET /recommendations/summary", server.wrap(server.handleRecommendationsSummary))
@@ -205,6 +207,14 @@ func (server *Server) handleLinearSync(writer http.ResponseWriter, request *http
 		}
 	}
 	return writeJSON(writer, http.StatusOK, result)
+}
+
+func (server *Server) handleLoopStatus(writer http.ResponseWriter, request *http.Request) error {
+	status, err := scheduler.Status(server.config.Root, scheduler.ClosedLoopPolicy())
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, status)
 }
 
 func (server *Server) handleDomainSummary(writer http.ResponseWriter, request *http.Request) error {

@@ -18,6 +18,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/orchestrator"
+	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
 )
 
@@ -126,6 +127,12 @@ func run(args []string) error {
 		if len(args) == 2 && args[1] == "once" {
 			return loopOnce(root)
 		}
+		if len(args) == 2 && args[1] == "status" {
+			return loopStatus(root)
+		}
+		if len(args) >= 2 && args[1] == "worker" {
+			return loopWorker(root, args[2:])
+		}
 	case "benchmark":
 		if len(args) == 2 && args[1] == "smoke" {
 			return runBenchmarkSmoke(root)
@@ -139,7 +146,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|loop once|benchmark smoke|quality|codegen>")
+	return errors.New("usage: mhj <version|commands|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|loop once|loop status|loop worker|benchmark smoke|quality|codegen>")
 }
 
 func runDaemon(root string, args []string) error {
@@ -192,6 +199,47 @@ func loopOnce(root string) error {
 		"linear":     linearStatus,
 		"security":   securityReport,
 	})
+}
+
+func loopStatus(root string) error {
+	status, err := scheduler.Status(root, scheduler.ClosedLoopPolicy())
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
+func loopWorker(root string, args []string) error {
+	flags := flag.NewFlagSet("loop worker", flag.ContinueOnError)
+	flags.SetOutput(os.Stderr)
+	cycles := flags.Int("cycles", 1, "bounded scheduler cycles to run")
+	if err := flags.Parse(args); err != nil {
+		return err
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	defer cancel()
+	status, err := scheduler.RunCycles(ctx, root, scheduler.ClosedLoopPolicy(), *cycles, func(context.Context) (scheduler.JobResult, error) {
+		linearStatus := linear.CurrentStatus(root)
+		securityReport, err := security.Check(root)
+		if err != nil {
+			return scheduler.JobResult{}, err
+		}
+		path, err := orchestrator.WriteCheckpoint(root, orchestrator.Checkpoint{
+			Task:           "loop worker",
+			LinearStatus:   linearStatus,
+			SecurityReport: securityReport,
+			Result:         "scheduler heartbeat checkpoint recorded",
+			Next:           "Continue local-first fixture and daemon surface expansion.",
+		})
+		if err != nil {
+			return scheduler.JobResult{}, err
+		}
+		return scheduler.JobResult{Checkpoint: path}, nil
+	})
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
 }
 
 type qualityStep struct {

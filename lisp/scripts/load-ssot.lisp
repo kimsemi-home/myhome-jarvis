@@ -13,6 +13,7 @@
                   "../ssot/storage.lisp"
                   "../ssot/household.lisp"
                   "../ssot/recommendations.lisp"
+                  "../ssot/scheduler.lisp"
                   "../ssot/security.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"

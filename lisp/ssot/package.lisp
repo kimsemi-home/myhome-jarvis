@@ -8,6 +8,7 @@
    #:*storage-policy*
    #:*household-policy*
    #:*recommendation-policy*
+   #:*scheduler-policy*
    #:*security-policy*
    #:*linear-policy*
    #:*planner-policy*

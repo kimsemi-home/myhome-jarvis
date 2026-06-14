@@ -12,3 +12,8 @@ Each autonomous cycle should:
 
 The initial `loop once` command records a local checkpoint and never loops
 forever.
+
+The bounded worker surface is `mhj loop worker --cycles <n>`. Each cycle writes
+private scheduler state with heartbeat, next-run, backoff, and checkpoint
+metadata. `mhj loop status` and daemon `GET /loop/status` recover that state
+without claiming external sync success.

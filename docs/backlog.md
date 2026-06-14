@@ -57,3 +57,7 @@
 - [x] Add fixture-only household view switching.
   - Acceptance: Rust and Go aggregate local finance and commerce fixture data into User, Spouse, and Household scopes; daemon exposes scope summaries; Flutter shows a segmented scope switcher.
   - Validation: `cargo test -p mhj-core household`; `go test ./internal/domain ./internal/daemon`; `cd apps/flutter && flutter test && flutter analyze`.
+
+- [x] Add bounded scheduler heartbeat and recovery state.
+  - Acceptance: `mhj loop worker --cycles 1` records private heartbeat/checkpoint state; `mhj loop status` and daemon `GET /loop/status` expose backoff, rate-limit, heartbeat, and recovery metadata without an unbounded loop.
+  - Validation: `go test ./internal/scheduler ./internal/daemon`; full `mhj quality`.
