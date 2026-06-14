@@ -14,6 +14,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/domain"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
@@ -305,15 +306,7 @@ func writeError(writer http.ResponseWriter, status int, err error) {
 }
 
 func readLocalToken(root string) (string, error) {
-	data, err := os.ReadFile(filepath.Join(root, "data", "private", "local-token.txt"))
-	if err != nil {
-		return "", err
-	}
-	token := strings.TrimSpace(string(data))
-	if token == "" {
-		return "", errors.New("local token is empty")
-	}
-	return token, nil
+	return auth.Read(root)
 }
 
 func envString(name string, fallback string) string {

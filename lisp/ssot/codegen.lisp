@@ -24,6 +24,8 @@
       (error "Recommendation policy must include subscription review"))
     (unless (getf *scheduler-policy* :crash_recovery)
       (error "Scheduler policy must require crash recovery"))
+    (unless (getf *security-policy* :lan_requires_bearer_token)
+      (error "LAN daemon access must require a bearer token"))
     t))
 
 (defun write-generated-artifacts (root)

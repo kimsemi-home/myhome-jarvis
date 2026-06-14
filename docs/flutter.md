@@ -19,6 +19,7 @@ Current scope:
 - Dry-run preview client for `/intent`; command buttons always send
   `execute=false`, even though the daemon has a separately gated execution
   boundary.
+- Optional Bearer token support for LAN daemon clients.
 - Widget and client tests for the first local operations screens.
 
 Platform runner files are intentionally deferred until packaging or device

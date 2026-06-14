@@ -21,6 +21,7 @@ When the toolchains are installed, the first stable milestone is:
 
 ```sh
 go run ./cmd/mhj version
+go run ./cmd/mhj auth status
 go run ./cmd/mhj security check
 go run ./cmd/mhj command open-youtube '{}'
 go run ./cmd/mhj command volume-set '{"level":30}'
@@ -52,6 +53,7 @@ cd apps/flutter && flutter test && flutter analyze
 ## Repository map
 
 - `cmd/mhj`: Go CLI entrypoint.
+- `internal/auth`: local LAN bearer-token management.
 - `internal/commands`: dry-run command planning and validation.
 - `internal/security`: forbidden language, secret, and private-data checks.
 - `internal/linear`: Linear offline status and local queue.

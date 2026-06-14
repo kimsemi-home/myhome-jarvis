@@ -8,6 +8,7 @@ class DaemonSnapshotClient implements JarvisClient {
   const DaemonSnapshotClient({
     required this.baseUri,
     this.timeout = const Duration(seconds: 2),
+    this.authToken,
   });
 
   factory DaemonSnapshotClient.local() {
@@ -16,6 +17,7 @@ class DaemonSnapshotClient implements JarvisClient {
 
   final Uri baseUri;
   final Duration timeout;
+  final String? authToken;
 
   @override
   Future<JarvisSnapshot> load() async {
@@ -76,6 +78,7 @@ class DaemonSnapshotClient implements JarvisClient {
 
   Future<Object?> _getJson(HttpClient client, String path) async {
     final request = await client.getUrl(baseUri.resolve(path)).timeout(timeout);
+    _applyAuthHeader(request);
     final response = await request.close().timeout(timeout);
     return _decodeResponse(response, request.uri);
   }
@@ -89,6 +92,7 @@ class DaemonSnapshotClient implements JarvisClient {
         .postUrl(baseUri.resolve(path))
         .timeout(timeout);
     request.headers.contentType = ContentType.json;
+    _applyAuthHeader(request);
     request.write(jsonEncode(body));
     final response = await request.close().timeout(timeout);
     final decoded = await _decodeResponse(response, request.uri);
@@ -104,6 +108,13 @@ class DaemonSnapshotClient implements JarvisClient {
       throw HttpException('daemon returned ${response.statusCode}', uri: uri);
     }
     return jsonDecode(body) as Object?;
+  }
+
+  void _applyAuthHeader(HttpClientRequest request) {
+    final token = authToken?.trim();
+    if (token != null && token.isNotEmpty) {
+      request.headers.set(HttpHeaders.authorizationHeader, 'Bearer $token');
+    }
   }
 }
 

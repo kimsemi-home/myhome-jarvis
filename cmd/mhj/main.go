@@ -14,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
@@ -47,6 +48,8 @@ func run(args []string) error {
 		return nil
 	case "commands":
 		return writeJSON(commands.Specs())
+	case "auth":
+		return runAuth(root, args[1:])
 	case "security":
 		if len(args) == 2 && args[1] == "check" {
 			report, err := security.Check(root)
@@ -160,7 +163,28 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|repo status|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|repo status|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
+}
+
+func runAuth(root string, args []string) error {
+	if len(args) == 1 && args[0] == "status" {
+		return writeJSON(auth.Status(root))
+	}
+	if len(args) == 2 && args[0] == "token" && args[1] == "create" {
+		result, err := auth.Create(root, false)
+		if err != nil {
+			return err
+		}
+		return writeJSON(result)
+	}
+	if len(args) == 2 && args[0] == "token" && args[1] == "rotate" {
+		result, err := auth.Create(root, true)
+		if err != nil {
+			return err
+		}
+		return writeJSON(result)
+	}
+	return errors.New("usage: mhj auth <status|token create|token rotate>")
 }
 
 func runDaemon(root string, args []string) error {

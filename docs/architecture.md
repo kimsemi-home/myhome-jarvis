@@ -24,6 +24,8 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `POST /linear/sync`, `GET /repo/status`, `GET /loop/status`, `GET /domain/summary`,
 `GET /household/summary`, `GET /recommendations/summary`, and `GET /metrics`.
 It binds to `127.0.0.1` by default.
+LAN binding requires `--allow-lan` and non-localhost requests must include a
+Bearer token stored only in `data/private/local-token.txt`.
 
 The first repository safety surface is read-only. `mhj repo status` and daemon
 `GET /repo/status` report branch, head SHA, tracked changes, untracked files,

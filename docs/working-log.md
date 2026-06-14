@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 21:21 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add local LAN bearer-token management.
+- Files touched: `internal/auth/local.go`, `internal/auth/local_test.go`, `cmd/mhj/main.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `lisp/ssot/security.lisp`, `lisp/ssot/codegen.lisp`, `generated/security.generated.json`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/adr/0007-lan-only-daemon.md`, `docs/flutter.md`, `docs/lan-auth.md`, `docs/security.md`, `docs/working-log.md`.
+- Changes: added private local token create/rotate/status commands; reused the shared token reader for daemon LAN auth; added non-localhost auth tests; added optional Flutter Bearer token support; recorded LAN bearer-token policy in SSOT.
+- Validation after: `go1.26.2 test ./internal/auth ./internal/daemon` passed; `cd apps/flutter && flutter test` passed; `go1.26.2 run ./cmd/mhj auth status` returned status without token value; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 21:16 local
 
 - Linear issue: local continuation, no external Linear writes executed.
