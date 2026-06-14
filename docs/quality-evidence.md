@@ -30,6 +30,10 @@ The default `mhj quality` JSON printed to stdout uses the same redaction
 boundary. It reports overall status and step names/statuses only, while keeping
 command argv and raw command output out of default CLI output.
 
+The `toolchain pins` step records only pass/fail status. It verifies that Go
+and Rust version pins agree across checked-in metadata and the GitHub Actions
+workflow without recording local toolchain paths or command output.
+
 ## Status Surfaces
 
 - `mhj quality status`

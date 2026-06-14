@@ -347,3 +347,9 @@
 - [x] Pin Rust toolchain for hash-scoped CI.
   - Acceptance: Rust tests and CI use checked-in `rust-toolchain.toml` with an exact Rust toolchain; the Rust unit cache key includes that file so toolchain changes cannot reuse an old known-good Rust marker.
   - Validation: `rustup toolchain install 1.96.0 --profile minimal --component rustfmt --component clippy`; `cargo test --workspace`; `cargo fmt --check`; `cargo clippy --workspace -- -D warnings`; workflow YAML parses; full quality gate; GitHub Actions run.
+
+## P49
+
+- [x] Add toolchain pin drift check to quality gate.
+  - Acceptance: `mhj quality` fails when `.go-version`, `go.mod`, generated project Go version, workflow `GO_VERSION`, `rust-toolchain.toml`, or workflow `RUST_TOOLCHAIN` drift from each other; the default quality output remains redacted to step names and statuses.
+  - Validation: `go test ./cmd/mhj`; full quality gate; public safety scans; GitHub Actions run.

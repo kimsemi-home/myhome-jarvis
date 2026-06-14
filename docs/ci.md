@@ -46,6 +46,11 @@ HEAD: it snapshots `generated`, regenerates from Lisp, and fails only if
 regeneration changes the generated tree. This lets intentional SSOT/generated
 updates pass before commit while still catching stale artifacts.
 
+`mhj quality` also includes a `toolchain pins` step. It fails when the Go
+version in `.go-version`, `go.mod`, generated project metadata, or workflow
+`GO_VERSION` drift, and when `rust-toolchain.toml` differs from workflow
+`RUST_TOOLCHAIN`.
+
 The Go unit runs `home`, `finance`, and `commerce` harness smoke commands
 before package tests and vet. Public-safety checks live in their own always-run
 job so docs-only or metadata-only risks are not hidden by the Go unit cache.

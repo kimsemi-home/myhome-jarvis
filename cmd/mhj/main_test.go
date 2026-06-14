@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"os"
+	"path/filepath"
 	"reflect"
 	"strings"
 	"testing"
@@ -55,5 +57,47 @@ func TestQualityReportJSONRedactsCommandAndOutput(t *testing.T) {
 		if strings.Contains(body, forbidden) {
 			t.Fatalf("quality report leaked %s in %s", forbidden, body)
 		}
+	}
+}
+
+func TestValidateToolchainPinsAcceptsMatchingPins(t *testing.T) {
+	root := writeToolchainFixture(t, "1.26.2", "1.26.2", "1.26.2", "1.96.0", "1.96.0")
+
+	if err := validateToolchainPins(root); err != nil {
+		t.Fatalf("validateToolchainPins() error = %v", err)
+	}
+}
+
+func TestValidateToolchainPinsRejectsDrift(t *testing.T) {
+	root := writeToolchainFixture(t, "1.26.2", "1.26.1", "1.26.2", "1.96.0", "1.96.0")
+
+	err := validateToolchainPins(root)
+	if err == nil {
+		t.Fatal("expected drift to fail")
+	}
+	if !strings.Contains(err.Error(), "go.mod go directive") {
+		t.Fatalf("expected go.mod drift error, got %v", err)
+	}
+}
+
+func writeToolchainFixture(t *testing.T, goVersion string, goModVersion string, workflowGoVersion string, rustVersion string, workflowRustVersion string) string {
+	t.Helper()
+	root := t.TempDir()
+	writeTestFile(t, root, ".go-version", goVersion+"\n")
+	writeTestFile(t, root, "go.mod", "module github.com/kimsemi-home/myhome-jarvis\n\ngo "+goModVersion+"\n")
+	writeTestFile(t, root, "rust-toolchain.toml", "[toolchain]\nchannel = \""+rustVersion+"\"\nprofile = \"minimal\"\ncomponents = [\"rustfmt\", \"clippy\"]\n")
+	writeTestFile(t, root, ".github/workflows/quality.yml", "env:\n  GO_VERSION: \""+workflowGoVersion+"\"\n  FLUTTER_VERSION: \"3.44.2\"\n  RUST_TOOLCHAIN: \""+workflowRustVersion+"\"\n")
+	writeTestFile(t, root, "generated/commands.generated.json", `{"project":{"go_version":"`+goVersion+`"},"commands":[]}`+"\n")
+	return root
+}
+
+func writeTestFile(t *testing.T, root string, rel string, body string) {
+	t.Helper()
+	path := filepath.Join(root, filepath.FromSlash(rel))
+	if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(path, []byte(body), 0o600); err != nil {
+		t.Fatal(err)
 	}
 }
