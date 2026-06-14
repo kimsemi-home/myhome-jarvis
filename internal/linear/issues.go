@@ -174,6 +174,9 @@ func AddComment(ctx context.Context, root string, client *http.Client, issueID s
 	result.Synced = true
 	result.Comment = response.CommentCreate.Comment
 	result.Message = "Linear comment created."
+	if err := AppendWriteEvidence(root, "linear_comment", issueID); err != nil {
+		result.Message = "Linear comment created; private write evidence was not recorded."
+	}
 	return result
 }
 
@@ -228,6 +231,13 @@ func TransitionIssue(ctx context.Context, root string, client *http.Client, issu
 		result.State = &response.IssueUpdate.Issue.State
 	}
 	result.Message = "Linear issue transitioned."
+	evidenceIssueKey := issueID
+	if response.IssueUpdate.Issue != nil {
+		evidenceIssueKey = response.IssueUpdate.Issue.Identifier
+	}
+	if err := AppendWriteEvidence(root, "linear_transition", evidenceIssueKey); err != nil {
+		result.Message = "Linear issue transitioned; private write evidence was not recorded."
+	}
 	return result
 }
 
@@ -307,6 +317,15 @@ func CreateFromBacklog(ctx context.Context, root string, client *http.Client) Op
 	result.Mode = "online"
 	result.Synced = true
 	result.Message = fmt.Sprintf("Created %d Linear backlog seed issues; skipped %d existing seeds.", len(result.Issues), len(seeds)-len(pendingSeeds))
+	evidenceRecorded := true
+	for _, issue := range result.Issues {
+		if err := AppendWriteEvidence(root, "linear_create_from_backlog", issue.Identifier); err != nil {
+			evidenceRecorded = false
+		}
+	}
+	if !evidenceRecorded {
+		result.Message += " Private write evidence was not fully recorded."
+	}
 	return result
 }
 

@@ -26,7 +26,8 @@ status, rate-limit remaining count, viewer-configured boolean, and team count
 only. Linear next evidence stores the redacted next project issue summary,
 issue identifiers, titles, update timestamps, and state types only.
 Planner evidence stores SSOT-backed counts, quality/offline-fallback flags,
-repo-relative checkpoint root, gated task metadata, and a redacted
+repo-relative checkpoint root, gated task metadata, the standing external-write
+gate, redacted synced Linear write evidence counts, and a redacted
 KnowledgeIndex evidence summary only.
 Public-safety evidence stores aggregate current-tree and Git-history booleans,
 finding counts, and checked timestamp only. Checkpoints do not store raw Linear

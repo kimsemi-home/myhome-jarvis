@@ -8,6 +8,12 @@
         :linear_offline_fallback t
         :knowledge_index_required_before_planning t
         :knowledge_index_default_query "planner KnowledgeIndex Linear closed loop"
+        :external_write_gate
+        (list :standing_boundary t
+              :approval_required t
+              :mutation_success_required t
+              :boundary_task_id "linear_sync"
+              :evidence_path "data/private/linear-write-evidence.jsonl")
         :default_next "choose the highest-priority ready task"
         :task_graph
         (vector

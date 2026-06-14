@@ -50,3 +50,10 @@ returns a synced zero-created summary instead of recreating duplicates.
 Mutation commands use GraphQL variables rather than string interpolation.
 When credentials are unavailable or a GraphQL call fails, the command writes a
 structured `synced=false` event to `data/private/linear-offline-queue.jsonl`.
+
+Approved Linear write commands record private success evidence only after the
+Linear API mutation succeeds. The evidence journal is
+`data/private/linear-write-evidence.jsonl` and stores redacted events with
+action, public issue key when available, and `synced=true` only. Queued offline
+actions, failed GraphQL calls, lookup failures, and zero-created backlog syncs
+do not increment planner `linear_write_evidence` synced mutation counts.

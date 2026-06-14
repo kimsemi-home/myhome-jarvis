@@ -434,3 +434,15 @@
   - Linear: KIM-13
   - Acceptance: `mhj loop once` and `mhj loop worker --cycles 1` checkpoint evidence includes redacted `linear_next` project queue observation with selected project issue, issue identifiers, titles, update timestamps, and state types only; raw descriptions, workspace URLs, team identities, UUIDs, tokens, absolute paths, and local roots remain out of checkpoint and CLI output.
   - Validation: `go test ./internal/orchestrator ./cmd/mhj`; `go run ./cmd/mhj loop once`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P62
+
+- [x] Track approved Linear write evidence.
+  - Linear: KIM-11
+  - Acceptance: successful approved Linear write mutations append private redacted evidence with action, public issue key when available, and `synced=true`; failed mutations, token misses, lookup failures, and queued offline actions do not create synced write evidence; public summaries avoid raw descriptions, workspace URLs, identities, UUIDs, tokens, absolute paths, and local checkout paths.
+  - Validation: `go test ./internal/linear`; `go run ./cmd/mhj planner status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+- [x] Reconcile planner external-write gate.
+  - Linear: KIM-12
+  - Acceptance: planner status exposes the standing SSOT-owned `external_write_gate` separately from redacted `linear_write_evidence`; `blocked_external_write` remains a boundary, not sync success, and synced mutation counts increase only from successful Linear API mutations recorded in private evidence.
+  - Validation: `go test ./internal/planner ./internal/daemon`; `go run ./cmd/mhj planner status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

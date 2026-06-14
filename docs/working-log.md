@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 04:05 KST
+
+- Linear issues: KIM-11 and KIM-12 transitioned to In Progress.
+- Mode: online-capable, local-first implementation after approved Linear status transitions.
+- Task: Track approved Linear write evidence and reconcile planner external-write gate semantics.
+- Files touched: `internal/linear/evidence.go`, `internal/linear/issues.go`, `internal/linear/issues_test.go`, `internal/planner/status.go`, `internal/planner/status_test.go`, `internal/daemon/server_test.go`, `lisp/ssot/planner.lisp`, `lisp/ssot/codegen.lisp`, `generated/planner.generated.json`, `docs/backlog.md`, `docs/closed-loop.md`, `docs/linear-workflow.md`, `docs/planner.md`, `docs/working-log.md`.
+- Changes: successful Linear comment, transition, and backlog-create mutations now append private redacted write evidence only after the Linear API mutation succeeds; planner status exposes the SSOT-owned standing `external_write_gate` separately from `linear_write_evidence`; failed mutations, token misses, lookup failures, queued offline actions, and zero-created backlog syncs do not increment synced mutation evidence.
+- Validation after: `go1.26.2 test ./internal/linear ./internal/planner ./internal/daemon` passed; `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj planner status` returned separate `external_write_gate` and `linear_write_evidence` with synced mutation count 0; `go1.26.2 test ./...` passed; `go1.26.2 run ./cmd/mhj loop once` wrote a private checkpoint containing the separated gate/evidence fields; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan, forbidden language/dependency scan, and `git diff --check` passed.
+- External-write note: transitioned Linear issues KIM-11 and KIM-12 to In Progress with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA to confirm cache behavior, then update Linear issues KIM-11 and KIM-12.
+
 ## 2026-06-15 03:53 KST
 
 - Linear issue: KIM-13 transitioned to In Progress.

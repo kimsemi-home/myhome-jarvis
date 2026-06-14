@@ -16,6 +16,11 @@ The generated planner graph keeps Linear writes behind an explicit
 `blocked_external_write` task. Local planning, safety inspection, SSOT
 verification, quality gates, daemon surfaces, and Flutter surfaces can progress
 without mutating Linear.
+Planner status also returns an `external_write_gate` object for the standing
+boundary and a separate `linear_write_evidence` object for successful
+user-approved Linear mutations. A blocked gate is not treated as sync success;
+only private write evidence recorded after a successful Linear API mutation is
+counted as synced mutation evidence.
 
 Completed local rails are marked as `completed` in SSOT once their checked
 surfaces are present. `mhj planner status` reports ready, completed, and
@@ -25,8 +30,10 @@ listed by id/title/owner/status/dependencies so the next blocked step is visible
 without mutating Linear.
 
 Planner status validates that checkpoint paths stay repo-relative under
-`data/private`, that task ids are unique, that dependency ids exist, and that
-task statuses are known.
+`data/private`, that the Linear write evidence path stays under `data/private`,
+that task ids are unique, that dependency ids exist, that task statuses are
+known, and that the configured external-write gate task remains
+`blocked_external_write`.
 It also returns a redacted KnowledgeIndex evidence summary with query,
 concept/hit counts, related Linear issue keys, and must-read files.
 Loop checkpoints combine that planner evidence with the current redacted

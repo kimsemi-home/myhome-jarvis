@@ -309,6 +309,7 @@ func TestProjectIssueTitlePrefixMatchesGeneratedPolicy(t *testing.T) {
 func TestCreateFromBacklogSkipsExistingSeedTitles(t *testing.T) {
 	t.Setenv("LINEAR_API_KEY", "linear-example-key")
 	t.Setenv("LINEAR_TEAM_ID", "team-id")
+	root := t.TempDir()
 	seeds := backlogSeeds()
 	missingTitle := seeds[1].Title
 	requests := 0
@@ -374,7 +375,7 @@ func TestCreateFromBacklogSkipsExistingSeedTitles(t *testing.T) {
 		}
 	})}
 
-	result := CreateFromBacklog(context.Background(), t.TempDir(), client)
+	result := CreateFromBacklog(context.Background(), root, client)
 	if !result.Synced || len(result.Issues) != 1 {
 		t.Fatalf("unexpected result: %#v", result)
 	}
@@ -383,6 +384,16 @@ func TestCreateFromBacklogSkipsExistingSeedTitles(t *testing.T) {
 	}
 	if !strings.Contains(result.Message, "Created 1") || !strings.Contains(result.Message, "skipped 2") {
 		t.Fatalf("message did not include created/skipped counts: %q", result.Message)
+	}
+	status, err := WriteEvidenceStatusForRoot(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if status.SyncedMutationCount != 1 || status.LatestSyncedMutation == nil {
+		t.Fatalf("write evidence status = %#v", status)
+	}
+	if status.LatestSyncedMutation.Action != "linear_create_from_backlog" || status.LatestSyncedMutation.IssueKey != "KIM-11" {
+		t.Fatalf("write evidence = %#v", status.LatestSyncedMutation)
 	}
 }
 
@@ -496,11 +507,19 @@ func TestAddCommentQueuesOfflineWithoutToken(t *testing.T) {
 	if !strings.Contains(string(data), `"kind":"linear_comment"`) || !strings.Contains(string(data), `"issue_id":"MHJ-1"`) {
 		t.Fatalf("offline queue did not contain comment event: %s", string(data))
 	}
+	status, err := WriteEvidenceStatusForRoot(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if status.HasSyncedMutation || status.SyncedMutationCount != 0 {
+		t.Fatalf("offline comment should not create write evidence: %#v", status)
+	}
 }
 
 func TestAddCommentUsesVariables(t *testing.T) {
 	t.Setenv("LINEAR_API_KEY", "linear-example-key")
 	commentBody := "Line one\nLine two with \"quotes\""
+	root := t.TempDir()
 	client := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
 		var body struct {
 			Query     string            `json:"query"`
@@ -529,9 +548,19 @@ func TestAddCommentUsesVariables(t *testing.T) {
 		}, nil
 	})}
 
-	result := AddComment(context.Background(), t.TempDir(), client, "MHJ-1", commentBody)
+	result := AddComment(context.Background(), root, client, "MHJ-1", commentBody)
 	if !result.Synced || result.Comment == nil || result.Comment.ID != "comment-id" {
 		t.Fatalf("unexpected result: %#v", result)
+	}
+	status, err := WriteEvidenceStatusForRoot(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if status.SyncedMutationCount != 1 || status.LatestSyncedMutation == nil {
+		t.Fatalf("write evidence status = %#v", status)
+	}
+	if status.LatestSyncedMutation.Action != "linear_comment" || status.LatestSyncedMutation.IssueKey != "MHJ-1" || !status.LatestSyncedMutation.Synced {
+		t.Fatalf("write evidence = %#v", status.LatestSyncedMutation)
 	}
 }
 
@@ -547,5 +576,105 @@ func TestTransitionQueuesOfflineWithoutToken(t *testing.T) {
 	}
 	if !strings.Contains(string(data), `"kind":"linear_transition"`) || !strings.Contains(string(data), `"state":"In Progress"`) {
 		t.Fatalf("offline queue did not contain transition event: %s", string(data))
+	}
+}
+
+func TestTransitionRecordsApprovedWriteEvidence(t *testing.T) {
+	t.Setenv("LINEAR_API_KEY", "linear-example-key")
+	root := t.TempDir()
+	requests := 0
+	client := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
+		requests++
+		var body struct {
+			Query     string            `json:"query"`
+			Variables map[string]string `json:"variables"`
+		}
+		if err := json.NewDecoder(request.Body).Decode(&body); err != nil {
+			t.Fatal(err)
+		}
+		switch {
+		case strings.Contains(body.Query, "query WorkflowStates"):
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Header:     http.Header{},
+				Body: io.NopCloser(strings.NewReader(`{
+					"data": {
+						"workflowStates": {
+							"nodes": [{
+								"id": "state-id",
+								"name": "Done",
+								"type": "completed"
+							}]
+						}
+					}
+				}`)),
+			}, nil
+		case strings.Contains(body.Query, "mutation TransitionIssue"):
+			if body.Variables["issueId"] != "MHJ-1" || body.Variables["stateId"] != "state-id" {
+				t.Fatalf("unexpected variables: %#v", body.Variables)
+			}
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Header:     http.Header{},
+				Body: io.NopCloser(strings.NewReader(`{
+					"data": {
+						"issueUpdate": {
+							"success": true,
+							"issue": {
+								"id": "issue-id",
+								"identifier": "MHJ-1",
+								"title": "Done issue",
+								"state": {"id": "state-id", "name": "Done", "type": "completed"}
+							}
+						}
+					}
+				}`)),
+			}, nil
+		default:
+			t.Fatalf("unexpected GraphQL request: %s", body.Query)
+			return nil, nil
+		}
+	})}
+
+	result := TransitionIssue(context.Background(), root, client, "MHJ-1", "Done")
+	if !result.Synced || result.State == nil || result.State.Type != "completed" {
+		t.Fatalf("unexpected result: %#v", result)
+	}
+	if requests != 2 {
+		t.Fatalf("requests = %d", requests)
+	}
+	status, err := WriteEvidenceStatusForRoot(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if status.SyncedMutationCount != 1 || status.LatestSyncedMutation == nil {
+		t.Fatalf("write evidence status = %#v", status)
+	}
+	if status.LatestSyncedMutation.Action != "linear_transition" || status.LatestSyncedMutation.IssueKey != "MHJ-1" {
+		t.Fatalf("write evidence = %#v", status.LatestSyncedMutation)
+	}
+}
+
+func TestWriteEvidenceRedactsNonIssueKeys(t *testing.T) {
+	root := t.TempDir()
+	if err := AppendWriteEvidence(root, "linear_comment", "550e8400-e29b-41d4-a716-446655440000"); err != nil {
+		t.Fatal(err)
+	}
+	status, err := WriteEvidenceStatusForRoot(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if status.LatestSyncedMutation == nil {
+		t.Fatalf("expected latest write evidence: %#v", status)
+	}
+	if status.LatestSyncedMutation.IssueKey != "" {
+		t.Fatalf("non-issue key leaked into evidence: %#v", status.LatestSyncedMutation)
+	}
+	payload, err := os.ReadFile(filepath.Join(root, WriteEvidenceRelativePath))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(string(payload), "550e8400") {
+		t.Fatalf("raw id leaked into evidence file: %s", string(payload))
 	}
 }
