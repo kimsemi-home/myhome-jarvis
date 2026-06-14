@@ -275,6 +275,11 @@ class JarvisSnapshot {
         icon: Icons.verified_outlined,
       ),
       SystemMetric(
+        label: 'Public Safety',
+        value: 'Clear',
+        icon: Icons.verified_user_outlined,
+      ),
+      SystemMetric(
         label: 'Linear',
         value: 'Online-ready',
         icon: Icons.hub_outlined,

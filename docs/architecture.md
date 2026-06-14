@@ -24,10 +24,10 @@ as `open_ott`.
 The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /auth/status`, `GET /commands`, `POST /intent`, `POST /harness/run`,
 `GET /linear/status`, `POST /linear/sync`, `GET /repo/status`,
-`GET /loop/status`, `GET /domain/summary`, `GET /household/summary`,
-`GET /recommendations/summary`, `GET /metrics`, `GET /events`,
-`GET /supervisor/status`, `GET /audit/status`, `GET /quality/status`, and
-`GET /planner/status`.
+`GET /security/status`, `GET /loop/status`, `GET /domain/summary`,
+`GET /household/summary`, `GET /recommendations/summary`, `GET /metrics`,
+`GET /events`, `GET /supervisor/status`, `GET /audit/status`,
+`GET /quality/status`, and `GET /planner/status`.
 It binds to `127.0.0.1` by default.
 LAN binding requires `--allow-lan` and non-localhost requests must include a
 Bearer token stored only in `data/private/local-token.txt`.
@@ -64,7 +64,8 @@ release safety also includes `mhj security history`, which scans reachable Git
 commits and commit metadata for private identity markers, local absolute paths,
 forbidden language artifacts, private/lake data paths except empty keep
 placeholders, and secret-looking literals without returning raw matched secret
-contents.
+contents. Daemon `GET /security/status` exposes only aggregate current-tree and
+history booleans, finding counts, and a checked timestamp for local UI status.
 
 The first scheduler surface is bounded and local-only. `mhj loop worker
 --cycles N` records heartbeat/checkpoint state under `data/private` and uses
@@ -132,6 +133,7 @@ summaries, including purchase, subscription, card-linked spend, and cash-buffer
 signals.
 The Status tab also surfaces local-only or token-gated LAN network mode, LAN
 auth configured/missing state without token contents, whether the repository is
-clean or dirty, whether the recorded daemon supervisor state is reachable, and
-how many command audit and quality gate events are recorded.
+clean or dirty, aggregate public-safety status without raw findings, whether
+the recorded daemon supervisor state is reachable, and how many command audit
+and quality gate events are recorded.
 Platform runner files are left out until device packaging is required.

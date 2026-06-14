@@ -88,6 +88,16 @@ void main() {
             'untracked_files': ['docs/new.md'],
           });
           return;
+        case '/security/status':
+          _writeJson(request, {
+            'ok': true,
+            'current_ok': true,
+            'current_finding_count': 0,
+            'history_ok': true,
+            'history_finding_count': 0,
+            'checked_at': '2026-06-15T00:00:00Z',
+          });
+          return;
         case '/domain/summary':
           _writeJson(request, {
             'finance': {
@@ -328,6 +338,12 @@ void main() {
       'Passing (3)',
     );
     expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Public Safety')
+          .value,
+      'Clear',
+    );
+    expect(
       snapshot.metrics.singleWhere((metric) => metric.label == 'Events').value,
       '2',
     );
@@ -487,6 +503,7 @@ void main() {
       commands: const <Object?>[],
       linear: const <String, Object?>{},
       repo: const <String, Object?>{},
+      security: const <String, Object?>{'ok': true},
       domain: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',

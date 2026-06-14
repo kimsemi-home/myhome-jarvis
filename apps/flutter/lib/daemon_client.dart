@@ -28,6 +28,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final commands = await _getArray(client, '/commands');
       final linear = await _getObject(client, '/linear/status');
       final repo = await _getObject(client, '/repo/status');
+      final security = await _getObject(client, '/security/status');
       final domain = await _getObject(client, '/domain/summary');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
@@ -41,6 +42,7 @@ class DaemonSnapshotClient implements JarvisClient {
         commands: commands,
         linear: linear,
         repo: repo,
+        security: security,
         domain: domain,
         metrics: metrics,
         events: events,
@@ -146,6 +148,7 @@ JarvisSnapshot buildSnapshot({
   required List<Object?> commands,
   required Map<String, Object?> linear,
   required Map<String, Object?> repo,
+  required Map<String, Object?> security,
   required Map<String, Object?> domain,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
@@ -176,6 +179,10 @@ JarvisSnapshot buildSnapshot({
   final linearMode = _string(linear['mode']) ?? 'offline';
   final repoClean = _bool(repo['worktree_clean']);
   final authConfigured = _bool(auth['configured']);
+  final publicSafetyOK = _bool(security['ok']);
+  final securityFindings =
+      (_int(security['current_finding_count']) ?? 0) +
+      (_int(security['history_finding_count']) ?? 0);
 
   return JarvisSnapshot(
     metrics: [
@@ -207,6 +214,15 @@ JarvisSnapshot buildSnapshot({
             ? 'Unrecorded'
             : '${qualityOK == false ? 'Failing' : 'Passing'} ($qualityCount)',
         icon: Icons.verified_outlined,
+      ),
+      SystemMetric(
+        label: 'Public Safety',
+        value: publicSafetyOK == false
+            ? 'Findings ($securityFindings)'
+            : 'Clear',
+        icon: publicSafetyOK == false
+            ? Icons.report_problem_outlined
+            : Icons.verified_user_outlined,
       ),
       SystemMetric(
         label: 'Requests',

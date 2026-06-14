@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Finding struct {
@@ -36,6 +37,15 @@ type HistoryReport struct {
 	Root     string           `json:"root"`
 	OK       bool             `json:"ok"`
 	Findings []HistoryFinding `json:"findings"`
+}
+
+type Status struct {
+	OK                  bool   `json:"ok"`
+	CurrentOK           bool   `json:"current_ok"`
+	CurrentFindingCount int    `json:"current_finding_count"`
+	HistoryOK           bool   `json:"history_ok"`
+	HistoryFindingCount int    `json:"history_finding_count"`
+	CheckedAt           string `json:"checked_at"`
 }
 
 type historyPattern struct {
@@ -148,6 +158,25 @@ func CheckHistory(root string) (HistoryReport, error) {
 	})
 	report.OK = len(report.Findings) == 0
 	return report, nil
+}
+
+func StatusForRoot(root string) (Status, error) {
+	current, err := Check(root)
+	if err != nil {
+		return Status{}, err
+	}
+	history, err := CheckHistory(root)
+	if err != nil {
+		return Status{}, err
+	}
+	return Status{
+		OK:                  current.OK && history.OK,
+		CurrentOK:           current.OK,
+		CurrentFindingCount: len(current.Findings),
+		HistoryOK:           history.OK,
+		HistoryFindingCount: len(history.Findings),
+		CheckedAt:           time.Now().UTC().Format(time.RFC3339),
+	}, nil
 }
 
 func shouldSkipDir(name string) bool {

@@ -209,3 +209,9 @@
 - [x] Add Git history public-safety gate.
   - Acceptance: `mhj security history` scans reachable Git commits for private identity markers, local absolute paths, forbidden language/dependency files, private/lake data paths except empty keep placeholders, sensitive-looking paths, secret-looking literals, and commit metadata issues without reporting raw matched secrets; CI always runs a full-history public-safety job before the hash-scoped unit summary can pass.
   - Validation: `go test ./internal/security`; `go run ./cmd/mhj security history`; full quality gate; GitHub Actions run.
+
+## P26
+
+- [x] Surface public-safety status in daemon and Flutter.
+  - Acceptance: daemon `GET /security/status` exposes only aggregate current-tree and Git-history safety booleans, finding counts, and checked timestamp; Flutter Status renders a `Public Safety` metric from that endpoint and the offline fallback remains clear without exposing raw findings, matched content, or local roots.
+  - Validation: `go test ./internal/security ./internal/daemon`; `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.

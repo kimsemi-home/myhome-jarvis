@@ -26,3 +26,8 @@ artifacts, private/lake data paths except empty keep placeholders,
 sensitive-looking file names, and secret-looking literals. Findings report
 commit, repo-relative path, line number, code, and a coarse message only;
 matched secret contents are not returned.
+
+Daemon `GET /security/status` runs the current-tree and Git-history checks for
+local status surfaces, then returns only aggregate booleans, finding counts, and
+a checked timestamp. It does not return raw findings, matched content, or the
+local repository root.

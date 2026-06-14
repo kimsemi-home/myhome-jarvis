@@ -14,6 +14,8 @@ void main() {
     expect(find.text('LAN Auth'), findsOneWidget);
     expect(find.text('Configured'), findsOneWidget);
     expect(find.text('Dry-run'), findsOneWidget);
+    expect(find.text('Public Safety'), findsOneWidget);
+    expect(find.text('Clear'), findsOneWidget);
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 

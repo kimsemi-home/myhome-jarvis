@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 00:12 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Surface public-safety status in daemon and Flutter.
+- Files touched: `internal/security/security.go`, `internal/security/security_test.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, `apps/flutter/test/daemon_client_test.dart`, `apps/flutter/test/widget_test.dart`, `docs/architecture.md`, `docs/backlog.md`, `docs/flutter.md`, `docs/security.md`, `docs/working-log.md`.
+- Changes: added aggregate `security.StatusForRoot`; exposed daemon `GET /security/status`; added a Flutter Status `Public Safety` metric sourced from the daemon while keeping offline fallback clear; kept raw findings, matched content, and local roots out of the daemon/UI response.
+- Validation after: `go test ./internal/security ./internal/daemon` passed; `cd apps/flutter && flutter test` passed; `cd apps/flutter && flutter analyze` passed; `go run ./cmd/mhj security history` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 00:02 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -34,6 +34,8 @@ Current scope:
 - Command audit rendering from `/audit/status` as a redacted journal count.
 - Quality evidence rendering from `/quality/status` as the latest quality gate
   result.
+- Public-safety rendering from `/security/status` as aggregate current-tree and
+  Git-history status without raw findings or local roots.
 - Planner status rendering from `/planner/status` as ready task graph progress.
 - Structured recommendation rendering from fixture-only local summaries,
   including score, rationale, estimated amount, evidence count, and
