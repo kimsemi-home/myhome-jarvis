@@ -14,6 +14,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/domain"
@@ -115,6 +116,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /metrics", server.wrap(server.handleMetrics))
 	mux.HandleFunc("GET /events", server.wrap(server.handleEvents))
 	mux.HandleFunc("GET /supervisor/status", server.wrap(server.handleSupervisorStatus))
+	mux.HandleFunc("GET /audit/status", server.wrap(server.handleAuditStatus))
 	return mux
 }
 
@@ -193,6 +195,7 @@ type intentRequest struct {
 func (server *Server) handleIntent(writer http.ResponseWriter, request *http.Request) error {
 	var body intentRequest
 	if err := decodeBody(request, &body); err != nil {
+		_ = audit.AppendCommandIntent(server.config.Root, audit.CommandIntentFromPlan("daemon", "", false, commands.Plan{}, err))
 		return err
 	}
 	if len(body.Payload) == 0 {
@@ -200,6 +203,7 @@ func (server *Server) handleIntent(writer http.ResponseWriter, request *http.Req
 	}
 	plan, err := commands.Build(body.Command, body.Payload)
 	if err != nil {
+		_ = audit.AppendCommandIntent(server.config.Root, audit.CommandIntentFromPlan("daemon", body.Command, body.Execute, plan, err))
 		return err
 	}
 	executeAllowed := body.Execute && server.config.Execute
@@ -214,8 +218,12 @@ func (server *Server) handleIntent(writer http.ResponseWriter, request *http.Req
 			Runner:   server.config.CommandRunner,
 		})
 		if err != nil {
+			_ = audit.AppendCommandIntent(server.config.Root, audit.CommandIntentFromPlan("daemon", body.Command, body.Execute, plan, err))
 			return err
 		}
+	}
+	if err := audit.AppendCommandIntent(server.config.Root, audit.CommandIntentFromPlan("daemon", body.Command, body.Execute, plan, nil)); err != nil {
+		return err
 	}
 	return writeJSON(writer, http.StatusOK, plan)
 }
@@ -322,6 +330,14 @@ func (server *Server) handleEvents(writer http.ResponseWriter, request *http.Req
 
 func (server *Server) handleSupervisorStatus(writer http.ResponseWriter, request *http.Request) error {
 	return writeJSON(writer, http.StatusOK, supervisor.Status(server.config.Root, nil))
+}
+
+func (server *Server) handleAuditStatus(writer http.ResponseWriter, request *http.Request) error {
+	status, err := audit.CommandIntentStatusForRoot(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, status)
 }
 
 func decodeBody(request *http.Request, target any) error {

@@ -22,6 +22,7 @@ When the toolchains are installed, the first stable milestone is:
 ```sh
 go run ./cmd/mhj version
 go run ./cmd/mhj auth status
+go run ./cmd/mhj audit status
 go run ./cmd/mhj security check
 go run ./cmd/mhj command open-youtube '{}'
 go run ./cmd/mhj command volume-set '{"level":30}'
@@ -54,6 +55,7 @@ cd apps/flutter && flutter test && flutter analyze
 ## Repository map
 
 - `cmd/mhj`: Go CLI entrypoint.
+- `internal/audit`: private command intent audit journal.
 - `internal/auth`: local LAN bearer-token management.
 - `internal/commands`: dry-run command planning and validation.
 - `internal/daemon`: local API, auth enforcement, metrics, and bounded request events.

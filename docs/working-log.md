@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 21:51 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add redacted command intent audit journal.
+- Files touched: `internal/audit/command_intent.go`, `internal/audit/command_intent_test.go`, `cmd/mhj/main.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/command-audit.md`, `docs/flutter.md`, `docs/home-control.md`, `docs/working-log.md`.
+- Changes: added private command intent JSONL audit events; wired CLI and daemon command intents; added `mhj audit status`, daemon `GET /audit/status`, and Flutter command audit count; kept audit entries free of payloads, argv arrays, URLs, headers, bearer tokens, raw errors, and local absolute paths.
+- Validation after: `go1.26.2 test ./internal/audit ./internal/daemon` passed; `cd apps/flutter && flutter test test/daemon_client_test.dart` passed; `go1.26.2 run ./cmd/mhj audit status` returned repo-relative journal status; `go1.26.2 run ./cmd/mhj command open-youtube '{}'` appended a private redacted audit event; private audit journal redaction scan passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 21:42 local
 
 - Linear issue: local continuation, no external Linear writes executed.

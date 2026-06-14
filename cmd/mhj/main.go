@@ -14,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
@@ -51,6 +52,10 @@ func run(args []string) error {
 		return writeJSON(commands.Specs())
 	case "auth":
 		return runAuth(root, args[1:])
+	case "audit":
+		if len(args) == 2 && args[1] == "status" {
+			return auditStatus(root)
+		}
 	case "security":
 		if len(args) == 2 && args[1] == "check" {
 			report, err := security.Check(root)
@@ -69,16 +74,19 @@ func run(args []string) error {
 		if len(args) != 3 {
 			return errors.New("usage: mhj command <name> '<json-payload>'")
 		}
+		executeRequested := os.Getenv("MYHOME_EXECUTE") == "true"
 		plan, err := commands.Build(args[1], []byte(args[2]))
-		if err != nil {
-			return err
+		if err == nil {
+			plan = commands.WithExecuteAllowed(plan, executeRequested)
 		}
-		plan = commands.WithExecuteAllowed(plan, os.Getenv("MYHOME_EXECUTE") == "true")
 		if plan.ExecuteAllowed {
 			plan, err = commands.Execute(context.Background(), plan, commands.ExecuteOptions{})
-			if err != nil {
-				return err
-			}
+		}
+		if auditErr := audit.AppendCommandIntent(root, audit.CommandIntentFromPlan("cli", args[1], executeRequested, plan, err)); err == nil && auditErr != nil {
+			return auditErr
+		}
+		if err != nil {
+			return err
 		}
 		return writeJSON(plan)
 	case "harness":
@@ -164,7 +172,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -253,6 +261,14 @@ func loopStatus(root string) error {
 
 func repoStatus(root string) error {
 	status, err := repo.Inspect(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
+func auditStatus(root string) error {
+	status, err := audit.CommandIntentStatusForRoot(root)
 	if err != nil {
 		return err
 	}

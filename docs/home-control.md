@@ -24,6 +24,12 @@ The Flutter client calls daemon `POST /intent` with `execute=false` to preview
 plans. This keeps the UI on the dry-run side of the boundary while showing the
 argv plan.
 
+CLI and daemon command intents append a private redacted audit event under
+`data/private/audit/command-intents.jsonl`. The audit records command/source,
+dry-run and execute-gate metadata, counts, success, and coarse error category
+only. It does not record payload JSON, argv arrays, URLs, headers, tokens, raw
+errors, or local absolute paths.
+
 Explicit execution boundary:
 
 - CLI execution requires `MYHOME_EXECUTE=true`.

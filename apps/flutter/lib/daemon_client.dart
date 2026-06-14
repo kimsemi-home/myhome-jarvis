@@ -31,6 +31,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
+      final audit = await _getObject(client, '/audit/status');
       return buildSnapshot(
         health: health,
         commands: commands,
@@ -40,6 +41,7 @@ class DaemonSnapshotClient implements JarvisClient {
         metrics: metrics,
         events: events,
         supervisor: supervisor,
+        audit: audit,
       );
     } finally {
       client.close(force: true);
@@ -141,6 +143,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
+  required Map<String, Object?> audit,
 }) {
   final bindHost =
       _string(metrics['bind_host']) ?? _string(health['host']) ?? '127.0.0.1';
@@ -148,6 +151,7 @@ JarvisSnapshot buildSnapshot({
       _bool(health['dry_run']) ?? _bool(metrics['dry_run_default']) ?? true;
   final requestCount = _int(metrics['requests']);
   final eventCount = _int(events['count']) ?? _int(metrics['event_count']);
+  final auditCount = _int(audit['count']);
   final supervisorStale = _bool(supervisor['stale']);
   final supervisorRecorded = _bool(supervisor['recorded']) ?? false;
   final linearMode = _string(linear['mode']) ?? 'offline';
@@ -181,6 +185,11 @@ JarvisSnapshot buildSnapshot({
             ? (supervisorStale == true ? 'Stale' : 'Reachable')
             : 'Unrecorded',
         icon: Icons.memory_outlined,
+      ),
+      SystemMetric(
+        label: 'Command Audit',
+        value: auditCount == null ? '0' : '$auditCount',
+        icon: Icons.fact_check_outlined,
       ),
       SystemMetric(
         label: 'Linear',

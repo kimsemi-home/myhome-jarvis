@@ -136,6 +136,13 @@ void main() {
             'state_path': 'data/private/supervisor/daemon-state.json',
           });
           return;
+        case '/audit/status':
+          _writeJson(request, {
+            'path': 'data/private/audit/command-intents.jsonl',
+            'exists': true,
+            'count': 4,
+          });
+          return;
         case '/intent':
           final body = jsonDecode(await utf8.decoder.bind(request).join());
           expect(body, isA<Map<String, Object?>>());
@@ -181,6 +188,12 @@ void main() {
           .singleWhere((metric) => metric.label == 'Supervisor')
           .value,
       'Reachable',
+    );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Command Audit')
+          .value,
+      '4',
     );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
