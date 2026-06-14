@@ -46,17 +46,21 @@ HEAD: it snapshots `generated`, regenerates from Lisp, and fails only if
 regeneration changes the generated tree. This lets intentional SSOT/generated
 updates pass before commit while still catching stale artifacts.
 
-`mhj quality` also includes a `toolchain pins` step. It fails when the Go
+`mhj quality` also includes `ci workflow` and `toolchain pins` steps. The CI
+workflow check verifies that the split workflow keeps public safety always-run,
+unit cache trust scoping, generated input coverage, and the lightweight
+toolchain check wired into the Go unit. The toolchain step fails when the Go
 version in `.go-version`, `go.mod`, generated project metadata, or workflow
 `GO_VERSION` drift, and when `rust-toolchain.toml` differs from workflow
 `RUST_TOOLCHAIN`.
 
-The Go unit runs `mhj toolchain verify`, then `home`, `finance`, and
-`commerce` harness smoke commands before package tests and vet. Its unit cache
-key includes `.go-version`, `rust-toolchain.toml`, generated metadata, and the
-workflow file, so pin drift reruns this lightweight check before a new marker
-can be saved. Public-safety checks live in their own always-run job so docs-only
-or metadata-only risks are not hidden by the Go unit cache.
+The Go unit runs `mhj ci verify`, `mhj toolchain verify`, then `home`,
+`finance`, and `commerce` harness smoke commands before package tests and vet.
+Its unit cache key includes `.go-version`, `rust-toolchain.toml`, generated
+metadata, and the workflow file, so pin drift reruns this lightweight check
+before a new marker can be saved. Public-safety checks live in their own
+always-run job so docs-only or metadata-only risks are not hidden by the Go unit
+cache.
 The Rust unit runs the whole workspace, including `mhj-harness`, so the
 dedicated Rust harness boundary is covered whenever command, finance, commerce,
 fixtures, or Rust harness inputs change.
@@ -66,6 +70,7 @@ static/offline fallback tests read the Lisp-owned command catalog directly.
 Local equivalents:
 
 ```sh
+go run ./cmd/mhj ci verify
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj quality
 go run ./cmd/mhj quality status

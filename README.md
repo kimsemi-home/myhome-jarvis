@@ -24,6 +24,7 @@ When the toolchains are installed, the first stable milestone is:
 go run ./cmd/mhj version
 go run ./cmd/mhj auth status
 go run ./cmd/mhj audit status
+go run ./cmd/mhj ci verify
 go run ./cmd/mhj security check
 go run ./cmd/mhj security history
 go run ./cmd/mhj toolchain verify

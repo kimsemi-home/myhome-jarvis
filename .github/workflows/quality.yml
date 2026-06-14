@@ -120,6 +120,10 @@ jobs:
           cache: true
           cache-dependency-path: go.mod
 
+      - name: Verify CI workflow contract
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: go run ./cmd/mhj ci verify
+
       - name: Verify toolchain pins
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: go run ./cmd/mhj toolchain verify

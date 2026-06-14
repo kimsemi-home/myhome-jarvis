@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 02:34 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Guard split CI workflow cache contract.
+- Files touched: `.github/workflows/quality.yml`, `cmd/mhj/main.go`, `cmd/mhj/main_test.go`, `README.md`, `docs/backlog.md`, `docs/ci.md`, `docs/quality-evidence.md`, `docs/working-log.md`.
+- Changes: added `mhj ci verify`; added a redacted `ci workflow` quality step; wired the Go split CI unit to run the workflow contract check on cache misses; added focused tests that reject missing cache inputs.
+- Validation after: `go1.26.2 test ./cmd/mhj` passed; `go1.26.2 run ./cmd/mhj ci verify` passed; workflow YAML parsed; full `mhj quality` with Go 1.26.2 passed and included `ci workflow`; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: run focused Go tests, `mhj ci verify`, full quality, codegen verification, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 02:28 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

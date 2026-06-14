@@ -33,6 +33,8 @@ command argv and raw command output out of default CLI output.
 The `toolchain pins` step records only pass/fail status. It verifies that Go
 and Rust version pins agree across checked-in metadata and the GitHub Actions
 workflow without recording local toolchain paths or command output.
+The `ci workflow` step records only pass/fail status for the workflow contract
+guard; it does not record workflow contents.
 
 ## Status Surfaces
 

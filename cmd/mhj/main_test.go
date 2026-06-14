@@ -80,6 +80,28 @@ func TestValidateToolchainPinsRejectsDrift(t *testing.T) {
 	}
 }
 
+func TestValidateCIWorkflowContractAcceptsRequiredTokens(t *testing.T) {
+	root := t.TempDir()
+	writeTestFile(t, root, ".github/workflows/quality.yml", ciWorkflowFixture())
+
+	if err := validateCIWorkflowContract(root); err != nil {
+		t.Fatalf("validateCIWorkflowContract() error = %v", err)
+	}
+}
+
+func TestValidateCIWorkflowContractRejectsMissingCacheInput(t *testing.T) {
+	root := t.TempDir()
+	writeTestFile(t, root, ".github/workflows/quality.yml", strings.ReplaceAll(ciWorkflowFixture(), "'rust-toolchain.toml', ", ""))
+
+	err := validateCIWorkflowContract(root)
+	if err == nil {
+		t.Fatal("expected missing cache input to fail")
+	}
+	if !strings.Contains(err.Error(), "rust-toolchain.toml") {
+		t.Fatalf("expected rust-toolchain.toml error, got %v", err)
+	}
+}
+
 func writeToolchainFixture(t *testing.T, goVersion string, goModVersion string, workflowGoVersion string, rustVersion string, workflowRustVersion string) string {
 	t.Helper()
 	root := t.TempDir()
@@ -89,6 +111,36 @@ func writeToolchainFixture(t *testing.T, goVersion string, goModVersion string, 
 	writeTestFile(t, root, ".github/workflows/quality.yml", "env:\n  GO_VERSION: \""+workflowGoVersion+"\"\n  FLUTTER_VERSION: \"3.44.2\"\n  RUST_TOOLCHAIN: \""+workflowRustVersion+"\"\n")
 	writeTestFile(t, root, "generated/commands.generated.json", `{"project":{"go_version":"`+goVersion+`"},"commands":[]}`+"\n")
 	return root
+}
+
+func ciWorkflowFixture() string {
+	return `name: quality
+concurrency:
+  cancel-in-progress: true
+jobs:
+  public-safety:
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - run: |
+          go run ./cmd/mhj security check
+          go run ./cmd/mhj security history
+  go:
+    steps:
+      - uses: actions/cache/restore@v5
+        with:
+          key: go-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'generated/*.json') }}
+      - run: go run ./cmd/mhj ci verify
+      - run: go run ./cmd/mhj toolchain verify
+      - uses: actions/cache/save@v5
+        if: steps.unit-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'
+  flutter:
+    steps:
+      - uses: actions/cache/restore@v5
+        with:
+          key: flutter-${{ hashFiles('generated/commands.generated.json') }}
+`
 }
 
 func writeTestFile(t *testing.T, root string, rel string, body string) {

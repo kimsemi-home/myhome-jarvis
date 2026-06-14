@@ -60,6 +60,10 @@ func run(args []string) error {
 		if len(args) == 2 && args[1] == "status" {
 			return auditStatus(root)
 		}
+	case "ci":
+		if len(args) == 2 && args[1] == "verify" {
+			return runCIVerify(root)
+		}
 	case "security":
 		if len(args) == 2 && args[1] == "check" {
 			report, err := security.Check(root)
@@ -194,7 +198,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|security history|command|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -419,6 +423,7 @@ func runQuality(root string) error {
 		report.Steps = append(report.Steps, qualityStep{Name: "security history", Status: "fail", Output: "security history findings present"})
 	}
 	report.addCheck("toolchain pins", validateToolchainPins(root))
+	report.addCheck("ci workflow", validateCIWorkflowContract(root))
 
 	report.addHarness("home harness", commands.RunHomeHarness())
 	report.addHarness("finance harness", commands.RunFinanceHarness(root))
@@ -472,6 +477,13 @@ func (report *qualityReport) addHarness(name string, harness commands.HarnessRep
 
 func runToolchainVerify(root string) error {
 	if err := validateToolchainPins(root); err != nil {
+		return err
+	}
+	return writeJSON(map[string]any{"ok": true})
+}
+
+func runCIVerify(root string) error {
+	if err := validateCIWorkflowContract(root); err != nil {
 		return err
 	}
 	return writeJSON(map[string]any{"ok": true})
@@ -611,6 +623,33 @@ func validateToolchainPins(root string) error {
 	workflowRustVersion, err := parseWorkflowEnv(root, "RUST_TOOLCHAIN")
 	if err := requireEqual("workflow RUST_TOOLCHAIN", rustVersion, workflowRustVersion, err); err != nil {
 		return err
+	}
+	return nil
+}
+
+func validateCIWorkflowContract(root string) error {
+	body, err := os.ReadFile(filepath.Join(root, ".github", "workflows", "quality.yml"))
+	if err != nil {
+		return err
+	}
+	workflow := string(body)
+	required := []string{
+		"cancel-in-progress: true",
+		"fetch-depth: 0",
+		"go run ./cmd/mhj security check",
+		"go run ./cmd/mhj security history",
+		"go run ./cmd/mhj ci verify",
+		"go run ./cmd/mhj toolchain verify",
+		"'.go-version'",
+		"'rust-toolchain.toml'",
+		"'generated/*.json'",
+		"'generated/commands.generated.json'",
+		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",
+	}
+	for _, token := range required {
+		if !strings.Contains(workflow, token) {
+			return fmt.Errorf("quality workflow missing CI contract token %q", token)
+		}
 	}
 	return nil
 }

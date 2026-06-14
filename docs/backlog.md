@@ -359,3 +359,9 @@
 - [x] Run toolchain pin verification in split CI.
   - Acceptance: `mhj toolchain verify` exposes the toolchain pin check as a lightweight CLI; the Go GitHub Actions unit runs it on cache misses; the Go unit cache key includes `.go-version` and `rust-toolchain.toml` so pin-only changes cannot reuse an old Go unit marker.
   - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj toolchain verify`; workflow YAML parses; full quality gate; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P51
+
+- [x] Guard split CI workflow cache contract.
+  - Acceptance: `mhj ci verify` fails when the quality workflow loses public-safety history checks, Go toolchain verification wiring, generated cache inputs, canonical-repo cache save scoping, or generated command catalog coverage; `mhj quality` includes the redacted `ci workflow` step.
+  - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj ci verify`; workflow YAML parses; full quality gate; GitHub Actions run and same-SHA cache-hit rerun.
