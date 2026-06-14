@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 23:55 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add command SSOT to Go registry parity checks.
+- Files touched: `internal/commands/registry_test.go`, `docs/backlog.md`, `docs/ssot.md`, `docs/home-control.md`, `docs/working-log.md`.
+- Changes: added Go tests that load `generated/commands.generated.json` and compare command names, summaries, payload fields, generated URL targets, and the OTT service allowlist against the runtime command registry.
+- Validation after: `go test ./internal/commands` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 15-step quality run; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 23:49 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -197,3 +197,9 @@
 - [x] Add fallback Flutter URL and search command controls.
   - Acceptance: static/offline Flutter snapshots expose `open-youtube-search`, `open-url`, and generic `open-ott` editable dry-run commands in addition to dedicated shortcuts, so daemon-unavailable clients can still preview YouTube search, safe URL open, and service-selected OTT intents.
   - Validation: `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.
+
+## P24
+
+- [x] Add command SSOT to Go registry parity checks.
+  - Acceptance: Go command tests load `generated/commands.generated.json` and fail on drift in command names, summaries, payload fields, OTT service allowlist, or generated URL targets, keeping Lisp SSOT artifacts and Go execution plans aligned.
+  - Validation: `go test ./internal/commands`; full quality gate.

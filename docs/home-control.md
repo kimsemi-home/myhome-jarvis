@@ -28,6 +28,11 @@ The service-specific OTT shortcuts are zero-payload convenience commands over
 the same safe target map used by `open_ott`; they do not introduce scraping,
 cookies, credentials, downloads, or DRM bypass behavior.
 
+The command catalog is owned by Lisp SSOT and emitted to
+`generated/commands.generated.json`. Go tests compare that generated catalog
+with the runtime command registry and URL target map so home-control command
+metadata cannot silently drift between SSOT and execution planning.
+
 The Flutter client calls daemon `POST /intent` with `execute=false` to preview
 plans. This keeps the UI on the dry-run side of the boundary while showing the
 argv plan.

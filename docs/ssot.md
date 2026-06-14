@@ -19,6 +19,12 @@ artifact for `mhj planner status` and daemon `GET /planner/status`; Flutter
 only consumes the daemon status. This keeps task graph shape, Linear templates,
 quality requirements, and external-write boundaries in one Lisp-owned source.
 
+The command SSOT emits `generated/commands.generated.json`. Go keeps the
+runtime command registry and macOS execution planning in `internal/commands`,
+but its tests load the generated artifact and fail if command names, summaries,
+payload fields, OTT service allowlists, or generated URL targets drift from the
+Lisp-owned catalog.
+
 Use `mhj codegen verify` before committing SSOT or generated artifact changes.
 It regenerates `generated` from Lisp and fails if the checked-in artifacts are
 out of date.
