@@ -121,8 +121,12 @@ void main() {
           _writeJson(request, {
             'bind_host': '127.0.0.1',
             'requests': 7,
+            'event_count': 2,
             'dry_run_default': true,
           });
+          return;
+        case '/events':
+          _writeJson(request, {'count': 2, 'events': <Object?>[]});
           return;
         case '/intent':
           final body = jsonDecode(await utf8.decoder.bind(request).join());
@@ -160,6 +164,10 @@ void main() {
       contains('127.0.0.1'),
     );
     expect(snapshot.metrics.map((metric) => metric.value), contains('7'));
+    expect(
+      snapshot.metrics.singleWhere((metric) => metric.label == 'Events').value,
+      '2',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),

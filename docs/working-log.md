@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 21:34 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add bounded daemon request event log.
+- Files touched: `internal/daemon/events.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/daemon-observability.md`, `docs/working-log.md`.
+- Changes: added a 100-event in-memory daemon request log; exposed `GET /events`; added `event_count` to `GET /metrics`; kept recorded data to method, path, status, duration, timestamp, and coarse error category; surfaced the count in Flutter Status.
+- Validation after: `go1.26.2 test ./internal/daemon` passed; `cd apps/flutter && flutter test test/daemon_client_test.dart` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 21:21 local
 
 - Linear issue: local continuation, no external Linear writes executed.

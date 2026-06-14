@@ -37,6 +37,7 @@ type Server struct {
 	config   Config
 	started  time.Time
 	requests atomic.Uint64
+	events   *eventLog
 }
 
 func DefaultConfig(root string, version string) Config {
@@ -62,7 +63,7 @@ func New(config Config) (*Server, error) {
 	if isWildcardHost(config.Host) && !config.AllowLANBind {
 		return nil, errors.New("wildcard or LAN bind requires explicit allow-lan flag")
 	}
-	return &Server{config: config, started: time.Now().UTC()}, nil
+	return &Server{config: config, started: time.Now().UTC(), events: newEventLog(maxRequestEvents)}, nil
 }
 
 func (server *Server) ListenAndServe() error {
@@ -91,6 +92,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /household/summary", server.wrap(server.handleHouseholdSummary))
 	mux.HandleFunc("GET /recommendations/summary", server.wrap(server.handleRecommendationsSummary))
 	mux.HandleFunc("GET /metrics", server.wrap(server.handleMetrics))
+	mux.HandleFunc("GET /events", server.wrap(server.handleEvents))
 	return mux
 }
 
@@ -98,13 +100,22 @@ type handlerFunc func(http.ResponseWriter, *http.Request) error
 
 func (server *Server) wrap(next handlerFunc) http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
+		started := time.Now()
+		recorder := &statusRecorder{ResponseWriter: writer}
+		var handlerErr error
+		defer func() {
+			server.recordRequestEvent(request, recorder.statusCode(), started, handlerErr)
+		}()
+
 		server.requests.Add(1)
 		if err := server.authorize(request); err != nil {
-			writeError(writer, http.StatusUnauthorized, err)
+			handlerErr = err
+			writeError(recorder, http.StatusUnauthorized, err)
 			return
 		}
-		if err := next(writer, request); err != nil {
-			writeError(writer, http.StatusBadRequest, err)
+		if err := next(recorder, request); err != nil {
+			handlerErr = err
+			writeError(recorder, http.StatusBadRequest, err)
 		}
 	}
 }
@@ -265,15 +276,25 @@ func (server *Server) handleRecommendationsSummary(writer http.ResponseWriter, r
 }
 
 func (server *Server) handleMetrics(writer http.ResponseWriter, request *http.Request) error {
+	events := server.events.snapshot()
 	return writeJSON(writer, http.StatusOK, map[string]any{
 		"started":          server.started.Format(time.RFC3339),
 		"uptime_seconds":   int64(time.Since(server.started).Seconds()),
 		"requests":         server.requests.Load(),
+		"event_count":      len(events),
 		"execute_enabled":  server.config.Execute,
 		"bind_host":        server.config.Host,
 		"linear_queue":     filepath.ToSlash(filepath.Join("data", "private", "linear-offline-queue.jsonl")),
 		"dry_run_default":  true,
 		"lan_bind_allowed": server.config.AllowLANBind,
+	})
+}
+
+func (server *Server) handleEvents(writer http.ResponseWriter, request *http.Request) error {
+	events := server.events.snapshot()
+	return writeJSON(writer, http.StatusOK, map[string]any{
+		"count":  len(events),
+		"events": events,
 	})
 }
 

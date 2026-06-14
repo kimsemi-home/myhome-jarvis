@@ -79,3 +79,7 @@
 - [x] Add local LAN bearer-token management.
   - Acceptance: CLI can report token status, create a private local token, and rotate it; daemon non-localhost requests require `Authorization: Bearer`; Flutter daemon client can attach an optional Bearer token; SSOT records the LAN token policy.
   - Validation: `go test ./internal/auth ./internal/daemon`; `cd apps/flutter && flutter test`; `mhj auth status`; full quality gate.
+
+- [x] Add bounded daemon request event log.
+  - Acceptance: daemon records only method, path, status, duration, timestamp, and coarse error category in a 100-event in-memory buffer; `GET /events` returns recent events; `GET /metrics` exposes `event_count`; Flutter Status shows the count.
+  - Validation: `go test ./internal/daemon`; `cd apps/flutter && flutter test`; full quality gate.

@@ -29,6 +29,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final repo = await _getObject(client, '/repo/status');
       final domain = await _getObject(client, '/domain/summary');
       final metrics = await _getObject(client, '/metrics');
+      final events = await _getObject(client, '/events');
       return buildSnapshot(
         health: health,
         commands: commands,
@@ -36,6 +37,7 @@ class DaemonSnapshotClient implements JarvisClient {
         repo: repo,
         domain: domain,
         metrics: metrics,
+        events: events,
       );
     } finally {
       client.close(force: true);
@@ -135,12 +137,14 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> repo,
   required Map<String, Object?> domain,
   required Map<String, Object?> metrics,
+  required Map<String, Object?> events,
 }) {
   final bindHost =
       _string(metrics['bind_host']) ?? _string(health['host']) ?? '127.0.0.1';
   final dryRun =
       _bool(health['dry_run']) ?? _bool(metrics['dry_run_default']) ?? true;
   final requestCount = _int(metrics['requests']);
+  final eventCount = _int(events['count']) ?? _int(metrics['event_count']);
   final linearMode = _string(linear['mode']) ?? 'offline';
   final repoClean = _bool(repo['worktree_clean']);
 
@@ -160,6 +164,11 @@ JarvisSnapshot buildSnapshot({
         label: 'Requests',
         value: requestCount == null ? '0' : '$requestCount',
         icon: Icons.query_stats_outlined,
+      ),
+      SystemMetric(
+        label: 'Events',
+        value: eventCount == null ? '0' : '$eventCount',
+        icon: Icons.receipt_long_outlined,
       ),
       SystemMetric(
         label: 'Linear',

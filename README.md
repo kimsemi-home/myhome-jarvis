@@ -55,6 +55,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `cmd/mhj`: Go CLI entrypoint.
 - `internal/auth`: local LAN bearer-token management.
 - `internal/commands`: dry-run command planning and validation.
+- `internal/daemon`: local API, auth enforcement, metrics, and bounded request events.
 - `internal/security`: forbidden language, secret, and private-data checks.
 - `internal/linear`: Linear offline status and local queue.
 - `internal/repo`: Git worktree status inspection for closed-loop safety.
