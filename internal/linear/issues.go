@@ -117,6 +117,14 @@ func NextIssue(ctx context.Context, root string, client *http.Client) OperationR
 	}
 	for index := range result.Issues {
 		issue := result.Issues[index]
+		if isOpenState(issue.State) && isProjectIssue(issue) && isStartedState(issue.State) {
+			result.Issue = &issue
+			result.Message = "Selected next project Linear issue."
+			return result
+		}
+	}
+	for index := range result.Issues {
+		issue := result.Issues[index]
 		if isOpenState(issue.State) && isProjectIssue(issue) {
 			result.Issue = &issue
 			result.Message = "Selected next project Linear issue."
@@ -249,7 +257,24 @@ func CreateFromBacklog(ctx context.Context, root string, client *http.Client) Op
 		teamID = teams[0].ID
 	}
 
-	for _, seed := range seeds {
+	existingTitles, status, remaining, err := listIssueTitles(ctx, client, token.Value)
+	result.HTTPStatus = status
+	result.RateLimitRemaining = remaining
+	if err != nil {
+		result.Message = "Linear issue title lookup failed; backlog seed queued offline with synced=false. " + err.Error()
+		_ = AppendOfflineAction(root, "linear_create_from_backlog", result.Message, payload)
+		return result
+	}
+	pendingSeeds := missingBacklogSeeds(seeds, existingTitles)
+	if len(pendingSeeds) == 0 {
+		result.Mode = "online"
+		result.Synced = true
+		result.Message = fmt.Sprintf("Created 0 Linear backlog seed issues; skipped %d existing seeds.", len(seeds))
+		return result
+	}
+	payload = map[string]any{"issues": pendingSeeds}
+
+	for index, seed := range pendingSeeds {
 		var response struct {
 			IssueCreate struct {
 				Success bool   `json:"success"`
@@ -271,6 +296,7 @@ func CreateFromBacklog(ctx context.Context, root string, client *http.Client) Op
 			if err != nil {
 				result.Message += " " + err.Error()
 			}
+			payload = map[string]any{"issues": pendingSeeds[index:]}
 			_ = AppendOfflineAction(root, "linear_create_from_backlog", result.Message, payload)
 			return result
 		}
@@ -280,7 +306,7 @@ func CreateFromBacklog(ctx context.Context, root string, client *http.Client) Op
 	}
 	result.Mode = "online"
 	result.Synced = true
-	result.Message = fmt.Sprintf("Created %d Linear backlog seed issues.", len(result.Issues))
+	result.Message = fmt.Sprintf("Created %d Linear backlog seed issues; skipped %d existing seeds.", len(result.Issues), len(seeds)-len(pendingSeeds))
 	return result
 }
 
@@ -365,6 +391,29 @@ func listTeams(ctx context.Context, client *http.Client, token string) ([]TeamSt
 	return response.Teams.Nodes, httpStatus, remaining, err
 }
 
+func listIssueTitles(ctx context.Context, client *http.Client, token string) (map[string]struct{}, int, int, error) {
+	var response struct {
+		Issues struct {
+			Nodes []struct {
+				Title string `json:"title"`
+			} `json:"nodes"`
+		} `json:"issues"`
+	}
+	query := `query ExistingIssueTitles { issues(first: 250) { nodes { title } } }`
+	httpStatus, remaining, err := doGraphQL(ctx, client, token, query, nil, &response)
+	if err != nil {
+		return nil, httpStatus, remaining, err
+	}
+	titles := make(map[string]struct{}, len(response.Issues.Nodes))
+	for _, node := range response.Issues.Nodes {
+		title := normalizedIssueTitle(node.Title)
+		if title != "" {
+			titles[title] = struct{}{}
+		}
+	}
+	return titles, httpStatus, remaining, nil
+}
+
 func isOpenState(state StateStatus) bool {
 	name := strings.ToLower(strings.TrimSpace(state.Name))
 	stateType := strings.ToLower(strings.TrimSpace(state.Type))
@@ -377,6 +426,10 @@ func isOpenState(state StateStatus) bool {
 		return false
 	}
 	return true
+}
+
+func isStartedState(state StateStatus) bool {
+	return strings.EqualFold(strings.TrimSpace(state.Type), "started")
 }
 
 func configuredIssueScope() issueScope {
@@ -407,32 +460,37 @@ func isProjectIssue(issue Issue) bool {
 	return strings.HasPrefix(strings.TrimSpace(issue.Title), projectIssueTitlePrefix)
 }
 
+func missingBacklogSeeds(seeds []backlogSeed, existingTitles map[string]struct{}) []backlogSeed {
+	missing := make([]backlogSeed, 0, len(seeds))
+	for _, seed := range seeds {
+		if _, exists := existingTitles[normalizedIssueTitle(seed.Title)]; exists {
+			continue
+		}
+		missing = append(missing, seed)
+	}
+	return missing
+}
+
+func normalizedIssueTitle(title string) string {
+	return strings.ToLower(strings.TrimSpace(title))
+}
+
 func backlogSeeds() []backlogSeed {
 	return []backlogSeed{
 		{
-			Title:       "[myhome-jarvis] P0: Enforce no-Python language policy",
-			Description: "Acceptance: `go run ./cmd/mhj security check` rejects Python, Node.js, TypeScript, secret, and private-data risks.",
-			Priority:    1,
+			Title:       "[myhome-jarvis] Track approved Linear write evidence",
+			Description: "Acceptance: approved Linear mutations append private redacted evidence with issue key, action, and sync status only; default surfaces avoid raw descriptions, workspace URLs, identities, UUIDs, tokens, absolute paths, and local checkout paths.",
+			Priority:    3,
 		},
 		{
-			Title:       "[myhome-jarvis] P0: Add Go mhj CLI skeleton",
-			Description: "Acceptance: `version`, `security check`, `command`, `harness home`, `linear status`, `linear pull`, `linear next`, `linear comment`, `linear transition`, `loop once`, and `quality` commands exist.",
-			Priority:    1,
+			Title:       "[myhome-jarvis] Reconcile planner external-write gate",
+			Description: "Acceptance: planner status distinguishes the standing external-write boundary from user-approved Linear work evidence without marking sync success unless the Linear API mutation succeeds.",
+			Priority:    3,
 		},
 		{
-			Title:       "[myhome-jarvis] P0: Add Common Lisp executable SSOT",
-			Description: "Acceptance: SBCL validation and deterministic codegen both pass.",
-			Priority:    1,
-		},
-		{
-			Title:       "[myhome-jarvis] P0: Implement Rust command validation core",
-			Description: "Acceptance: Rust tests cover YouTube, OTT, volume, display, and unsafe URL cases.",
-			Priority:    1,
-		},
-		{
-			Title:       "[myhome-jarvis] P1: Add Linear GraphQL client in Go",
-			Description: "Acceptance: status, pull, next, comment, transition, and create-from-backlog use direct GraphQL HTTP calls with offline fallback.",
-			Priority:    2,
+			Title:       "[myhome-jarvis] Include project queue status in loop checkpoints",
+			Description: "Acceptance: closed-loop checkpoint evidence includes redacted project queue availability from Linear summaries while keeping raw team names, workspace URLs, descriptions, UUIDs, tokens, and absolute paths out of public surfaces.",
+			Priority:    3,
 		},
 	}
 }

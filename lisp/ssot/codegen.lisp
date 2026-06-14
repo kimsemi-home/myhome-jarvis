@@ -48,6 +48,13 @@
       (error "Linear next must prefer project issues"))
     (unless (getf *linear-policy* :next_requires_project_issue)
       (error "Linear next must not select unrelated active issues"))
+    (unless (getf *linear-policy* :backlog_seed_current_project_only)
+      (error "Linear backlog seeds must represent current project work"))
+    (unless (getf *linear-policy* :backlog_seed_dedupes_by_title)
+      (error "Linear backlog seeding must dedupe existing issue titles"))
+    (unless (getf *linear-policy* :backlog_seed_queries_existing_titles)
+      (error "Linear backlog seeding must query existing issue titles"))
+    (validate-ddd-registry)
     (unless (> (length (getf *planner-policy* :task_graph)) 0)
       (error "Planner policy must include a task graph"))
     (unless (find "linear_sync"
@@ -56,6 +63,50 @@
                           'list)
                   :test #'string=)
       (error "Planner task graph must include Linear sync boundary"))
+    (unless (getf *planner-policy* :knowledge_index_required_before_planning)
+      (error "Planner must require KnowledgeIndex lookup before planning"))
+    t))
+
+(defun validate-ddd-registry ()
+  (let ((contexts (make-hash-table :test #'equal))
+        (concepts (make-hash-table :test #'equal))
+        (aliases (make-hash-table :test #'equal)))
+    (dolist (context (coerce *bounded-contexts* 'list))
+      (let ((name (getf context :name)))
+        (when (or (null name) (string= name ""))
+          (error "Bounded context name is required"))
+        (when (gethash name contexts)
+          (error "Duplicate bounded context: ~A" name))
+        (setf (gethash name contexts) t)))
+    (dolist (pattern (coerce *ddd-patterns* 'list))
+      (unless (find pattern '("Entity" "ValueObject" "Aggregate" "DomainEvent"
+                              "Repository" "Policy" "Port" "Adapter"
+                              "AntiCorruptionLayer")
+                    :test #'string=)
+        (error "Unknown DDD pattern: ~A" pattern)))
+    (dolist (concept (coerce *concept-registry* 'list))
+      (let ((name (getf concept :canonical_name))
+            (context (getf concept :bounded_context))
+            (targets (getf concept :generated_targets)))
+        (when (or (null name) (string= name ""))
+          (error "Concept canonical_name is required"))
+        (when (gethash name concepts)
+          (error "Duplicate concept: ~A" name))
+        (setf (gethash name concepts) t)
+        (unless (gethash context contexts)
+          (error "Concept ~A references unknown bounded context ~A" name context))
+        (unless (> (length targets) 0)
+          (error "Concept ~A must declare generated targets" name))
+        (dolist (alias (coerce (getf concept :allowed_aliases) 'list))
+          (let ((key (string-downcase alias)))
+            (when (or (string= key "") (gethash key aliases))
+              (error "Duplicate or empty concept alias: ~A" alias))
+            (setf (gethash key aliases) name)))))
+    (dolist (concept (coerce *concept-registry* 'list))
+      (dolist (related (coerce (getf concept :related_concepts) 'list))
+        (unless (gethash related concepts)
+          (error "Concept ~A references unknown related concept ~A"
+                 (getf concept :canonical_name) related))))
     t))
 
 (defun write-generated-artifacts (root)
@@ -63,6 +114,13 @@
   (write-json-file (merge-pathnames "generated/commands.generated.json" root)
                    (list :project *project*
                          :commands (coerce *commands* 'vector)))
+  (write-json-file (merge-pathnames "generated/concepts.generated.json" root)
+                   (list :bounded_contexts *bounded-contexts*
+                         :ddd_patterns *ddd-patterns*
+                         :concepts *concept-registry*
+                         :generated_artifact_contracts *generated-artifact-contracts*
+                         :planning_rules *planning-rules*
+                         :knowledge_index_schema *knowledge-index-schema*))
   (write-json-file (merge-pathnames "generated/finance.generated.json" root)
                    (list :entities *finance-entities*
                          :transaction_ir *transaction-ir*))

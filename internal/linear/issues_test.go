@@ -184,6 +184,47 @@ func TestNextIssuePrefersProjectIssue(t *testing.T) {
 	}
 }
 
+func TestNextIssuePrefersStartedProjectIssue(t *testing.T) {
+	t.Setenv("LINEAR_API_KEY", "linear-example-key")
+	t.Setenv("LINEAR_TEAM_ID", "")
+	t.Setenv("LINEAR_TEAM_KEY", "KIM")
+	client := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Header:     http.Header{},
+			Body: io.NopCloser(strings.NewReader(`{
+				"data": {
+					"issues": {
+						"nodes": [{
+							"id": "backlog-id",
+							"identifier": "KIM-13",
+							"title": "[myhome-jarvis] Include project queue status in loop checkpoints",
+							"updatedAt": "2026-06-14T18:19:53.236Z",
+							"team": {"id": "team-kim", "key": "KIM"},
+							"state": {"id": "backlog-state", "name": "Backlog", "type": "backlog"}
+						}, {
+							"id": "started-id",
+							"identifier": "KIM-14",
+							"title": "[myhome-jarvis] Add DDD SSOT and local KnowledgeIndex thin slice",
+							"updatedAt": "2026-06-14T18:17:07.010Z",
+							"team": {"id": "team-kim", "key": "KIM"},
+							"state": {"id": "started-state", "name": "In Progress", "type": "started"}
+						}]
+					}
+				}
+			}`)),
+		}, nil
+	})}
+
+	result := NextIssue(context.Background(), t.TempDir(), client)
+	if !result.Synced || result.Issue == nil {
+		t.Fatalf("unexpected next result: %#v", result)
+	}
+	if result.Issue.Identifier != "KIM-14" {
+		t.Fatalf("next issue = %s, expected KIM-14", result.Issue.Identifier)
+	}
+}
+
 func TestNextIssueDoesNotSelectUnrelatedActiveIssue(t *testing.T) {
 	t.Setenv("LINEAR_API_KEY", "linear-example-key")
 	t.Setenv("LINEAR_TEAM_ID", "")
@@ -235,9 +276,12 @@ func TestProjectIssueTitlePrefixMatchesGeneratedPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	var policy struct {
-		ProjectIssueTitlePrefix  string `json:"project_issue_title_prefix"`
-		NextPrefersProjectIssue  bool   `json:"next_prefers_project_issues"`
-		NextRequiresProjectIssue bool   `json:"next_requires_project_issue"`
+		ProjectIssueTitlePrefix    string `json:"project_issue_title_prefix"`
+		NextPrefersProjectIssue    bool   `json:"next_prefers_project_issues"`
+		NextRequiresProjectIssue   bool   `json:"next_requires_project_issue"`
+		BacklogSeedDedupesByTitle  bool   `json:"backlog_seed_dedupes_by_title"`
+		BacklogSeedCurrentProject  bool   `json:"backlog_seed_current_project_only"`
+		BacklogSeedQueriesExisting bool   `json:"backlog_seed_queries_existing_titles"`
 	}
 	if err := json.Unmarshal(data, &policy); err != nil {
 		t.Fatal(err)
@@ -250,6 +294,139 @@ func TestProjectIssueTitlePrefixMatchesGeneratedPolicy(t *testing.T) {
 	}
 	if !policy.NextRequiresProjectIssue {
 		t.Fatal("generated policy must keep next_requires_project_issue enabled")
+	}
+	if !policy.BacklogSeedDedupesByTitle {
+		t.Fatal("generated policy must keep backlog_seed_dedupes_by_title enabled")
+	}
+	if !policy.BacklogSeedCurrentProject {
+		t.Fatal("generated policy must keep backlog_seed_current_project_only enabled")
+	}
+	if !policy.BacklogSeedQueriesExisting {
+		t.Fatal("generated policy must keep backlog_seed_queries_existing_titles enabled")
+	}
+}
+
+func TestCreateFromBacklogSkipsExistingSeedTitles(t *testing.T) {
+	t.Setenv("LINEAR_API_KEY", "linear-example-key")
+	t.Setenv("LINEAR_TEAM_ID", "team-id")
+	seeds := backlogSeeds()
+	missingTitle := seeds[1].Title
+	requests := 0
+	createdTitles := []string{}
+	client := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
+		requests++
+		var body struct {
+			Query     string         `json:"query"`
+			Variables map[string]any `json:"variables"`
+		}
+		if err := json.NewDecoder(request.Body).Decode(&body); err != nil {
+			t.Fatal(err)
+		}
+		switch {
+		case strings.Contains(body.Query, "query ExistingIssueTitles"):
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Header:     http.Header{"X-RateLimit-Remaining": []string{"4000"}},
+				Body: io.NopCloser(strings.NewReader(`{
+					"data": {
+						"issues": {
+							"nodes": [{
+								"title": "[myhome-jarvis] Track approved Linear write evidence"
+							}, {
+								"title": "[myhome-jarvis] Include project queue status in loop checkpoints"
+							}]
+						}
+					}
+				}`)),
+			}, nil
+		case strings.Contains(body.Query, "mutation IssueCreate"):
+			title, ok := body.Variables["title"].(string)
+			if !ok {
+				t.Fatalf("title variable missing: %#v", body.Variables)
+			}
+			createdTitles = append(createdTitles, title)
+			if title != missingTitle {
+				t.Fatalf("created title = %q, expected %q", title, missingTitle)
+			}
+			if body.Variables["teamId"] != "team-id" || int(body.Variables["priority"].(float64)) != 3 {
+				t.Fatalf("unexpected variables: %#v", body.Variables)
+			}
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Header:     http.Header{"X-RateLimit-Remaining": []string{"3999"}},
+				Body: io.NopCloser(strings.NewReader(`{
+					"data": {
+						"issueCreate": {
+							"success": true,
+							"issue": {
+								"id": "issue-id",
+								"identifier": "KIM-11",
+								"title": "[myhome-jarvis] Reconcile planner external-write gate",
+								"state": {"id": "state-id", "name": "Todo", "type": "unstarted"}
+							}
+						}
+					}
+				}`)),
+			}, nil
+		default:
+			t.Fatalf("unexpected GraphQL request: %s", body.Query)
+			return nil, nil
+		}
+	})}
+
+	result := CreateFromBacklog(context.Background(), t.TempDir(), client)
+	if !result.Synced || len(result.Issues) != 1 {
+		t.Fatalf("unexpected result: %#v", result)
+	}
+	if requests != 2 || len(createdTitles) != 1 {
+		t.Fatalf("requests=%d created=%#v", requests, createdTitles)
+	}
+	if !strings.Contains(result.Message, "Created 1") || !strings.Contains(result.Message, "skipped 2") {
+		t.Fatalf("message did not include created/skipped counts: %q", result.Message)
+	}
+}
+
+func TestCreateFromBacklogSkipsAllExistingSeedTitles(t *testing.T) {
+	t.Setenv("LINEAR_API_KEY", "linear-example-key")
+	t.Setenv("LINEAR_TEAM_ID", "team-id")
+	client := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
+		var body struct {
+			Query string `json:"query"`
+		}
+		if err := json.NewDecoder(request.Body).Decode(&body); err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(body.Query, "query ExistingIssueTitles") {
+			t.Fatalf("unexpected GraphQL request: %s", body.Query)
+		}
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Header:     http.Header{"X-RateLimit-Remaining": []string{"4000"}},
+			Body: io.NopCloser(strings.NewReader(`{
+				"data": {
+					"issues": {
+						"nodes": [{
+							"title": "[myhome-jarvis] Track approved Linear write evidence"
+						}, {
+							"title": "[myhome-jarvis] Reconcile planner external-write gate"
+						}, {
+							"title": "[myhome-jarvis] Include project queue status in loop checkpoints"
+						}]
+					}
+				}
+			}`)),
+		}, nil
+	})}
+
+	result := CreateFromBacklog(context.Background(), t.TempDir(), client)
+	if !result.Synced || len(result.Issues) != 0 {
+		t.Fatalf("unexpected result: %#v", result)
+	}
+	if result.RateLimitRemaining != 4000 {
+		t.Fatalf("rate remaining = %d", result.RateLimitRemaining)
+	}
+	if result.Message != "Created 0 Linear backlog seed issues; skipped 3 existing seeds." {
+		t.Fatalf("message = %q", result.Message)
 	}
 }
 

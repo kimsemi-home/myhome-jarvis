@@ -4,11 +4,12 @@ Each autonomous cycle should:
 
 1. Determine Linear status or offline fallback.
 2. Inspect repository state.
-3. Pick one small task.
-4. Record a working-log start entry.
-5. Modify one file or a tightly connected set of files.
-6. Run the relevant quality gate.
-7. Record results and checkpoint evidence.
+3. Query the Local KnowledgeIndex for relevant concepts and must-read files.
+4. Pick one small task.
+5. Record a working-log start entry.
+6. Modify one file or a tightly connected set of files.
+7. Run the relevant quality gate.
+8. Record results and checkpoint evidence.
 
 The initial `loop once` command records a local checkpoint and never loops
 forever. Checkpoint filenames include sub-second precision so adjacent loop
@@ -23,7 +24,8 @@ Closed-loop checkpoints store redacted status summaries. Linear evidence keeps
 mode, token-configured state, sync state, repo-relative queue path, HTTP status,
 rate-limit remaining count, viewer-configured boolean, and team count only.
 Planner evidence stores SSOT-backed counts, quality/offline-fallback flags,
-repo-relative checkpoint root, and gated task metadata only.
+repo-relative checkpoint root, gated task metadata, and a redacted
+KnowledgeIndex evidence summary only.
 Public-safety evidence stores aggregate current-tree and Git-history booleans,
 finding counts, and checked timestamp only. Checkpoints do not store raw Linear
 viewer/team identities, raw security findings, matched content, local

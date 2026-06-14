@@ -9,6 +9,8 @@ identical output.
 Current SSOT boundaries are intentionally separated by domain:
 
 - `project`: repository policy such as allowed languages and Go version.
+- `ddd`: bounded contexts, canonical concepts, aliases, generated artifact
+  contracts, planning rules, and KnowledgeIndex schema.
 - `commands`: dry-run home command catalog.
 - `finance`, `commerce`, `storage`: local fixture and lakehouse domain policy.
 - `household`, `recommendations`, `scheduler`: local household views, optimization hints, and bounded loop policy.
@@ -18,6 +20,10 @@ The planner SSOT emits `generated/planner.generated.json`. Go reads that
 artifact for `mhj planner status` and daemon `GET /planner/status`; Flutter
 only consumes the daemon status. This keeps task graph shape, Linear templates,
 quality requirements, and external-write boundaries in one Lisp-owned source.
+
+The DDD SSOT emits `generated/concepts.generated.json`. Go verifies that
+bounded contexts, concept aliases, generated targets, and local KnowledgeIndex
+policy stay coherent with `mhj ddd verify`.
 
 The command SSOT emits `generated/commands.generated.json`. Go keeps the
 runtime command registry and macOS execution planning in `internal/commands`,

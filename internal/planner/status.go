@@ -8,19 +8,23 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/kimsemi-home/myhome-jarvis/internal/knowledge"
 )
 
 const generatedRelativePath = "generated/planner.generated.json"
 
 type Policy struct {
-	LoopMode              string           `json:"loop_mode"`
-	MaxTaskScope          string           `json:"max_task_scope"`
-	CheckpointRoot        string           `json:"checkpoint_root"`
-	QualityRequired       bool             `json:"quality_required"`
-	LinearOfflineFallback bool             `json:"linear_offline_fallback"`
-	DefaultNext           string           `json:"default_next"`
-	TaskGraph             []Task           `json:"task_graph"`
-	LinearTemplates       []LinearTemplate `json:"linear_templates"`
+	LoopMode                             string           `json:"loop_mode"`
+	MaxTaskScope                         string           `json:"max_task_scope"`
+	CheckpointRoot                       string           `json:"checkpoint_root"`
+	QualityRequired                      bool             `json:"quality_required"`
+	LinearOfflineFallback                bool             `json:"linear_offline_fallback"`
+	KnowledgeIndexRequiredBeforePlanning bool             `json:"knowledge_index_required_before_planning"`
+	KnowledgeIndexDefaultQuery           string           `json:"knowledge_index_default_query"`
+	DefaultNext                          string           `json:"default_next"`
+	TaskGraph                            []Task           `json:"task_graph"`
+	LinearTemplates                      []LinearTemplate `json:"linear_templates"`
 }
 
 type Task struct {
@@ -38,18 +42,20 @@ type LinearTemplate struct {
 }
 
 type Status struct {
-	LoopMode                  string `json:"loop_mode"`
-	TaskCount                 int    `json:"task_count"`
-	ReadyCount                int    `json:"ready_count"`
-	CompletedCount            int    `json:"completed_count"`
-	BlockedExternalWriteCount int    `json:"blocked_external_write_count"`
-	NextTask                  *Task  `json:"next_task,omitempty"`
-	BlockedExternalWriteTasks []Task `json:"blocked_external_write_tasks,omitempty"`
-	LinearTemplateCount       int    `json:"linear_template_count"`
-	QualityRequired           bool   `json:"quality_required"`
-	LinearOfflineFallback     bool   `json:"linear_offline_fallback"`
-	CheckpointRoot            string `json:"checkpoint_root"`
-	CheckedAt                 string `json:"checked_at"`
+	LoopMode                  string              `json:"loop_mode"`
+	TaskCount                 int                 `json:"task_count"`
+	ReadyCount                int                 `json:"ready_count"`
+	CompletedCount            int                 `json:"completed_count"`
+	BlockedExternalWriteCount int                 `json:"blocked_external_write_count"`
+	NextTask                  *Task               `json:"next_task,omitempty"`
+	BlockedExternalWriteTasks []Task              `json:"blocked_external_write_tasks,omitempty"`
+	LinearTemplateCount       int                 `json:"linear_template_count"`
+	QualityRequired           bool                `json:"quality_required"`
+	LinearOfflineFallback     bool                `json:"linear_offline_fallback"`
+	KnowledgeIndexRequired    bool                `json:"knowledge_index_required"`
+	KnowledgeEvidence         *knowledge.Evidence `json:"knowledge_evidence,omitempty"`
+	CheckpointRoot            string              `json:"checkpoint_root"`
+	CheckedAt                 string              `json:"checked_at"`
 }
 
 func StatusForRoot(root string) (Status, error) {
@@ -61,13 +67,26 @@ func StatusForRoot(root string) (Status, error) {
 		return Status{}, err
 	}
 	status := Status{
-		LoopMode:              policy.LoopMode,
-		TaskCount:             len(policy.TaskGraph),
-		LinearTemplateCount:   len(policy.LinearTemplates),
-		QualityRequired:       policy.QualityRequired,
-		LinearOfflineFallback: policy.LinearOfflineFallback,
-		CheckpointRoot:        policy.CheckpointRoot,
-		CheckedAt:             time.Now().UTC().Format(time.RFC3339),
+		LoopMode:               policy.LoopMode,
+		TaskCount:              len(policy.TaskGraph),
+		LinearTemplateCount:    len(policy.LinearTemplates),
+		QualityRequired:        policy.QualityRequired,
+		LinearOfflineFallback:  policy.LinearOfflineFallback,
+		KnowledgeIndexRequired: policy.KnowledgeIndexRequiredBeforePlanning,
+		CheckpointRoot:         policy.CheckpointRoot,
+		CheckedAt:              time.Now().UTC().Format(time.RFC3339),
+	}
+	if policy.KnowledgeIndexRequiredBeforePlanning {
+		query := strings.TrimSpace(policy.KnowledgeIndexDefaultQuery)
+		if query == "" {
+			query = "planner"
+		}
+		evidence, err := knowledge.Search(root, query)
+		if err != nil {
+			return Status{}, err
+		}
+		summary := knowledge.SummarizeSearch(evidence)
+		status.KnowledgeEvidence = &summary
 	}
 	taskStatuses := make(map[string]string, len(policy.TaskGraph))
 	for _, task := range policy.TaskGraph {
@@ -139,6 +158,9 @@ func validatePolicy(policy Policy) error {
 	}
 	if !hasExternalWriteBoundary {
 		return errors.New("planner task graph must include an external-write boundary")
+	}
+	if policy.KnowledgeIndexRequiredBeforePlanning && strings.TrimSpace(policy.KnowledgeIndexDefaultQuery) == "" {
+		return errors.New("planner knowledge index default query is required")
 	}
 	for _, task := range policy.TaskGraph {
 		for _, dependency := range task.DependsOn {

@@ -7,6 +7,7 @@
 (defun mhj-load-ssot ()
   (dolist (file '("../ssot/package.lisp"
                   "../ssot/project.lisp"
+                  "../ssot/ddd.lisp"
                   "../ssot/commands.lisp"
                   "../ssot/finance.lisp"
                   "../ssot/commerce.lisp"

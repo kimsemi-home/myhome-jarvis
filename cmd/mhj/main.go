@@ -20,6 +20,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
+	"github.com/kimsemi-home/myhome-jarvis/internal/knowledge"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/orchestrator"
 	"github.com/kimsemi-home/myhome-jarvis/internal/planner"
@@ -161,6 +162,12 @@ func run(args []string) error {
 		}
 	case "daemon":
 		return runDaemon(root, args[1:])
+	case "ddd":
+		if len(args) == 2 && args[1] == "verify" {
+			return runDDDVerify(root)
+		}
+	case "knowledge":
+		return runKnowledge(root, args[1:])
 	case "repo":
 		if len(args) == 2 && args[1] == "status" {
 			return repoStatus(root)
@@ -198,7 +205,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -449,6 +456,7 @@ func runQuality(root string) error {
 	report.addCommand(root, "cargo clippy", []string{"cargo", "clippy", "--workspace", "--", "-D", "warnings"})
 	report.addCommand(root, "ssot validate", []string{"sbcl", "--script", "lisp/scripts/validate-ssot.lisp"})
 	report.addCommand(root, "codegen verify", []string{goTool, "run", "./cmd/mhj", "codegen", "verify"})
+	report.addCommand(root, "ddd verify", []string{goTool, "run", "./cmd/mhj", "ddd", "verify"})
 	if _, err := os.Stat(filepath.Join(root, "apps", "flutter", "pubspec.yaml")); err == nil {
 		flutterRoot := filepath.Join(root, "apps", "flutter")
 		report.addCommand(flutterRoot, "flutter test", []string{"flutter", "test"})
@@ -498,6 +506,34 @@ func runCIVerify(root string) error {
 		return err
 	}
 	return writeJSON(map[string]any{"ok": true})
+}
+
+func runDDDVerify(root string) error {
+	report, err := knowledge.Verify(root)
+	if err != nil {
+		return err
+	}
+	if err := writeJSON(report); err != nil {
+		return err
+	}
+	if !report.OK {
+		return errors.New("ddd verify failed")
+	}
+	return nil
+}
+
+func runKnowledge(root string, args []string) error {
+	if len(args) == 1 && args[0] == "verify" {
+		return runDDDVerify(root)
+	}
+	if len(args) >= 2 && args[0] == "search" {
+		report, err := knowledge.Search(root, strings.Join(args[1:], " "))
+		if err != nil {
+			return err
+		}
+		return writeJSON(report)
+	}
+	return errors.New("usage: mhj knowledge <verify|search query>")
 }
 
 func (report *qualityReport) addCheck(name string, err error) {

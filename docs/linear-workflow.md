@@ -42,7 +42,10 @@ When active team results include both project issues and unrelated active items
 such as Linear onboarding tasks, `mhj linear next` prefers the project-prefixed
 issue first. When no active project-prefixed issue exists, `mhj linear next`
 returns no selected issue instead of selecting unrelated active items. Locally
-seeded backlog titles use the same prefix.
+seeded backlog titles use the same prefix, represent current follow-up project
+work, and are deduped by existing Linear issue title before any new issue is
+created. If all seed titles already exist, `mhj linear create-from-backlog`
+returns a synced zero-created summary instead of recreating duplicates.
 
 Mutation commands use GraphQL variables rather than string interpolation.
 When credentials are unavailable or a GraphQL call fails, the command writes a

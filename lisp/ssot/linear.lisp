@@ -17,6 +17,9 @@
         :project_issue_title_prefix "[myhome-jarvis]"
         :next_prefers_project_issues t
         :next_requires_project_issue t
+        :backlog_seed_current_project_only t
+        :backlog_seed_dedupes_by_title t
+        :backlog_seed_queries_existing_titles t
         :commands #("mhj linear status"
                     "mhj linear sync"
                     "mhj linear pull"

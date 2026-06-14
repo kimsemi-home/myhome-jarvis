@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/kimsemi-home/myhome-jarvis/internal/knowledge"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/planner"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
@@ -37,11 +38,20 @@ func TestWriteCheckpointStoresAggregateSecurityStatus(t *testing.T) {
 				Status:    "blocked_external_write",
 				DependsOn: []string{"quality_gate"},
 			}},
-			LinearTemplateCount:   2,
-			QualityRequired:       true,
-			LinearOfflineFallback: true,
-			CheckpointRoot:        "data/private/checkpoints",
-			CheckedAt:             "2026-06-15T00:00:00Z",
+			LinearTemplateCount:    2,
+			QualityRequired:        true,
+			LinearOfflineFallback:  true,
+			KnowledgeIndexRequired: true,
+			KnowledgeEvidence: &knowledge.Evidence{
+				Query:        "planner KnowledgeIndex Linear closed loop",
+				ConceptCount: 3,
+				HitCount:     9,
+				LinearIssues: []string{"KIM-14"},
+				MustRead:     []string{"generated/concepts.generated.json", "docs/knowledge-index.md"},
+				CheckedAt:    "2026-06-15T00:00:00Z",
+			},
+			CheckpointRoot: "data/private/checkpoints",
+			CheckedAt:      "2026-06-15T00:00:00Z",
 		},
 		SecurityStatus: security.Status{
 			OK:                  true,
@@ -67,6 +77,9 @@ func TestWriteCheckpointStoresAggregateSecurityStatus(t *testing.T) {
 	}
 	if !strings.Contains(text, `"planner_status"`) || !strings.Contains(text, `"blocked_external_write_count": 1`) {
 		t.Fatalf("expected planner status in %s", text)
+	}
+	if !strings.Contains(text, `"knowledge_evidence"`) || !strings.Contains(text, `"KIM-14"`) {
+		t.Fatalf("expected knowledge evidence in %s", text)
 	}
 	for _, forbidden := range []string{`"security_report"`, `"findings"`, `"root"`, `"viewer"`, `"teams"`} {
 		if strings.Contains(text, forbidden) {

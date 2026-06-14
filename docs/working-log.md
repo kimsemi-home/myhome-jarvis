@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 03:31 KST
+
+- Linear issues: KIM-10 and KIM-14 created in Linear and kept in progress during implementation; KIM-11, KIM-12, and KIM-13 seeded as project-prefixed backlog issues by the idempotent backlog seeder.
+- Mode: online-capable, local-first implementation after approved Linear issue creation.
+- Task: Add DDD executable SSOT, concept registry, generated concept artifact, local KnowledgeIndex, planner KnowledgeIndex evidence, and idempotent Linear backlog seeding.
+- Files touched: `lisp/ssot/ddd.lisp`, `lisp/ssot/package.lisp`, `lisp/scripts/load-ssot.lisp`, `lisp/ssot/codegen.lisp`, `lisp/ssot/planner.lisp`, `lisp/ssot/linear.lisp`, `generated/concepts.generated.json`, `generated/planner.generated.json`, `generated/linear.generated.json`, `internal/knowledge/index.go`, `internal/knowledge/index_test.go`, `internal/planner/status.go`, `internal/planner/status_test.go`, `internal/orchestrator/checkpoint_test.go`, `internal/linear/issues.go`, `internal/linear/issues_test.go`, `cmd/mhj/main.go`, `docs/ddd.md`, `docs/knowledge-index.md`, `docs/ssot.md`, `docs/planner.md`, `docs/closed-loop.md`, `docs/linear-workflow.md`, `docs/backlog.md`, `docs/working-log.md`.
+- Changes: added SSOT-owned bounded contexts, DDD patterns, concept registry, generated artifact contracts, planning rules, and KnowledgeIndex schema; generated `concepts.generated.json`; added `mhj ddd verify`, `mhj knowledge verify`, and `mhj knowledge search`; added local lexical search evidence without snippets; made planner status run the SSOT-configured KnowledgeIndex query before planning and carry the redacted evidence into loop checkpoints; made backlog seeding skip existing Linear issue titles and use current project follow-up seeds; made `linear next` prefer started project issues over newer backlog project issues.
+- Validation after: `go1.26.2 test ./internal/knowledge ./internal/planner ./internal/orchestrator ./internal/linear` passed; `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj ddd verify` passed; `go1.26.2 run ./cmd/mhj knowledge search KnowledgeIndex` returned KIM-14 evidence without private markers; `go1.26.2 run ./cmd/mhj loop once` wrote a private checkpoint containing `knowledge_evidence`; full `mhj quality` with Go 1.26.2 passed including `ddd verify`; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan, forbidden language/dependency scan, and `git diff --check` passed.
+- External-write note: Linear issue creation and backlog seeding were performed with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun the same SHA to confirm cache hits, then update Linear issues KIM-10 and KIM-14.
+
 ## 2026-06-15 03:08 KST
 
 - Linear issue: KIM-9 created in Linear and kept in progress.

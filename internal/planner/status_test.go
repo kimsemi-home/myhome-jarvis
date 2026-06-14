@@ -45,6 +45,18 @@ func TestStatusForRootReturnsGeneratedPlannerGraph(t *testing.T) {
 	if !status.LinearOfflineFallback {
 		t.Fatal("linear offline fallback should be enabled")
 	}
+	if !status.KnowledgeIndexRequired {
+		t.Fatal("knowledge index should be required before planning")
+	}
+	if status.KnowledgeEvidence == nil {
+		t.Fatal("expected knowledge evidence")
+	}
+	if status.KnowledgeEvidence.Query != "planner KnowledgeIndex Linear closed loop" {
+		t.Fatalf("knowledge query = %q", status.KnowledgeEvidence.Query)
+	}
+	if status.KnowledgeEvidence.HitCount == 0 || len(status.KnowledgeEvidence.MustRead) == 0 {
+		t.Fatalf("knowledge evidence = %#v", status.KnowledgeEvidence)
+	}
 }
 
 func TestReadPolicyRejectsUnknownTaskStatus(t *testing.T) {

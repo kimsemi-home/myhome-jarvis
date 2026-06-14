@@ -6,6 +6,8 @@
         :checkpoint_root "data/private/checkpoints"
         :quality_required t
         :linear_offline_fallback t
+        :knowledge_index_required_before_planning t
+        :knowledge_index_default_query "planner KnowledgeIndex Linear closed loop"
         :default_next "choose the highest-priority ready task"
         :task_graph
         (vector

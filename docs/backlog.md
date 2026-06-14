@@ -406,3 +406,17 @@
   - Linear: KIM-9
   - Acceptance: `mhj loop once` and `mhj loop worker --cycles 1` checkpoint JSON includes redacted planner status with counts, repo-relative checkpoint root, quality/offline-fallback flags, and gated task metadata; adjacent checkpoint writes use collision-resistant filenames; checkpoints still omit raw Linear identities, security findings, local roots, absolute paths, tokens, and command output.
   - Validation: `go test ./internal/orchestrator ./internal/scheduler`; `go run ./cmd/mhj loop once`; `go run ./cmd/mhj loop worker --cycles 1`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P58
+
+- [x] Make Linear backlog seeding project-aware and idempotent.
+  - Linear: KIM-10
+  - Acceptance: backlog seeds represent current project follow-up work; `mhj linear create-from-backlog` queries existing Linear issue titles, creates only missing `[myhome-jarvis]` seeds, and returns a synced zero-created summary when every seed already exists; default summaries still omit raw Linear URLs, workspace identities, UUIDs, tokens, absolute paths, local checkout paths, and raw descriptions.
+  - Validation: `go test ./internal/linear`; `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj linear create-from-backlog`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P59
+
+- [x] Add DDD SSOT and local KnowledgeIndex thin slice.
+  - Linear: KIM-14
+  - Acceptance: Common Lisp SSOT defines bounded contexts, concept registry, aliases, generated artifact contracts, planning rules, and KnowledgeIndex schema; codegen emits `generated/concepts.generated.json`; `mhj ddd verify` and `mhj knowledge search` work locally; planner status and checkpoints include redacted KnowledgeIndex evidence; docs/logs stay public-safe.
+  - Validation: `go test ./internal/knowledge ./internal/planner ./internal/orchestrator ./internal/linear`; `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; `go run ./cmd/mhj knowledge search KnowledgeIndex`; `go run ./cmd/mhj loop once`; security/history checks; full quality gate; GitHub Actions run and same-SHA cache-hit rerun.
