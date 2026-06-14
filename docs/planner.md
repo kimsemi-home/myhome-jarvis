@@ -29,6 +29,9 @@ Planner status validates that checkpoint paths stay repo-relative under
 task statuses are known.
 It also returns a redacted KnowledgeIndex evidence summary with query,
 concept/hit counts, related Linear issue keys, and must-read files.
+Loop checkpoints combine that planner evidence with the current redacted
+`linear next` observation, so Observe has both KnowledgeIndex and project queue
+evidence before changes.
 
 Validation:
 

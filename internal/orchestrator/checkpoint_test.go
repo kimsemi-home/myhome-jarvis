@@ -25,6 +25,19 @@ func TestWriteCheckpointStoresAggregateSecurityStatus(t *testing.T) {
 			TeamCount:        1,
 			Message:          "ok",
 		},
+		LinearNext: &linear.OperationSummary{
+			Mode:       "online",
+			Synced:     true,
+			QueuePath:  "data/private/linear-offline-queue.jsonl",
+			HTTPStatus: 200,
+			Message:    "Selected next project Linear issue.",
+			IssueCount: 1,
+			Issue: &linear.IssueSummary{
+				Identifier: "KIM-13",
+				Title:      "[myhome-jarvis] Include project queue status in loop checkpoints",
+				StateType:  "started",
+			},
+		},
 		PlannerStatus: planner.Status{
 			LoopMode:                  "closed-loop",
 			TaskCount:                 6,
@@ -77,6 +90,9 @@ func TestWriteCheckpointStoresAggregateSecurityStatus(t *testing.T) {
 	}
 	if !strings.Contains(text, `"planner_status"`) || !strings.Contains(text, `"blocked_external_write_count": 1`) {
 		t.Fatalf("expected planner status in %s", text)
+	}
+	if !strings.Contains(text, `"linear_next"`) || !strings.Contains(text, `"identifier": "KIM-13"`) {
+		t.Fatalf("expected linear next evidence in %s", text)
 	}
 	if !strings.Contains(text, `"knowledge_evidence"`) || !strings.Contains(text, `"KIM-14"`) {
 		t.Fatalf("expected knowledge evidence in %s", text)

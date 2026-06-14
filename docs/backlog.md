@@ -427,3 +427,10 @@
   - Linear: KIM-15
   - Acceptance: concepts declare valid SSOT-owned `ddd_kind` values and every approved DDD kind is represented; generated concepts include domain events and harness case contracts; `mhj ddd verify` checks DDD kinds, domain events, harness contracts, duplicate concepts, alias drift, generated targets, and KnowledgeIndex policy; `mhj knowledge search DomainEvent` returns event evidence without raw private content.
   - Validation: `go test ./internal/knowledge ./internal/planner ./internal/orchestrator`; `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; `go run ./cmd/mhj knowledge search DomainEvent`; `go run ./cmd/mhj loop once`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P61
+
+- [x] Include project queue status in loop checkpoints.
+  - Linear: KIM-13
+  - Acceptance: `mhj loop once` and `mhj loop worker --cycles 1` checkpoint evidence includes redacted `linear_next` project queue observation with selected project issue, issue identifiers, titles, update timestamps, and state types only; raw descriptions, workspace URLs, team identities, UUIDs, tokens, absolute paths, and local roots remain out of checkpoint and CLI output.
+  - Validation: `go test ./internal/orchestrator ./cmd/mhj`; `go run ./cmd/mhj loop once`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

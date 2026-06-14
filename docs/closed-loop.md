@@ -20,9 +20,11 @@ private scheduler state with heartbeat, next-run, backoff, and checkpoint
 metadata. `mhj loop status` and daemon `GET /loop/status` recover that state
 without claiming external sync success.
 
-Closed-loop checkpoints store redacted status summaries. Linear evidence keeps
-mode, token-configured state, sync state, repo-relative queue path, HTTP status,
-rate-limit remaining count, viewer-configured boolean, and team count only.
+Closed-loop checkpoints store redacted status summaries. Linear status evidence
+keeps mode, token-configured state, sync state, repo-relative queue path, HTTP
+status, rate-limit remaining count, viewer-configured boolean, and team count
+only. Linear next evidence stores the redacted next project issue summary,
+issue identifiers, titles, update timestamps, and state types only.
 Planner evidence stores SSOT-backed counts, quality/offline-fallback flags,
 repo-relative checkpoint root, gated task metadata, and a redacted
 KnowledgeIndex evidence summary only.

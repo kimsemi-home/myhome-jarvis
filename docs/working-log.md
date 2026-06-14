@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 03:53 KST
+
+- Linear issue: KIM-13 transitioned to In Progress.
+- Mode: online-capable, local-first implementation after approved Linear status transition.
+- Task: Include redacted Linear next/project queue observation in loop checkpoints.
+- Files touched: `cmd/mhj/main.go`, `internal/orchestrator/checkpoint.go`, `internal/orchestrator/checkpoint_test.go`, `docs/backlog.md`, `docs/closed-loop.md`, `docs/planner.md`, `docs/working-log.md`.
+- Changes: `mhj loop once` and bounded loop worker now run the read-only Linear next observation before checkpointing; checkpoints and loop output include `linear_next` operation summary with selected project issue and redacted queue fields; offline next lookup failures queue `linear_next` offline evidence instead of claiming sync success.
+- Validation after: `go1.26.2 test ./internal/orchestrator ./cmd/mhj` passed; `go1.26.2 run ./cmd/mhj loop once` wrote a private checkpoint containing `linear_next` with KIM-13 selected and no raw Linear descriptions, workspace URLs, team identities, UUIDs, tokens, absolute paths, or local roots; `go1.26.2 run ./cmd/mhj loop worker --cycles 1` passed and wrote a private checkpoint; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan, forbidden language/dependency scan, and `git diff --check` passed.
+- External-write note: transitioned Linear issue KIM-13 to In Progress with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA to confirm cache behavior, then update Linear issue KIM-13.
+
 ## 2026-06-15 03:47 KST
 
 - Linear issue: KIM-15 created in Linear and kept in progress.

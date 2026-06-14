@@ -278,6 +278,8 @@ func runHarness(root string, args []string) error {
 func loopOnce(root string) error {
 	linearStatus := linear.CurrentStatus(root)
 	linearSummary := linear.SummarizeStatus(linearStatus)
+	linearNext := linear.NextIssue(context.Background(), root, http.DefaultClient)
+	linearNextSummary := linear.SummarizeOperation(linearNext)
 	securityStatus, err := security.StatusForRoot(root)
 	if err != nil {
 		return err
@@ -291,6 +293,11 @@ func loopOnce(root string) error {
 			return err
 		}
 	}
+	if !linearNext.Synced {
+		if err := linear.AppendOfflineEvent(root, "linear_next", linearNext.Message); err != nil {
+			return err
+		}
+	}
 	result := "checkpoint recorded"
 	if !securityStatus.OK {
 		result = "checkpoint recorded with public-safety findings"
@@ -298,6 +305,7 @@ func loopOnce(root string) error {
 	path, err := orchestrator.WriteCheckpoint(root, orchestrator.Checkpoint{
 		Task:           "loop once",
 		LinearStatus:   linearSummary,
+		LinearNext:     &linearNextSummary,
 		PlannerStatus:  plannerStatus,
 		SecurityStatus: securityStatus,
 		Result:         result,
@@ -314,6 +322,7 @@ func loopOnce(root string) error {
 		"ok":              securityStatus.OK,
 		"checkpoint":      filepath.ToSlash(checkpointPath),
 		"linear":          linearSummary,
+		"linear_next":     linearNextSummary,
 		"planner_status":  plannerStatus,
 		"security_status": securityStatus,
 	})
@@ -371,6 +380,8 @@ func loopWorker(root string, args []string) error {
 	status, err := scheduler.RunCycles(ctx, root, scheduler.ClosedLoopPolicy(), *cycles, func(context.Context) (scheduler.JobResult, error) {
 		linearStatus := linear.CurrentStatus(root)
 		linearSummary := linear.SummarizeStatus(linearStatus)
+		linearNext := linear.NextIssue(ctx, root, http.DefaultClient)
+		linearNextSummary := linear.SummarizeOperation(linearNext)
 		securityStatus, err := security.StatusForRoot(root)
 		if err != nil {
 			return scheduler.JobResult{}, err
@@ -379,6 +390,11 @@ func loopWorker(root string, args []string) error {
 		if err != nil {
 			return scheduler.JobResult{}, err
 		}
+		if !linearNext.Synced {
+			if err := linear.AppendOfflineEvent(root, "linear_next", linearNext.Message); err != nil {
+				return scheduler.JobResult{}, err
+			}
+		}
 		result := "scheduler heartbeat checkpoint recorded"
 		if !securityStatus.OK {
 			result = "scheduler heartbeat checkpoint recorded with public-safety findings"
@@ -386,6 +402,7 @@ func loopWorker(root string, args []string) error {
 		path, err := orchestrator.WriteCheckpoint(root, orchestrator.Checkpoint{
 			Task:           "loop worker",
 			LinearStatus:   linearSummary,
+			LinearNext:     &linearNextSummary,
 			PlannerStatus:  plannerStatus,
 			SecurityStatus: securityStatus,
 			Result:         result,
