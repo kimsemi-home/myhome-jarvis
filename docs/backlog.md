@@ -233,3 +233,9 @@
 - [x] Make local codegen verification working-tree aware.
   - Acceptance: `mhj codegen verify` snapshots the current `generated` tree, regenerates artifacts from Lisp, and fails only when regeneration changes generated files, so intentional SSOT/generated updates can be verified before commit while stale artifacts are still caught; `mhj quality` uses that verification step.
   - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj codegen verify`; full quality gate.
+
+## P30
+
+- [x] Surface external-write-gated planner task details.
+  - Acceptance: `mhj planner status` and daemon `GET /planner/status` include read-only `blocked_external_write_tasks` metadata when local rails are complete and an external-write-gated step remains; `next_task` stays omitted for completed local work and no Linear mutation is executed.
+  - Validation: `go test ./internal/planner ./internal/daemon`; `go run ./cmd/mhj planner status`; full quality gate.

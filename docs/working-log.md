@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 00:36 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Surface external-write-gated planner task details.
+- Files touched: `internal/planner/status.go`, `internal/planner/status_test.go`, `internal/daemon/server_test.go`, `docs/architecture.md`, `docs/backlog.md`, `docs/planner.md`, `docs/working-log.md`.
+- Changes: added read-only `blocked_external_write_tasks` metadata to planner status so the remaining gated task is visible after local rails are complete while `next_task` stays omitted.
+- Validation after: `go1.26.2 test ./internal/planner ./internal/daemon` passed; `go1.26.2 run ./cmd/mhj planner status` returned the external-write-gated `linear_sync` task while keeping `next_task` omitted; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run; `go1.26.2 run ./cmd/mhj codegen verify` passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 00:28 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

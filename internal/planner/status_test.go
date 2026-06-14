@@ -27,6 +27,9 @@ func TestStatusForRootReturnsGeneratedPlannerGraph(t *testing.T) {
 	if status.BlockedExternalWriteCount != 1 {
 		t.Fatalf("blocked external write count = %d", status.BlockedExternalWriteCount)
 	}
+	if len(status.BlockedExternalWriteTasks) != 1 || status.BlockedExternalWriteTasks[0].ID != "linear_sync" {
+		t.Fatalf("blocked external write tasks = %#v", status.BlockedExternalWriteTasks)
+	}
 	if status.NextTask != nil {
 		t.Fatalf("next task = %#v", status.NextTask)
 	}

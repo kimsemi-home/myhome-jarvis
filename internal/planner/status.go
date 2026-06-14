@@ -44,6 +44,7 @@ type Status struct {
 	CompletedCount            int    `json:"completed_count"`
 	BlockedExternalWriteCount int    `json:"blocked_external_write_count"`
 	NextTask                  *Task  `json:"next_task,omitempty"`
+	BlockedExternalWriteTasks []Task `json:"blocked_external_write_tasks,omitempty"`
 	LinearTemplateCount       int    `json:"linear_template_count"`
 	QualityRequired           bool   `json:"quality_required"`
 	LinearOfflineFallback     bool   `json:"linear_offline_fallback"`
@@ -79,6 +80,7 @@ func StatusForRoot(root string) (Status, error) {
 			status.CompletedCount++
 		case "blocked_external_write":
 			status.BlockedExternalWriteCount++
+			status.BlockedExternalWriteTasks = append(status.BlockedExternalWriteTasks, task)
 		}
 	}
 	for index := range policy.TaskGraph {

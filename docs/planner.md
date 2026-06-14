@@ -18,7 +18,9 @@ without mutating Linear.
 Completed local rails are marked as `completed` in SSOT once their checked
 surfaces are present. `mhj planner status` reports ready, completed, and
 external-write-gated counts; when no local ready task remains, `next_task` is
-omitted instead of repeating a finished task.
+omitted instead of repeating a finished task. External-write-gated tasks are
+listed by id/title/owner/status/dependencies so the next blocked step is visible
+without mutating Linear.
 
 Planner status validates that checkpoint paths stay repo-relative under
 `data/private`, that task ids are unique, that dependency ids exist, and that

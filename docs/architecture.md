@@ -77,7 +77,9 @@ Linear issue templates, quality requirement, and external-write boundary;
 `generated/planner.generated.json`, `mhj planner status`, and
 `GET /planner/status` expose only repository-relative planning metadata. The
 planner status reports ready, completed, and external-write-gated counts, and
-omits `next_task` when the local rails are complete.
+omits `next_task` when the local rails are complete. It still lists
+external-write-gated task metadata so the remaining blocked step is visible
+without contacting or mutating Linear.
 
 The first Rust domain surface lives in `mhj-core`. It validates finance
 transaction fixtures, commerce purchase fixtures, and recommendation scoring

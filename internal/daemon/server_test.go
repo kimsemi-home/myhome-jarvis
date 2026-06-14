@@ -598,6 +598,8 @@ func TestPlannerStatusReturnsGeneratedTaskGraph(t *testing.T) {
 		`"ready_count": 0`,
 		`"completed_count": 5`,
 		`"blocked_external_write_count": 1`,
+		`"blocked_external_write_tasks": [`,
+		`"id": "linear_sync"`,
 	} {
 		if !bytes.Contains([]byte(body), []byte(expected)) {
 			t.Fatalf("expected %s in %s", expected, body)
