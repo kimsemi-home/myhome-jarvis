@@ -32,6 +32,7 @@ go run ./cmd/mhj loop once
 go run ./cmd/mhj loop status
 go run ./cmd/mhj loop worker --cycles 1
 go run ./cmd/mhj benchmark smoke
+go run ./cmd/mhj codegen verify
 go run ./cmd/mhj daemon
 cargo test -p mhj-core recommendations
 ```
@@ -62,6 +63,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `crates/mhj-core/src/recommendations.rs`: fixture-only recommendation scoring skeleton.
 - `lisp/ssot`: executable source of truth.
 - `generated`: deterministic artifacts emitted from SSOT.
+- `.github/workflows`: hash-scoped GitHub Actions quality gates.
 - `crates`: Rust command and harness foundations.
 - `fixtures`: deterministic JSONL inputs.
 - `docs`: working log, architecture notes, ADRs, and backlog.

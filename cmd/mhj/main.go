@@ -140,13 +140,16 @@ func run(args []string) error {
 	case "quality":
 		return runQuality(root)
 	case "codegen":
+		if len(args) == 2 && args[1] == "verify" {
+			return runCodegenVerify(root)
+		}
 		return runCodegen(root)
 	}
 	return usage()
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|loop once|loop status|loop worker|benchmark smoke|quality|codegen>")
+	return errors.New("usage: mhj <version|commands|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
 }
 
 func runDaemon(root string, args []string) error {
@@ -411,6 +414,29 @@ func runCodegen(root string) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()
+}
+
+func runCodegenVerify(root string) error {
+	if err := runCodegen(root); err != nil {
+		return err
+	}
+	if _, err := exec.LookPath("git"); err != nil {
+		return errors.New("missing executable: git")
+	}
+	cmd := exec.Command("git", "diff", "--exit-code", "--", "generated")
+	cmd.Dir = root
+	var output bytes.Buffer
+	cmd.Stdout = &output
+	cmd.Stderr = &output
+	if err := cmd.Run(); err != nil {
+		trimmed := strings.TrimSpace(output.String())
+		if trimmed == "" {
+			trimmed = "generated artifacts differ from SSOT"
+		}
+		return fmt.Errorf("generated artifacts are out of date:\n%s", trimmed)
+	}
+	fmt.Fprintln(os.Stdout, "Generated artifacts verified")
+	return nil
 }
 
 func writeJSON(value any) error {

@@ -61,3 +61,7 @@
 - [x] Add bounded scheduler heartbeat and recovery state.
   - Acceptance: `mhj loop worker --cycles 1` records private heartbeat/checkpoint state; `mhj loop status` and daemon `GET /loop/status` expose backoff, rate-limit, heartbeat, and recovery metadata without an unbounded loop.
   - Validation: `go test ./internal/scheduler ./internal/daemon`; full `mhj quality`.
+
+- [x] Split GitHub Actions into hash-scoped unit caches.
+  - Acceptance: SSOT, Go, Rust, and Flutter jobs each use a unit hash cache; cache hits skip heavy setup/tests; generated artifacts are verified on SSOT cache misses.
+  - Validation: `mhj codegen verify`; full `mhj quality`; GitHub Actions run.

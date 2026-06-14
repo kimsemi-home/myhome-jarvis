@@ -8,35 +8,240 @@ on:
 permissions:
   contents: read
 
+env:
+  GO_VERSION: "1.26.2"
+  FLUTTER_VERSION: "3.44.2"
+  UNIT_CACHE_VERSION: "v1"
+
 jobs:
-  quality:
+  ssot:
+    name: SSOT and generated artifacts
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      - name: Restore SSOT unit cache
+        id: unit-cache
+        uses: actions/cache/restore@v4
         with:
-          go-version: "1.26.2"
-          cache: true
+          path: .github/unit-cache/ssot
+          key: ssot-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', 'lisp/ssot/**', 'lisp/scripts/**', 'generated/**') }}
 
-      - name: Set up Rust
-        run: rustup default stable
+      - name: Report SSOT cache hit
+        if: steps.unit-cache.outputs.cache-hit == 'true'
+        run: echo "SSOT and generated artifacts unchanged for this unit hash."
 
       - name: Install SBCL
+        if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y sbcl
 
+      - name: Validate SSOT
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: sbcl --script lisp/scripts/validate-ssot.lisp
+
+      - name: Verify generated artifacts
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          sbcl --script lisp/scripts/codegen.lisp
+          git diff --exit-code -- generated
+
+      - name: Prepare SSOT unit cache marker
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p .github/unit-cache/ssot
+          printf '%s\n' '${{ steps.unit-cache.outputs.cache-primary-key }}' > .github/unit-cache/ssot/key
+
+      - name: Save SSOT unit cache
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: .github/unit-cache/ssot
+          key: ${{ steps.unit-cache.outputs.cache-primary-key }}
+
+  go:
+    name: Go daemon and CLI
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Restore Go unit cache
+        id: unit-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .github/unit-cache/go
+          key: go-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', 'go.mod', 'go.sum', 'cmd/**/*.go', 'internal/**/*.go', 'generated/*.json') }}
+
+      - name: Report Go cache hit
+        if: steps.unit-cache.outputs.cache-hit == 'true'
+        run: echo "Go daemon and CLI unchanged for this unit hash."
+
+      - name: Set up Go
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: Run Go security and harness checks
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          go run ./cmd/mhj security check
+          go run ./cmd/mhj harness home
+
+      - name: Run Go tests and vet
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          go test ./...
+          go vet ./...
+
+      - name: Check Go formatting
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          unformatted="$(gofmt -l cmd internal)"
+          if [ -n "$unformatted" ]; then
+            echo "$unformatted"
+            exit 1
+          fi
+
+      - name: Prepare Go unit cache marker
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p .github/unit-cache/go
+          printf '%s\n' '${{ steps.unit-cache.outputs.cache-primary-key }}' > .github/unit-cache/go/key
+
+      - name: Save Go unit cache
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: .github/unit-cache/go
+          key: ${{ steps.unit-cache.outputs.cache-primary-key }}
+
+  rust:
+    name: Rust core and harness
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Restore Rust unit cache
+        id: unit-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .github/unit-cache/rust
+          key: rust-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', 'Cargo.toml', 'Cargo.lock', 'crates/**', 'fixtures/**') }}
+
+      - name: Report Rust cache hit
+        if: steps.unit-cache.outputs.cache-hit == 'true'
+        run: echo "Rust core and harness unchanged for this unit hash."
+
+      - name: Set up Rust
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          rustup default stable
+          rustup component add rustfmt clippy
+
+      - name: Run Rust tests and benchmark smoke
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          cargo test --workspace
+          cargo test -p mhj-core benchmark_smoke -- --nocapture
+
+      - name: Run Rust formatting and lint checks
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          cargo fmt --check
+          cargo clippy --workspace -- -D warnings
+
+      - name: Prepare Rust unit cache marker
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p .github/unit-cache/rust
+          printf '%s\n' '${{ steps.unit-cache.outputs.cache-primary-key }}' > .github/unit-cache/rust/key
+
+      - name: Save Rust unit cache
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: .github/unit-cache/rust
+          key: ${{ steps.unit-cache.outputs.cache-primary-key }}
+
+  flutter:
+    name: Flutter local client
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Restore Flutter unit cache
+        id: unit-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .github/unit-cache/flutter
+          key: flutter-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', 'apps/flutter/**') }}
+
+      - name: Report Flutter cache hit
+        if: steps.unit-cache.outputs.cache-hit == 'true'
+        run: echo "Flutter local client unchanged for this unit hash."
+
       - name: Set up Flutter
+        if: steps.unit-cache.outputs.cache-hit != 'true'
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.44.2"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
 
-      - name: Run quality gate
-        run: go run ./cmd/mhj quality
+      - name: Run Flutter tests and analysis
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        working-directory: apps/flutter
+        run: |
+          flutter test
+          flutter analyze
+
+      - name: Prepare Flutter unit cache marker
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p .github/unit-cache/flutter
+          printf '%s\n' '${{ steps.unit-cache.outputs.cache-primary-key }}' > .github/unit-cache/flutter/key
+
+      - name: Save Flutter unit cache
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: .github/unit-cache/flutter
+          key: ${{ steps.unit-cache.outputs.cache-primary-key }}
+
+  quality:
+    name: Quality summary
+    runs-on: ubuntu-latest
+    needs: [ssot, go, rust, flutter]
+    if: always()
+    timeout-minutes: 5
+
+    steps:
+      - name: Check unit results
+        run: |
+          echo "ssot=${{ needs.ssot.result }}"
+          echo "go=${{ needs.go.result }}"
+          echo "rust=${{ needs.rust.result }}"
+          echo "flutter=${{ needs.flutter.result }}"
+          test "${{ needs.ssot.result }}" = "success"
+          test "${{ needs.go.result }}" = "success"
+          test "${{ needs.rust.result }}" = "success"
+          test "${{ needs.flutter.result }}" = "success"
