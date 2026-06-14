@@ -16,6 +16,11 @@ Generated artifact verification lives in the `ssot` unit. On a cache miss, CI
 runs SSOT validation, regenerates artifacts, and fails if `generated` differs
 from the checked-in files.
 
+The Go unit runs the local security check plus `home`, `finance`, and
+`commerce` harness smoke commands before package tests and vet. That keeps the
+CLI surfaces covered while the unit cache still skips repeated work when the Go
+input hash is unchanged.
+
 Local equivalents:
 
 ```sh

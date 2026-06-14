@@ -98,6 +98,8 @@ jobs:
         run: |
           go run ./cmd/mhj security check
           go run ./cmd/mhj harness home
+          go run ./cmd/mhj harness finance
+          go run ./cmd/mhj harness commerce
 
       - name: Run Go tests and vet
         if: steps.unit-cache.outputs.cache-hit != 'true'
