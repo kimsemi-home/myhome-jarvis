@@ -11,7 +11,8 @@ Each autonomous cycle should:
 7. Record results and checkpoint evidence.
 
 The initial `loop once` command records a local checkpoint and never loops
-forever.
+forever. Checkpoint filenames include sub-second precision so adjacent loop
+cycles do not overwrite each other.
 
 The bounded worker surface is `mhj loop worker --cycles <n>`. Each cycle writes
 private scheduler state with heartbeat, next-run, backoff, and checkpoint
@@ -21,6 +22,8 @@ without claiming external sync success.
 Closed-loop checkpoints store redacted status summaries. Linear evidence keeps
 mode, token-configured state, sync state, repo-relative queue path, HTTP status,
 rate-limit remaining count, viewer-configured boolean, and team count only.
+Planner evidence stores SSOT-backed counts, quality/offline-fallback flags,
+repo-relative checkpoint root, and gated task metadata only.
 Public-safety evidence stores aggregate current-tree and Git-history booleans,
 finding counts, and checked timestamp only. Checkpoints do not store raw Linear
 viewer/team identities, raw security findings, matched content, local

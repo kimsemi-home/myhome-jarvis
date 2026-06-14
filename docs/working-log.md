@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 03:08 KST
+
+- Linear issue: KIM-9 created in Linear and kept in progress.
+- Mode: online-capable, local-only implementation after Linear issue creation.
+- Task: Record planner status in checkpoint evidence.
+- Files touched: `cmd/mhj/main.go`, `internal/orchestrator/checkpoint.go`, `internal/orchestrator/checkpoint_test.go`, `docs/backlog.md`, `docs/closed-loop.md`, `docs/working-log.md`.
+- Changes: add redacted `planner_status` to closed-loop checkpoints and CLI `loop once` output so private evidence records completed/ready/external-write-gated planner counts and gated task metadata alongside Linear and public-safety summaries; make checkpoint filenames include sub-second precision so adjacent loop cycles do not overwrite each other.
+- Validation after: `go1.26.2 test ./internal/orchestrator ./internal/scheduler ./cmd/mhj` passed; `go1.26.2 run ./cmd/mhj loop once` returned redacted `planner_status` and wrote a sub-second checkpoint path; `go1.26.2 run ./cmd/mhj loop worker --cycles 1` passed and recorded a distinct checkpoint path; latest private checkpoint contained `planner_status` and omitted raw viewer/team/security finding/root/local-path data; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan, forbidden language/dependency scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-9 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, then update Linear issue KIM-9.
+
 ## 2026-06-15 03:03 KST
 
 - Linear issue: KIM-8 created in Linear and kept in progress.

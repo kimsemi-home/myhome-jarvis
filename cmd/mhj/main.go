@@ -275,6 +275,10 @@ func loopOnce(root string) error {
 	if err != nil {
 		return err
 	}
+	plannerStatus, err := planner.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
 	if linearStatus.Mode == "offline" {
 		if err := linear.AppendOfflineEvent(root, "loop_once", "Local loop ran without Linear sync; synced=false."); err != nil {
 			return err
@@ -287,6 +291,7 @@ func loopOnce(root string) error {
 	path, err := orchestrator.WriteCheckpoint(root, orchestrator.Checkpoint{
 		Task:           "loop once",
 		LinearStatus:   linearSummary,
+		PlannerStatus:  plannerStatus,
 		SecurityStatus: securityStatus,
 		Result:         result,
 		Next:           "Continue local-first closed-loop hardening.",
@@ -302,6 +307,7 @@ func loopOnce(root string) error {
 		"ok":              securityStatus.OK,
 		"checkpoint":      filepath.ToSlash(checkpointPath),
 		"linear":          linearSummary,
+		"planner_status":  plannerStatus,
 		"security_status": securityStatus,
 	})
 }
@@ -362,6 +368,10 @@ func loopWorker(root string, args []string) error {
 		if err != nil {
 			return scheduler.JobResult{}, err
 		}
+		plannerStatus, err := planner.StatusForRoot(root)
+		if err != nil {
+			return scheduler.JobResult{}, err
+		}
 		result := "scheduler heartbeat checkpoint recorded"
 		if !securityStatus.OK {
 			result = "scheduler heartbeat checkpoint recorded with public-safety findings"
@@ -369,6 +379,7 @@ func loopWorker(root string, args []string) error {
 		path, err := orchestrator.WriteCheckpoint(root, orchestrator.Checkpoint{
 			Task:           "loop worker",
 			LinearStatus:   linearSummary,
+			PlannerStatus:  plannerStatus,
 			SecurityStatus: securityStatus,
 			Result:         result,
 			Next:           "Continue local-first fixture and daemon surface expansion.",

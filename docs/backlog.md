@@ -399,3 +399,10 @@
   - Linear: KIM-8
   - Acceptance: `mhj linear next` selects only active `[myhome-jarvis]` issues; when active team issues exist but none are project-prefixed, it returns a redacted synced result without a selected issue; `mhj linear pull` still returns active redacted summaries.
   - Validation: `go test ./internal/linear`; `LINEAR_TEAM_KEY=KIM go run ./cmd/mhj linear next` before and after completing KIM-8; SSOT validation and codegen verification; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P57
+
+- [x] Record planner status in checkpoint evidence.
+  - Linear: KIM-9
+  - Acceptance: `mhj loop once` and `mhj loop worker --cycles 1` checkpoint JSON includes redacted planner status with counts, repo-relative checkpoint root, quality/offline-fallback flags, and gated task metadata; adjacent checkpoint writes use collision-resistant filenames; checkpoints still omit raw Linear identities, security findings, local roots, absolute paths, tokens, and command output.
+  - Validation: `go test ./internal/orchestrator ./internal/scheduler`; `go run ./cmd/mhj loop once`; `go run ./cmd/mhj loop worker --cycles 1`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
