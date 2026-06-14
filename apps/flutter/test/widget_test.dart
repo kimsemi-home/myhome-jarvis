@@ -53,7 +53,7 @@ void main() {
     );
   });
 
-  testWidgets('shows Linear and storage tabs', (tester) async {
+  testWidgets('shows Linear, storage, and optimization tabs', (tester) async {
     await tester.pumpWidget(const JarvisApp());
 
     await tester.tap(
@@ -69,5 +69,15 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('finance_transactions'), findsOneWidget);
     expect(find.text('commerce_purchases'), findsOneWidget);
+
+    await tester.tap(
+      find.descendant(of: find.byType(TabBar), matching: find.text('Optimize')),
+    );
+    await tester.pumpAndSettle();
+    expect(
+      find.text('81 - Compare recurring purchase: Bottled water 2L x 6'),
+      findsOneWidget,
+    );
+    expect(find.text('61 - Review household subscriptions'), findsOneWidget);
   });
 }

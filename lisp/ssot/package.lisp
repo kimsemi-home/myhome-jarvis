@@ -6,6 +6,7 @@
    #:*finance-entities*
    #:*commerce-entities*
    #:*storage-policy*
+   #:*recommendation-policy*
    #:*security-policy*
    #:*linear-policy*
    #:*planner-policy*

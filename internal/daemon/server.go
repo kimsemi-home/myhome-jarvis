@@ -81,6 +81,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /linear/status", server.wrap(server.handleLinearStatus))
 	mux.HandleFunc("POST /linear/sync", server.wrap(server.handleLinearSync))
 	mux.HandleFunc("GET /domain/summary", server.wrap(server.handleDomainSummary))
+	mux.HandleFunc("GET /recommendations/summary", server.wrap(server.handleRecommendationsSummary))
 	mux.HandleFunc("GET /metrics", server.wrap(server.handleMetrics))
 	return mux
 }
@@ -211,6 +212,14 @@ func (server *Server) handleDomainSummary(writer http.ResponseWriter, request *h
 		return err
 	}
 	return writeJSON(writer, http.StatusOK, summary)
+}
+
+func (server *Server) handleRecommendationsSummary(writer http.ResponseWriter, request *http.Request) error {
+	summary, err := domain.BuildSummary(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, summary.Recommendations)
 }
 
 func (server *Server) handleMetrics(writer http.ResponseWriter, request *http.Request) error {

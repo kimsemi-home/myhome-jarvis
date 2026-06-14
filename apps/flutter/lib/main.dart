@@ -102,7 +102,7 @@ class JarvisScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('myhome-jarvis'),
@@ -114,11 +114,14 @@ class JarvisScaffold extends StatelessWidget {
             ),
           ],
           bottom: const TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
             tabs: [
               Tab(icon: Icon(Icons.monitor_heart_outlined), text: 'Status'),
               Tab(icon: Icon(Icons.tune_outlined), text: 'Commands'),
               Tab(icon: Icon(Icons.hub_outlined), text: 'Linear'),
               Tab(icon: Icon(Icons.storage_outlined), text: 'Storage'),
+              Tab(icon: Icon(Icons.auto_graph_outlined), text: 'Optimize'),
             ],
           ),
         ),
@@ -130,6 +133,10 @@ class JarvisScaffold extends StatelessWidget {
                 CommandsView(commands: snapshot.commands, client: client),
                 PlainListView(title: 'Linear', items: snapshot.linearItems),
                 PlainListView(title: 'Storage', items: snapshot.storageItems),
+                PlainListView(
+                  title: 'Optimize',
+                  items: snapshot.recommendationItems,
+                ),
               ],
             ),
             if (loading) const LinearProgressIndicator(),

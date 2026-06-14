@@ -11,18 +11,21 @@ import (
 )
 
 type Summary struct {
-	Finance  FinanceSummary  `json:"finance"`
-	Commerce CommerceSummary `json:"commerce"`
-	Storage  StoragePolicy   `json:"storage"`
+	Finance         FinanceSummary         `json:"finance"`
+	Commerce        CommerceSummary        `json:"commerce"`
+	Storage         StoragePolicy          `json:"storage"`
+	Recommendations RecommendationsSummary `json:"recommendations"`
 }
 
 type FinanceSummary struct {
-	Records          int      `json:"records"`
-	Currency         string   `json:"currency"`
-	CreditMinorUnits int64    `json:"credit_minor_units"`
-	DebitMinorUnits  int64    `json:"debit_minor_units"`
-	NetMinorUnits    int64    `json:"net_minor_units"`
-	Categories       []string `json:"categories"`
+	Records                int      `json:"records"`
+	Currency               string   `json:"currency"`
+	CreditMinorUnits       int64    `json:"credit_minor_units"`
+	DebitMinorUnits        int64    `json:"debit_minor_units"`
+	NetMinorUnits          int64    `json:"net_minor_units"`
+	SubscriptionMinorUnits int64    `json:"subscription_minor_units"`
+	SubscriptionCount      int      `json:"subscription_count"`
+	Categories             []string `json:"categories"`
 }
 
 type CommerceSummary struct {
@@ -48,6 +51,21 @@ type StoragePolicy struct {
 	LongTermFormat string   `json:"long_term_format"`
 	Compression    string   `json:"compression"`
 	PrivateRoot    string   `json:"private_root"`
+}
+
+type RecommendationsSummary struct {
+	Count int                  `json:"count"`
+	Items []RecommendationItem `json:"items"`
+}
+
+type RecommendationItem struct {
+	Kind                       string `json:"kind"`
+	Title                      string `json:"title"`
+	Rationale                  string `json:"rationale"`
+	Score                      int    `json:"score"`
+	Currency                   string `json:"currency"`
+	EstimatedMonthlyMinorUnits int64  `json:"estimated_monthly_minor_units"`
+	EvidenceCount              int    `json:"evidence_count"`
 }
 
 type moneyAmount struct {
@@ -83,7 +101,13 @@ func BuildSummary(root string) (Summary, error) {
 	if err != nil {
 		return Summary{}, err
 	}
-	return Summary{Finance: finance, Commerce: commerce, Storage: storage}, nil
+	recommendations := BuildRecommendationsSummary(finance, commerce)
+	return Summary{
+		Finance:         finance,
+		Commerce:        commerce,
+		Storage:         storage,
+		Recommendations: recommendations,
+	}, nil
 }
 
 func BuildFinanceSummary(path string) (FinanceSummary, error) {
@@ -103,6 +127,10 @@ func BuildFinanceSummary(path string) (FinanceSummary, error) {
 			summary.CreditMinorUnits += transaction.Amount.MinorUnits
 		case "debit":
 			summary.DebitMinorUnits += transaction.Amount.MinorUnits
+			if transaction.Category == "subscription" {
+				summary.SubscriptionMinorUnits += transaction.Amount.MinorUnits
+				summary.SubscriptionCount++
+			}
 		default:
 			return fmt.Errorf("line %d: unknown direction %q", line, transaction.Direction)
 		}
@@ -115,6 +143,50 @@ func BuildFinanceSummary(path string) (FinanceSummary, error) {
 	summary.Currency = summaryCurrency(currencies)
 	summary.Categories = sortedKeys(categories)
 	return summary, nil
+}
+
+func BuildRecommendationsSummary(finance FinanceSummary, commerce CommerceSummary) RecommendationsSummary {
+	items := []RecommendationItem{}
+	if finance.NetMinorUnits > 0 {
+		items = append(items, RecommendationItem{
+			Kind:                       "cash_buffer",
+			Title:                      "Keep household cash buffer",
+			Rationale:                  "Fixture cashflow is positive; reserve surplus before recommendations become executable.",
+			Score:                      clampScore(45 + int(finance.NetMinorUnits/1_000_000)),
+			Currency:                   finance.Currency,
+			EstimatedMonthlyMinorUnits: finance.NetMinorUnits,
+			EvidenceCount:              finance.Records,
+		})
+	}
+	if finance.SubscriptionMinorUnits > 0 {
+		items = append(items, RecommendationItem{
+			Kind:                       "subscription_review",
+			Title:                      "Review household subscriptions",
+			Rationale:                  "Subscription-like debit fixtures exist; keep this as a review-only recommendation.",
+			Score:                      clampScore(55 + int(finance.SubscriptionMinorUnits/10_000)),
+			Currency:                   finance.Currency,
+			EstimatedMonthlyMinorUnits: finance.SubscriptionMinorUnits,
+			EvidenceCount:              finance.SubscriptionCount,
+		})
+	}
+	for _, candidate := range commerce.RecurringCandidates {
+		items = append(items, RecommendationItem{
+			Kind:                       "recurring_purchase_review",
+			Title:                      "Compare recurring purchase: " + candidate.ItemName,
+			Rationale:                  candidate.MerchantName + " appears repeatedly in local purchase fixtures.",
+			Score:                      clampScore(50 + candidate.PurchaseCount*10 + int(candidate.LatestTotalMinorUnits/1_000)),
+			Currency:                   candidate.Currency,
+			EstimatedMonthlyMinorUnits: candidate.LatestTotalMinorUnits,
+			EvidenceCount:              candidate.PurchaseCount,
+		})
+	}
+	sort.Slice(items, func(i, j int) bool {
+		if items[i].Score == items[j].Score {
+			return items[i].Title < items[j].Title
+		}
+		return items[i].Score > items[j].Score
+	})
+	return RecommendationsSummary{Count: len(items), Items: items}
 }
 
 func BuildCommerceSummary(path string) (CommerceSummary, error) {
@@ -231,4 +303,15 @@ func sortedKeys(values map[string]bool) []string {
 	}
 	sort.Strings(keys)
 	return keys
+}
+
+func clampScore(value int) int {
+	switch {
+	case value < 0:
+		return 0
+	case value > 100:
+		return 100
+	default:
+		return value
+	}
 }

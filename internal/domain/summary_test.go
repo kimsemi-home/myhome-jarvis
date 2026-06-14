@@ -22,6 +22,9 @@ func TestBuildSummaryFromRepoFixtures(t *testing.T) {
 	if summary.Finance.NetMinorUnits != 4_346_800 {
 		t.Fatalf("finance net = %d", summary.Finance.NetMinorUnits)
 	}
+	if summary.Finance.SubscriptionMinorUnits != 65_900 {
+		t.Fatalf("subscription total = %d", summary.Finance.SubscriptionMinorUnits)
+	}
 	if summary.Commerce.Records != 3 {
 		t.Fatalf("commerce records = %d", summary.Commerce.Records)
 	}
@@ -33,6 +36,15 @@ func TestBuildSummaryFromRepoFixtures(t *testing.T) {
 	}
 	if summary.Storage.LongTermFormat != "parquet" || summary.Storage.Compression != "zstd" {
 		t.Fatalf("storage policy = %#v", summary.Storage)
+	}
+	if summary.Recommendations.Count != 3 {
+		t.Fatalf("recommendation count = %d", summary.Recommendations.Count)
+	}
+	if summary.Recommendations.Items[0].Kind != "recurring_purchase_review" {
+		t.Fatalf("top recommendation = %#v", summary.Recommendations.Items[0])
+	}
+	if summary.Recommendations.Items[0].Score < summary.Recommendations.Items[1].Score {
+		t.Fatalf("recommendations are not ranked: %#v", summary.Recommendations.Items)
 	}
 }
 

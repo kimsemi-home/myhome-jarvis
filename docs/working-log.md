@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 20:26 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add fixture-only recommendation scoring skeleton and local UI surface.
+- Files touched: `crates/mhj-core/src/recommendations.rs`, `crates/mhj-core/src/lib.rs`, `internal/domain/summary.go`, `internal/domain/summary_test.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/snapshot.dart`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/main.dart`, `apps/flutter/test/daemon_client_test.dart`, `apps/flutter/test/widget_test.dart`, `lisp/ssot/recommendations.lisp`, `lisp/ssot/codegen.lisp`, `lisp/ssot/package.lisp`, `lisp/ssot/myhome-jarvis.asd`, `generated/recommendations.generated.json`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/flutter.md`, `docs/recommendations.md`, `docs/working-log.md`.
+- Changes: added Rust scoring for cash buffer, subscription review, and recurring purchase review recommendations from local fixtures; added SSOT recommendation policy and generated artifact; extended Go domain summary and daemon `GET /recommendations/summary`; added Flutter Optimize tab fed by daemon snapshot data.
+- Validation after: `cargo test -p mhj-core recommendations` passed; `go1.26.2 test ./internal/domain ./internal/daemon` passed; `flutter test` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed.
+- External-write note: no purchases, subscription changes, card actions, transfers, investment trades, Linear mutations, or other external writes were executed.
+- Next: run full quality and public safety scans, then commit and push if clean.
+
 ## 2026-06-14 20:02 local
 
 - Linear issue: local continuation, no external Linear writes executed.

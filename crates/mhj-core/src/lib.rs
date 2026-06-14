@@ -1,6 +1,7 @@
 pub mod benchmark;
 pub mod commerce;
 pub mod finance;
+pub mod recommendations;
 pub mod storage;
 
 use serde::de::DeserializeOwned;

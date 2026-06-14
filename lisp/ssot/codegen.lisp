@@ -18,6 +18,8 @@
       (error "Python must not be an allowed language"))
     (unless (find "raw" (getf *storage-policy* :lake_layers) :test #'string=)
       (error "Storage policy must include raw layer"))
+    (unless (find "subscription_review" (coerce (getf *recommendation-policy* :kinds) 'list) :test #'string=)
+      (error "Recommendation policy must include subscription review"))
     t))
 
 (defun write-generated-artifacts (root)
@@ -33,6 +35,8 @@
                          :purchase_ir *purchase-ir*))
   (write-json-file (merge-pathnames "generated/storage.generated.json" root)
                    *storage-policy*)
+  (write-json-file (merge-pathnames "generated/recommendations.generated.json" root)
+                   *recommendation-policy*)
   (write-json-file (merge-pathnames "generated/security.generated.json" root)
                    *security-policy*)
   (write-json-file (merge-pathnames "generated/linear.generated.json" root)

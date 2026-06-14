@@ -47,3 +47,9 @@
 - [x] Add benchmark smoke tests.
   - Acceptance: `go run ./cmd/mhj benchmark smoke` runs the core Rust fixture pipeline benchmark smoke test.
   - Validation: `cargo test -p mhj-core benchmark_smoke -- --nocapture`
+
+## P3
+
+- [x] Add fixture-only recommendation scoring skeleton.
+  - Acceptance: Rust ranks cash buffer, subscription review, and recurring purchase review recommendations from local fixtures only; Go exposes the recommendation summary through local daemon surfaces; Flutter shows the ranked items in an Optimize tab.
+  - Validation: `cargo test -p mhj-core recommendations`; `go test ./internal/domain ./internal/daemon`; `cd apps/flutter && flutter test && flutter analyze`.

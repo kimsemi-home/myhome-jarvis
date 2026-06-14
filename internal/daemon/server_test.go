@@ -54,7 +54,34 @@ func TestDomainSummaryReturnsFixtureStatus(t *testing.T) {
 	for _, expected := range []string{
 		`"net_minor_units": 4346800`,
 		`"recurring_candidate_count": 1`,
+		`"recommendations"`,
 		`"long_term_format": "parquet"`,
+	} {
+		if !bytes.Contains([]byte(body), []byte(expected)) {
+			t.Fatalf("expected %s in %s", expected, body)
+		}
+	}
+}
+
+func TestRecommendationsSummaryReturnsLocalFixtureRecommendations(t *testing.T) {
+	server, err := New(DefaultConfig(repoRoot(t), "test"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	request := httptest.NewRequest(http.MethodGet, "/recommendations/summary", nil)
+	request.RemoteAddr = "127.0.0.1:1234"
+	recorder := httptest.NewRecorder()
+
+	server.Routes().ServeHTTP(recorder, request)
+
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status = %d body = %s", recorder.Code, recorder.Body.String())
+	}
+	body := recorder.Body.String()
+	for _, expected := range []string{
+		`"count": 3`,
+		`"kind": "recurring_purchase_review"`,
+		`"kind": "subscription_review"`,
 	} {
 		if !bytes.Contains([]byte(body), []byte(expected)) {
 			t.Fatalf("expected %s in %s", expected, body)

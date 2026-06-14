@@ -1,0 +1,1 @@
+{"mode":"fixture_only","external_actions_allowed":false,"kinds":["cash_buffer","recurring_purchase_review","subscription_review"],"score_min":0,"score_max":100,"default_currency":"KRW","recommendation_only_actions":["subscription_review","recurring_purchase_review"]}

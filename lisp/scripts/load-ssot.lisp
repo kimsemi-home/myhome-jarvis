@@ -11,6 +11,7 @@
                   "../ssot/finance.lisp"
                   "../ssot/commerce.lisp"
                   "../ssot/storage.lisp"
+                  "../ssot/recommendations.lisp"
                   "../ssot/security.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"

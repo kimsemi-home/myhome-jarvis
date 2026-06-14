@@ -85,12 +85,14 @@ class JarvisSnapshot {
     required this.commands,
     required this.linearItems,
     required this.storageItems,
+    required this.recommendationItems,
   });
 
   final List<SystemMetric> metrics;
   final List<HomeCommand> commands;
   final List<String> linearItems;
   final List<String> storageItems;
+  final List<String> recommendationItems;
 
   static const sample = JarvisSnapshot(
     metrics: [
@@ -144,6 +146,11 @@ class JarvisSnapshot {
       'commerce_purchases',
       'Parquet+Zstd',
     ],
+    recommendationItems: [
+      '81 - Compare recurring purchase: Bottled water 2L x 6',
+      '61 - Review household subscriptions',
+      '49 - Keep household cash buffer',
+    ],
   );
 
   factory JarvisSnapshot.offlineFallback() {
@@ -173,6 +180,7 @@ class JarvisSnapshot {
       commands: sample.commands,
       linearItems: const ['Offline queue', 'Local fallback'],
       storageItems: sample.storageItems,
+      recommendationItems: sample.recommendationItems,
     );
   }
 }

@@ -31,6 +31,7 @@ go run ./cmd/mhj linear next
 go run ./cmd/mhj loop once
 go run ./cmd/mhj benchmark smoke
 go run ./cmd/mhj daemon
+cargo test -p mhj-core recommendations
 ```
 
 Common Lisp SSOT and Rust command validation are scaffolded for:
@@ -49,10 +50,11 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/commands`: dry-run command planning and validation.
 - `internal/security`: forbidden language, secret, and private-data checks.
 - `internal/linear`: Linear offline status and local queue.
-- `internal/domain`: read-only finance, commerce, and storage fixture summaries.
+- `internal/domain`: read-only finance, commerce, storage, and recommendation summaries.
 - `internal/orchestrator`: one-shot checkpoint loop foundation.
 - `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading.
 - `crates/mhj-core/src/benchmark.rs`: fixture-pipeline benchmark smoke tests.
+- `crates/mhj-core/src/recommendations.rs`: fixture-only recommendation scoring skeleton.
 - `lisp/ssot`: executable source of truth.
 - `generated`: deterministic artifacts emitted from SSOT.
 - `crates`: Rust command and harness foundations.

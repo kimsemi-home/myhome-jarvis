@@ -50,6 +50,21 @@ void main() {
               'net_minor_units': 4346800,
             },
             'commerce': {'records': 3, 'recurring_candidate_count': 1},
+            'recommendations': {
+              'count': 2,
+              'items': [
+                {
+                  'kind': 'recurring_purchase_review',
+                  'title': 'Compare recurring purchase: Bottled water',
+                  'score': 81,
+                },
+                {
+                  'kind': 'subscription_review',
+                  'title': 'Review household subscriptions',
+                  'score': 61,
+                },
+              ],
+            },
             'storage': {
               'datasets': ['finance_transactions', 'commerce_purchases'],
               'lake_layers': ['raw', 'bronze', 'silver', 'gold'],
@@ -115,6 +130,14 @@ void main() {
     expect(snapshot.storageItems, contains('Finance net: 4346800 KRW'));
     expect(snapshot.storageItems, contains('Commerce: 3 purchases'));
     expect(snapshot.storageItems, contains('Storage: parquet+zstd'));
+    expect(
+      snapshot.recommendationItems,
+      contains('81 - Compare recurring purchase: Bottled water'),
+    );
+    expect(
+      snapshot.recommendationItems,
+      contains('61 - Review household subscriptions'),
+    );
 
     final command = snapshot.commands.singleWhere(
       (item) => item.name == 'volume-set',
