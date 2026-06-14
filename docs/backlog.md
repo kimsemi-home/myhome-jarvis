@@ -305,3 +305,9 @@
 - [x] Cancel superseded quality runs and harden domain summary public surface.
   - Acceptance: GitHub Actions cancels older in-progress quality runs for the same ref when a newer push arrives; daemon `GET /domain/summary` regression coverage proves the generated storage root remains repo-relative and does not leak the local checkout or home path.
   - Validation: workflow YAML parses; `go test ./internal/daemon`; full quality gate; GitHub Actions run.
+
+## P42
+
+- [x] Scan current working-tree contents before public commit.
+  - Acceptance: `mhj security check` scans non-private current file contents for private identity markers, local absolute paths, and secret-looking literals before they enter Git history; findings remain redacted to repo-relative path, optional line, code, and coarse message.
+  - Validation: `go test ./internal/security`; `go run ./cmd/mhj security check`; full quality gate; GitHub Actions run.

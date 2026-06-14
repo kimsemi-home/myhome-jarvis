@@ -16,9 +16,12 @@ Security defaults:
   tracked private-data artifacts.
 
 The Go security checker is the first enforceable guard. `mhj security check`
-scans the current working tree's path names and language/dependency files and
-exits non-zero when a forbidden file is present. Its report uses `root: "."`
-so default CLI output does not expose the local checkout path.
+scans the current working tree's path names, language/dependency files, and
+non-private file contents. It exits non-zero when forbidden files, private
+identity markers, local absolute paths, or secret-looking literals are present
+before commit. Findings report repo-relative path, optional line number, code,
+and a coarse message only; matched secret contents are not returned. Its report
+uses `root: "."` so default CLI output does not expose the local checkout path.
 
 `mhj security history` scans reachable Git commits before public pushes. It
 checks historical file paths, historical file contents, and commit metadata for

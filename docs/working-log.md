@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 01:50 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Scan current working-tree contents before public commit.
+- Files touched: `internal/security/security.go`, `internal/security/security_test.go`, `docs/backlog.md`, `docs/security.md`, `docs/working-log.md`.
+- Changes: extended `mhj security check` beyond path/language checks so non-private current file contents are scanned for private identity markers, local absolute paths, and secret-looking literals before commit; findings keep matched contents redacted and report only repo-relative path, optional line, code, and coarse message.
+- Validation after: `go1.26.2 test ./internal/security` passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; full `mhj quality` with Go 1.26.2 passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: run focused tests, full quality, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 01:44 KST
 
 - Linear issue: local continuation, no external Linear writes executed.
