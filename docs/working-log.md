@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 00:20 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Redact closed-loop checkpoint safety evidence.
+- Files touched: `cmd/mhj/main.go`, `internal/linear/status.go`, `internal/linear/status_test.go`, `internal/orchestrator/checkpoint.go`, `internal/orchestrator/checkpoint_test.go`, `docs/backlog.md`, `docs/closed-loop.md`, `docs/scheduler.md`, `docs/security.md`, `docs/working-log.md`.
+- Changes: added redacted Linear status summaries; changed loop checkpoints to store aggregate public-safety status and redacted Linear summaries instead of raw security reports and raw Linear viewer/team data; made `mhj loop once` output a repo-relative checkpoint path and aggregate status only.
+- Validation after: `go1.26.2 test ./internal/linear ./internal/orchestrator ./internal/scheduler ./internal/security` passed; `go1.26.2 run ./cmd/mhj loop once` returned redacted Linear and aggregate public-safety status with a repo-relative checkpoint path; `go1.26.2 run ./cmd/mhj loop worker --cycles 1` passed and wrote redacted private checkpoint evidence; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 00:12 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

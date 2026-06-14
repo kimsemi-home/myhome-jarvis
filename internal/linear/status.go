@@ -31,6 +31,19 @@ type Status struct {
 	Message            string        `json:"message"`
 }
 
+type StatusSummary struct {
+	Mode               string `json:"mode"`
+	TokenConfigured    bool   `json:"token_configured"`
+	Synced             bool   `json:"synced"`
+	QueuePath          string `json:"queue_path"`
+	Endpoint           string `json:"endpoint,omitempty"`
+	HTTPStatus         int    `json:"http_status,omitempty"`
+	RateLimitRemaining int    `json:"rate_limit_remaining,omitempty"`
+	ViewerConfigured   bool   `json:"viewer_configured"`
+	TeamCount          int    `json:"team_count"`
+	Message            string `json:"message"`
+}
+
 type ViewerStatus struct {
 	ID    string `json:"id"`
 	Name  string `json:"name"`
@@ -124,6 +137,21 @@ func StatusForRequest(parent context.Context, root string, client *http.Client) 
 	status.Teams = teams
 	status.Message = "Linear GraphQL status check succeeded."
 	return status
+}
+
+func SummarizeStatus(status Status) StatusSummary {
+	return StatusSummary{
+		Mode:               status.Mode,
+		TokenConfigured:    status.TokenConfigured,
+		Synced:             status.Synced,
+		QueuePath:          privateRelativePath(status.QueuePath),
+		Endpoint:           status.Endpoint,
+		HTTPStatus:         status.HTTPStatus,
+		RateLimitRemaining: status.RateLimitRemaining,
+		ViewerConfigured:   status.Viewer != nil,
+		TeamCount:          len(status.Teams),
+		Message:            status.Message,
+	}
 }
 
 func AppendOfflineEvent(root string, kind string, message string) error {
@@ -238,6 +266,25 @@ func authorizationHeader(token string) string {
 		return trimmed
 	}
 	return trimmed
+}
+
+func privateRelativePath(path string) string {
+	if path == "" {
+		return ""
+	}
+	slashed := strings.ReplaceAll(filepath.ToSlash(path), "\\", "/")
+	for _, prefix := range []string{"data/private/", "data/lake/"} {
+		if index := strings.Index(slashed, prefix); index >= 0 {
+			return slashed[index:]
+		}
+	}
+	if strings.HasPrefix(slashed, "/") || strings.Contains(slashed, ":/") {
+		if index := strings.LastIndex(slashed, "/"); index >= 0 && index < len(slashed)-1 {
+			return slashed[index+1:]
+		}
+		return strings.TrimLeft(slashed, "/")
+	}
+	return slashed
 }
 
 func rateLimitRemaining(header http.Header) int {

@@ -31,3 +31,7 @@ Daemon `GET /security/status` runs the current-tree and Git-history checks for
 local status surfaces, then returns only aggregate booleans, finding counts, and
 a checked timestamp. It does not return raw findings, matched content, or the
 local repository root.
+
+Closed-loop checkpoints use the same aggregate public-safety status. This keeps
+private scheduler evidence useful for recovery without storing raw matched
+findings or local roots.

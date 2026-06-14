@@ -11,12 +11,12 @@ import (
 )
 
 type Checkpoint struct {
-	At             string          `json:"at"`
-	Task           string          `json:"task"`
-	LinearStatus   linear.Status   `json:"linear_status"`
-	SecurityReport security.Report `json:"security_report"`
-	Result         string          `json:"result"`
-	Next           string          `json:"next"`
+	At             string               `json:"at"`
+	Task           string               `json:"task"`
+	LinearStatus   linear.StatusSummary `json:"linear_status"`
+	SecurityStatus security.Status      `json:"security_status"`
+	Result         string               `json:"result"`
+	Next           string               `json:"next"`
 }
 
 func WriteCheckpoint(root string, checkpoint Checkpoint) (string, error) {

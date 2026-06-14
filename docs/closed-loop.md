@@ -18,6 +18,14 @@ private scheduler state with heartbeat, next-run, backoff, and checkpoint
 metadata. `mhj loop status` and daemon `GET /loop/status` recover that state
 without claiming external sync success.
 
+Closed-loop checkpoints store redacted status summaries. Linear evidence keeps
+mode, token-configured state, sync state, repo-relative queue path, HTTP status,
+rate-limit remaining count, viewer-configured boolean, and team count only.
+Public-safety evidence stores aggregate current-tree and Git-history booleans,
+finding counts, and checked timestamp only. Checkpoints do not store raw Linear
+viewer/team identities, raw security findings, matched content, local
+repository roots, or absolute private paths.
+
 Before committing or pushing, closed-loop work can inspect repository state with
 `mhj repo status` or daemon `GET /repo/status`. The response uses
 repository-relative paths only, including ignored private data paths.

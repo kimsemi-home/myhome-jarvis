@@ -215,3 +215,9 @@
 - [x] Surface public-safety status in daemon and Flutter.
   - Acceptance: daemon `GET /security/status` exposes only aggregate current-tree and Git-history safety booleans, finding counts, and checked timestamp; Flutter Status renders a `Public Safety` metric from that endpoint and the offline fallback remains clear without exposing raw findings, matched content, or local roots.
   - Validation: `go test ./internal/security ./internal/daemon`; `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.
+
+## P27
+
+- [x] Redact closed-loop checkpoint safety evidence.
+  - Acceptance: `mhj loop once` and `mhj loop worker --cycles 1` use aggregate public-safety status for checkpoint decisions; loop output and private checkpoint evidence include redacted Linear summary and aggregate security status only, with no raw Linear viewer/team identities, raw security findings, local repository root, or absolute private paths.
+  - Validation: `go test ./internal/linear ./internal/orchestrator ./internal/scheduler ./internal/security`; `go run ./cmd/mhj loop once`; `go run ./cmd/mhj loop worker --cycles 1`; full quality gate.

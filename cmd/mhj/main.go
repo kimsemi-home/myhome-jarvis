@@ -257,7 +257,8 @@ func runHarness(root string, args []string) error {
 
 func loopOnce(root string) error {
 	linearStatus := linear.CurrentStatus(root)
-	securityReport, err := security.Check(root)
+	linearSummary := linear.SummarizeStatus(linearStatus)
+	securityStatus, err := security.StatusForRoot(root)
 	if err != nil {
 		return err
 	}
@@ -267,24 +268,28 @@ func loopOnce(root string) error {
 		}
 	}
 	result := "checkpoint recorded"
-	if !securityReport.OK {
-		result = "checkpoint recorded with security findings"
+	if !securityStatus.OK {
+		result = "checkpoint recorded with public-safety findings"
 	}
 	path, err := orchestrator.WriteCheckpoint(root, orchestrator.Checkpoint{
 		Task:           "loop once",
-		LinearStatus:   linearStatus,
-		SecurityReport: securityReport,
+		LinearStatus:   linearSummary,
+		SecurityStatus: securityStatus,
 		Result:         result,
-		Next:           "Implement direct Go GraphQL client and expand quality gate.",
+		Next:           "Continue local-first closed-loop hardening.",
 	})
 	if err != nil {
 		return err
 	}
+	checkpointPath, err := filepath.Rel(root, path)
+	if err != nil {
+		return err
+	}
 	return writeJSON(map[string]any{
-		"ok":         securityReport.OK,
-		"checkpoint": filepath.ToSlash(path),
-		"linear":     linearStatus,
-		"security":   securityReport,
+		"ok":              securityStatus.OK,
+		"checkpoint":      filepath.ToSlash(checkpointPath),
+		"linear":          linearSummary,
+		"security_status": securityStatus,
 	})
 }
 
@@ -339,15 +344,20 @@ func loopWorker(root string, args []string) error {
 	defer cancel()
 	status, err := scheduler.RunCycles(ctx, root, scheduler.ClosedLoopPolicy(), *cycles, func(context.Context) (scheduler.JobResult, error) {
 		linearStatus := linear.CurrentStatus(root)
-		securityReport, err := security.Check(root)
+		linearSummary := linear.SummarizeStatus(linearStatus)
+		securityStatus, err := security.StatusForRoot(root)
 		if err != nil {
 			return scheduler.JobResult{}, err
 		}
+		result := "scheduler heartbeat checkpoint recorded"
+		if !securityStatus.OK {
+			result = "scheduler heartbeat checkpoint recorded with public-safety findings"
+		}
 		path, err := orchestrator.WriteCheckpoint(root, orchestrator.Checkpoint{
 			Task:           "loop worker",
-			LinearStatus:   linearStatus,
-			SecurityReport: securityReport,
-			Result:         "scheduler heartbeat checkpoint recorded",
+			LinearStatus:   linearSummary,
+			SecurityStatus: securityStatus,
+			Result:         result,
 			Next:           "Continue local-first fixture and daemon surface expansion.",
 		})
 		if err != nil {
