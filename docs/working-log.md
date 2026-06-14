@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 00:40 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Reflect planner gate details in Flutter Status.
+- Files touched: `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `docs/backlog.md`, `docs/flutter.md`, `docs/working-log.md`.
+- Changes: parsed daemon `blocked_external_write_tasks` into a read-only `Planner Gate` Status metric, showing the first gated task id as a concise title while keeping the UI free of Linear action buttons.
+- Validation after: `cd apps/flutter && flutter test test/daemon_client_test.dart` passed; `cd apps/flutter && flutter test` passed; `cd apps/flutter && flutter analyze` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run; `go1.26.2 run ./cmd/mhj codegen verify` passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 00:36 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -239,3 +239,9 @@
 - [x] Surface external-write-gated planner task details.
   - Acceptance: `mhj planner status` and daemon `GET /planner/status` include read-only `blocked_external_write_tasks` metadata when local rails are complete and an external-write-gated step remains; `next_task` stays omitted for completed local work and no Linear mutation is executed.
   - Validation: `go test ./internal/planner ./internal/daemon`; `go run ./cmd/mhj planner status`; full quality gate.
+
+## P31
+
+- [x] Reflect planner gate details in Flutter Status.
+  - Acceptance: Flutter parses daemon `blocked_external_write_tasks` and renders a read-only `Planner Gate` status metric with the first gated task id when local planner rails are complete; the UI does not add action buttons or execute Linear mutations.
+  - Validation: `cd apps/flutter && flutter test test/daemon_client_test.dart`; `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.

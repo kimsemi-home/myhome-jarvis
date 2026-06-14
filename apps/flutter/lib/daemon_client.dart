@@ -178,6 +178,7 @@ JarvisSnapshot buildSnapshot({
   final plannerCompleted = _int(planner['completed_count']) ?? 0;
   final plannerBlockedExternal =
       _int(planner['blocked_external_write_count']) ?? 0;
+  final plannerGate = _plannerGate(planner['blocked_external_write_tasks']);
   final plannerTasks = _int(planner['task_count']) ?? 0;
   final linearMode = _string(linear['mode']) ?? 'offline';
   final repoClean = _bool(repo['worktree_clean']);
@@ -259,6 +260,12 @@ JarvisSnapshot buildSnapshot({
         ),
         icon: Icons.schema_outlined,
       ),
+      if (plannerGate != null)
+        SystemMetric(
+          label: 'Planner Gate',
+          value: plannerGate,
+          icon: Icons.lock_outline,
+        ),
       SystemMetric(
         label: 'Linear',
         value: _title(linearMode),
@@ -298,6 +305,33 @@ String _plannerProgress(
     return '$completed/$tasks done';
   }
   return '$ready/$tasks ready';
+}
+
+String? _plannerGate(Object? tasks) {
+  if (tasks is! List<Object?> || tasks.isEmpty) {
+    return null;
+  }
+  final first = tasks.first;
+  if (first is! Map<String, Object?>) {
+    return null;
+  }
+  final id = _string(first['id']);
+  if (id != null && id.isNotEmpty) {
+    return _titleWords(id);
+  }
+  final title = _string(first['title']);
+  if (title != null && title.isNotEmpty) {
+    return title;
+  }
+  return null;
+}
+
+String _titleWords(String value) {
+  return value
+      .split(RegExp(r'[_\-\s]+'))
+      .where((part) => part.isNotEmpty)
+      .map(_title)
+      .join(' ');
 }
 
 HomeCommand? _commandFromSpec(Map<String, Object?> spec) {

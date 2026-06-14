@@ -281,6 +281,16 @@ void main() {
             'ready_count': 0,
             'completed_count': 5,
             'blocked_external_write_count': 1,
+            'blocked_external_write_tasks': [
+              {
+                'id': 'linear_sync',
+                'title':
+                    'Sync Linear only after explicit external-write approval',
+                'owner': 'go',
+                'status': 'blocked_external_write',
+                'depends_on': ['quality_gate'],
+              },
+            ],
             'linear_template_count': 2,
             'quality_required': true,
             'linear_offline_fallback': true,
@@ -362,6 +372,12 @@ void main() {
     expect(
       snapshot.metrics.singleWhere((metric) => metric.label == 'Planner').value,
       '5/6 done, 1 gated',
+    );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Planner Gate')
+          .value,
+      'Linear Sync',
     );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
