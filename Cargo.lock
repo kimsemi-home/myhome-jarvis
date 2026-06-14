@@ -385,6 +385,8 @@ name = "mhj-harness"
 version = "0.1.0"
 dependencies = [
  "mhj-command",
+ "mhj-commerce",
+ "mhj-finance",
 ]
 
 [[package]]

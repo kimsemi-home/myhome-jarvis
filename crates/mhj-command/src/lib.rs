@@ -36,6 +36,9 @@ impl Error for CommandError {}
 
 pub fn plan_for(command: &str, payload: &str) -> Result<Plan, CommandError> {
     match normalize_command(command).as_str() {
+        "open_coupang_play" => ott_shortcut_plan("open_coupang_play", "coupangplay"),
+        "open_disney_plus" => ott_shortcut_plan("open_disney_plus", "disney"),
+        "open_netflix" => ott_shortcut_plan("open_netflix", "netflix"),
         "open_youtube" => Ok(open_url_plan("open_youtube", "https://www.youtube.com")),
         "open_youtube_search" => {
             let query = json_string(payload, "query")?;
@@ -52,6 +55,8 @@ pub fn plan_for(command: &str, payload: &str) -> Result<Plan, CommandError> {
                 ),
             ))
         }
+        "open_tving" => ott_shortcut_plan("open_tving", "tving"),
+        "open_wavve" => ott_shortcut_plan("open_wavve", "wavve"),
         "open_ott" => {
             let service = json_string(payload, "service")?.to_ascii_lowercase();
             let url = ott_url(&service).ok_or_else(|| {
@@ -191,6 +196,13 @@ fn open_url_plan(name: &str, target: &str) -> Plan {
             url: Some(target.to_string()),
         }],
     }
+}
+
+fn ott_shortcut_plan(name: &str, service: &str) -> Result<Plan, CommandError> {
+    let target = ott_url(service).ok_or_else(|| {
+        CommandError::InvalidPayload(format!("missing OTT shortcut target for {service}"))
+    })?;
+    Ok(open_url_plan(name, target))
 }
 
 fn apple_script_plan(name: &str, script: &str) -> Plan {
@@ -351,6 +363,22 @@ mod tests {
     #[test]
     fn rejects_unknown_ott() {
         assert!(plan_for("open-ott", r#"{"service":"unknown"}"#).is_err());
+    }
+
+    #[test]
+    fn ott_shortcuts_use_fixed_targets() {
+        let cases = [
+            ("open-netflix", "https://www.netflix.com"),
+            ("open-disney-plus", "https://www.disneyplus.com"),
+            ("open-tving", "https://www.tving.com"),
+            ("open-wavve", "https://www.wavve.com"),
+            ("open-coupang-play", "https://www.coupangplay.com"),
+        ];
+        for (command, expected_url) in cases {
+            let plan = plan_for(command, "{}").expect("shortcut plan");
+            assert_eq!(plan.invocations[0].url.as_deref(), Some(expected_url));
+            assert_eq!(plan.invocations[0].argv, strings(&["open", expected_url]));
+        }
     }
 
     #[test]

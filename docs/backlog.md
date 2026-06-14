@@ -251,3 +251,9 @@
 - [x] Redact default Linear status surfaces.
   - Acceptance: `mhj linear status`, daemon `GET /linear/status`, and Flutter Linear status rendering expose redacted Linear summary fields only; raw viewer/team identities, token source, and absolute private queue paths are not returned by default while internal sync logic can still use raw GraphQL status.
   - Validation: `go test ./internal/linear ./internal/daemon`; `go run ./cmd/mhj linear status`; `cd apps/flutter && flutter test test/daemon_client_test.dart`; full quality gate.
+
+## P33
+
+- [x] Complete dedicated Rust fixture harness boundary.
+  - Acceptance: `crates/mhj-harness` validates the home-control dry-run matrix, service-specific OTT shortcuts, finance fixture totals/owner scopes/review-only candidates, and commerce fixture spend/merchant/recurring-purchase invariants through Rust crate boundaries; no external command, finance, commerce, scraping, credential, or Linear mutation is executed.
+  - Validation: `cargo test -p mhj-command -p mhj-harness`; `go run ./cmd/mhj harness home`; `go run ./cmd/mhj harness finance`; `go run ./cmd/mhj harness commerce`; full quality gate.

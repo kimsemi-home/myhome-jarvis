@@ -9,3 +9,5 @@ path = "src/lib.rs"
 
 [dependencies]
 mhj-command = { path = "../mhj-command" }
+mhj-commerce = { path = "../mhj-commerce" }
+mhj-finance = { path = "../mhj-finance" }

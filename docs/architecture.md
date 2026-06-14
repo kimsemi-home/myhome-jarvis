@@ -87,7 +87,10 @@ without contacting or mutating Linear.
 The first Rust domain surface lives in `mhj-core`. It validates finance
 transaction fixtures, commerce purchase fixtures, and recommendation scoring
 before any real external finance or commerce connectors are introduced. The
-dedicated `mhj-finance` crate owns a fixture-only finance IR boundary for
+dedicated `mhj-harness` crate owns deterministic home, finance, and commerce
+fixture harness checks over the Rust command, finance, and commerce crate
+boundaries without executing external actions.
+The dedicated `mhj-finance` crate owns a fixture-only finance IR boundary for
 cashflow, owner summaries, and subscription review candidates. The dedicated
 `mhj-commerce` crate owns a fixture-only purchase IR boundary for spend
 summaries, merchant summaries, and recurring purchase review candidates.

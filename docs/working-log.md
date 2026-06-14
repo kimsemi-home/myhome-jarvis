@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 00:54 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Complete dedicated Rust fixture harness boundary.
+- Files touched: `Cargo.lock`, `crates/mhj-command/src/lib.rs`, `crates/mhj-harness/Cargo.toml`, `crates/mhj-harness/src/lib.rs`, `docs/architecture.md`, `docs/backlog.md`, `docs/ci.md`, `docs/harness.md`, `docs/working-log.md`.
+- Changes: added Rust command support for service-specific OTT shortcuts; expanded `mhj-harness` from home-control only to home, finance, and commerce fixture harness reports over `mhj-command`, `mhj-finance`, and `mhj-commerce`; documented the dedicated Rust harness boundary and CI coverage.
+- Validation after: `cargo fmt --check` passed; `cargo test -p mhj-command -p mhj-harness` passed; `go1.26.2 run ./cmd/mhj harness home`, `finance`, and `commerce` passed; `go1.26.2 test ./internal/commands ./internal/daemon` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run; `go1.26.2 run ./cmd/mhj codegen verify` passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 00:45 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -31,6 +31,9 @@ updates pass before commit while still catching stale artifacts.
 The Go unit runs `home`, `finance`, and `commerce` harness smoke commands
 before package tests and vet. Public-safety checks live in their own always-run
 job so docs-only or metadata-only risks are not hidden by the Go unit cache.
+The Rust unit runs the whole workspace, including `mhj-harness`, so the
+dedicated Rust harness boundary is covered whenever command, finance, commerce,
+fixtures, or Rust harness inputs change.
 
 Local equivalents:
 
