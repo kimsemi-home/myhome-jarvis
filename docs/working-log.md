@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 22:38 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add finance and commerce fixture harnesses.
+- Files touched: `cmd/mhj/main.go`, `internal/commands/harness.go`, `internal/commands/registry_test.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/harness.md`, `docs/working-log.md`.
+- Changes: added `mhj harness finance` and `mhj harness commerce`; wired daemon `POST /harness/run` for `finance` and `commerce`; included both harnesses in the full quality gate; documented local fixture-only harness validation.
+- Validation after: `go test ./internal/commands ./internal/daemon` passed; `go run ./cmd/mhj harness finance` passed; `go run ./cmd/mhj harness commerce` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 15-step quality run; generated artifacts had no diff; public safety scans passed; private quality journal redaction scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, subscription, scraping, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 22:28 local
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -27,6 +27,8 @@ go run ./cmd/mhj security check
 go run ./cmd/mhj command open-youtube '{}'
 go run ./cmd/mhj command volume-set '{"level":30}'
 go run ./cmd/mhj harness home
+go run ./cmd/mhj harness finance
+go run ./cmd/mhj harness commerce
 go run ./cmd/mhj linear status
 go run ./cmd/mhj linear pull
 go run ./cmd/mhj linear next

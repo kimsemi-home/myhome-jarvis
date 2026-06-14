@@ -92,16 +92,7 @@ func run(args []string) error {
 		}
 		return writeJSON(plan)
 	case "harness":
-		if len(args) == 2 && args[1] == "home" {
-			report := commands.RunHomeHarness()
-			if err := writeJSON(report); err != nil {
-				return err
-			}
-			if !report.Passed {
-				return errors.New("home harness failed")
-			}
-			return nil
-		}
+		return runHarness(root, args[1:])
 	case "linear":
 		if len(args) == 2 && args[1] == "status" {
 			return writeJSON(linear.CurrentStatus(root))
@@ -181,7 +172,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|command|harness home|harness finance|harness commerce|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -225,6 +216,30 @@ func runDaemon(root string, args []string) error {
 	}
 	fmt.Fprintf(os.Stderr, "myhome-jarvis daemon listening on %s:%d\n", config.Host, config.Port)
 	return server.ListenAndServe()
+}
+
+func runHarness(root string, args []string) error {
+	if len(args) != 1 {
+		return errors.New("usage: mhj harness <home|finance|commerce>")
+	}
+	var report commands.HarnessReport
+	switch args[0] {
+	case "home":
+		report = commands.RunHomeHarness()
+	case "finance":
+		report = commands.RunFinanceHarness(root)
+	case "commerce":
+		report = commands.RunCommerceHarness(root)
+	default:
+		return errors.New("usage: mhj harness <home|finance|commerce>")
+	}
+	if err := writeJSON(report); err != nil {
+		return err
+	}
+	if !report.Passed {
+		return fmt.Errorf("%s harness failed", report.Name)
+	}
+	return nil
 }
 
 func loopOnce(root string) error {
@@ -362,13 +377,9 @@ func runQuality(root string) error {
 		report.Steps = append(report.Steps, qualityStep{Name: "security check", Status: "fail", Output: "security findings present"})
 	}
 
-	homeHarness := commands.RunHomeHarness()
-	if homeHarness.Passed {
-		report.Steps = append(report.Steps, qualityStep{Name: "home harness", Status: "pass"})
-	} else {
-		report.OK = false
-		report.Steps = append(report.Steps, qualityStep{Name: "home harness", Status: "fail"})
-	}
+	report.addHarness("home harness", commands.RunHomeHarness())
+	report.addHarness("finance harness", commands.RunFinanceHarness(root))
+	report.addHarness("commerce harness", commands.RunCommerceHarness(root))
 
 	report.addCommand(root, "go test", []string{goTool, "test", "./..."})
 	report.addCommand(root, "go vet", []string{goTool, "vet", "./..."})
@@ -405,6 +416,15 @@ func qualityEvidenceSteps(steps []qualityStep) []qualitylog.Step {
 		evidence = append(evidence, qualitylog.Step{Name: step.Name, Status: step.Status})
 	}
 	return evidence
+}
+
+func (report *qualityReport) addHarness(name string, harness commands.HarnessReport) {
+	if harness.Passed {
+		report.Steps = append(report.Steps, qualityStep{Name: name, Status: "pass"})
+		return
+	}
+	report.OK = false
+	report.Steps = append(report.Steps, qualityStep{Name: name, Status: "fail"})
 }
 
 func runBenchmarkSmoke(root string) error {

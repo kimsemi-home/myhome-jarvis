@@ -81,6 +81,9 @@ Parquet writing is enabled.
 The Go daemon exposes the first domain read surface at `GET /domain/summary`.
 It reads local fixture JSONL and generated storage policy only; it does not
 connect to bank, commerce, or lake services.
+`mhj harness finance`, `mhj harness commerce`, and daemon `POST /harness/run`
+validate the same read-only fixture summaries without introducing external
+credentials or actions.
 
 The first recommendation surface is fixture-only. Rust owns the scoring
 skeleton, Go projects read-only daemon summaries, and Flutter shows the ranked

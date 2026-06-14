@@ -125,3 +125,9 @@
 - [x] Add dedicated Rust commerce crate boundary.
   - Acceptance: `crates/mhj-commerce` is part of the Cargo workspace; it parses and validates fixture-only purchase IR, computes spend, owner, and merchant summaries, and identifies recurring purchase review candidates without scraping, credentials, or purchase automation.
   - Validation: `cargo test -p mhj-commerce`; `cargo test --workspace`; full quality gate.
+
+## P12
+
+- [x] Add finance and commerce fixture harnesses.
+  - Acceptance: `mhj harness finance` and `mhj harness commerce` validate deterministic fixture summaries from local data only; daemon `/harness/run` accepts `finance` and `commerce`; full quality gate includes both harnesses.
+  - Validation: `go test ./internal/commands ./internal/daemon`; `go run ./cmd/mhj harness finance`; `go run ./cmd/mhj harness commerce`; full quality gate.

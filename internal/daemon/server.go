@@ -243,15 +243,22 @@ func (server *Server) handleHarnessRun(writer http.ResponseWriter, request *http
 	}
 	switch strings.TrimSpace(strings.ToLower(body.Name)) {
 	case "", "home":
-		report := commands.RunHomeHarness()
-		status := http.StatusOK
-		if !report.Passed {
-			status = http.StatusBadRequest
-		}
-		return writeJSON(writer, status, report)
+		return server.writeHarnessReport(writer, commands.RunHomeHarness())
+	case "finance":
+		return server.writeHarnessReport(writer, commands.RunFinanceHarness(server.config.Root))
+	case "commerce":
+		return server.writeHarnessReport(writer, commands.RunCommerceHarness(server.config.Root))
 	default:
 		return fmt.Errorf("unknown harness %q", body.Name)
 	}
+}
+
+func (server *Server) writeHarnessReport(writer http.ResponseWriter, report commands.HarnessReport) error {
+	status := http.StatusOK
+	if !report.Passed {
+		status = http.StatusBadRequest
+	}
+	return writeJSON(writer, status, report)
 }
 
 func (server *Server) handleLinearStatus(writer http.ResponseWriter, request *http.Request) error {
