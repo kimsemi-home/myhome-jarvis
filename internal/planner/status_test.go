@@ -18,13 +18,16 @@ func TestStatusForRootReturnsGeneratedPlannerGraph(t *testing.T) {
 	if status.TaskCount != 6 {
 		t.Fatalf("task count = %d", status.TaskCount)
 	}
-	if status.ReadyCount != 5 {
+	if status.ReadyCount != 0 {
 		t.Fatalf("ready count = %d", status.ReadyCount)
+	}
+	if status.CompletedCount != 5 {
+		t.Fatalf("completed count = %d", status.CompletedCount)
 	}
 	if status.BlockedExternalWriteCount != 1 {
 		t.Fatalf("blocked external write count = %d", status.BlockedExternalWriteCount)
 	}
-	if status.NextTask == nil || status.NextTask.ID != "repo_safety" {
+	if status.NextTask != nil {
 		t.Fatalf("next task = %#v", status.NextTask)
 	}
 	if status.LinearTemplateCount != 2 {
@@ -38,6 +41,22 @@ func TestStatusForRootReturnsGeneratedPlannerGraph(t *testing.T) {
 	}
 	if !status.LinearOfflineFallback {
 		t.Fatal("linear offline fallback should be enabled")
+	}
+}
+
+func TestReadPolicyRejectsUnknownTaskStatus(t *testing.T) {
+	root := t.TempDir()
+	path := filepath.Join(root, "planner.json")
+	data := `{"loop_mode":"closed-loop","max_task_scope":"one file","checkpoint_root":"data/private/checkpoints","quality_required":true,"linear_offline_fallback":true,"default_next":"ready","task_graph":[{"id":"repo_safety","title":"Repo safety","owner":"go","status":"maybe","depends_on":[]},{"id":"linear_sync","title":"Linear sync","owner":"go","status":"blocked_external_write","depends_on":["repo_safety"]}],"linear_templates":[]}`
+	if err := os.WriteFile(path, []byte(data), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	policy, err := ReadPolicy(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := validatePolicy(policy); err == nil {
+		t.Fatal("expected unknown task status to be rejected")
 	}
 }
 

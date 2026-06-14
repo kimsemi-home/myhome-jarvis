@@ -36,7 +36,8 @@ Current scope:
   result.
 - Public-safety rendering from `/security/status` as aggregate current-tree and
   Git-history status without raw findings or local roots.
-- Planner status rendering from `/planner/status` as ready task graph progress.
+- Planner status rendering from `/planner/status` as completed/ready/gated task
+  graph progress.
 - Structured recommendation rendering from fixture-only local summaries,
   including score, rationale, estimated amount, evidence count, and
   card-linked spend review items that never execute card actions.

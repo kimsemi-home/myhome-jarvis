@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -422,7 +423,7 @@ func runQuality(root string) error {
 	report.addCommand(root, "cargo fmt", []string{"cargo", "fmt", "--check"})
 	report.addCommand(root, "cargo clippy", []string{"cargo", "clippy", "--workspace", "--", "-D", "warnings"})
 	report.addCommand(root, "ssot validate", []string{"sbcl", "--script", "lisp/scripts/validate-ssot.lisp"})
-	report.addCommand(root, "ssot codegen", []string{"sbcl", "--script", "lisp/scripts/codegen.lisp"})
+	report.addCommand(root, "codegen verify", []string{goTool, "run", "./cmd/mhj", "codegen", "verify"})
 	if _, err := os.Stat(filepath.Join(root, "apps", "flutter", "pubspec.yaml")); err == nil {
 		flutterRoot := filepath.Join(root, "apps", "flutter")
 		report.addCommand(flutterRoot, "flutter test", []string{"flutter", "test"})
@@ -570,26 +571,65 @@ func runCodegen(root string) error {
 }
 
 func runCodegenVerify(root string) error {
+	before, err := generatedSnapshot(root)
+	if err != nil {
+		return err
+	}
 	if err := runCodegen(root); err != nil {
 		return err
 	}
-	if _, err := exec.LookPath("git"); err != nil {
-		return errors.New("missing executable: git")
+	after, err := generatedSnapshot(root)
+	if err != nil {
+		return err
 	}
-	cmd := exec.Command("git", "diff", "--exit-code", "--", "generated")
-	cmd.Dir = root
-	var output bytes.Buffer
-	cmd.Stdout = &output
-	cmd.Stderr = &output
-	if err := cmd.Run(); err != nil {
-		trimmed := strings.TrimSpace(output.String())
-		if trimmed == "" {
-			trimmed = "generated artifacts differ from SSOT"
-		}
-		return fmt.Errorf("generated artifacts are out of date:\n%s", trimmed)
+	changed := changedGeneratedFiles(before, after)
+	if len(changed) > 0 {
+		return fmt.Errorf("generated artifacts are out of date: %s", strings.Join(changed, ", "))
 	}
 	fmt.Fprintln(os.Stdout, "Generated artifacts verified")
 	return nil
+}
+
+func generatedSnapshot(root string) (map[string][]byte, error) {
+	generatedRoot := filepath.Join(root, "generated")
+	files := map[string][]byte{}
+	err := filepath.WalkDir(generatedRoot, func(path string, entry os.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if entry.IsDir() {
+			return nil
+		}
+		body, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		rel, err := filepath.Rel(root, path)
+		if err != nil {
+			return err
+		}
+		files[filepath.ToSlash(rel)] = body
+		return nil
+	})
+	return files, err
+}
+
+func changedGeneratedFiles(before map[string][]byte, after map[string][]byte) []string {
+	seen := map[string]bool{}
+	var changed []string
+	for path, body := range before {
+		seen[path] = true
+		if next, ok := after[path]; !ok || !bytes.Equal(body, next) {
+			changed = append(changed, path)
+		}
+	}
+	for path := range after {
+		if !seen[path] {
+			changed = append(changed, path)
+		}
+	}
+	sort.Strings(changed)
+	return changed
 }
 
 func writeJSON(value any) error {

@@ -595,13 +595,16 @@ func TestPlannerStatusReturnsGeneratedTaskGraph(t *testing.T) {
 	body := recorder.Body.String()
 	for _, expected := range []string{
 		`"task_count": 6`,
-		`"ready_count": 5`,
+		`"ready_count": 0`,
+		`"completed_count": 5`,
 		`"blocked_external_write_count": 1`,
-		`"id": "repo_safety"`,
 	} {
 		if !bytes.Contains([]byte(body), []byte(expected)) {
 			t.Fatalf("expected %s in %s", expected, body)
 		}
+	}
+	if bytes.Contains([]byte(body), []byte(`"next_task"`)) {
+		t.Fatalf("unexpected next task in %s", body)
 	}
 }
 

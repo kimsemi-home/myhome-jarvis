@@ -26,5 +26,6 @@ payload fields, OTT service allowlists, or generated URL targets drift from the
 Lisp-owned catalog.
 
 Use `mhj codegen verify` before committing SSOT or generated artifact changes.
-It regenerates `generated` from Lisp and fails if the checked-in artifacts are
-out of date.
+It snapshots the current `generated` tree, regenerates artifacts from Lisp, and
+fails if regeneration changes any generated file. This verifies intended
+working-tree SSOT/generated updates before they are committed.

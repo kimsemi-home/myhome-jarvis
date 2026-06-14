@@ -41,6 +41,7 @@ type Status struct {
 	LoopMode                  string `json:"loop_mode"`
 	TaskCount                 int    `json:"task_count"`
 	ReadyCount                int    `json:"ready_count"`
+	CompletedCount            int    `json:"completed_count"`
 	BlockedExternalWriteCount int    `json:"blocked_external_write_count"`
 	NextTask                  *Task  `json:"next_task,omitempty"`
 	LinearTemplateCount       int    `json:"linear_template_count"`
@@ -74,6 +75,8 @@ func StatusForRoot(root string) (Status, error) {
 		switch normalized {
 		case "ready":
 			status.ReadyCount++
+		case "completed":
+			status.CompletedCount++
 		case "blocked_external_write":
 			status.BlockedExternalWriteCount++
 		}
@@ -128,6 +131,9 @@ func validatePolicy(policy Policy) error {
 		if normalizeStatus(task.Status) == "blocked_external_write" {
 			hasExternalWriteBoundary = true
 		}
+		if !validStatus(task.Status) {
+			return fmt.Errorf("planner task %q has invalid status %q", task.ID, task.Status)
+		}
 	}
 	if !hasExternalWriteBoundary {
 		return errors.New("planner task graph must include an external-write boundary")
@@ -174,4 +180,13 @@ func dependenciesSatisfied(task Task, taskStatuses map[string]string) bool {
 
 func normalizeStatus(status string) string {
 	return strings.TrimSpace(strings.ToLower(status))
+}
+
+func validStatus(status string) bool {
+	switch normalizeStatus(status) {
+	case "ready", "completed", "blocked", "blocked_external_write":
+		return true
+	default:
+		return false
+	}
 }

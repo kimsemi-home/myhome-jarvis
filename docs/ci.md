@@ -23,6 +23,11 @@ Generated artifact verification lives in the `ssot` unit. On a cache miss, CI
 runs SSOT validation, regenerates artifacts, and fails if `generated` differs
 from the checked-in files.
 
+Locally, `mhj codegen verify` verifies the current working tree rather than
+HEAD: it snapshots `generated`, regenerates from Lisp, and fails only if
+regeneration changes the generated tree. This lets intentional SSOT/generated
+updates pass before commit while still catching stale artifacts.
+
 The Go unit runs `home`, `finance`, and `commerce` harness smoke commands
 before package tests and vet. Public-safety checks live in their own always-run
 job so docs-only or metadata-only risks are not hidden by the Go unit cache.

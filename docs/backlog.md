@@ -221,3 +221,15 @@
 - [x] Redact closed-loop checkpoint safety evidence.
   - Acceptance: `mhj loop once` and `mhj loop worker --cycles 1` use aggregate public-safety status for checkpoint decisions; loop output and private checkpoint evidence include redacted Linear summary and aggregate security status only, with no raw Linear viewer/team identities, raw security findings, local repository root, or absolute private paths.
   - Validation: `go test ./internal/linear ./internal/orchestrator ./internal/scheduler ./internal/security`; `go run ./cmd/mhj loop once`; `go run ./cmd/mhj loop worker --cycles 1`; full quality gate.
+
+## P28
+
+- [x] Align planner progress with completed local rails.
+  - Acceptance: SSOT marks completed local planner rails as `completed`; `mhj planner status`, daemon `GET /planner/status`, and Flutter Status expose completed, ready, and external-write-gated counts; `next_task` is omitted once no local ready task remains; planner validation rejects unknown task statuses.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go test ./internal/planner ./internal/daemon`; `cd apps/flutter && flutter test`; full quality gate.
+
+## P29
+
+- [x] Make local codegen verification working-tree aware.
+  - Acceptance: `mhj codegen verify` snapshots the current `generated` tree, regenerates artifacts from Lisp, and fails only when regeneration changes generated files, so intentional SSOT/generated updates can be verified before commit while stale artifacts are still caught; `mhj quality` uses that verification step.
+  - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj codegen verify`; full quality gate.

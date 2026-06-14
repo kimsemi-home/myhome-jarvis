@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 00:28 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Align planner progress with completed local rails and make codegen verification working-tree aware.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/main_test.go`, `lisp/ssot/planner.lisp`, `generated/planner.generated.json`, `internal/planner/status.go`, `internal/planner/status_test.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `docs/architecture.md`, `docs/backlog.md`, `docs/ci.md`, `docs/flutter.md`, `docs/planner.md`, `docs/ssot.md`, `docs/working-log.md`.
+- Changes: marked completed local planner rails in SSOT; added `completed_count` to planner status; omitted `next_task` when no local ready task remains; rejected unknown planner task statuses; updated Flutter Planner metric to show completed and external-write-gated progress; changed `mhj codegen verify` to compare generated snapshots before and after regeneration so intended working-tree SSOT/generated updates can pass before commit; made `mhj quality` use that verification step.
+- Validation after: `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed against the intended working-tree generated planner artifact; `go1.26.2 test ./cmd/mhj ./internal/planner ./internal/daemon` passed; `cd apps/flutter && flutter test test/daemon_client_test.dart` passed; `go1.26.2 run ./cmd/mhj planner status` returned 5 completed local tasks, 0 ready tasks, and 1 external-write-gated task with no next task; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 00:20 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

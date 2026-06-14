@@ -12,27 +12,27 @@
          (list :id "repo_safety"
                :title "Inspect repository safety state"
                :owner "go"
-               :status "ready"
+               :status "completed"
                :depends_on #())
          (list :id "ssot_verify"
                :title "Validate SSOT and generated artifacts"
                :owner "lisp"
-               :status "ready"
+               :status "completed"
                :depends_on #("repo_safety"))
          (list :id "quality_gate"
                :title "Run local quality gate"
                :owner "go"
-               :status "ready"
+               :status "completed"
                :depends_on #("ssot_verify"))
          (list :id "daemon_surface"
                :title "Expose local daemon status surfaces"
                :owner "go"
-               :status "ready"
+               :status "completed"
                :depends_on #("quality_gate"))
          (list :id "flutter_surface"
                :title "Reflect daemon status in local client"
                :owner "flutter"
-               :status "ready"
+               :status "completed"
                :depends_on #("daemon_surface"))
          (list :id "linear_sync"
                :title "Sync Linear only after explicit external-write approval"

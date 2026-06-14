@@ -175,6 +175,9 @@ JarvisSnapshot buildSnapshot({
   final supervisorStale = _bool(supervisor['stale']);
   final supervisorRecorded = _bool(supervisor['recorded']) ?? false;
   final plannerReady = _int(planner['ready_count']) ?? 0;
+  final plannerCompleted = _int(planner['completed_count']) ?? 0;
+  final plannerBlockedExternal =
+      _int(planner['blocked_external_write_count']) ?? 0;
   final plannerTasks = _int(planner['task_count']) ?? 0;
   final linearMode = _string(linear['mode']) ?? 'offline';
   final repoClean = _bool(repo['worktree_clean']);
@@ -248,7 +251,12 @@ JarvisSnapshot buildSnapshot({
       ),
       SystemMetric(
         label: 'Planner',
-        value: '$plannerReady/$plannerTasks ready',
+        value: _plannerProgress(
+          plannerReady,
+          plannerCompleted,
+          plannerBlockedExternal,
+          plannerTasks,
+        ),
         icon: Icons.schema_outlined,
       ),
       SystemMetric(
@@ -275,6 +283,21 @@ JarvisSnapshot buildSnapshot({
     financeDashboard: _financeDashboard(domain),
     purchaseDashboard: _purchaseDashboard(domain),
   );
+}
+
+String _plannerProgress(
+  int ready,
+  int completed,
+  int blockedExternal,
+  int tasks,
+) {
+  if (completed > 0 && ready == 0 && blockedExternal > 0) {
+    return '$completed/$tasks done, $blockedExternal gated';
+  }
+  if (completed > 0 && ready == 0) {
+    return '$completed/$tasks done';
+  }
+  return '$ready/$tasks ready';
 }
 
 HomeCommand? _commandFromSpec(Map<String, Object?> spec) {
