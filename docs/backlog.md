@@ -281,3 +281,9 @@
 - [x] Make storage fixture temp roots collision-safe.
   - Acceptance: `mhj-storage` curated fixture writer tests use per-process unique temporary roots even when Rust tests run in parallel, so one test cannot remove another test's generated Parquet fixture.
   - Validation: `cargo test -p mhj-storage`; full quality gate.
+
+## P38
+
+- [x] Redact default Linear issue operation surfaces.
+  - Acceptance: `mhj linear sync`, `mhj linear pull`, `mhj linear next`, and daemon `POST /linear/sync` return operation summaries without raw issue descriptions, workspace URLs, team identities, Linear UUIDs, token source, or absolute private paths; internal GraphQL operations still use variables and can select next issues without mutating Linear.
+  - Validation: `go test ./internal/linear ./internal/daemon`; `go run ./cmd/mhj linear next`; full quality gate.

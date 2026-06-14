@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 01:25 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Redact default Linear issue operation surfaces.
+- Files touched: `cmd/mhj/main.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `internal/linear/issues.go`, `internal/linear/issues_test.go`, `docs/backlog.md`, `docs/linear-workflow.md`, `docs/working-log.md`.
+- Changes: added redacted Linear operation summaries; changed CLI `linear sync`, `linear pull`, `linear next`, `linear comment`, `linear transition`, and `linear create-from-backlog` to print summaries by default; changed daemon `POST /linear/sync` to return the same summary shape; reduced Linear pull/comment/transition/create GraphQL selections so default operations do not request raw descriptions, workspace URLs, team identities, comment bodies, or issue URLs unless needed internally; kept offline queue paths repo-relative in operation results.
+- Validation after: `go1.26.2 test ./internal/linear ./internal/daemon` passed; `go1.26.2 run ./cmd/mhj linear next` and `linear pull` returned redacted operation summaries with repo-relative queue paths; `go1.26.2 run ./cmd/mhj codegen verify` passed; public safety scans passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 01:15 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

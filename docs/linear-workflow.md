@@ -24,9 +24,12 @@ the `Bearer` prefix already present. Tokens are never printed.
 `mhj linear status` and daemon `GET /linear/status` return redacted status
 summaries by default. They expose mode, token configured state, sync state,
 repo-relative queue path, HTTP status, rate-limit remaining count,
-viewer-configured boolean, team count, and message only. Raw viewer/team
-identities, token source, and absolute private paths are kept out of these
-default status surfaces.
+viewer-configured boolean, team count, and message only. `mhj linear sync`,
+`mhj linear pull`, `mhj linear next`, and daemon `POST /linear/sync` also return
+redacted operation summaries by default: issue identifiers, titles, update
+timestamps, and state types may be shown, while raw descriptions, workspace
+URLs, team identities, Linear UUIDs, token source, and absolute private paths
+are kept out of default CLI and daemon surfaces.
 
 Mutation commands use GraphQL variables rather than string interpolation.
 When credentials are unavailable or a GraphQL call fails, the command writes a

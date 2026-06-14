@@ -118,7 +118,7 @@ func run(args []string) error {
 					return err
 				}
 			}
-			return writeJSON(result)
+			return writeJSON(linear.SummarizeOperation(result))
 		}
 		if len(args) == 2 && args[1] == "pull" {
 			result := linear.PullIssues(context.Background(), root, http.DefaultClient)
@@ -127,7 +127,7 @@ func run(args []string) error {
 					return err
 				}
 			}
-			return writeJSON(result)
+			return writeJSON(linear.SummarizeOperation(result))
 		}
 		if len(args) == 2 && args[1] == "next" {
 			result := linear.NextIssue(context.Background(), root, http.DefaultClient)
@@ -136,16 +136,19 @@ func run(args []string) error {
 					return err
 				}
 			}
-			return writeJSON(result)
+			return writeJSON(linear.SummarizeOperation(result))
 		}
 		if len(args) >= 4 && args[1] == "comment" {
-			return writeJSON(linear.AddComment(context.Background(), root, http.DefaultClient, args[2], strings.Join(args[3:], " ")))
+			result := linear.AddComment(context.Background(), root, http.DefaultClient, args[2], strings.Join(args[3:], " "))
+			return writeJSON(linear.SummarizeOperation(result))
 		}
 		if len(args) >= 4 && args[1] == "transition" {
-			return writeJSON(linear.TransitionIssue(context.Background(), root, http.DefaultClient, args[2], strings.Join(args[3:], " ")))
+			result := linear.TransitionIssue(context.Background(), root, http.DefaultClient, args[2], strings.Join(args[3:], " "))
+			return writeJSON(linear.SummarizeOperation(result))
 		}
 		if len(args) == 2 && args[1] == "create-from-backlog" {
-			return writeJSON(linear.CreateFromBacklog(context.Background(), root, http.DefaultClient))
+			result := linear.CreateFromBacklog(context.Background(), root, http.DefaultClient)
+			return writeJSON(linear.SummarizeOperation(result))
 		}
 	case "daemon":
 		return runDaemon(root, args[1:])

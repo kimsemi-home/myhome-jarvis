@@ -323,7 +323,7 @@ func (server *Server) handleLinearSync(writer http.ResponseWriter, request *http
 			return err
 		}
 	}
-	return writeJSON(writer, http.StatusOK, result)
+	return writeJSON(writer, http.StatusOK, linear.SummarizeOperation(result))
 }
 
 func (server *Server) handleRepoStatus(writer http.ResponseWriter, request *http.Request) error {

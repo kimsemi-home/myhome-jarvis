@@ -44,6 +44,28 @@ type OperationResult struct {
 	State              *StateStatus `json:"state,omitempty"`
 }
 
+type IssueSummary struct {
+	Identifier string `json:"identifier"`
+	Title      string `json:"title"`
+	UpdatedAt  string `json:"updated_at,omitempty"`
+	StateType  string `json:"state_type,omitempty"`
+}
+
+type OperationSummary struct {
+	Mode               string         `json:"mode"`
+	Synced             bool           `json:"synced"`
+	QueuePath          string         `json:"queue_path"`
+	HTTPStatus         int            `json:"http_status,omitempty"`
+	RateLimitRemaining int            `json:"rate_limit_remaining,omitempty"`
+	Message            string         `json:"message"`
+	IssueCount         int            `json:"issue_count,omitempty"`
+	Issues             []IssueSummary `json:"issues,omitempty"`
+	Issue              *IssueSummary  `json:"issue,omitempty"`
+	CommentCreated     bool           `json:"comment_created,omitempty"`
+	CommentCreatedAt   string         `json:"comment_created_at,omitempty"`
+	StateType          string         `json:"state_type,omitempty"`
+}
+
 type backlogSeed struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
@@ -63,7 +85,7 @@ func PullIssues(ctx context.Context, root string, client *http.Client) Operation
 			Nodes []Issue `json:"nodes"`
 		} `json:"issues"`
 	}
-	query := `query PullIssues { issues { nodes { id identifier title description url updatedAt team { id name } state { id name type } } } }`
+	query := `query PullIssues { issues { nodes { id identifier title updatedAt state { id name type } } } }`
 	httpStatus, remaining, err := doGraphQL(ctx, client, token.Value, query, nil, &response)
 	result.HTTPStatus = httpStatus
 	result.RateLimitRemaining = remaining
@@ -121,7 +143,7 @@ func AddComment(ctx context.Context, root string, client *http.Client, issueID s
 			Comment *Comment `json:"comment"`
 		} `json:"commentCreate"`
 	}
-	query := `mutation AddComment($issueId: String!, $body: String!) { commentCreate(input: { issueId: $issueId, body: $body }) { success comment { id body createdAt } } }`
+	query := `mutation AddComment($issueId: String!, $body: String!) { commentCreate(input: { issueId: $issueId, body: $body }) { success comment { id createdAt } } }`
 	httpStatus, remaining, err := doGraphQL(ctx, client, token.Value, query, map[string]string{"issueId": issueID, "body": body}, &response)
 	result.HTTPStatus = httpStatus
 	result.RateLimitRemaining = remaining
@@ -172,7 +194,7 @@ func TransitionIssue(ctx context.Context, root string, client *http.Client, issu
 			Issue   *Issue `json:"issue"`
 		} `json:"issueUpdate"`
 	}
-	query := `mutation TransitionIssue($issueId: String!, $stateId: String!) { issueUpdate(id: $issueId, input: { stateId: $stateId }) { success issue { id identifier title url state { id name type } team { id name } } } }`
+	query := `mutation TransitionIssue($issueId: String!, $stateId: String!) { issueUpdate(id: $issueId, input: { stateId: $stateId }) { success issue { id identifier title state { id name type } } } }`
 	httpStatus, remaining, err := doGraphQL(ctx, client, token.Value, query, map[string]string{"issueId": issueID, "stateId": stateID}, &response)
 	result.HTTPStatus = httpStatus
 	result.RateLimitRemaining = remaining
@@ -233,7 +255,7 @@ func CreateFromBacklog(ctx context.Context, root string, client *http.Client) Op
 			"teamId":      teamID,
 			"priority":    seed.Priority,
 		}
-		query := `mutation IssueCreate($teamId: String!, $title: String!, $description: String!, $priority: Int) { issueCreate(input: { teamId: $teamId, title: $title, description: $description, priority: $priority }) { success issue { id identifier title url state { id name type } team { id name } } } }`
+		query := `mutation IssueCreate($teamId: String!, $title: String!, $description: String!, $priority: Int) { issueCreate(input: { teamId: $teamId, title: $title, description: $description, priority: $priority }) { success issue { id identifier title state { id name type } } } }`
 		httpStatus, remaining, err := doGraphQL(ctx, client, token.Value, query, variables, &response)
 		result.HTTPStatus = httpStatus
 		result.RateLimitRemaining = remaining
@@ -259,7 +281,46 @@ func baseOperationResult(root string) OperationResult {
 	return OperationResult{
 		Mode:      "offline",
 		Synced:    false,
-		QueuePath: filepathJoinSlash(root, "data", "private", "linear-offline-queue.jsonl"),
+		QueuePath: privateRelativePath(filepathJoinSlash(root, "data", "private", "linear-offline-queue.jsonl")),
+	}
+}
+
+func SummarizeOperation(result OperationResult) OperationSummary {
+	summary := OperationSummary{
+		Mode:               result.Mode,
+		Synced:             result.Synced,
+		QueuePath:          privateRelativePath(result.QueuePath),
+		HTTPStatus:         result.HTTPStatus,
+		RateLimitRemaining: result.RateLimitRemaining,
+		Message:            result.Message,
+		IssueCount:         len(result.Issues),
+	}
+	if len(result.Issues) > 0 {
+		summary.Issues = make([]IssueSummary, 0, len(result.Issues))
+		for _, issue := range result.Issues {
+			summary.Issues = append(summary.Issues, summarizeIssue(issue))
+		}
+	}
+	if result.Issue != nil {
+		issue := summarizeIssue(*result.Issue)
+		summary.Issue = &issue
+	}
+	if result.Comment != nil {
+		summary.CommentCreated = true
+		summary.CommentCreatedAt = result.Comment.CreatedAt
+	}
+	if result.State != nil {
+		summary.StateType = strings.TrimSpace(result.State.Type)
+	}
+	return summary
+}
+
+func summarizeIssue(issue Issue) IssueSummary {
+	return IssueSummary{
+		Identifier: strings.TrimSpace(issue.Identifier),
+		Title:      strings.TrimSpace(issue.Title),
+		UpdatedAt:  strings.TrimSpace(issue.UpdatedAt),
+		StateType:  strings.TrimSpace(issue.State.Type),
 	}
 }
 

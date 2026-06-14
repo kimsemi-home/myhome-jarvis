@@ -18,8 +18,14 @@ func TestPullIssuesUsesDirectGraphQL(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !strings.Contains(string(body), "query PullIssues") {
-			t.Fatalf("unexpected body: %s", string(body))
+		bodyText := string(body)
+		if !strings.Contains(bodyText, "query PullIssues") {
+			t.Fatalf("unexpected body: %s", bodyText)
+		}
+		for _, forbidden := range []string{"description", "url", "team"} {
+			if strings.Contains(bodyText, forbidden) {
+				t.Fatalf("pull query requested %s in %s", forbidden, bodyText)
+			}
 		}
 		return &http.Response{
 			StatusCode: http.StatusOK,
@@ -49,6 +55,59 @@ func TestPullIssuesUsesDirectGraphQL(t *testing.T) {
 	}
 	if result.Issues[0].Identifier != "MHJ-1" || result.RateLimitRemaining != 4998 {
 		t.Fatalf("unexpected issue/rate data: %#v", result)
+	}
+}
+
+func TestOperationSummaryRedactsLinearIssueDetails(t *testing.T) {
+	result := OperationResult{
+		Mode:               "online",
+		Synced:             true,
+		QueuePath:          filepath.Join(t.TempDir(), "data", "private", "linear-offline-queue.jsonl"),
+		HTTPStatus:         http.StatusOK,
+		RateLimitRemaining: 42,
+		Message:            "Selected next open Linear issue.",
+		Issues: []Issue{{
+			ID:          "issue-id",
+			Identifier:  "MHJ-1",
+			Title:       "Build local daemon",
+			Description: "raw acceptance text",
+			URL:         "https://linear.app/private/issue/MHJ-1",
+			UpdatedAt:   "2026-06-14T00:00:00.000Z",
+			Team:        TeamStatus{ID: "team-id", Name: "Private Team"},
+			State:       StateStatus{ID: "state-id", Name: "Todo", Type: "unstarted"},
+		}},
+	}
+	result.Issue = &result.Issues[0]
+
+	payload, err := json.Marshal(SummarizeOperation(result))
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := string(payload)
+	for _, expected := range []string{
+		`"queue_path":"data/private/linear-offline-queue.jsonl"`,
+		`"identifier":"MHJ-1"`,
+		`"state_type":"unstarted"`,
+	} {
+		if !strings.Contains(body, expected) {
+			t.Fatalf("expected %s in %s", expected, body)
+		}
+	}
+	for _, forbidden := range []string{
+		`description`,
+		`url`,
+		`team`,
+		`issue-id`,
+		`team-id`,
+		`state-id`,
+		`Private Team`,
+		`raw acceptance text`,
+		`"queue_path":"/`,
+		`"queue_path":"\\`,
+	} {
+		if strings.Contains(body, forbidden) {
+			t.Fatalf("summary leaked %s in %s", forbidden, body)
+		}
 	}
 }
 
