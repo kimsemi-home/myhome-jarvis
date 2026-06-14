@@ -28,6 +28,9 @@ Rust storage boundary:
   It rejects the raw layer, validates normalized fixture fields, writes only
   repo-relative lake paths, and reports row counts without reading credentials
   or external services.
+- `mhj-storage::inspect_curated_parquet` reads curated Parquet metadata for
+  repo-relative fixture lake paths and verifies row count, row groups, column
+  count, and Zstd compression without exposing row contents.
 - Lake roots and partition paths reject empty segments, absolute paths,
   backslashes, and path traversal.
 
@@ -37,8 +40,8 @@ Schema evolution policy:
 - Additive fields that preserve existing readers increment the minor version.
 - Removed fields, renamed fields, changed meaning, or changed physical format
   increment the major version.
-- Raw JSONL fixture writes and curated bronze/silver/gold Parquet+Zstd fixture
-  writes are both produced by Rust.
+- Raw JSONL fixture writes, curated bronze/silver/gold Parquet+Zstd fixture
+  writes, and curated metadata reads are produced by Rust.
 - Go and Flutter may read summaries from generated policy and fixtures, but
   storage writes remain behind the Rust storage boundary.
 

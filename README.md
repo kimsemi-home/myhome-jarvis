@@ -81,7 +81,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `crates/mhj-core/src/benchmark.rs`: fixture-pipeline benchmark smoke tests.
 - `crates/mhj-core/src/household.rs`: fixture-only user/spouse/household scope aggregation.
 - `crates/mhj-core/src/recommendations.rs`: fixture-only recommendation scoring skeleton.
-- `crates/mhj-storage`: Rust data lake manifest, safe path planning, and raw JSONL writer smoke.
+- `crates/mhj-storage`: Rust data lake manifest, safe path planning, raw JSONL writes, and fixture-only Parquet+Zstd writer/metadata reader.
 - `lisp/ssot`: executable source of truth.
 - `generated`: deterministic artifacts emitted from SSOT.
 - `.github/workflows`: hash-scoped GitHub Actions quality gates.

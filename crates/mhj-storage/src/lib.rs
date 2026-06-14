@@ -3,6 +3,7 @@ use arrow_schema::{DataType, Field, Schema};
 use parquet::arrow::ArrowWriter;
 use parquet::basic::{Compression as ParquetCompression, ZstdLevel};
 use parquet::file::properties::WriterProperties;
+use parquet::file::reader::{FileReader, SerializedFileReader};
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
@@ -115,6 +116,19 @@ pub struct CuratedWriteReport {
     pub compression: Compression,
     pub schema_version: String,
     pub row_count: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct CuratedReadReport {
+    pub relative_path: String,
+    pub layer: LakeLayer,
+    pub dataset: DatasetKind,
+    pub format: StorageFormat,
+    pub compression: Compression,
+    pub schema_version: String,
+    pub row_count: usize,
+    pub row_group_count: usize,
+    pub column_count: usize,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -328,6 +342,71 @@ pub fn write_curated_parquet_from_jsonl(
         compression: file.compression,
         schema_version: file.schema_version,
         row_count,
+    })
+}
+
+pub fn inspect_curated_parquet(
+    repository_root: &Path,
+    lake_root: &Path,
+    layer: LakeLayer,
+    dataset: DatasetKind,
+) -> Result<CuratedReadReport, StorageError> {
+    if matches!(layer, LakeLayer::Raw) {
+        return Err(StorageError::InvalidPath {
+            field: "layer",
+            message: "curated parquet reads require bronze, silver, or gold".to_string(),
+        });
+    }
+    let file = plan_dataset(lake_root, layer, dataset)?;
+    let destination = repository_root.join(&file.relative_path);
+    let reader_file = File::open(&destination).map_err(|error| StorageError::Io {
+        path: destination.clone(),
+        message: error.to_string(),
+    })?;
+    let reader = SerializedFileReader::new(reader_file).map_err(|error| StorageError::Parquet {
+        path: destination.clone(),
+        message: error.to_string(),
+    })?;
+    let metadata = reader.metadata();
+    let row_count = metadata.file_metadata().num_rows();
+    if row_count < 0 {
+        return Err(StorageError::Parquet {
+            path: destination.clone(),
+            message: "row count must not be negative".to_string(),
+        });
+    }
+    let row_group_count = metadata.num_row_groups();
+    if row_group_count == 0 {
+        return Err(StorageError::Parquet {
+            path: destination.clone(),
+            message: "curated parquet file must contain a row group".to_string(),
+        });
+    }
+    let column_count = metadata.file_metadata().schema_descr().num_columns();
+    for row_group_index in 0..row_group_count {
+        let row_group = metadata.row_group(row_group_index);
+        for column_index in 0..row_group.num_columns() {
+            if !matches!(
+                row_group.column(column_index).compression(),
+                ParquetCompression::ZSTD(_)
+            ) {
+                return Err(StorageError::Parquet {
+                    path: destination.clone(),
+                    message: "curated parquet columns must use zstd compression".to_string(),
+                });
+            }
+        }
+    }
+    Ok(CuratedReadReport {
+        relative_path: file.relative_path,
+        layer,
+        dataset,
+        format: file.format,
+        compression: Compression::Zstd,
+        schema_version: file.schema_version,
+        row_count: row_count as usize,
+        row_group_count,
+        column_count,
     })
 }
 
@@ -820,7 +899,6 @@ fn path_to_repo_string(path: &Path) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use parquet::file::reader::{FileReader, SerializedFileReader};
     use std::process;
     use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -951,6 +1029,17 @@ mod tests {
         assert_eq!(report.compression, Compression::Zstd);
         assert_eq!(report.row_count, 3);
         assert_parquet_file(&root.join(&report.relative_path), 3);
+        let read_report = inspect_curated_parquet(
+            &root,
+            Path::new(DEFAULT_LAKE_ROOT),
+            LakeLayer::Bronze,
+            DatasetKind::FinanceTransactions,
+        )
+        .expect("curated finance reader succeeds");
+        assert_eq!(read_report.row_count, 3);
+        assert_eq!(read_report.row_group_count, 1);
+        assert_eq!(read_report.column_count, 15);
+        assert_eq!(read_report.compression, Compression::Zstd);
         let _ = fs::remove_dir_all(root);
     }
 
@@ -974,6 +1063,17 @@ mod tests {
         assert_eq!(report.compression, Compression::Zstd);
         assert_eq!(report.row_count, 3);
         assert_parquet_file(&root.join(&report.relative_path), 3);
+        let read_report = inspect_curated_parquet(
+            &root,
+            Path::new(DEFAULT_LAKE_ROOT),
+            LakeLayer::Gold,
+            DatasetKind::CommercePurchases,
+        )
+        .expect("curated commerce reader succeeds");
+        assert_eq!(read_report.row_count, 3);
+        assert_eq!(read_report.row_group_count, 1);
+        assert_eq!(read_report.column_count, 17);
+        assert_eq!(read_report.compression, Compression::Zstd);
         let _ = fs::remove_dir_all(root);
     }
 
@@ -986,6 +1086,23 @@ mod tests {
             LakeLayer::Raw,
             DatasetKind::FinanceTransactions,
             "{}",
+        );
+
+        assert!(matches!(
+            result,
+            Err(StorageError::InvalidPath { field: "layer", .. })
+        ));
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn curated_reader_rejects_raw_layer() {
+        let root = temp_root();
+        let result = inspect_curated_parquet(
+            &root,
+            Path::new(DEFAULT_LAKE_ROOT),
+            LakeLayer::Raw,
+            DatasetKind::FinanceTransactions,
         );
 
         assert!(matches!(

@@ -137,3 +137,9 @@
 - [x] Add fixture-only Parquet+Zstd curated writer.
   - Acceptance: `crates/mhj-storage` materializes finance and commerce JSONL fixtures into bronze/silver/gold Parquet files with Zstd compression; raw layer curated writes are rejected; written files use repo-relative lake paths and metadata proves row count and compression.
   - Validation: `cargo test -p mhj-storage`; `cargo test --workspace`; full quality gate.
+
+## P14
+
+- [x] Add fixture-only Parquet metadata reader.
+  - Acceptance: `crates/mhj-storage` can inspect finance and commerce curated Parquet fixture files through repo-relative lake paths; reader reports row count, row group count, column count, schema version, and Zstd compression without exposing row contents; raw layer curated reads are rejected.
+  - Validation: `cargo test -p mhj-storage`; `cargo test --workspace`; full quality gate.

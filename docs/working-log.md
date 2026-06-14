@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 22:55 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add fixture-only Parquet metadata reader.
+- Files touched: `crates/mhj-storage/src/lib.rs`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/storage.md`, `docs/working-log.md`.
+- Changes: added `inspect_curated_parquet` to read curated Parquet metadata from repo-relative fixture lake paths; verified row count, row group count, column count, and Zstd compression; rejected raw-layer curated reads; kept row contents out of the reader report.
+- Validation after: `cargo fmt --check` passed; `cargo test -p mhj-storage` passed with 10 tests; `cargo test --workspace` passed; `cargo clippy --workspace -- -D warnings` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 15-step quality run; generated artifacts had no diff; public safety scans passed; private quality journal redaction scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, subscription, scraping, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 22:49 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

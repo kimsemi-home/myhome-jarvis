@@ -76,7 +76,8 @@ summaries, merchant summaries, and recurring purchase review candidates.
 `mhj-core` keeps the existing integrated fixture pipeline while domains are
 split out. The dedicated `mhj-storage` crate owns data lake manifests,
 repository-relative storage paths, raw JSONL fixture writes, and fixture-only
-curated Parquet+Zstd writes for finance and commerce datasets.
+curated Parquet+Zstd writes and metadata reads for finance and commerce
+datasets.
 
 The Go daemon exposes the first domain read surface at `GET /domain/summary`.
 It reads local fixture JSONL and generated storage policy only; it does not
