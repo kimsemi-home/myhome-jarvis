@@ -220,6 +220,8 @@ void main() {
             'requests': 7,
             'event_count': 2,
             'dry_run_default': true,
+            'execute_enabled': false,
+            'lan_bind_allowed': false,
           });
           return;
         case '/events':
@@ -301,6 +303,10 @@ void main() {
     expect(
       snapshot.metrics.map((metric) => metric.value),
       contains('127.0.0.1'),
+    );
+    expect(
+      snapshot.metrics.singleWhere((metric) => metric.label == 'Network').value,
+      'Local-only',
     );
     expect(snapshot.metrics.map((metric) => metric.value), contains('7'));
     expect(
@@ -454,6 +460,36 @@ void main() {
     );
 
     expect(plan.name, 'volume_set');
+  });
+
+  test('marks LAN daemon mode as token-gated', () {
+    final snapshot = buildSnapshot(
+      health: <String, Object?>{
+        'mode': 'local',
+        'dry_run': true,
+        'host': '192.168.1.10',
+      },
+      commands: const <Object?>[],
+      linear: const <String, Object?>{},
+      repo: const <String, Object?>{},
+      domain: const <String, Object?>{},
+      metrics: <String, Object?>{
+        'bind_host': '192.168.1.10',
+        'dry_run_default': true,
+        'execute_enabled': false,
+        'lan_bind_allowed': true,
+      },
+      events: const <String, Object?>{},
+      supervisor: const <String, Object?>{},
+      audit: const <String, Object?>{},
+      quality: const <String, Object?>{},
+      planner: const <String, Object?>{},
+    );
+
+    expect(
+      snapshot.metrics.singleWhere((metric) => metric.label == 'Network').value,
+      'LAN token-gated',
+    );
   });
 }
 

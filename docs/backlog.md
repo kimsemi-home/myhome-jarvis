@@ -173,3 +173,9 @@
 - [x] Add structured fixture-only recommendation UI.
   - Acceptance: Flutter parses recommendation kind, rationale, score, estimated monthly amount, and evidence count from daemon `/domain/summary`; the Optimize tab renders purchase, subscription, card, and cash-buffer recommendations as read-only review signals without action buttons or external writes.
   - Validation: `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.
+
+## P20
+
+- [x] Add explicit Flutter local-only network mode indicator.
+  - Acceptance: Flutter derives a Network status metric from daemon `/health` and `/metrics`; localhost/default mode renders as `Local-only`, LAN-enabled mode renders as `LAN token-gated`, and the offline fallback remains local-only.
+  - Validation: `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.

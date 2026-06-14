@@ -255,6 +255,11 @@ class JarvisSnapshot {
         icon: Icons.settings_ethernet,
       ),
       SystemMetric(
+        label: 'Network',
+        value: 'Local-only',
+        icon: Icons.wifi_off_outlined,
+      ),
+      SystemMetric(
         label: 'Mode',
         value: 'Dry-run',
         icon: Icons.shield_outlined,
@@ -470,6 +475,11 @@ class JarvisSnapshot {
           label: 'Daemon',
           value: 'Offline fallback',
           icon: Icons.settings_ethernet,
+        ),
+        SystemMetric(
+          label: 'Network',
+          value: 'Local-only',
+          icon: Icons.wifi_off_outlined,
         ),
         SystemMetric(
           label: 'Mode',

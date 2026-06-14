@@ -21,6 +21,8 @@ Current scope:
   candidates, categories, and owner spend breakdowns.
 - Repository status rendering from `/repo/status` as a clean/dirty status
   metric.
+- Local-only network mode rendering from `/health` and `/metrics`, with
+  LAN-enabled daemon mode shown as token-gated.
 - Supervisor status rendering from `/supervisor/status` as a reachable/stale
   daemon process metric.
 - Command audit rendering from `/audit/status` as a redacted journal count.

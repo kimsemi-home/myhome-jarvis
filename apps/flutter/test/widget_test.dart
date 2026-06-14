@@ -9,6 +9,8 @@ void main() {
     expect(find.text('myhome-jarvis'), findsOneWidget);
     expect(find.text('Daemon'), findsOneWidget);
     expect(find.text('127.0.0.1:3888'), findsOneWidget);
+    expect(find.text('Network'), findsOneWidget);
+    expect(find.text('Local-only'), findsOneWidget);
     expect(find.text('Dry-run'), findsOneWidget);
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });

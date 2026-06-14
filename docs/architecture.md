@@ -122,7 +122,8 @@ signals without purchase automation.
 The Optimize tab renders structured review-only recommendations from daemon
 summaries, including purchase, subscription, card-linked spend, and cash-buffer
 signals.
-The Status tab also surfaces whether the repository is clean or dirty, whether
-the recorded daemon supervisor state is reachable, and how many command audit
-and quality gate events are recorded.
+The Status tab also surfaces local-only or token-gated LAN network mode,
+whether the repository is clean or dirty, whether the recorded daemon
+supervisor state is reachable, and how many command audit and quality gate
+events are recorded.
 Platform runner files are left out until device packaging is required.

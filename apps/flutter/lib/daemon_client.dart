@@ -153,8 +153,11 @@ JarvisSnapshot buildSnapshot({
 }) {
   final bindHost =
       _string(metrics['bind_host']) ?? _string(health['host']) ?? '127.0.0.1';
+  final healthMode = _string(health['mode']);
+  final lanBindAllowed = _bool(metrics['lan_bind_allowed']) ?? false;
   final dryRun =
       _bool(health['dry_run']) ?? _bool(metrics['dry_run_default']) ?? true;
+  final executeEnabled = _bool(metrics['execute_enabled']) ?? false;
   final requestCount = _int(metrics['requests']);
   final eventCount = _int(events['count']) ?? _int(metrics['event_count']);
   final auditCount = _int(audit['count']);
@@ -178,8 +181,15 @@ JarvisSnapshot buildSnapshot({
         icon: Icons.settings_ethernet,
       ),
       SystemMetric(
+        label: 'Network',
+        value: _networkMode(bindHost, healthMode, lanBindAllowed),
+        icon: lanBindAllowed ? Icons.lan_outlined : Icons.wifi_off_outlined,
+      ),
+      SystemMetric(
         label: 'Mode',
-        value: dryRun ? 'Dry-run' : 'Execute-ready',
+        value: dryRun
+            ? 'Dry-run'
+            : (executeEnabled ? 'Execute-gated' : 'Execute-ready'),
         icon: Icons.shield_outlined,
       ),
       SystemMetric(
@@ -591,6 +601,19 @@ String _title(String value) {
     return value;
   }
   return value[0].toUpperCase() + value.substring(1).toLowerCase();
+}
+
+String _networkMode(String bindHost, String? healthMode, bool lanBindAllowed) {
+  if (lanBindAllowed) {
+    return 'LAN token-gated';
+  }
+  if (healthMode == 'local' ||
+      bindHost == '127.0.0.1' ||
+      bindHost == 'localhost' ||
+      bindHost == '::1') {
+    return 'Local-only';
+  }
+  return 'Remote';
 }
 
 List<CommandInvocation> _invocations(Object? value) {
