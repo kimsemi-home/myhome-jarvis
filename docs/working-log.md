@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 04:18 KST
+
+- Linear issue: KIM-16 transitioned to In Progress.
+- Mode: online-capable, local-first implementation after approved Linear status transition.
+- Task: Replay Linear offline queue with rate-aware backoff.
+- Files touched: `cmd/mhj/main.go`, `internal/linear/replay.go`, `internal/linear/replay_test.go`, `internal/linear/issues_test.go`, `lisp/ssot/linear.lisp`, `lisp/ssot/codegen.lisp`, `generated/linear.generated.json`, `docs/backlog.md`, `docs/linear-workflow.md`, `docs/working-log.md`.
+- Changes: added `mhj linear replay-offline`; replay reads the private append-only offline queue, replays only queued comment and transition actions, records private replay evidence to avoid duplicate replay, pauses when rate-limit remaining is low, and keeps failed or unreplayed entries `synced=false` without printing raw payloads, URLs, UUIDs, tokens, or absolute paths.
+- Validation after: `go1.26.2 test ./internal/linear ./cmd/mhj` passed; `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj ci verify` and `toolchain verify` passed; `go1.26.2 test ./...` passed; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan, forbidden language/dependency scan, and `git diff --check` passed.
+- External-write note: transitioned Linear issue KIM-16 to In Progress with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA to confirm cache behavior, then update Linear issue KIM-16.
+
 ## 2026-06-15 04:05 KST
 
 - Linear issues: KIM-11 and KIM-12 transitioned to In Progress.

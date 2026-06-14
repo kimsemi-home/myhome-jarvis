@@ -446,3 +446,10 @@
   - Linear: KIM-12
   - Acceptance: planner status exposes the standing SSOT-owned `external_write_gate` separately from redacted `linear_write_evidence`; `blocked_external_write` remains a boundary, not sync success, and synced mutation counts increase only from successful Linear API mutations recorded in private evidence.
   - Validation: `go test ./internal/planner ./internal/daemon`; `go run ./cmd/mhj planner status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P63
+
+- [x] Replay Linear offline queue with rate-aware backoff.
+  - Linear: KIM-16
+  - Acceptance: `mhj linear replay-offline` replays only write-safe queued comment and transition actions after Linear credentials are available; successful entries are tracked in private replay evidence to prevent duplicate replay; failed, unsupported, already queued, and low-rate-limit-paused entries remain `synced=false` in the original queue; summaries expose counts, repo-relative private paths, coarse status, HTTP status, and rate-limit remaining only.
+  - Validation: `go test ./internal/linear ./cmd/mhj`; SSOT validation and codegen verification; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

@@ -276,12 +276,16 @@ func TestProjectIssueTitlePrefixMatchesGeneratedPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	var policy struct {
-		ProjectIssueTitlePrefix    string `json:"project_issue_title_prefix"`
-		NextPrefersProjectIssue    bool   `json:"next_prefers_project_issues"`
-		NextRequiresProjectIssue   bool   `json:"next_requires_project_issue"`
-		BacklogSeedDedupesByTitle  bool   `json:"backlog_seed_dedupes_by_title"`
-		BacklogSeedCurrentProject  bool   `json:"backlog_seed_current_project_only"`
-		BacklogSeedQueriesExisting bool   `json:"backlog_seed_queries_existing_titles"`
+		ProjectIssueTitlePrefix    string   `json:"project_issue_title_prefix"`
+		NextPrefersProjectIssue    bool     `json:"next_prefers_project_issues"`
+		NextRequiresProjectIssue   bool     `json:"next_requires_project_issue"`
+		BacklogSeedDedupesByTitle  bool     `json:"backlog_seed_dedupes_by_title"`
+		BacklogSeedCurrentProject  bool     `json:"backlog_seed_current_project_only"`
+		BacklogSeedQueriesExisting bool     `json:"backlog_seed_queries_existing_titles"`
+		OfflineReplayEvidence      string   `json:"offline_replay_evidence"`
+		OfflineReplayRateFloor     int      `json:"offline_replay_rate_limit_floor"`
+		Commands                   []string `json:"commands"`
+		OfflineReplaySafeKinds     []string `json:"offline_replay_safe_action_kinds"`
 	}
 	if err := json.Unmarshal(data, &policy); err != nil {
 		t.Fatal(err)
@@ -303,6 +307,20 @@ func TestProjectIssueTitlePrefixMatchesGeneratedPolicy(t *testing.T) {
 	}
 	if !policy.BacklogSeedQueriesExisting {
 		t.Fatal("generated policy must keep backlog_seed_queries_existing_titles enabled")
+	}
+	if policy.OfflineReplayEvidence != OfflineReplayRelativePath {
+		t.Fatalf("offline replay evidence path = %q, expected %q", policy.OfflineReplayEvidence, OfflineReplayRelativePath)
+	}
+	if policy.OfflineReplayRateFloor != defaultReplayRateLimitFloor {
+		t.Fatalf("offline replay rate floor = %d, expected %d", policy.OfflineReplayRateFloor, defaultReplayRateLimitFloor)
+	}
+	if !containsString(policy.Commands, "mhj linear replay-offline") {
+		t.Fatalf("generated commands missing replay-offline: %#v", policy.Commands)
+	}
+	for _, kind := range []string{offlineReplayCommentKind, offlineReplayTransitionKind} {
+		if !containsString(policy.OfflineReplaySafeKinds, kind) {
+			t.Fatalf("generated safe replay kinds missing %s: %#v", kind, policy.OfflineReplaySafeKinds)
+		}
 	}
 }
 
@@ -677,4 +695,13 @@ func TestWriteEvidenceRedactsNonIssueKeys(t *testing.T) {
 	if strings.Contains(string(payload), "550e8400") {
 		t.Fatalf("raw id leaked into evidence file: %s", string(payload))
 	}
+}
+
+func containsString(values []string, wanted string) bool {
+	for _, value := range values {
+		if value == wanted {
+			return true
+		}
+	}
+	return false
 }

@@ -160,6 +160,9 @@ func run(args []string) error {
 			result := linear.CreateFromBacklog(context.Background(), root, http.DefaultClient)
 			return writeJSON(linear.SummarizeOperation(result))
 		}
+		if len(args) == 2 && args[1] == "replay-offline" {
+			return writeJSON(linear.ReplayOffline(context.Background(), root, http.DefaultClient))
+		}
 	case "daemon":
 		return runDaemon(root, args[1:])
 	case "ddd":
@@ -205,7 +208,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {

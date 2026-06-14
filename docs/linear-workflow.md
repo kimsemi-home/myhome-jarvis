@@ -12,6 +12,7 @@ Initial commands:
 - `mhj linear comment <issue-id> <message>`
 - `mhj linear transition <issue-id> <state>`
 - `mhj linear create-from-backlog`
+- `mhj linear replay-offline`
 - `mhj loop once`
 
 The GraphQL client will be implemented directly in Go. TypeScript SDKs are not
@@ -50,6 +51,16 @@ returns a synced zero-created summary instead of recreating duplicates.
 Mutation commands use GraphQL variables rather than string interpolation.
 When credentials are unavailable or a GraphQL call fails, the command writes a
 structured `synced=false` event to `data/private/linear-offline-queue.jsonl`.
+`mhj linear replay-offline` reads that private append-only queue and replays
+only write-safe comment and transition actions after credentials are available.
+Successful replay writes private idempotency evidence to
+`data/private/linear-offline-replay.jsonl`, so repeated replay does not repeat
+the same comment or transition. Failed entries and entries paused by low
+rate-limit remaining stay `synced=false` in the original queue; replay summaries
+return only counts, repo-relative private paths, coarse status, HTTP status,
+rate-limit remaining, and a redacted message. Backlog issue creation is
+idempotent through `mhj linear create-from-backlog` but is not automatically
+replayed from queued payloads, avoiding stale issue creation.
 
 Approved Linear write commands record private success evidence only after the
 Linear API mutation succeeds. The evidence journal is

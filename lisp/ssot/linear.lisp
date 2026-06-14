@@ -9,7 +9,9 @@
         :personal_api_key_authorization "Authorization: <API_KEY>"
         :oauth_authorization "Authorization: Bearer <ACCESS_TOKEN>"
         :offline_queue "data/private/linear-offline-queue.jsonl"
+        :offline_replay_evidence "data/private/linear-offline-replay.jsonl"
         :default_poll_seconds 60
+        :offline_replay_rate_limit_floor 100
         :sync_claim_requires_api_success t
         :pull_active_only t
         :team_scope_optional t
@@ -26,7 +28,10 @@
                     "mhj linear next"
                     "mhj linear comment <issue-id> <message>"
                     "mhj linear transition <issue-id> <state>"
-                    "mhj linear create-from-backlog")
+                    "mhj linear create-from-backlog"
+                    "mhj linear replay-offline")
+        :offline_replay_safe_action_kinds #("linear_comment"
+                                            "linear_transition")
         :offline_action_kinds #("linear_sync"
                                 "linear_pull"
                                 "linear_next"
