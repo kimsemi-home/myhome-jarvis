@@ -31,6 +31,9 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 It binds to `127.0.0.1` by default.
 LAN binding requires `--allow-lan` and non-localhost requests must include a
 Bearer token stored only in `data/private/local-token.txt`.
+The daemon HTTP server applies bounded read-header, read, write, idle, and
+header-size limits by default so slow or idle clients cannot hold local server
+resources indefinitely.
 `GET /auth/status` reports configured/missing state and repo-relative token
 path metadata only; it never returns the token value.
 `GET /linear/status` reports a redacted Linear summary only: configured/synced

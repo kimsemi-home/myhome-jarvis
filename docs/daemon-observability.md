@@ -41,6 +41,10 @@ filesystem paths.
 - The buffer keeps the newest 100 events.
 - `GET /metrics` exposes `event_count` so clients can show a lightweight
   observability signal without fetching all events.
+- The HTTP server uses bounded resource defaults: 5s read-header timeout, 15s
+  read timeout, 30s write timeout, 60s idle timeout, and 1 MiB max header bytes.
+  These bounds protect the local daemon from slow or idle clients while keeping
+  ordinary LAN requests comfortable.
 
 ## Validation
 
@@ -50,4 +54,5 @@ Current validation covers:
 - bounded buffer behavior
 - handler error recording
 - query data redaction from recorded paths
+- bounded HTTP server timeout and header-size defaults
 - Flutter snapshot loading of the event count

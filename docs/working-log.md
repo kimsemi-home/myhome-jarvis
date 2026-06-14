@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 01:01 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add bounded daemon HTTP resource defaults.
+- Files touched: `internal/daemon/server.go`, `internal/daemon/server_test.go`, `docs/architecture.md`, `docs/backlog.md`, `docs/daemon-observability.md`, `docs/working-log.md`.
+- Changes: added default read-header, read, write, idle, and max-header-size bounds to daemon HTTP server construction; added regression coverage for minimal config defaulting; documented the resource boundary for long-running local daemon operation.
+- Validation after: `go1.26.2 test ./internal/daemon` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run; `go1.26.2 run ./cmd/mhj codegen verify` passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 00:54 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -257,3 +257,9 @@
 - [x] Complete dedicated Rust fixture harness boundary.
   - Acceptance: `crates/mhj-harness` validates the home-control dry-run matrix, service-specific OTT shortcuts, finance fixture totals/owner scopes/review-only candidates, and commerce fixture spend/merchant/recurring-purchase invariants through Rust crate boundaries; no external command, finance, commerce, scraping, credential, or Linear mutation is executed.
   - Validation: `cargo test -p mhj-command -p mhj-harness`; `go run ./cmd/mhj harness home`; `go run ./cmd/mhj harness finance`; `go run ./cmd/mhj harness commerce`; full quality gate.
+
+## P34
+
+- [x] Add bounded daemon HTTP resource defaults.
+  - Acceptance: daemon `http.Server` instances use non-zero read-header, read, write, idle, and max-header-size limits by default, including when `New` receives a minimal config; localhost/LAN behavior and auth gates remain unchanged.
+  - Validation: `go test ./internal/daemon`; full quality gate.

@@ -27,15 +27,28 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
 )
 
+const (
+	defaultReadHeaderTimeout = 5 * time.Second
+	defaultReadTimeout       = 15 * time.Second
+	defaultWriteTimeout      = 30 * time.Second
+	defaultIdleTimeout       = 60 * time.Second
+	defaultMaxHeaderBytes    = 1 << 20
+)
+
 type Config struct {
-	Root            string
-	Host            string
-	Port            int
-	Execute         bool
-	AllowLANBind    bool
-	Version         string
-	CommandPlatform string
-	CommandRunner   commands.Runner
+	Root              string
+	Host              string
+	Port              int
+	Execute           bool
+	AllowLANBind      bool
+	Version           string
+	CommandPlatform   string
+	CommandRunner     commands.Runner
+	ReadHeaderTimeout time.Duration
+	ReadTimeout       time.Duration
+	WriteTimeout      time.Duration
+	IdleTimeout       time.Duration
+	MaxHeaderBytes    int
 }
 
 type Server struct {
@@ -46,16 +59,37 @@ type Server struct {
 }
 
 func DefaultConfig(root string, version string) Config {
-	return Config{
+	config := Config{
 		Root:    root,
 		Host:    envString("MYHOME_BIND_HOST", "127.0.0.1"),
 		Port:    envInt("MYHOME_BIND_PORT", 3888),
 		Execute: os.Getenv("MYHOME_EXECUTE") == "true",
 		Version: version,
 	}
+	return withDefaultResourceBounds(config)
+}
+
+func withDefaultResourceBounds(config Config) Config {
+	if config.ReadHeaderTimeout <= 0 {
+		config.ReadHeaderTimeout = defaultReadHeaderTimeout
+	}
+	if config.ReadTimeout <= 0 {
+		config.ReadTimeout = defaultReadTimeout
+	}
+	if config.WriteTimeout <= 0 {
+		config.WriteTimeout = defaultWriteTimeout
+	}
+	if config.IdleTimeout <= 0 {
+		config.IdleTimeout = defaultIdleTimeout
+	}
+	if config.MaxHeaderBytes <= 0 {
+		config.MaxHeaderBytes = defaultMaxHeaderBytes
+	}
+	return config
 }
 
 func New(config Config) (*Server, error) {
+	config = withDefaultResourceBounds(config)
 	if config.Root == "" {
 		return nil, errors.New("root is required")
 	}
@@ -74,11 +108,7 @@ func New(config Config) (*Server, error) {
 func (server *Server) ListenAndServe() error {
 	mux := server.Routes()
 	address := net.JoinHostPort(server.config.Host, strconv.Itoa(server.config.Port))
-	httpServer := &http.Server{
-		Addr:              address,
-		Handler:           mux,
-		ReadHeaderTimeout: 5 * time.Second,
-	}
+	httpServer := server.httpServer(address, mux)
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
 		return err
@@ -100,6 +130,18 @@ func (server *Server) ListenAndServe() error {
 		return err
 	}
 	return httpServer.Serve(listener)
+}
+
+func (server *Server) httpServer(address string, handler http.Handler) *http.Server {
+	return &http.Server{
+		Addr:              address,
+		Handler:           handler,
+		ReadHeaderTimeout: server.config.ReadHeaderTimeout,
+		ReadTimeout:       server.config.ReadTimeout,
+		WriteTimeout:      server.config.WriteTimeout,
+		IdleTimeout:       server.config.IdleTimeout,
+		MaxHeaderBytes:    server.config.MaxHeaderBytes,
+	}
 }
 
 func (server *Server) Routes() http.Handler {
