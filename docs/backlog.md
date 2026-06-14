@@ -311,3 +311,9 @@
 - [x] Scan current working-tree contents before public commit.
   - Acceptance: `mhj security check` scans non-private current file contents for private identity markers, local absolute paths, and secret-looking literals before they enter Git history; findings remain redacted to repo-relative path, optional line, code, and coarse message.
   - Validation: `go test ./internal/security`; `go run ./cmd/mhj security check`; full quality gate; GitHub Actions run.
+
+## P43
+
+- [x] Record current content scanning in security SSOT.
+  - Acceptance: Common Lisp SSOT emits generated security policy fields for current-content scanning, private-path skipping, private-identity scan, secret-literal scan, and non-reporting of matched secret contents; Go security tests read the generated artifact and fail on drift.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go test ./internal/security`; full quality gate; GitHub Actions run.

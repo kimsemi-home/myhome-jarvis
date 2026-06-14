@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 01:55 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Record current content scanning in security SSOT.
+- Files touched: `lisp/ssot/security.lisp`, `lisp/ssot/codegen.lisp`, `generated/security.generated.json`, `internal/security/security_test.go`, `docs/backlog.md`, `docs/security.md`, `docs/ssot.md`, `docs/working-log.md`.
+- Changes: added Lisp-owned security policy fields for current-content scanning, private-path skipping, private identity scan, secret literal scan, and non-reporting of matched secret contents; regenerated the security artifact; added Go regression coverage that reads the generated policy so the scanner behavior stays visible in SSOT.
+- Validation after: `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed with regenerated security artifact unchanged after codegen; `go1.26.2 test ./internal/security` passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; full `mhj quality` with Go 1.26.2 passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: run focused tests, full quality, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 01:50 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

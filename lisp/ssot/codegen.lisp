@@ -31,6 +31,12 @@
       (error "Scheduler policy must require crash recovery"))
     (unless (getf *security-policy* :lan_requires_bearer_token)
       (error "LAN daemon access must require a bearer token"))
+    (unless (getf *security-policy* :current_content_scan)
+      (error "Current-tree content scanning must stay enabled"))
+    (unless (getf *security-policy* :current_content_scan_skips_private_paths)
+      (error "Current-tree content scanning must skip private paths"))
+    (when (getf *security-policy* :report_matched_secret_contents)
+      (error "Security reports must not expose matched secret contents"))
     (unless (> (length (getf *planner-policy* :task_graph)) 0)
       (error "Planner policy must include a task graph"))
     (unless (find "linear_sync"

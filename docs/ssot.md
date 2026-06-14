@@ -25,6 +25,12 @@ but its tests load the generated artifact and fail if command names, summaries,
 payload fields, OTT service allowlists, or generated URL targets drift from the
 Lisp-owned catalog.
 
+The security SSOT emits `generated/security.generated.json`. Go owns the
+current-tree and Git-history scanners, while the generated policy records that
+current non-private file contents are scanned for private identity markers and
+secret-looking literals, private paths are skipped, and matched secret contents
+must not be reported.
+
 Use `mhj codegen verify` before committing SSOT or generated artifact changes.
 It snapshots the current `generated` tree, regenerates artifacts from Lisp, and
 fails if regeneration changes any generated file. This verifies intended

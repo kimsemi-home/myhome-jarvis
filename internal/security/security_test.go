@@ -1,12 +1,21 @@
 package security
 
 import (
+	"encoding/json"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
 )
+
+type generatedSecurityPolicy struct {
+	CurrentContentScan             bool `json:"current_content_scan"`
+	CurrentContentScanSkipsPrivate bool `json:"current_content_scan_skips_private_paths"`
+	PrivateIdentityScan            bool `json:"private_identity_scan"`
+	SecretLiteralScan              bool `json:"secret_literal_scan"`
+	ReportMatchedSecretContents    bool `json:"report_matched_secret_contents"`
+}
 
 func TestCheckRejectsPythonFile(t *testing.T) {
 	root := t.TempDir()
@@ -51,6 +60,29 @@ func TestCheckAllowsPrivateLocalFiles(t *testing.T) {
 	}
 	if !report.OK {
 		t.Fatalf("expected private local files to be allowed, got %+v", report.Findings)
+	}
+}
+
+func TestGeneratedPolicyRecordsCurrentContentScan(t *testing.T) {
+	data, err := os.ReadFile(filepath.Join(repoRoot(t), "generated", "security.generated.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var policy generatedSecurityPolicy
+	if err := json.Unmarshal(data, &policy); err != nil {
+		t.Fatal(err)
+	}
+	if !policy.CurrentContentScan {
+		t.Fatal("generated security policy must enable current content scanning")
+	}
+	if !policy.CurrentContentScanSkipsPrivate {
+		t.Fatal("generated security policy must keep current content scanning out of private paths")
+	}
+	if !policy.PrivateIdentityScan || !policy.SecretLiteralScan {
+		t.Fatalf("generated security policy missing content scan coverage: %#v", policy)
+	}
+	if policy.ReportMatchedSecretContents {
+		t.Fatal("generated security policy must not report matched secret contents")
 	}
 }
 
@@ -227,6 +259,24 @@ func runGit(t *testing.T, root string, args ...string) {
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("git %s failed: %v\n%s", strings.Join(args, " "), err, output)
+	}
+}
+
+func repoRoot(t *testing.T) string {
+	t.Helper()
+	dir, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	for {
+		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
+			return dir
+		}
+		next := filepath.Dir(dir)
+		if next == dir {
+			t.Fatal("could not find repo root")
+		}
+		dir = next
 	}
 }
 
