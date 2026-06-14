@@ -33,6 +33,9 @@ LAN binding requires `--allow-lan` and non-localhost requests must include a
 Bearer token stored only in `data/private/local-token.txt`.
 `GET /auth/status` reports configured/missing state and repo-relative token
 path metadata only; it never returns the token value.
+`GET /linear/status` reports a redacted Linear summary only: configured/synced
+state, repo-relative queue path, HTTP metadata, viewer-configured boolean, and
+team count without raw identities or token source.
 
 The first daemon observability surface is local and bounded. It keeps the
 newest 100 request events in memory and records only method, path, status,

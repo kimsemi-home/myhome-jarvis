@@ -245,3 +245,9 @@
 - [x] Reflect planner gate details in Flutter Status.
   - Acceptance: Flutter parses daemon `blocked_external_write_tasks` and renders a read-only `Planner Gate` status metric with the first gated task id when local planner rails are complete; the UI does not add action buttons or execute Linear mutations.
   - Validation: `cd apps/flutter && flutter test test/daemon_client_test.dart`; `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.
+
+## P32
+
+- [x] Redact default Linear status surfaces.
+  - Acceptance: `mhj linear status`, daemon `GET /linear/status`, and Flutter Linear status rendering expose redacted Linear summary fields only; raw viewer/team identities, token source, and absolute private queue paths are not returned by default while internal sync logic can still use raw GraphQL status.
+  - Validation: `go test ./internal/linear ./internal/daemon`; `go run ./cmd/mhj linear status`; `cd apps/flutter && flutter test test/daemon_client_test.dart`; full quality gate.

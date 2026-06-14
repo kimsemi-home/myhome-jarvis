@@ -270,7 +270,7 @@ func (server *Server) writeHarnessReport(writer http.ResponseWriter, report comm
 
 func (server *Server) handleLinearStatus(writer http.ResponseWriter, request *http.Request) error {
 	status := linear.StatusForRequest(request.Context(), server.config.Root, http.DefaultClient)
-	return writeJSON(writer, http.StatusOK, status)
+	return writeJSON(writer, http.StatusOK, linear.SummarizeStatus(status))
 }
 
 func (server *Server) handleLinearSync(writer http.ResponseWriter, request *http.Request) error {

@@ -17,6 +17,8 @@ Current scope:
   and generic OTT service selection.
 - Daemon snapshot client for `/health`, `/commands`, `/linear/status`, and
   `/metrics`.
+- Redacted Linear status rendering from `/linear/status` using sync state,
+  viewer-configured boolean, team count, and repo-relative queue path only.
 - Domain summary rendering from `/domain/summary` for finance, commerce, and
   storage fixture status.
 - Dedicated fixture-only Finance tab for cashflow totals, subscription spend,

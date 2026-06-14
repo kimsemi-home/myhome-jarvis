@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 00:45 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Redact default Linear status surfaces.
+- Files touched: `cmd/mhj/main.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `docs/architecture.md`, `docs/backlog.md`, `docs/flutter.md`, `docs/linear-workflow.md`, `docs/working-log.md`.
+- Changes: changed CLI `mhj linear status` and daemon `GET /linear/status` to return redacted Linear summaries; updated Flutter Linear status rendering to use viewer-configured and team-count fields instead of raw team names; added daemon regression coverage for redacted queue path and absence of raw status fields.
+- Validation after: `go1.26.2 test ./internal/linear ./internal/daemon` passed; `go1.26.2 run ./cmd/mhj linear status` returned a redacted summary with repo-relative queue path and no raw identity/status fields; `cd apps/flutter && flutter test test/daemon_client_test.dart` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run; `go1.26.2 run ./cmd/mhj codegen verify` passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 00:40 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

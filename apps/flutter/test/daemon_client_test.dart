@@ -72,9 +72,8 @@ void main() {
             'mode': 'online',
             'synced': true,
             'queue_path': 'data/private/linear-offline-queue.jsonl',
-            'teams': [
-              {'name': 'Home Ops'},
-            ],
+            'viewer_configured': true,
+            'team_count': 1,
           });
           return;
         case '/repo/status':
@@ -398,7 +397,8 @@ void main() {
       snapshot.commands.map((command) => command.payload),
       contains('{"level":30}'),
     );
-    expect(snapshot.linearItems, contains('Team: Home Ops'));
+    expect(snapshot.linearItems, contains('Teams: 1'));
+    expect(snapshot.linearItems, contains('Viewer configured: true'));
     expect(snapshot.linearItems, contains('Synced: true'));
     expect(snapshot.storageItems, contains('Finance: 3 transactions'));
     expect(snapshot.storageItems, contains('Finance net: 4346800 KRW'));

@@ -109,7 +109,7 @@ func run(args []string) error {
 		return runHarness(root, args[1:])
 	case "linear":
 		if len(args) == 2 && args[1] == "status" {
-			return writeJSON(linear.CurrentStatus(root))
+			return writeJSON(linear.SummarizeStatus(linear.CurrentStatus(root)))
 		}
 		if len(args) == 2 && args[1] == "sync" {
 			result := linear.PullIssues(context.Background(), root, http.DefaultClient)

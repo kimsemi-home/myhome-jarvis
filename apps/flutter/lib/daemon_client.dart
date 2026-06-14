@@ -367,6 +367,14 @@ List<String> _linearItems(Map<String, Object?> linear) {
       }
     }
   }
+  final teamCount = _int(linear['team_count']);
+  if (teamCount != null) {
+    items.add('Teams: $teamCount');
+  }
+  final viewerConfigured = _bool(linear['viewer_configured']);
+  if (viewerConfigured != null) {
+    items.add('Viewer configured: $viewerConfigured');
+  }
   final queuePath = _string(linear['queue_path']);
   if (queuePath != null && queuePath.isNotEmpty) {
     items.add('Queue: linear-offline-queue.jsonl');
