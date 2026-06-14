@@ -85,7 +85,32 @@ void main() {
             'finance': {
               'records': 3,
               'currency': 'KRW',
+              'credit_minor_units': 4500000,
+              'debit_minor_units': 153200,
               'net_minor_units': 4346800,
+              'subscription_minor_units': 65900,
+              'subscription_count': 1,
+              'card_debit_minor_units': 153200,
+              'card_debit_count': 2,
+              'categories': ['income', 'subscription', 'utilities'],
+              'owner_breakdown': [
+                {
+                  'owner': 'household',
+                  'records': 2,
+                  'currency': 'KRW',
+                  'credit_minor_units': 4500000,
+                  'debit_minor_units': 65900,
+                  'net_minor_units': 4434100,
+                },
+                {
+                  'owner': 'user',
+                  'records': 1,
+                  'currency': 'KRW',
+                  'credit_minor_units': 0,
+                  'debit_minor_units': 87300,
+                  'net_minor_units': -87300,
+                },
+              ],
             },
             'commerce': {'records': 3, 'recurring_candidate_count': 1},
             'household': {
@@ -285,6 +310,15 @@ void main() {
     expect(snapshot.storageItems, contains('Finance net: 4346800 KRW'));
     expect(snapshot.storageItems, contains('Commerce: 3 purchases'));
     expect(snapshot.storageItems, contains('Storage: parquet+zstd'));
+    expect(snapshot.financeDashboard.netMinorUnits, 4346800);
+    expect(snapshot.financeDashboard.subscriptionMinorUnits, 65900);
+    expect(snapshot.financeDashboard.cardDebitCount, 2);
+    expect(snapshot.financeDashboard.categories, contains('subscription'));
+    expect(snapshot.financeDashboard.owners.map((owner) => owner.owner), [
+      'household',
+      'user',
+    ]);
+    expect(snapshot.financeDashboard.owners.first.netMinorUnits, 4434100);
     expect(
       snapshot.recommendationItems,
       contains('81 - Compare recurring purchase: Bottled water'),

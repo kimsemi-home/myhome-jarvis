@@ -76,57 +76,81 @@ void main() {
     );
   });
 
-  testWidgets('shows Linear, storage, household, and optimization tabs', (
-    tester,
-  ) async {
-    await tester.pumpWidget(const JarvisApp());
+  testWidgets(
+    'shows finance, Linear, storage, household, and optimization tabs',
+    (tester) async {
+      await tester.pumpWidget(const JarvisApp());
 
-    await tester.tap(
-      find.descendant(of: find.byType(TabBar), matching: find.text('Linear')),
-    );
-    await tester.pumpAndSettle();
-    expect(find.text('Active queue'), findsOneWidget);
-    expect(find.text('Next issue'), findsOneWidget);
+      await tester.tap(
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Finance'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Net'), findsOneWidget);
+      expect(find.text('4346800 KRW'), findsOneWidget);
+      expect(find.text('Subscriptions'), findsOneWidget);
+      expect(find.text('1 / 65900 KRW'), findsOneWidget);
+      expect(find.text('Card-linked'), findsOneWidget);
+      expect(find.text('2 / 153200 KRW'), findsOneWidget);
+      expect(find.text('Owner Breakdown'), findsOneWidget);
+      expect(find.text('Household net'), findsOneWidget);
+      expect(find.text('Categories'), findsOneWidget);
 
-    await tester.tap(
-      find.descendant(of: find.byType(TabBar), matching: find.text('Storage')),
-    );
-    await tester.pumpAndSettle();
-    expect(find.text('finance_transactions'), findsOneWidget);
-    expect(find.text('commerce_purchases'), findsOneWidget);
+      await tester.tap(
+        find.descendant(of: find.byType(TabBar), matching: find.text('Linear')),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Active queue'), findsOneWidget);
+      expect(find.text('Next issue'), findsOneWidget);
 
-    await tester.tap(
-      find.descendant(
-        of: find.byType(TabBar),
-        matching: find.text('Household'),
-      ),
-    );
-    await tester.pumpAndSettle();
-    expect(find.text('Finance net: -87300 KRW'), findsOneWidget);
-    expect(find.text('Purchase spend: 3200 KRW'), findsOneWidget);
+      await tester.tap(
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Storage'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('finance_transactions'), findsOneWidget);
+      expect(find.text('commerce_purchases'), findsOneWidget);
 
-    await tester.tap(
-      find.descendant(
-        of: find.byType(SegmentedButton<String>),
-        matching: find.text('Household'),
-      ),
-    );
-    await tester.pumpAndSettle();
-    expect(find.text('Finance net: 4346800 KRW'), findsOneWidget);
-    expect(find.text('Purchase spend: 26800 KRW'), findsOneWidget);
+      await tester.tap(
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Household'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Finance net: -87300 KRW'), findsOneWidget);
+      expect(find.text('Purchase spend: 3200 KRW'), findsOneWidget);
 
-    await tester.tap(
-      find.descendant(of: find.byType(TabBar), matching: find.text('Optimize')),
-    );
-    await tester.pumpAndSettle();
-    expect(
-      find.text('81 - Compare recurring purchase: Bottled water 2L x 6'),
-      findsOneWidget,
-    );
-    expect(
-      find.text('67 - Review card-linked household spend'),
-      findsOneWidget,
-    );
-    expect(find.text('61 - Review household subscriptions'), findsOneWidget);
-  });
+      await tester.tap(
+        find.descendant(
+          of: find.byType(SegmentedButton<String>),
+          matching: find.text('Household'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Finance net: 4346800 KRW'), findsOneWidget);
+      expect(find.text('Purchase spend: 26800 KRW'), findsOneWidget);
+
+      await tester.tap(
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Optimize'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.text('81 - Compare recurring purchase: Bottled water 2L x 6'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('67 - Review card-linked household spend'),
+        findsOneWidget,
+      );
+      expect(find.text('61 - Review household subscriptions'), findsOneWidget);
+    },
+  );
 }

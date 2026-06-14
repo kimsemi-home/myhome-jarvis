@@ -236,6 +236,7 @@ JarvisSnapshot buildSnapshot({
     storageItems: _domainItems(domain),
     recommendationItems: _recommendationItems(domain),
     householdScopes: _householdScopes(domain),
+    financeDashboard: _financeDashboard(domain),
   );
 }
 
@@ -377,6 +378,46 @@ List<HouseholdScope> _householdScopes(Map<String, Object?> domain) {
     );
   }
   return scopes.isEmpty ? JarvisSnapshot.sample.householdScopes : scopes;
+}
+
+FinanceDashboard _financeDashboard(Map<String, Object?> domain) {
+  final finance = _object(domain['finance']);
+  if (finance == null) {
+    return JarvisSnapshot.sample.financeDashboard;
+  }
+  final owners = <FinanceOwner>[];
+  final rawOwners = finance['owner_breakdown'];
+  if (rawOwners is List<Object?>) {
+    for (final item in rawOwners.whereType<Map<String, Object?>>()) {
+      final owner = _string(item['owner']);
+      if (owner == null || owner.isEmpty) {
+        continue;
+      }
+      owners.add(
+        FinanceOwner(
+          owner: owner,
+          records: _int(item['records']) ?? 0,
+          currency: _string(item['currency']) ?? '',
+          creditMinorUnits: _int(item['credit_minor_units']) ?? 0,
+          debitMinorUnits: _int(item['debit_minor_units']) ?? 0,
+          netMinorUnits: _int(item['net_minor_units']) ?? 0,
+        ),
+      );
+    }
+  }
+  return FinanceDashboard(
+    records: _int(finance['records']) ?? 0,
+    currency: _string(finance['currency']) ?? '',
+    creditMinorUnits: _int(finance['credit_minor_units']) ?? 0,
+    debitMinorUnits: _int(finance['debit_minor_units']) ?? 0,
+    netMinorUnits: _int(finance['net_minor_units']) ?? 0,
+    subscriptionMinorUnits: _int(finance['subscription_minor_units']) ?? 0,
+    subscriptionCount: _int(finance['subscription_count']) ?? 0,
+    cardDebitMinorUnits: _int(finance['card_debit_minor_units']) ?? 0,
+    cardDebitCount: _int(finance['card_debit_count']) ?? 0,
+    categories: _stringList(finance['categories']),
+    owners: owners,
+  );
 }
 
 String _payloadExample(String name) {

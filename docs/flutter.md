@@ -5,7 +5,7 @@ The first Flutter client lives in `apps/flutter`.
 Current scope:
 
 - Dart-only Flutter skeleton.
-- Status, command, Linear, storage, household, and optimization tabs.
+- Status, command, finance, Linear, storage, household, and optimization tabs.
 - Dry-run command rows with editable payload fields for the initial
   home-control surface.
 - Explicit zero-payload OTT shortcut buttons for Netflix, Disney+, TVING,
@@ -14,6 +14,8 @@ Current scope:
   `/metrics`.
 - Domain summary rendering from `/domain/summary` for finance, commerce, and
   storage fixture status.
+- Dedicated fixture-only Finance tab for cashflow totals, subscription spend,
+  card-linked debit review totals, categories, and owner breakdowns.
 - Repository status rendering from `/repo/status` as a clean/dirty status
   metric.
 - Supervisor status rendering from `/supervisor/status` as a reachable/stale

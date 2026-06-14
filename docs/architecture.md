@@ -94,16 +94,24 @@ buffer, subscription, card-linked spend, and recurring purchase review items in
 an Optimize tab. Recommendations never execute purchases, subscription changes,
 card actions, transfers, or investment trades.
 
+The first finance dashboard is fixture-only. Flutter reads finance totals,
+subscription spend, card-linked debit review totals, categories, and owner
+breakdowns from daemon `/domain/summary`; it does not request credentials,
+connect to banks or cards, or execute transfers, subscription changes, card
+actions, or investment trades.
+
 The first household surface is also fixture-only. Finance and commerce owner
 fields are projected into User, Spouse, and Household scopes so the UI can
 switch views without introducing real account credentials.
 
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
-client with status, command, Linear, storage, household, and optimization tabs.
+client with status, command, finance, Linear, storage, household, and
+optimization tabs.
 It can load snapshots from the localhost daemon while keeping a deterministic
 offline fallback. The command tab includes explicit OTT shortcuts plus editable
-payload commands for search, URL, and volume operations. The Status tab also
-surfaces whether the repository is clean or dirty, whether the recorded daemon
-supervisor state is reachable, and how many command audit and quality gate
-events are recorded.
+payload commands for search, URL, and volume operations. The Finance tab shows
+fixture cashflow totals and review-only subscription/card-linked spend signals.
+The Status tab also surfaces whether the repository is clean or dirty, whether
+the recorded daemon supervisor state is reachable, and how many command audit
+and quality gate events are recorded.
 Platform runner files are left out until device packaging is required.

@@ -100,6 +100,54 @@ class HouseholdScope {
 }
 
 @immutable
+class FinanceOwner {
+  const FinanceOwner({
+    required this.owner,
+    required this.records,
+    required this.currency,
+    required this.creditMinorUnits,
+    required this.debitMinorUnits,
+    required this.netMinorUnits,
+  });
+
+  final String owner;
+  final int records;
+  final String currency;
+  final int creditMinorUnits;
+  final int debitMinorUnits;
+  final int netMinorUnits;
+}
+
+@immutable
+class FinanceDashboard {
+  const FinanceDashboard({
+    required this.records,
+    required this.currency,
+    required this.creditMinorUnits,
+    required this.debitMinorUnits,
+    required this.netMinorUnits,
+    required this.subscriptionMinorUnits,
+    required this.subscriptionCount,
+    required this.cardDebitMinorUnits,
+    required this.cardDebitCount,
+    required this.categories,
+    required this.owners,
+  });
+
+  final int records;
+  final String currency;
+  final int creditMinorUnits;
+  final int debitMinorUnits;
+  final int netMinorUnits;
+  final int subscriptionMinorUnits;
+  final int subscriptionCount;
+  final int cardDebitMinorUnits;
+  final int cardDebitCount;
+  final List<String> categories;
+  final List<FinanceOwner> owners;
+}
+
+@immutable
 class JarvisSnapshot {
   const JarvisSnapshot({
     required this.metrics,
@@ -108,6 +156,7 @@ class JarvisSnapshot {
     required this.storageItems,
     required this.recommendationItems,
     required this.householdScopes,
+    required this.financeDashboard,
   });
 
   final List<SystemMetric> metrics;
@@ -116,6 +165,7 @@ class JarvisSnapshot {
   final List<String> storageItems;
   final List<String> recommendationItems;
   final List<HouseholdScope> householdScopes;
+  final FinanceDashboard financeDashboard;
 
   static const sample = JarvisSnapshot(
     metrics: [
@@ -229,6 +279,36 @@ class JarvisSnapshot {
         purchaseSpendMinorUnits: 26800,
       ),
     ],
+    financeDashboard: FinanceDashboard(
+      records: 3,
+      currency: 'KRW',
+      creditMinorUnits: 4500000,
+      debitMinorUnits: 153200,
+      netMinorUnits: 4346800,
+      subscriptionMinorUnits: 65900,
+      subscriptionCount: 1,
+      cardDebitMinorUnits: 153200,
+      cardDebitCount: 2,
+      categories: ['income', 'subscription', 'utilities'],
+      owners: [
+        FinanceOwner(
+          owner: 'household',
+          records: 2,
+          currency: 'KRW',
+          creditMinorUnits: 4500000,
+          debitMinorUnits: 65900,
+          netMinorUnits: 4434100,
+        ),
+        FinanceOwner(
+          owner: 'user',
+          records: 1,
+          currency: 'KRW',
+          creditMinorUnits: 0,
+          debitMinorUnits: 87300,
+          netMinorUnits: -87300,
+        ),
+      ],
+    ),
   );
 
   factory JarvisSnapshot.offlineFallback() {
@@ -260,6 +340,7 @@ class JarvisSnapshot {
       storageItems: sample.storageItems,
       recommendationItems: sample.recommendationItems,
       householdScopes: sample.householdScopes,
+      financeDashboard: sample.financeDashboard,
     );
   }
 }

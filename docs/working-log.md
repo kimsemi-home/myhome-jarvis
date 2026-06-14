@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 23:16 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add fixture-only Flutter finance dashboard.
+- Files touched: `README.md`, `apps/flutter/lib/main.dart`, `apps/flutter/lib/snapshot.dart`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `apps/flutter/test/widget_test.dart`, `docs/architecture.md`, `docs/backlog.md`, `docs/flutter.md`, `docs/working-log.md`.
+- Changes: added a dedicated Finance tab fed by daemon `/domain/summary`; parsed fixture finance totals, subscription spend, card-linked debit review totals, categories, and owner breakdowns into Flutter snapshot models; kept the surface read-only with no credential request or finance action execution.
+- Validation after: `cd apps/flutter && flutter test` passed; `cd apps/flutter && flutter analyze` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 15-step quality run; generated artifacts had no diff; public safety scans passed; private quality journal redaction scan passed.
+- External-write note: no local macOS command, Linear mutation, bank/card/security credential request, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 23:09 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -102,7 +102,7 @@ class JarvisScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 7,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('myhome-jarvis'),
@@ -119,6 +119,10 @@ class JarvisScaffold extends StatelessWidget {
             tabs: [
               Tab(icon: Icon(Icons.monitor_heart_outlined), text: 'Status'),
               Tab(icon: Icon(Icons.tune_outlined), text: 'Commands'),
+              Tab(
+                icon: Icon(Icons.account_balance_wallet_outlined),
+                text: 'Finance',
+              ),
               Tab(icon: Icon(Icons.hub_outlined), text: 'Linear'),
               Tab(icon: Icon(Icons.storage_outlined), text: 'Storage'),
               Tab(icon: Icon(Icons.groups_outlined), text: 'Household'),
@@ -132,6 +136,7 @@ class JarvisScaffold extends StatelessWidget {
               children: [
                 StatusView(metrics: snapshot.metrics),
                 CommandsView(commands: snapshot.commands, client: client),
+                FinanceView(dashboard: snapshot.financeDashboard),
                 PlainListView(title: 'Linear', items: snapshot.linearItems),
                 PlainListView(title: 'Storage', items: snapshot.storageItems),
                 HouseholdView(scopes: snapshot.householdScopes),
@@ -205,6 +210,150 @@ class MetricTile extends StatelessWidget {
                     metric.value,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FinanceView extends StatelessWidget {
+  const FinanceView({super.key, required this.dashboard});
+
+  final FinanceDashboard dashboard;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          GridView.count(
+            crossAxisCount: MediaQuery.sizeOf(context).width >= 760 ? 3 : 2,
+            childAspectRatio: 2.5,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              FinanceMetricTile(
+                label: 'Net',
+                value: _moneyText(dashboard.netMinorUnits, dashboard.currency),
+                icon: Icons.account_balance_wallet_outlined,
+              ),
+              FinanceMetricTile(
+                label: 'Credits',
+                value: _moneyText(
+                  dashboard.creditMinorUnits,
+                  dashboard.currency,
+                ),
+                icon: Icons.trending_up_outlined,
+              ),
+              FinanceMetricTile(
+                label: 'Debits',
+                value: _moneyText(
+                  dashboard.debitMinorUnits,
+                  dashboard.currency,
+                ),
+                icon: Icons.trending_down_outlined,
+              ),
+              FinanceMetricTile(
+                label: 'Subscriptions',
+                value:
+                    '${dashboard.subscriptionCount} / ${_moneyText(dashboard.subscriptionMinorUnits, dashboard.currency)}',
+                icon: Icons.subscriptions_outlined,
+              ),
+              FinanceMetricTile(
+                label: 'Card-linked',
+                value:
+                    '${dashboard.cardDebitCount} / ${_moneyText(dashboard.cardDebitMinorUnits, dashboard.currency)}',
+                icon: Icons.credit_card_outlined,
+              ),
+              FinanceMetricTile(
+                label: 'Records',
+                value: '${dashboard.records}',
+                icon: Icons.receipt_long_outlined,
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Owner Breakdown',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          for (final owner in dashboard.owners) ...[
+            ListTile(
+              leading: const Icon(Icons.person_outline),
+              title: Text('${_title(owner.owner)} net'),
+              subtitle: Text('${owner.records} records'),
+              trailing: Text(
+                _moneyText(owner.netMinorUnits, owner.currency),
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            ),
+            const Divider(height: 1),
+          ],
+          if (dashboard.categories.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            Text('Categories', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final category in dashboard.categories)
+                  Chip(label: Text(category)),
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class FinanceMetricTile extends StatelessWidget {
+  const FinanceMetricTile({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.icon,
+  });
+
+  final String label;
+  final String value;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(color: colors.outlineVariant),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            Icon(icon, color: colors.primary),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(label, style: Theme.of(context).textTheme.labelMedium),
+                  const SizedBox(height: 4),
+                  Text(
+                    value,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
               ),
@@ -462,6 +611,21 @@ Object _payloadValue(String field, String text) {
     return int.tryParse(text) ?? 0;
   }
   return text;
+}
+
+String _moneyText(int minorUnits, String currency) {
+  final suffix = currency.trim();
+  if (suffix.isEmpty) {
+    return '$minorUnits';
+  }
+  return '$minorUnits $suffix';
+}
+
+String _title(String value) {
+  if (value.isEmpty) {
+    return value;
+  }
+  return value[0].toUpperCase() + value.substring(1).toLowerCase();
 }
 
 bool _numericPayloadField(String field) {
