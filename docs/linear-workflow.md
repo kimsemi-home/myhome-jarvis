@@ -55,12 +55,14 @@ structured `synced=false` event to `data/private/linear-offline-queue.jsonl`.
 only write-safe comment and transition actions after credentials are available.
 Successful replay writes private idempotency evidence to
 `data/private/linear-offline-replay.jsonl`, so repeated replay does not repeat
-the same comment or transition. Failed entries and entries paused by low
-rate-limit remaining stay `synced=false` in the original queue; replay summaries
-return only counts, repo-relative private paths, coarse status, HTTP status,
-rate-limit remaining, and a redacted message. Backlog issue creation is
-idempotent through `mhj linear create-from-backlog` but is not automatically
-replayed from queued payloads, avoiding stale issue creation.
+the same comment or transition. When `LINEAR_TEAM_KEY` is configured, replay
+only processes queued issue keys with that public prefix, so older entries from
+another team key stay skipped instead of being mutated. Failed entries and
+entries paused by low rate-limit remaining stay `synced=false` in the original
+queue; replay summaries return only counts, repo-relative private paths, coarse
+status, HTTP status, rate-limit remaining, and a redacted message. Backlog
+issue creation is idempotent through `mhj linear create-from-backlog` but is not
+automatically replayed from queued payloads, avoiding stale issue creation.
 
 Approved Linear write commands record private success evidence only after the
 Linear API mutation succeeds. The evidence journal is

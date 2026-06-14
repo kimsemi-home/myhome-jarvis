@@ -451,5 +451,5 @@
 
 - [x] Replay Linear offline queue with rate-aware backoff.
   - Linear: KIM-16
-  - Acceptance: `mhj linear replay-offline` replays only write-safe queued comment and transition actions after Linear credentials are available; successful entries are tracked in private replay evidence to prevent duplicate replay; failed, unsupported, already queued, and low-rate-limit-paused entries remain `synced=false` in the original queue; summaries expose counts, repo-relative private paths, coarse status, HTTP status, and rate-limit remaining only.
+  - Acceptance: `mhj linear replay-offline` replays only in-scope write-safe queued comment and transition actions after Linear credentials are available; `LINEAR_TEAM_KEY` scopes replay to matching public issue keys; successful entries are tracked in private replay evidence to prevent duplicate replay; failed, unsupported, already queued, out-of-scope, and low-rate-limit-paused entries remain `synced=false` in the original queue; summaries expose counts, repo-relative private paths, coarse status, HTTP status, and rate-limit remaining only.
   - Validation: `go test ./internal/linear ./cmd/mhj`; SSOT validation and codegen verification; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

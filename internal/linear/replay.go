@@ -87,14 +87,20 @@ func ReplayOffline(ctx context.Context, root string, client *http.Client) Replay
 		result.Message = "Offline replay evidence could not be read; replay skipped."
 		return result
 	}
+	scope := configuredIssueScope()
 	for _, entry := range entries {
-		if !entry.Synced && replaySafeKind(entry.Kind) {
-			result.EligibleCount++
+		if entry.Synced {
+			continue
 		}
+		if replaySafeKind(entry.Kind) && replayIssueMatchesScope(entry, scope) {
+			result.EligibleCount++
+			continue
+		}
+		result.SkippedCount++
 	}
 	if result.EligibleCount == 0 {
 		result.Synced = true
-		result.Message = "No write-safe offline Linear actions are queued for replay."
+		result.Message = "No in-scope write-safe offline Linear actions are queued for replay."
 		return result
 	}
 	token, err := loadToken(root)
@@ -104,10 +110,7 @@ func ReplayOffline(ctx context.Context, root string, client *http.Client) Replay
 	}
 	result.Mode = "online"
 	for _, entry := range entries {
-		if entry.Synced || !replaySafeKind(entry.Kind) {
-			if !entry.Synced {
-				result.SkippedCount++
-			}
+		if entry.Synced || !replaySafeKind(entry.Kind) || !replayIssueMatchesScope(entry, scope) {
 			continue
 		}
 		if replayed[entry.EntryID] {
@@ -357,6 +360,18 @@ func replaySafeKind(kind string) bool {
 	default:
 		return false
 	}
+}
+
+func replayIssueMatchesScope(entry queuedOfflineAction, scope issueScope) bool {
+	teamKey := strings.TrimSpace(scope.TeamKey)
+	if teamKey == "" {
+		return true
+	}
+	issueKey := replayIssueKey(entry)
+	if issueKey == "" {
+		return false
+	}
+	return strings.HasPrefix(issueKey, strings.ToUpper(teamKey)+"-")
 }
 
 func rateLimitLow(remaining int) bool {
