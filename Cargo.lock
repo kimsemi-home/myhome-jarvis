@@ -30,6 +30,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "mhj-finance"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "mhj-harness"
 version = "0.1.0"
 dependencies = [

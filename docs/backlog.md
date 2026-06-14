@@ -113,3 +113,9 @@
 - [x] Add dedicated Rust storage crate boundary.
   - Acceptance: `crates/mhj-storage` is part of the Cargo workspace; it emits deterministic data lake manifests for raw/bronze/silver/gold layers, validates repo-relative lake and partition paths, marks curated layers as Parquet+Zstd plans without claiming Parquet writes, and provides a raw JSONL writer smoke path for local fixtures.
   - Validation: `cargo test -p mhj-storage`; `cargo test --workspace`; full quality gate.
+
+## P10
+
+- [x] Add dedicated Rust finance crate boundary.
+  - Acceptance: `crates/mhj-finance` is part of the Cargo workspace; it parses and validates fixture-only transaction IR, computes cashflow and owner summaries, and identifies subscription review candidates without requesting credentials or executing finance/subscription actions.
+  - Validation: `cargo test -p mhj-finance`; `cargo test --workspace`; full quality gate.

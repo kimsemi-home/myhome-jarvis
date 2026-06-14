@@ -69,6 +69,9 @@ Linear issue templates, quality requirement, and external-write boundary;
 The first Rust domain surface lives in `mhj-core`. It validates finance
 transaction fixtures, commerce purchase fixtures, and recommendation scoring
 before any real external finance or commerce connectors are introduced. The
+dedicated `mhj-finance` crate now owns a fixture-only finance IR boundary for
+cashflow, owner summaries, and subscription review candidates; `mhj-core` keeps
+the existing integrated fixture pipeline while domains are split out. The
 dedicated `mhj-storage` crate owns data lake manifests, repository-relative
 storage paths, and raw JSONL writer smoke coverage before Parquet writing is
 enabled.
