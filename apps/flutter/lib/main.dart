@@ -102,7 +102,7 @@ class JarvisScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('myhome-jarvis'),
@@ -121,6 +121,7 @@ class JarvisScaffold extends StatelessWidget {
               Tab(icon: Icon(Icons.tune_outlined), text: 'Commands'),
               Tab(icon: Icon(Icons.hub_outlined), text: 'Linear'),
               Tab(icon: Icon(Icons.storage_outlined), text: 'Storage'),
+              Tab(icon: Icon(Icons.groups_outlined), text: 'Household'),
               Tab(icon: Icon(Icons.auto_graph_outlined), text: 'Optimize'),
             ],
           ),
@@ -133,6 +134,7 @@ class JarvisScaffold extends StatelessWidget {
                 CommandsView(commands: snapshot.commands, client: client),
                 PlainListView(title: 'Linear', items: snapshot.linearItems),
                 PlainListView(title: 'Storage', items: snapshot.storageItems),
+                HouseholdView(scopes: snapshot.householdScopes),
                 PlainListView(
                   title: 'Optimize',
                   items: snapshot.recommendationItems,
@@ -532,6 +534,87 @@ class CommandPlanDialog extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class HouseholdView extends StatefulWidget {
+  const HouseholdView({super.key, required this.scopes});
+
+  final List<HouseholdScope> scopes;
+
+  @override
+  State<HouseholdView> createState() => _HouseholdViewState();
+}
+
+class _HouseholdViewState extends State<HouseholdView> {
+  String? _selectedScope;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedScope = _firstScope(widget.scopes);
+  }
+
+  @override
+  void didUpdateWidget(HouseholdView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final scopes = widget.scopes.map((scope) => scope.scope).toSet();
+    if (_selectedScope == null || !scopes.contains(_selectedScope)) {
+      _selectedScope = _firstScope(widget.scopes);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.scopes.isEmpty) {
+      return const PlainListView(title: 'Household', items: ['No scope data']);
+    }
+    final selected = widget.scopes.firstWhere(
+      (scope) => scope.scope == _selectedScope,
+      orElse: () => widget.scopes.first,
+    );
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: SegmentedButton<String>(
+              segments: [
+                for (final scope in widget.scopes)
+                  ButtonSegment(value: scope.scope, label: Text(scope.label)),
+              ],
+              selected: {selected.scope},
+              onSelectionChanged: (selection) {
+                setState(() {
+                  _selectedScope = selection.first;
+                });
+              },
+            ),
+          ),
+          const SizedBox(height: 16),
+          ListTile(
+            leading: const Icon(Icons.account_balance_wallet_outlined),
+            title: Text(
+              'Finance net: ${selected.financeNetMinorUnits} ${selected.currency}',
+            ),
+            subtitle: Text('${selected.financeRecords} records'),
+          ),
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(Icons.shopping_bag_outlined),
+            title: Text(
+              'Purchase spend: ${selected.purchaseSpendMinorUnits} ${selected.currency}',
+            ),
+            subtitle: Text('${selected.purchaseRecords} records'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String? _firstScope(List<HouseholdScope> scopes) {
+    return scopes.isEmpty ? null : scopes.first.scope;
   }
 }
 

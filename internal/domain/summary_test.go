@@ -25,8 +25,14 @@ func TestBuildSummaryFromRepoFixtures(t *testing.T) {
 	if summary.Finance.SubscriptionMinorUnits != 65_900 {
 		t.Fatalf("subscription total = %d", summary.Finance.SubscriptionMinorUnits)
 	}
+	if len(summary.Finance.OwnerBreakdown) != 2 {
+		t.Fatalf("finance owner breakdown = %#v", summary.Finance.OwnerBreakdown)
+	}
 	if summary.Commerce.Records != 3 {
 		t.Fatalf("commerce records = %d", summary.Commerce.Records)
+	}
+	if summary.Commerce.TotalSpendMinorUnits != 26_800 {
+		t.Fatalf("commerce spend = %d", summary.Commerce.TotalSpendMinorUnits)
 	}
 	if summary.Commerce.RecurringCandidateCount != 1 {
 		t.Fatalf("recurring candidates = %d", summary.Commerce.RecurringCandidateCount)
@@ -45,6 +51,21 @@ func TestBuildSummaryFromRepoFixtures(t *testing.T) {
 	}
 	if summary.Recommendations.Items[0].Score < summary.Recommendations.Items[1].Score {
 		t.Fatalf("recommendations are not ranked: %#v", summary.Recommendations.Items)
+	}
+	if len(summary.Household.Scopes) != 3 {
+		t.Fatalf("household scopes = %#v", summary.Household.Scopes)
+	}
+	user := summary.Household.Scopes[0]
+	if user.Scope != "user" || user.FinanceNetMinorUnits != -87_300 || user.PurchaseSpendMinorUnits != 3_200 {
+		t.Fatalf("user scope = %#v", user)
+	}
+	spouse := summary.Household.Scopes[1]
+	if spouse.Scope != "spouse" || spouse.FinanceRecords != 0 || spouse.PurchaseRecords != 0 {
+		t.Fatalf("spouse scope = %#v", spouse)
+	}
+	household := summary.Household.Scopes[2]
+	if household.Scope != "household" || household.FinanceNetMinorUnits != 4_346_800 || household.PurchaseSpendMinorUnits != 26_800 {
+		t.Fatalf("household scope = %#v", household)
 	}
 }
 

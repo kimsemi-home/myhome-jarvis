@@ -7,6 +7,7 @@
                (:file "finance")
                (:file "commerce")
                (:file "storage")
+               (:file "household")
                (:file "recommendations")
                (:file "security")
                (:file "linear")

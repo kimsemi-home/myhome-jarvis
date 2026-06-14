@@ -15,24 +15,45 @@ type Summary struct {
 	Commerce        CommerceSummary        `json:"commerce"`
 	Storage         StoragePolicy          `json:"storage"`
 	Recommendations RecommendationsSummary `json:"recommendations"`
+	Household       HouseholdSummary       `json:"household"`
 }
 
 type FinanceSummary struct {
-	Records                int      `json:"records"`
-	Currency               string   `json:"currency"`
-	CreditMinorUnits       int64    `json:"credit_minor_units"`
-	DebitMinorUnits        int64    `json:"debit_minor_units"`
-	NetMinorUnits          int64    `json:"net_minor_units"`
-	SubscriptionMinorUnits int64    `json:"subscription_minor_units"`
-	SubscriptionCount      int      `json:"subscription_count"`
-	Categories             []string `json:"categories"`
+	Records                int                   `json:"records"`
+	Currency               string                `json:"currency"`
+	CreditMinorUnits       int64                 `json:"credit_minor_units"`
+	DebitMinorUnits        int64                 `json:"debit_minor_units"`
+	NetMinorUnits          int64                 `json:"net_minor_units"`
+	SubscriptionMinorUnits int64                 `json:"subscription_minor_units"`
+	SubscriptionCount      int                   `json:"subscription_count"`
+	Categories             []string              `json:"categories"`
+	OwnerBreakdown         []FinanceOwnerSummary `json:"owner_breakdown"`
+}
+
+type FinanceOwnerSummary struct {
+	Owner            string `json:"owner"`
+	Records          int    `json:"records"`
+	Currency         string `json:"currency"`
+	CreditMinorUnits int64  `json:"credit_minor_units"`
+	DebitMinorUnits  int64  `json:"debit_minor_units"`
+	NetMinorUnits    int64  `json:"net_minor_units"`
 }
 
 type CommerceSummary struct {
 	Records                 int                          `json:"records"`
+	Currency                string                       `json:"currency"`
+	TotalSpendMinorUnits    int64                        `json:"total_spend_minor_units"`
 	RecurringCandidateCount int                          `json:"recurring_candidate_count"`
 	RecurringCandidates     []RecurringPurchaseCandidate `json:"recurring_candidates"`
 	Categories              []string                     `json:"categories"`
+	OwnerBreakdown          []CommerceOwnerSummary       `json:"owner_breakdown"`
+}
+
+type CommerceOwnerSummary struct {
+	Owner                   string `json:"owner"`
+	Records                 int    `json:"records"`
+	Currency                string `json:"currency"`
+	PurchaseSpendMinorUnits int64  `json:"purchase_spend_minor_units"`
 }
 
 type RecurringPurchaseCandidate struct {
@@ -68,18 +89,36 @@ type RecommendationItem struct {
 	EvidenceCount              int    `json:"evidence_count"`
 }
 
+type HouseholdSummary struct {
+	Scopes []HouseholdScopeSummary `json:"scopes"`
+}
+
+type HouseholdScopeSummary struct {
+	Scope                   string `json:"scope"`
+	Label                   string `json:"label"`
+	Currency                string `json:"currency"`
+	FinanceRecords          int    `json:"finance_records"`
+	FinanceCreditMinorUnits int64  `json:"finance_credit_minor_units"`
+	FinanceDebitMinorUnits  int64  `json:"finance_debit_minor_units"`
+	FinanceNetMinorUnits    int64  `json:"finance_net_minor_units"`
+	PurchaseRecords         int    `json:"purchase_records"`
+	PurchaseSpendMinorUnits int64  `json:"purchase_spend_minor_units"`
+}
+
 type moneyAmount struct {
 	MinorUnits int64  `json:"minor_units"`
 	Currency   string `json:"currency"`
 }
 
 type financeTransaction struct {
+	Owner     string      `json:"owner"`
 	Amount    moneyAmount `json:"amount"`
 	Direction string      `json:"direction"`
 	Category  string      `json:"category"`
 }
 
 type commercePurchase struct {
+	Owner              string      `json:"owner"`
 	PurchasedAt        string      `json:"purchased_at"`
 	MerchantName       string      `json:"merchant_name"`
 	ItemName           string      `json:"item_name"`
@@ -102,11 +141,13 @@ func BuildSummary(root string) (Summary, error) {
 		return Summary{}, err
 	}
 	recommendations := BuildRecommendationsSummary(finance, commerce)
+	household := BuildHouseholdSummary(finance, commerce)
 	return Summary{
 		Finance:         finance,
 		Commerce:        commerce,
 		Storage:         storage,
 		Recommendations: recommendations,
+		Household:       household,
 	}, nil
 }
 
@@ -114,7 +155,10 @@ func BuildFinanceSummary(path string) (FinanceSummary, error) {
 	var summary FinanceSummary
 	currencies := map[string]bool{}
 	categories := map[string]bool{}
+	owners := map[string]*FinanceOwnerSummary{}
+	ownerCurrencies := map[string]map[string]bool{}
 	err := readJSONL(path, func(line int, transaction financeTransaction) error {
+		owner := normalizeOwner(transaction.Owner)
 		summary.Records++
 		if transaction.Amount.Currency != "" {
 			currencies[transaction.Amount.Currency] = true
@@ -122,11 +166,16 @@ func BuildFinanceSummary(path string) (FinanceSummary, error) {
 		if strings.TrimSpace(transaction.Category) != "" {
 			categories[transaction.Category] = true
 		}
+		ownerSummary := financeOwnerSummary(owners, owner)
+		ownerSummary.Records++
+		recordOwnerCurrency(ownerCurrencies, owner, transaction.Amount.Currency)
 		switch transaction.Direction {
 		case "credit":
 			summary.CreditMinorUnits += transaction.Amount.MinorUnits
+			ownerSummary.CreditMinorUnits += transaction.Amount.MinorUnits
 		case "debit":
 			summary.DebitMinorUnits += transaction.Amount.MinorUnits
+			ownerSummary.DebitMinorUnits += transaction.Amount.MinorUnits
 			if transaction.Category == "subscription" {
 				summary.SubscriptionMinorUnits += transaction.Amount.MinorUnits
 				summary.SubscriptionCount++
@@ -142,6 +191,7 @@ func BuildFinanceSummary(path string) (FinanceSummary, error) {
 	summary.NetMinorUnits = summary.CreditMinorUnits - summary.DebitMinorUnits
 	summary.Currency = summaryCurrency(currencies)
 	summary.Categories = sortedKeys(categories)
+	summary.OwnerBreakdown = financeOwnerBreakdown(owners, ownerCurrencies)
 	return summary, nil
 }
 
@@ -191,13 +241,25 @@ func BuildRecommendationsSummary(finance FinanceSummary, commerce CommerceSummar
 
 func BuildCommerceSummary(path string) (CommerceSummary, error) {
 	var summary CommerceSummary
+	currencies := map[string]bool{}
 	categories := map[string]bool{}
 	groups := map[string]*RecurringPurchaseCandidate{}
+	owners := map[string]*CommerceOwnerSummary{}
+	ownerCurrencies := map[string]map[string]bool{}
 	err := readJSONL(path, func(line int, purchase commercePurchase) error {
+		owner := normalizeOwner(purchase.Owner)
 		summary.Records++
+		if purchase.TotalPrice.Currency != "" {
+			currencies[purchase.TotalPrice.Currency] = true
+		}
+		summary.TotalSpendMinorUnits += purchase.TotalPrice.MinorUnits
 		if strings.TrimSpace(purchase.Category) != "" {
 			categories[purchase.Category] = true
 		}
+		ownerSummary := commerceOwnerSummary(owners, owner)
+		ownerSummary.Records++
+		ownerSummary.PurchaseSpendMinorUnits += purchase.TotalPrice.MinorUnits
+		recordOwnerCurrency(ownerCurrencies, owner, purchase.TotalPrice.Currency)
 		if !purchase.RecurringCandidate {
 			return nil
 		}
@@ -242,8 +304,173 @@ func BuildCommerceSummary(path string) (CommerceSummary, error) {
 		return left.MerchantName < right.MerchantName
 	})
 	summary.RecurringCandidateCount = len(summary.RecurringCandidates)
+	summary.Currency = summaryCurrency(currencies)
 	summary.Categories = sortedKeys(categories)
+	summary.OwnerBreakdown = commerceOwnerBreakdown(owners, ownerCurrencies)
 	return summary, nil
+}
+
+func BuildHouseholdSummary(finance FinanceSummary, commerce CommerceSummary) HouseholdSummary {
+	financeOwners := mapFinanceOwners(finance.OwnerBreakdown)
+	commerceOwners := mapCommerceOwners(commerce.OwnerBreakdown)
+	scopes := []HouseholdScopeSummary{
+		ownerScopeSummary("user", "User", financeOwners["user"], commerceOwners["user"]),
+		ownerScopeSummary("spouse", "Spouse", financeOwners["spouse"], commerceOwners["spouse"]),
+		{
+			Scope:                   "household",
+			Label:                   "Household",
+			Currency:                firstCurrency(finance.Currency, commerce.Currency, "KRW"),
+			FinanceRecords:          finance.Records,
+			FinanceCreditMinorUnits: finance.CreditMinorUnits,
+			FinanceDebitMinorUnits:  finance.DebitMinorUnits,
+			FinanceNetMinorUnits:    finance.NetMinorUnits,
+			PurchaseRecords:         commerce.Records,
+			PurchaseSpendMinorUnits: commerce.TotalSpendMinorUnits,
+		},
+	}
+	return HouseholdSummary{Scopes: scopes}
+}
+
+func normalizeOwner(owner string) string {
+	switch strings.TrimSpace(strings.ToLower(owner)) {
+	case "user":
+		return "user"
+	case "spouse":
+		return "spouse"
+	case "household":
+		return "household"
+	default:
+		return "unknown"
+	}
+}
+
+func financeOwnerSummary(owners map[string]*FinanceOwnerSummary, owner string) *FinanceOwnerSummary {
+	summary, ok := owners[owner]
+	if !ok {
+		summary = &FinanceOwnerSummary{Owner: owner}
+		owners[owner] = summary
+	}
+	return summary
+}
+
+func commerceOwnerSummary(owners map[string]*CommerceOwnerSummary, owner string) *CommerceOwnerSummary {
+	summary, ok := owners[owner]
+	if !ok {
+		summary = &CommerceOwnerSummary{Owner: owner}
+		owners[owner] = summary
+	}
+	return summary
+}
+
+func recordOwnerCurrency(currencies map[string]map[string]bool, owner string, currency string) {
+	if strings.TrimSpace(currency) == "" {
+		return
+	}
+	if _, ok := currencies[owner]; !ok {
+		currencies[owner] = map[string]bool{}
+	}
+	currencies[owner][currency] = true
+}
+
+func financeOwnerBreakdown(
+	owners map[string]*FinanceOwnerSummary,
+	currencies map[string]map[string]bool,
+) []FinanceOwnerSummary {
+	breakdown := make([]FinanceOwnerSummary, 0, len(owners))
+	for _, owner := range ownerBreakdownOrder(owners) {
+		summary := *owners[owner]
+		summary.NetMinorUnits = summary.CreditMinorUnits - summary.DebitMinorUnits
+		summary.Currency = summaryCurrency(currencies[owner])
+		breakdown = append(breakdown, summary)
+	}
+	return breakdown
+}
+
+func commerceOwnerBreakdown(
+	owners map[string]*CommerceOwnerSummary,
+	currencies map[string]map[string]bool,
+) []CommerceOwnerSummary {
+	breakdown := make([]CommerceOwnerSummary, 0, len(owners))
+	for _, owner := range ownerBreakdownOrder(owners) {
+		summary := *owners[owner]
+		summary.Currency = summaryCurrency(currencies[owner])
+		breakdown = append(breakdown, summary)
+	}
+	return breakdown
+}
+
+func ownerBreakdownOrder[T any](owners map[string]*T) []string {
+	keys := make([]string, 0, len(owners))
+	for key := range owners {
+		keys = append(keys, key)
+	}
+	sort.Slice(keys, func(i, j int) bool {
+		return ownerRank(keys[i]) < ownerRank(keys[j])
+	})
+	return keys
+}
+
+func ownerRank(owner string) int {
+	switch owner {
+	case "user":
+		return 0
+	case "spouse":
+		return 1
+	case "household":
+		return 2
+	default:
+		return 3
+	}
+}
+
+func mapFinanceOwners(items []FinanceOwnerSummary) map[string]*FinanceOwnerSummary {
+	mapped := map[string]*FinanceOwnerSummary{}
+	for index := range items {
+		mapped[items[index].Owner] = &items[index]
+	}
+	return mapped
+}
+
+func mapCommerceOwners(items []CommerceOwnerSummary) map[string]*CommerceOwnerSummary {
+	mapped := map[string]*CommerceOwnerSummary{}
+	for index := range items {
+		mapped[items[index].Owner] = &items[index]
+	}
+	return mapped
+}
+
+func ownerScopeSummary(
+	scope string,
+	label string,
+	finance *FinanceOwnerSummary,
+	commerce *CommerceOwnerSummary,
+) HouseholdScopeSummary {
+	var summary HouseholdScopeSummary
+	summary.Scope = scope
+	summary.Label = label
+	summary.Currency = "KRW"
+	if finance != nil {
+		summary.Currency = firstCurrency(finance.Currency, summary.Currency)
+		summary.FinanceRecords = finance.Records
+		summary.FinanceCreditMinorUnits = finance.CreditMinorUnits
+		summary.FinanceDebitMinorUnits = finance.DebitMinorUnits
+		summary.FinanceNetMinorUnits = finance.NetMinorUnits
+	}
+	if commerce != nil {
+		summary.Currency = firstCurrency(summary.Currency, commerce.Currency)
+		summary.PurchaseRecords = commerce.Records
+		summary.PurchaseSpendMinorUnits = commerce.PurchaseSpendMinorUnits
+	}
+	return summary
+}
+
+func firstCurrency(values ...string) string {
+	for _, value := range values {
+		if strings.TrimSpace(value) != "" {
+			return value
+		}
+	}
+	return ""
 }
 
 func ReadStoragePolicy(path string) (StoragePolicy, error) {

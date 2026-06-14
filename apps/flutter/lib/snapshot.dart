@@ -79,6 +79,27 @@ class CommandPlan {
 }
 
 @immutable
+class HouseholdScope {
+  const HouseholdScope({
+    required this.scope,
+    required this.label,
+    required this.currency,
+    required this.financeRecords,
+    required this.financeNetMinorUnits,
+    required this.purchaseRecords,
+    required this.purchaseSpendMinorUnits,
+  });
+
+  final String scope;
+  final String label;
+  final String currency;
+  final int financeRecords;
+  final int financeNetMinorUnits;
+  final int purchaseRecords;
+  final int purchaseSpendMinorUnits;
+}
+
+@immutable
 class JarvisSnapshot {
   const JarvisSnapshot({
     required this.metrics,
@@ -86,6 +107,7 @@ class JarvisSnapshot {
     required this.linearItems,
     required this.storageItems,
     required this.recommendationItems,
+    required this.householdScopes,
   });
 
   final List<SystemMetric> metrics;
@@ -93,6 +115,7 @@ class JarvisSnapshot {
   final List<String> linearItems;
   final List<String> storageItems;
   final List<String> recommendationItems;
+  final List<HouseholdScope> householdScopes;
 
   static const sample = JarvisSnapshot(
     metrics: [
@@ -151,6 +174,35 @@ class JarvisSnapshot {
       '61 - Review household subscriptions',
       '49 - Keep household cash buffer',
     ],
+    householdScopes: [
+      HouseholdScope(
+        scope: 'user',
+        label: 'User',
+        currency: 'KRW',
+        financeRecords: 1,
+        financeNetMinorUnits: -87300,
+        purchaseRecords: 1,
+        purchaseSpendMinorUnits: 3200,
+      ),
+      HouseholdScope(
+        scope: 'spouse',
+        label: 'Spouse',
+        currency: 'KRW',
+        financeRecords: 0,
+        financeNetMinorUnits: 0,
+        purchaseRecords: 0,
+        purchaseSpendMinorUnits: 0,
+      ),
+      HouseholdScope(
+        scope: 'household',
+        label: 'Household',
+        currency: 'KRW',
+        financeRecords: 3,
+        financeNetMinorUnits: 4346800,
+        purchaseRecords: 3,
+        purchaseSpendMinorUnits: 26800,
+      ),
+    ],
   );
 
   factory JarvisSnapshot.offlineFallback() {
@@ -181,6 +233,7 @@ class JarvisSnapshot {
       linearItems: const ['Offline queue', 'Local fallback'],
       storageItems: sample.storageItems,
       recommendationItems: sample.recommendationItems,
+      householdScopes: sample.householdScopes,
     );
   }
 }

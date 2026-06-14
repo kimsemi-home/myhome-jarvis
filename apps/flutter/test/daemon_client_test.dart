@@ -50,6 +50,37 @@ void main() {
               'net_minor_units': 4346800,
             },
             'commerce': {'records': 3, 'recurring_candidate_count': 1},
+            'household': {
+              'scopes': [
+                {
+                  'scope': 'user',
+                  'label': 'User',
+                  'currency': 'KRW',
+                  'finance_records': 1,
+                  'finance_net_minor_units': -87300,
+                  'purchase_records': 1,
+                  'purchase_spend_minor_units': 3200,
+                },
+                {
+                  'scope': 'spouse',
+                  'label': 'Spouse',
+                  'currency': 'KRW',
+                  'finance_records': 0,
+                  'finance_net_minor_units': 0,
+                  'purchase_records': 0,
+                  'purchase_spend_minor_units': 0,
+                },
+                {
+                  'scope': 'household',
+                  'label': 'Household',
+                  'currency': 'KRW',
+                  'finance_records': 3,
+                  'finance_net_minor_units': 4346800,
+                  'purchase_records': 3,
+                  'purchase_spend_minor_units': 26800,
+                },
+              ],
+            },
             'recommendations': {
               'count': 2,
               'items': [
@@ -138,6 +169,13 @@ void main() {
       snapshot.recommendationItems,
       contains('61 - Review household subscriptions'),
     );
+    expect(snapshot.householdScopes.map((scope) => scope.scope), [
+      'user',
+      'spouse',
+      'household',
+    ]);
+    expect(snapshot.householdScopes.first.financeNetMinorUnits, -87300);
+    expect(snapshot.householdScopes.last.purchaseSpendMinorUnits, 26800);
 
     final command = snapshot.commands.singleWhere(
       (item) => item.name == 'volume-set',

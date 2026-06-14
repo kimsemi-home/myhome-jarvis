@@ -53,7 +53,9 @@ void main() {
     );
   });
 
-  testWidgets('shows Linear, storage, and optimization tabs', (tester) async {
+  testWidgets('shows Linear, storage, household, and optimization tabs', (
+    tester,
+  ) async {
     await tester.pumpWidget(const JarvisApp());
 
     await tester.tap(
@@ -69,6 +71,26 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('finance_transactions'), findsOneWidget);
     expect(find.text('commerce_purchases'), findsOneWidget);
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(TabBar),
+        matching: find.text('Household'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Finance net: -87300 KRW'), findsOneWidget);
+    expect(find.text('Purchase spend: 3200 KRW'), findsOneWidget);
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(SegmentedButton<String>),
+        matching: find.text('Household'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Finance net: 4346800 KRW'), findsOneWidget);
+    expect(find.text('Purchase spend: 26800 KRW'), findsOneWidget);
 
     await tester.tap(
       find.descendant(of: find.byType(TabBar), matching: find.text('Optimize')),

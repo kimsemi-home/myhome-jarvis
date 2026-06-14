@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 20:37 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add fixture-only User, Spouse, and Household view switching.
+- Files touched: `crates/mhj-core/src/household.rs`, `crates/mhj-core/src/lib.rs`, `internal/domain/summary.go`, `internal/domain/summary_test.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/snapshot.dart`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/main.dart`, `apps/flutter/test/daemon_client_test.dart`, `apps/flutter/test/widget_test.dart`, `lisp/ssot/household.lisp`, `lisp/ssot/codegen.lisp`, `lisp/ssot/package.lisp`, `lisp/ssot/myhome-jarvis.asd`, `lisp/scripts/load-ssot.lisp`, `generated/household.generated.json`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/flutter.md`, `docs/household.md`, `docs/working-log.md`.
+- Changes: added Rust household scope aggregation over finance and commerce fixtures; added Go owner breakdown and household summary projection; exposed daemon `GET /household/summary`; added Flutter Household tab with a segmented User, Spouse, Household switcher.
+- Validation after: `cargo test -p mhj-core household` passed; `go1.26.2 test ./internal/domain ./internal/daemon` passed; `flutter test` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed.
+- External-write note: no account, finance, purchase, subscription, card, investment, Linear mutation, or other external write was executed.
+- Next: run full quality and public safety scans, then commit and push if clean.
+
 ## 2026-06-14 20:26 local
 
 - Linear issue: local continuation, no external Linear writes executed.

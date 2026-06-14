@@ -17,8 +17,9 @@ explicitly enabled and must use argv arrays, never shell interpolation.
 
 The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /commands`, `POST /intent`, `POST /harness/run`, `GET /linear/status`,
-`POST /linear/sync`, `GET /domain/summary`, `GET /recommendations/summary`,
-and `GET /metrics`. It binds to `127.0.0.1` by default.
+`POST /linear/sync`, `GET /domain/summary`, `GET /household/summary`,
+`GET /recommendations/summary`, and `GET /metrics`. It binds to `127.0.0.1`
+by default.
 
 The first Rust domain surface lives in `mhj-core`. It validates finance
 transaction fixtures, commerce purchase fixtures, and Parquet+Zstd-ready lake
@@ -34,7 +35,12 @@ skeleton, Go projects read-only daemon summaries, and Flutter shows the ranked
 items in an Optimize tab. Recommendations never execute purchases, subscription
 changes, card actions, transfers, or investment trades.
 
+The first household surface is also fixture-only. Finance and commerce owner
+fields are projected into User, Spouse, and Household scopes so the UI can
+switch views without introducing real account credentials.
+
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
-client with status, command, Linear, storage, and optimization tabs. It can load
-snapshots from the localhost daemon while keeping a deterministic offline
-fallback. Platform runner files are left out until device packaging is required.
+client with status, command, Linear, storage, household, and optimization tabs.
+It can load snapshots from the localhost daemon while keeping a deterministic
+offline fallback. Platform runner files are left out until device packaging is
+required.

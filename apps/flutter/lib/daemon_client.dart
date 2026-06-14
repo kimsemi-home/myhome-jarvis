@@ -160,6 +160,7 @@ JarvisSnapshot buildSnapshot({
     linearItems: _linearItems(linear),
     storageItems: _domainItems(domain),
     recommendationItems: _recommendationItems(domain),
+    householdScopes: _householdScopes(domain),
   );
 }
 
@@ -269,6 +270,38 @@ List<String> _recommendationItems(Map<String, Object?> domain) {
     items.add(score == null ? title : '$score - $title');
   }
   return items.isEmpty ? JarvisSnapshot.sample.recommendationItems : items;
+}
+
+List<HouseholdScope> _householdScopes(Map<String, Object?> domain) {
+  final household = _object(domain['household']);
+  if (household == null) {
+    return JarvisSnapshot.sample.householdScopes;
+  }
+  final rawScopes = household['scopes'];
+  if (rawScopes is! List<Object?>) {
+    return JarvisSnapshot.sample.householdScopes;
+  }
+  final scopes = <HouseholdScope>[];
+  for (final item in rawScopes.whereType<Map<String, Object?>>()) {
+    final scope = _string(item['scope']);
+    final label = _string(item['label']);
+    final currency = _string(item['currency']) ?? '';
+    if (scope == null || label == null) {
+      continue;
+    }
+    scopes.add(
+      HouseholdScope(
+        scope: scope,
+        label: label,
+        currency: currency,
+        financeRecords: _int(item['finance_records']) ?? 0,
+        financeNetMinorUnits: _int(item['finance_net_minor_units']) ?? 0,
+        purchaseRecords: _int(item['purchase_records']) ?? 0,
+        purchaseSpendMinorUnits: _int(item['purchase_spend_minor_units']) ?? 0,
+      ),
+    );
+  }
+  return scopes.isEmpty ? JarvisSnapshot.sample.householdScopes : scopes;
 }
 
 String _payloadExample(String name) {
