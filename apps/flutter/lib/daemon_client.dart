@@ -166,6 +166,8 @@ JarvisSnapshot buildSnapshot({
   final executeEnabled = _bool(metrics['execute_enabled']) ?? false;
   final requestCount = _int(metrics['requests']);
   final eventCount = _int(events['count']) ?? _int(metrics['event_count']);
+  final goroutineCount = _int(metrics['goroutine_count']);
+  final heapAllocBytes = _int(metrics['heap_alloc_bytes']);
   final auditCount = _int(audit['count']);
   final qualityCount = _int(quality['count']) ?? 0;
   final qualityLast = quality['last'];
@@ -238,6 +240,18 @@ JarvisSnapshot buildSnapshot({
         value: eventCount == null ? '0' : '$eventCount',
         icon: Icons.receipt_long_outlined,
       ),
+      if (goroutineCount != null)
+        SystemMetric(
+          label: 'Runtime',
+          value: '$goroutineCount goroutines',
+          icon: Icons.memory_outlined,
+        ),
+      if (heapAllocBytes != null)
+        SystemMetric(
+          label: 'Heap',
+          value: _formatBytes(heapAllocBytes),
+          icon: Icons.storage_outlined,
+        ),
       SystemMetric(
         label: 'Supervisor',
         value: supervisorRecorded
@@ -704,6 +718,21 @@ String _networkMode(String bindHost, String? healthMode, bool lanBindAllowed) {
     return 'Local-only';
   }
   return 'Remote';
+}
+
+String _formatBytes(int bytes) {
+  if (bytes < 1024) {
+    return '$bytes B';
+  }
+  final kib = bytes / 1024;
+  if (kib < 1024) {
+    return '${kib.toStringAsFixed(1)} KiB';
+  }
+  final mib = kib / 1024;
+  if (mib < 1024) {
+    return '${mib.toStringAsFixed(1)} MiB';
+  }
+  return '${(mib / 1024).toStringAsFixed(1)} GiB';
 }
 
 List<CommandInvocation> _invocations(Object? value) {

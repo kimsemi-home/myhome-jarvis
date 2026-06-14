@@ -236,6 +236,11 @@ void main() {
             'bind_host': '127.0.0.1',
             'requests': 7,
             'event_count': 2,
+            'goroutine_count': 9,
+            'heap_alloc_bytes': 1048576,
+            'heap_sys_bytes': 2097152,
+            'stack_inuse_bytes': 32768,
+            'gc_count': 1,
             'dry_run_default': true,
             'execute_enabled': false,
             'lan_bind_allowed': false,
@@ -355,6 +360,14 @@ void main() {
     expect(
       snapshot.metrics.singleWhere((metric) => metric.label == 'Events').value,
       '2',
+    );
+    expect(
+      snapshot.metrics.singleWhere((metric) => metric.label == 'Runtime').value,
+      '9 goroutines',
+    );
+    expect(
+      snapshot.metrics.singleWhere((metric) => metric.label == 'Heap').value,
+      '1.0 MiB',
     );
     expect(
       snapshot.metrics

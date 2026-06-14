@@ -43,7 +43,10 @@ team count without raw identities or token source.
 The first daemon observability surface is local and bounded. It keeps the
 newest 100 request events in memory and records only method, path, status,
 duration, timestamp, and coarse error category. It does not record bodies,
-headers, bearer tokens, query strings, or local filesystem paths.
+headers, bearer tokens, query strings, or local filesystem paths. The
+`GET /metrics` endpoint also exposes aggregate Go runtime counters for
+goroutines, heap, stack, and GC without exposing local roots or raw process
+data.
 
 The first process supervision surface records daemon runtime state only after
 the TCP listener binds successfully. The private state file lives at

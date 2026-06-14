@@ -263,3 +263,9 @@
 - [x] Add bounded daemon HTTP resource defaults.
   - Acceptance: daemon `http.Server` instances use non-zero read-header, read, write, idle, and max-header-size limits by default, including when `New` receives a minimal config; localhost/LAN behavior and auth gates remain unchanged.
   - Validation: `go test ./internal/daemon`; full quality gate.
+
+## P35
+
+- [x] Surface redacted daemon runtime counters.
+  - Acceptance: daemon `GET /metrics` exposes aggregate Go runtime counters for goroutine count, heap allocation bytes, heap system bytes, stack in-use bytes, and GC count without exposing local roots, tokens, request payloads, or raw process data; Flutter Status renders runtime and heap metrics when present.
+  - Validation: `go test ./internal/daemon`; `cd apps/flutter && flutter test test/daemon_client_test.dart`; full quality gate.

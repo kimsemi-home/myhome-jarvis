@@ -29,6 +29,8 @@ Current scope:
   metric.
 - Local-only network mode rendering from `/health` and `/metrics`, with
   LAN-enabled daemon mode shown as token-gated.
+- Runtime status rendering from `/metrics`, showing goroutine count and
+  formatted heap allocation when the daemon provides those counters.
 - LAN auth status rendering from `/auth/status` without displaying token
   contents.
 - Supervisor status rendering from `/supervisor/status` as a reachable/stale
