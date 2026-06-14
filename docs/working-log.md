@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 23:09 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add explicit OTT shortcut command buttons.
+- Files touched: `README.md`, `internal/commands/registry.go`, `internal/commands/registry_test.go`, `internal/commands/harness.go`, `lisp/ssot/commands.lisp`, `lisp/ssot/codegen.lisp`, `generated/commands.generated.json`, `apps/flutter/lib/main.dart`, `apps/flutter/lib/snapshot.dart`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `apps/flutter/test/widget_test.dart`, `docs/architecture.md`, `docs/backlog.md`, `docs/flutter.md`, `docs/home-control.md`, `docs/working-log.md`.
+- Changes: added zero-payload dry-run shortcuts for Netflix, Disney+, TVING, Wavve, and Coupang Play; kept generic `open_ott` and the existing argv execution boundary; exposed shortcut commands through daemon specs and Flutter command rows; updated SSOT/generated command catalog.
+- Validation after: `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go test ./internal/commands ./internal/daemon` passed; `go run ./cmd/mhj harness home` passed; `cd apps/flutter && flutter test` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 15-step quality run; generated command artifact changed from SSOT as intended; public safety scans passed; private quality journal redaction scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, subscription, scraping, credential request, OTT download, DRM bypass, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 23:02 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

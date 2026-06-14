@@ -37,8 +37,13 @@ func Specs() []Spec {
 		{Name: "display_sleep", Summary: "Put the display to sleep", PayloadFields: []string{}},
 		{Name: "mac_sleep", Summary: "Put the Mac to sleep", PayloadFields: []string{}},
 		{Name: "movie_mode", Summary: "Apply dry-run movie mode actions", PayloadFields: []string{}},
+		{Name: "open_coupang_play", Summary: "Open Coupang Play", PayloadFields: []string{}},
+		{Name: "open_disney_plus", Summary: "Open Disney+", PayloadFields: []string{}},
+		{Name: "open_netflix", Summary: "Open Netflix", PayloadFields: []string{}},
 		{Name: "open_ott", Summary: "Open a supported OTT service", PayloadFields: []string{"service"}},
 		{Name: "open_url", Summary: "Open a safe http or https URL", PayloadFields: []string{"url"}},
+		{Name: "open_tving", Summary: "Open TVING", PayloadFields: []string{}},
+		{Name: "open_wavve", Summary: "Open Wavve", PayloadFields: []string{}},
 		{Name: "open_youtube", Summary: "Open YouTube", PayloadFields: []string{}},
 		{Name: "open_youtube_search", Summary: "Open a YouTube search", PayloadFields: []string{"query"}},
 		{Name: "sleep_mode", Summary: "Apply dry-run sleep mode actions", PayloadFields: []string{}},
@@ -54,6 +59,12 @@ func Specs() []Spec {
 func Build(name string, payload []byte) (Plan, error) {
 	command := normalizeName(name)
 	switch command {
+	case "open_coupang_play":
+		return ottShortcutPlan(command, "coupangplay")
+	case "open_disney_plus":
+		return ottShortcutPlan(command, "disney")
+	case "open_netflix":
+		return ottShortcutPlan(command, "netflix")
 	case "open_youtube":
 		return openURLPlan(command, "https://www.youtube.com"), nil
 	case "open_youtube_search":
@@ -95,6 +106,10 @@ func Build(name string, payload []byte) (Plan, error) {
 			return Plan{}, err
 		}
 		return openURLPlan(command, target), nil
+	case "open_tving":
+		return ottShortcutPlan(command, "tving")
+	case "open_wavve":
+		return ottShortcutPlan(command, "wavve")
 	case "volume_set":
 		var body struct {
 			Level *int `json:"level"`
@@ -145,6 +160,14 @@ func Build(name string, payload []byte) (Plan, error) {
 	default:
 		return Plan{}, fmt.Errorf("unknown command %q", name)
 	}
+}
+
+func ottShortcutPlan(name string, service string) (Plan, error) {
+	target, ok := ottURLs()[service]
+	if !ok {
+		return Plan{}, fmt.Errorf("missing OTT shortcut target for %q", service)
+	}
+	return openURLPlan(name, target), nil
 }
 
 func WithExecuteAllowed(plan Plan, executeAllowed bool) Plan {

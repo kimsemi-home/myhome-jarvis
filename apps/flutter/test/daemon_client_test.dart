@@ -28,6 +28,31 @@ void main() {
               'payload_fields': <String>[],
             },
             {
+              'name': 'open_netflix',
+              'summary': 'Open Netflix',
+              'payload_fields': <String>[],
+            },
+            {
+              'name': 'open_disney_plus',
+              'summary': 'Open Disney+',
+              'payload_fields': <String>[],
+            },
+            {
+              'name': 'open_tving',
+              'summary': 'Open TVING',
+              'payload_fields': <String>[],
+            },
+            {
+              'name': 'open_wavve',
+              'summary': 'Open Wavve',
+              'payload_fields': <String>[],
+            },
+            {
+              'name': 'open_coupang_play',
+              'summary': 'Open Coupang Play',
+              'payload_fields': <String>[],
+            },
+            {
               'name': 'volume_set',
               'summary': 'Set output volume',
               'payload_fields': ['level'],
@@ -239,6 +264,16 @@ void main() {
     expect(
       snapshot.commands.map((command) => command.name),
       contains('open-youtube'),
+    );
+    expect(
+      snapshot.commands.map((command) => command.name),
+      containsAll([
+        'open-netflix',
+        'open-disney-plus',
+        'open-tving',
+        'open-wavve',
+        'open-coupang-play',
+      ]),
     );
     expect(
       snapshot.commands.map((command) => command.payload),

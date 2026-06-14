@@ -399,6 +399,15 @@ String _payloadExample(String name) {
 
 IconData _commandIcon(String name) {
   switch (name) {
+    case 'open_coupang_play':
+    case 'open_netflix':
+      return Icons.movie_filter_outlined;
+    case 'open_disney_plus':
+      return Icons.auto_awesome_outlined;
+    case 'open_tving':
+      return Icons.live_tv_outlined;
+    case 'open_wavve':
+      return Icons.waves_outlined;
     case 'open_youtube':
     case 'open_youtube_search':
       return Icons.play_circle_outline;

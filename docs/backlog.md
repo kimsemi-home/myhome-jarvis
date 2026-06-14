@@ -149,3 +149,9 @@
 - [x] Add fixture-only card usage review recommendations.
   - Acceptance: Rust, Go, daemon summaries, and Flutter Optimize surface include a card-linked spend review recommendation derived only from local fixture card-linked debit records; recommendation is review-only and does not expose card IDs or execute card actions.
   - Validation: `cargo test -p mhj-core recommendations`; `cargo test -p mhj-finance`; `go test ./internal/domain ./internal/commands ./internal/daemon`; `cd apps/flutter && flutter test`; full quality gate.
+
+## P16
+
+- [x] Add explicit OTT shortcut command buttons.
+  - Acceptance: SSOT, Go command registry, home harness, daemon command specs, and Flutter command UI expose dry-run shortcuts for Netflix, Disney+, TVING, Wavve, and Coupang Play while retaining the generic `open_ott` command and execution boundary.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/commands ./internal/daemon`; `go run ./cmd/mhj harness home`; `cd apps/flutter && flutter test`; full quality gate.

@@ -14,6 +14,27 @@
          :summary "Apply dry-run movie mode actions"
          :payload_fields #()
          :dry_run_default t)
+   (list :name "open_coupang_play"
+         :summary "Open Coupang Play"
+         :payload_fields #()
+         :shortcut_for "open_ott"
+         :service "coupangplay"
+         :target "https://www.coupangplay.com"
+         :dry_run_default t)
+   (list :name "open_disney_plus"
+         :summary "Open Disney+"
+         :payload_fields #()
+         :shortcut_for "open_ott"
+         :service "disney"
+         :target "https://www.disneyplus.com"
+         :dry_run_default t)
+   (list :name "open_netflix"
+         :summary "Open Netflix"
+         :payload_fields #()
+         :shortcut_for "open_ott"
+         :service "netflix"
+         :target "https://www.netflix.com"
+         :dry_run_default t)
    (list :name "open_ott"
          :summary "Open a supported OTT service"
          :payload_fields #("service")
@@ -23,6 +44,20 @@
          :summary "Open a safe http or https URL"
          :payload_fields #("url")
          :allowed_schemes #("http" "https")
+         :dry_run_default t)
+   (list :name "open_tving"
+         :summary "Open TVING"
+         :payload_fields #()
+         :shortcut_for "open_ott"
+         :service "tving"
+         :target "https://www.tving.com"
+         :dry_run_default t)
+   (list :name "open_wavve"
+         :summary "Open Wavve"
+         :payload_fields #()
+         :shortcut_for "open_ott"
+         :service "wavve"
+         :target "https://www.wavve.com"
          :dry_run_default t)
    (list :name "open_youtube"
          :summary "Open YouTube"

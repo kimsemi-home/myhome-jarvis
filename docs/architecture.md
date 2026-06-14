@@ -17,7 +17,9 @@ explicitly enabled and must use argv arrays, never shell interpolation.
 The first execution boundary is intentionally narrow: CLI execution requires
 `MYHOME_EXECUTE=true`, while daemon execution also requires `--execute` and
 request `execute=true`. The executor only permits `open`, `osascript`, and
-`pmset` argv plans.
+`pmset` argv plans. OTT service shortcuts for Netflix, Disney+, TVING, Wavve,
+and Coupang Play are zero-payload dry-run commands over the same safe URL map
+as `open_ott`.
 
 The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /commands`, `POST /intent`, `POST /harness/run`, `GET /linear/status`,
@@ -99,7 +101,9 @@ switch views without introducing real account credentials.
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
 client with status, command, Linear, storage, household, and optimization tabs.
 It can load snapshots from the localhost daemon while keeping a deterministic
-offline fallback. The Status tab also surfaces whether the repository is clean
-or dirty, whether the recorded daemon supervisor state is reachable, and how
-many command audit and quality gate events are recorded.
+offline fallback. The command tab includes explicit OTT shortcuts plus editable
+payload commands for search, URL, and volume operations. The Status tab also
+surfaces whether the repository is clean or dirty, whether the recorded daemon
+supervisor state is reachable, and how many command audit and quality gate
+events are recorded.
 Platform runner files are left out until device packaging is required.

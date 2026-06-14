@@ -7,6 +7,11 @@ Initial commands:
 - `open_youtube`
 - `open_youtube_search`
 - `open_ott`
+- `open_netflix`
+- `open_disney_plus`
+- `open_tving`
+- `open_wavve`
+- `open_coupang_play`
 - `open_url`
 - `volume_up`
 - `volume_down`
@@ -19,6 +24,9 @@ Initial commands:
 
 Unsafe URL schemes such as `javascript:`, `file:`, and `data:` must fail.
 Volume levels are restricted to `0..100`.
+The service-specific OTT shortcuts are zero-payload convenience commands over
+the same safe target map used by `open_ott`; they do not introduce scraping,
+cookies, credentials, downloads, or DRM bypass behavior.
 
 The Flutter client calls daemon `POST /intent` with `execute=false` to preview
 plans. This keeps the UI on the dry-run side of the boundary while showing the

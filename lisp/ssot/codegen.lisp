@@ -4,6 +4,11 @@
   (let ((command-names (mapcar (lambda (command) (getf command :name)) *commands*)))
     (dolist (required '("open_youtube"
                         "open_youtube_search"
+                        "open_netflix"
+                        "open_disney_plus"
+                        "open_tving"
+                        "open_wavve"
+                        "open_coupang_play"
                         "open_ott"
                         "open_url"
                         "volume_set"

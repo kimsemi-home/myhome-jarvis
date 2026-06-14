@@ -8,6 +8,8 @@ Current scope:
 - Status, command, Linear, storage, household, and optimization tabs.
 - Dry-run command rows with editable payload fields for the initial
   home-control surface.
+- Explicit zero-payload OTT shortcut buttons for Netflix, Disney+, TVING,
+  Wavve, and Coupang Play, plus the generic `open_ott` command.
 - Daemon snapshot client for `/health`, `/commands`, `/linear/status`, and
   `/metrics`.
 - Domain summary rendering from `/domain/summary` for finance, commerce, and

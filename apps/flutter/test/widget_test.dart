@@ -19,6 +19,17 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('open-youtube'), findsOneWidget);
+    expect(find.text('open-netflix'), findsOneWidget);
+    expect(find.text('open-disney-plus'), findsOneWidget);
+    expect(find.text('open-tving'), findsOneWidget);
+    expect(find.text('open-wavve'), findsOneWidget);
+    expect(find.text('open-coupang-play'), findsOneWidget);
+    await tester.drag(
+      find.byKey(const Key('commands-list')),
+      const Offset(0, -500),
+    );
+    await tester.pumpAndSettle();
+
     expect(find.text('volume-set'), findsOneWidget);
     expect(find.widgetWithText(TextField, 'level'), findsOneWidget);
     expect(find.text('30'), findsOneWidget);
@@ -43,8 +54,20 @@ void main() {
     await tester.tap(find.text('Commands'));
     await tester.pumpAndSettle();
 
+    await tester.drag(
+      find.byKey(const Key('commands-list')),
+      const Offset(0, -500),
+    );
+    await tester.pumpAndSettle();
+
     await tester.enterText(find.widgetWithText(TextField, 'level'), '42');
-    await tester.tap(find.byTooltip('Dry-run').at(1));
+    final volumeSetRow = find.ancestor(
+      of: find.text('volume-set'),
+      matching: find.byType(CommandRow),
+    );
+    await tester.tap(
+      find.descendant(of: volumeSetRow, matching: find.byTooltip('Dry-run')),
+    );
     await tester.pumpAndSettle();
 
     expect(

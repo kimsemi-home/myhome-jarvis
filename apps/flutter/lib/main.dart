@@ -226,6 +226,7 @@ class CommandsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ListView.separated(
+        key: const Key('commands-list'),
         padding: const EdgeInsets.all(16),
         itemCount: commands.length,
         separatorBuilder: (_, _) => const SizedBox(height: 8),
