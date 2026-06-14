@@ -19,6 +19,12 @@ hit and skips its heavy toolchain setup and tests. A lightweight workflow run
 still exists for each push so GitHub can report status, but unchanged units
 avoid repeated work.
 
+Workflow-maintained action refs use Node 24-capable releases:
+`actions/checkout@v6`, `actions/setup-go@v6`, and `actions/cache@v5`.
+Because `.github/workflows/quality.yml` is part of every unit cache key, action
+ref changes intentionally invalidate the SSOT, Go, Rust, and Flutter unit
+caches once so the new runner surface is verified before future cache hits.
+
 Generated artifact verification lives in the `ssot` unit. On a cache miss, CI
 runs SSOT validation, regenerates artifacts, and fails if `generated` differs
 from the checked-in files.

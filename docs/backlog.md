@@ -269,3 +269,15 @@
 - [x] Surface redacted daemon runtime counters.
   - Acceptance: daemon `GET /metrics` exposes aggregate Go runtime counters for goroutine count, heap allocation bytes, heap system bytes, stack in-use bytes, and GC count without exposing local roots, tokens, request payloads, or raw process data; Flutter Status renders runtime and heap metrics when present.
   - Validation: `go test ./internal/daemon`; `cd apps/flutter && flutter test test/daemon_client_test.dart`; full quality gate.
+
+## P36
+
+- [x] Upgrade GitHub Actions maintained refs for Node 24.
+  - Acceptance: workflow-owned uses of checkout, setup-go, and cache actions point at Node 24-capable releases; the manual force-to-Node24 environment opt-in is removed; unit hash caches still include the workflow file so action ref changes are verified once and unchanged units can later skip heavy work.
+  - Validation: workflow YAML parses; full quality gate; GitHub Actions run.
+
+## P37
+
+- [x] Make storage fixture temp roots collision-safe.
+  - Acceptance: `mhj-storage` curated fixture writer tests use per-process unique temporary roots even when Rust tests run in parallel, so one test cannot remove another test's generated Parquet fixture.
+  - Validation: `cargo test -p mhj-storage`; full quality gate.

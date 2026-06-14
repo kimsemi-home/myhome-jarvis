@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 01:15 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Upgrade GitHub Actions maintained refs for Node 24 and harden storage test isolation.
+- Files touched: `.github/workflows/quality.yml`, `crates/mhj-storage/src/lib.rs`, `docs/backlog.md`, `docs/ci.md`, `docs/working-log.md`.
+- Changes: updated workflow-owned `actions/checkout` refs to `v6`, `actions/setup-go` refs to `v6`, and `actions/cache` restore/save refs to `v5`; removed the manual force-to-Node24 environment opt-in now that maintained actions are Node 24-capable; documented that workflow action ref changes intentionally invalidate unit hash caches once; made `mhj-storage` fixture writer temporary roots include an atomic per-process counter so parallel tests cannot collide and remove each other's generated Parquet fixtures.
+- Validation after: workflow YAML parsed; `cargo fmt --check` passed; `cargo test -p mhj-storage` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; public safety scans passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 01:06 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

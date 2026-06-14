@@ -900,7 +900,10 @@ fn path_to_repo_string(path: &Path) -> String {
 mod tests {
     use super::*;
     use std::process;
+    use std::sync::atomic::{AtomicU64, Ordering};
     use std::time::{SystemTime, UNIX_EPOCH};
+
+    static TEMP_ROOT_COUNTER: AtomicU64 = AtomicU64::new(0);
 
     #[test]
     fn default_manifest_covers_each_dataset_and_layer() {
@@ -1134,6 +1137,7 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .expect("clock after epoch")
             .as_nanos();
-        std::env::temp_dir().join(format!("mhj-storage-{}-{nanos}", process::id()))
+        let counter = TEMP_ROOT_COUNTER.fetch_add(1, Ordering::Relaxed);
+        std::env::temp_dir().join(format!("mhj-storage-{}-{nanos}-{counter}", process::id()))
     }
 }
