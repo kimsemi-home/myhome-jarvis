@@ -15,6 +15,7 @@ permissions:
 env:
   GO_VERSION: "1.26.2"
   FLUTTER_VERSION: "3.44.2"
+  RUST_TOOLCHAIN: "1.96.0"
   UNIT_CACHE_VERSION: "v1"
 
 jobs:
@@ -169,7 +170,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: .github/unit-cache/rust
-          key: rust-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', 'Cargo.toml', 'Cargo.lock', 'crates/**', 'fixtures/**') }}
+          key: rust-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', 'rust-toolchain.toml', 'Cargo.toml', 'Cargo.lock', 'crates/**', 'fixtures/**') }}
 
       - name: Report Rust cache hit
         if: steps.unit-cache.outputs.cache-hit == 'true'
@@ -178,8 +179,8 @@ jobs:
       - name: Set up Rust
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |
-          rustup default stable
-          rustup component add rustfmt clippy
+          rustup toolchain install "${RUST_TOOLCHAIN}" --profile minimal --component rustfmt --component clippy
+          rustup default "${RUST_TOOLCHAIN}"
 
       - name: Run Rust tests and benchmark smoke
         if: steps.unit-cache.outputs.cache-hit != 'true'

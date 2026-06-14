@@ -33,6 +33,9 @@ Workflow-maintained action refs use Node 24-capable releases:
 Because `.github/workflows/quality.yml` is part of every unit cache key, action
 ref changes intentionally invalidate the SSOT, Go, Rust, and Flutter unit
 caches once so the new runner surface is verified before future cache hits.
+Rust also has a checked-in `rust-toolchain.toml`; the Rust unit cache key
+includes that file so compiler or component changes rerun Rust tests before a
+new marker can be saved.
 
 Generated artifact verification lives in the `ssot` unit. On a cache miss, CI
 runs SSOT validation, regenerates artifacts, and fails if `generated` differs

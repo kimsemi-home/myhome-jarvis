@@ -341,3 +341,9 @@
 - [x] Trust-scope GitHub Actions unit cache saves.
   - Acceptance: SSOT, Go, Rust, and Flutter unit caches can be restored by push and pull-request runs, but new known-good unit cache markers are saved only by push events in the canonical `kimsemi-home/myhome-jarvis` repository; pull requests still run cache-miss validation without publishing cache markers.
   - Validation: workflow YAML parses; full quality gate; GitHub Actions run.
+
+## P48
+
+- [x] Pin Rust toolchain for hash-scoped CI.
+  - Acceptance: Rust tests and CI use checked-in `rust-toolchain.toml` with an exact Rust toolchain; the Rust unit cache key includes that file so toolchain changes cannot reuse an old known-good Rust marker.
+  - Validation: `rustup toolchain install 1.96.0 --profile minimal --component rustfmt --component clippy`; `cargo test --workspace`; `cargo fmt --check`; `cargo clippy --workspace -- -D warnings`; workflow YAML parses; full quality gate; GitHub Actions run.
