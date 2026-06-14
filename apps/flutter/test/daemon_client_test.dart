@@ -128,6 +128,14 @@ void main() {
         case '/events':
           _writeJson(request, {'count': 2, 'events': <Object?>[]});
           return;
+        case '/supervisor/status':
+          _writeJson(request, {
+            'recorded': true,
+            'stale': false,
+            'message': 'daemon is reachable',
+            'state_path': 'data/private/supervisor/daemon-state.json',
+          });
+          return;
         case '/intent':
           final body = jsonDecode(await utf8.decoder.bind(request).join());
           expect(body, isA<Map<String, Object?>>());
@@ -167,6 +175,12 @@ void main() {
     expect(
       snapshot.metrics.singleWhere((metric) => metric.label == 'Events').value,
       '2',
+    );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Supervisor')
+          .value,
+      'Reachable',
     );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(

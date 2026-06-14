@@ -36,6 +36,7 @@ go run ./cmd/mhj loop worker --cycles 1
 go run ./cmd/mhj benchmark smoke
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj daemon
+go run ./cmd/mhj daemon status
 cargo test -p mhj-core recommendations
 ```
 
@@ -56,6 +57,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/auth`: local LAN bearer-token management.
 - `internal/commands`: dry-run command planning and validation.
 - `internal/daemon`: local API, auth enforcement, metrics, and bounded request events.
+- `internal/supervisor`: daemon process state and status checks.
 - `internal/security`: forbidden language, secret, and private-data checks.
 - `internal/linear`: Linear offline status and local queue.
 - `internal/repo`: Git worktree status inspection for closed-loop safety.

@@ -14,6 +14,8 @@ Current scope:
   storage fixture status.
 - Repository status rendering from `/repo/status` as a clean/dirty status
   metric.
+- Supervisor status rendering from `/supervisor/status` as a reachable/stale
+  daemon process metric.
 - Recommendation rendering from fixture-only local summaries.
 - User, Spouse, and Household fixture scope switching.
 - Dry-run preview client for `/intent`; command buttons always send

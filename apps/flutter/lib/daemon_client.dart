@@ -30,6 +30,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final domain = await _getObject(client, '/domain/summary');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
+      final supervisor = await _getObject(client, '/supervisor/status');
       return buildSnapshot(
         health: health,
         commands: commands,
@@ -38,6 +39,7 @@ class DaemonSnapshotClient implements JarvisClient {
         domain: domain,
         metrics: metrics,
         events: events,
+        supervisor: supervisor,
       );
     } finally {
       client.close(force: true);
@@ -138,6 +140,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> domain,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
+  required Map<String, Object?> supervisor,
 }) {
   final bindHost =
       _string(metrics['bind_host']) ?? _string(health['host']) ?? '127.0.0.1';
@@ -145,6 +148,8 @@ JarvisSnapshot buildSnapshot({
       _bool(health['dry_run']) ?? _bool(metrics['dry_run_default']) ?? true;
   final requestCount = _int(metrics['requests']);
   final eventCount = _int(events['count']) ?? _int(metrics['event_count']);
+  final supervisorStale = _bool(supervisor['stale']);
+  final supervisorRecorded = _bool(supervisor['recorded']) ?? false;
   final linearMode = _string(linear['mode']) ?? 'offline';
   final repoClean = _bool(repo['worktree_clean']);
 
@@ -169,6 +174,13 @@ JarvisSnapshot buildSnapshot({
         label: 'Events',
         value: eventCount == null ? '0' : '$eventCount',
         icon: Icons.receipt_long_outlined,
+      ),
+      SystemMetric(
+        label: 'Supervisor',
+        value: supervisorRecorded
+            ? (supervisorStale == true ? 'Stale' : 'Reachable')
+            : 'Unrecorded',
+        icon: Icons.memory_outlined,
       ),
       SystemMetric(
         label: 'Linear',

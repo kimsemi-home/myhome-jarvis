@@ -23,7 +23,7 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /commands`, `POST /intent`, `POST /harness/run`, `GET /linear/status`,
 `POST /linear/sync`, `GET /repo/status`, `GET /loop/status`, `GET /domain/summary`,
 `GET /household/summary`, `GET /recommendations/summary`, `GET /metrics`,
-and `GET /events`.
+`GET /events`, and `GET /supervisor/status`.
 It binds to `127.0.0.1` by default.
 LAN binding requires `--allow-lan` and non-localhost requests must include a
 Bearer token stored only in `data/private/local-token.txt`.
@@ -32,6 +32,12 @@ The first daemon observability surface is local and bounded. It keeps the
 newest 100 request events in memory and records only method, path, status,
 duration, timestamp, and coarse error category. It does not record bodies,
 headers, bearer tokens, query strings, or local filesystem paths.
+
+The first process supervision surface records daemon runtime state only after
+the TCP listener binds successfully. The private state file lives at
+`data/private/supervisor/daemon-state.json`, while `mhj daemon status` and
+`GET /supervisor/status` expose repo-relative status, pid liveness, and a
+token-free health probe.
 
 The first repository safety surface is read-only. `mhj repo status` and daemon
 `GET /repo/status` report branch, head SHA, tracked changes, untracked files,
@@ -64,4 +70,5 @@ The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
 client with status, command, Linear, storage, household, and optimization tabs.
 It can load snapshots from the localhost daemon while keeping a deterministic
 offline fallback. The Status tab also surfaces whether the repository is clean
-or dirty. Platform runner files are left out until device packaging is required.
+or dirty and whether the recorded daemon supervisor state is reachable.
+Platform runner files are left out until device packaging is required.

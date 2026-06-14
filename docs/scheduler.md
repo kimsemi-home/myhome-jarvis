@@ -14,7 +14,8 @@ Safety properties:
 - Consecutive failures use bounded exponential backoff.
 - State is recovered from `data/private/scheduler`.
 - Checkpoint references stay under ignored private storage.
-- The worker never runs forever unless a future explicit supervisor wraps it.
+- The worker never runs forever unless a future explicit worker supervisor
+  wraps it. The current process supervisor records daemon state only.
 
 Validation:
 

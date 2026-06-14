@@ -22,6 +22,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/repo"
 	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
+	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
 )
 
 const version = "0.1.0-bootstrap"
@@ -163,7 +164,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|repo status|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -188,6 +189,9 @@ func runAuth(root string, args []string) error {
 }
 
 func runDaemon(root string, args []string) error {
+	if len(args) == 1 && args[0] == "status" {
+		return writeJSON(supervisor.Status(root, nil))
+	}
 	config := daemon.DefaultConfig(root, version)
 	flags := flag.NewFlagSet("daemon", flag.ContinueOnError)
 	flags.SetOutput(os.Stderr)

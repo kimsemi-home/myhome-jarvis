@@ -20,6 +20,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/repo"
 	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
+	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
 )
 
 type Config struct {
@@ -74,7 +75,27 @@ func (server *Server) ListenAndServe() error {
 		Handler:           mux,
 		ReadHeaderTimeout: 5 * time.Second,
 	}
-	return httpServer.ListenAndServe()
+	listener, err := net.Listen("tcp", address)
+	if err != nil {
+		return err
+	}
+	state, err := supervisor.NewDaemonState(
+		server.config.Root,
+		server.config.Host,
+		server.config.Port,
+		server.config.Version,
+		server.config.Execute,
+		server.config.AllowLANBind,
+	)
+	if err != nil {
+		_ = listener.Close()
+		return err
+	}
+	if _, err := supervisor.WriteDaemonState(server.config.Root, state); err != nil {
+		_ = listener.Close()
+		return err
+	}
+	return httpServer.Serve(listener)
 }
 
 func (server *Server) Routes() http.Handler {
@@ -93,6 +114,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /recommendations/summary", server.wrap(server.handleRecommendationsSummary))
 	mux.HandleFunc("GET /metrics", server.wrap(server.handleMetrics))
 	mux.HandleFunc("GET /events", server.wrap(server.handleEvents))
+	mux.HandleFunc("GET /supervisor/status", server.wrap(server.handleSupervisorStatus))
 	return mux
 }
 
@@ -296,6 +318,10 @@ func (server *Server) handleEvents(writer http.ResponseWriter, request *http.Req
 		"count":  len(events),
 		"events": events,
 	})
+}
+
+func (server *Server) handleSupervisorStatus(writer http.ResponseWriter, request *http.Request) error {
+	return writeJSON(writer, http.StatusOK, supervisor.Status(server.config.Root, nil))
 }
 
 func decodeBody(request *http.Request, target any) error {
