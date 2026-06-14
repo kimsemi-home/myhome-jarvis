@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 22:28 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add dedicated Rust commerce crate boundary.
+- Files touched: `Cargo.toml`, `Cargo.lock`, `crates/mhj-commerce/Cargo.toml`, `crates/mhj-commerce/src/lib.rs`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/commerce-domain.md`, `docs/working-log.md`.
+- Changes: added `mhj-commerce` as a workspace crate with fixture-only purchase IR validation, commerce spend summaries, owner spend summaries, merchant spend summaries, and recurring purchase review candidates; kept commerce behavior read-only and free of scraping, credentials, purchase automation, or external writes.
+- Validation after: `cargo test -p mhj-commerce` passed; `cargo fmt --check` passed; `cargo test --workspace` passed; `cargo clippy --workspace -- -D warnings` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted quality run; generated artifacts had no diff; public safety scans passed; private quality journal redaction scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, subscription, scraping, or other external write was executed.
+- Next: run workspace tests, full quality, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 22:22 local
 
 - Linear issue: local continuation, no external Linear writes executed.

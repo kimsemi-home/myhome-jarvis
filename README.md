@@ -51,6 +51,7 @@ sbcl --script lisp/scripts/codegen.lisp
 cargo test --workspace
 cargo test -p mhj-core benchmark_smoke -- --nocapture
 cargo test -p mhj-core household
+cargo test -p mhj-commerce
 cargo test -p mhj-finance
 cargo test -p mhj-storage
 cd apps/flutter && flutter test && flutter analyze
@@ -73,6 +74,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/qualitylog`: private quality gate evidence journal.
 - `internal/scheduler`: heartbeat, backoff, rate-limit, and recovery state for bounded loop workers.
 - `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading.
+- `crates/mhj-commerce`: fixture-only purchase IR validation, spend summaries, and recurring purchase candidates.
 - `crates/mhj-finance`: fixture-only finance IR validation, cashflow summaries, and subscription review candidates.
 - `crates/mhj-core/src/benchmark.rs`: fixture-pipeline benchmark smoke tests.
 - `crates/mhj-core/src/household.rs`: fixture-only user/spouse/household scope aggregation.

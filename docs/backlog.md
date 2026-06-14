@@ -119,3 +119,9 @@
 - [x] Add dedicated Rust finance crate boundary.
   - Acceptance: `crates/mhj-finance` is part of the Cargo workspace; it parses and validates fixture-only transaction IR, computes cashflow and owner summaries, and identifies subscription review candidates without requesting credentials or executing finance/subscription actions.
   - Validation: `cargo test -p mhj-finance`; `cargo test --workspace`; full quality gate.
+
+## P11
+
+- [x] Add dedicated Rust commerce crate boundary.
+  - Acceptance: `crates/mhj-commerce` is part of the Cargo workspace; it parses and validates fixture-only purchase IR, computes spend, owner, and merchant summaries, and identifies recurring purchase review candidates without scraping, credentials, or purchase automation.
+  - Validation: `cargo test -p mhj-commerce`; `cargo test --workspace`; full quality gate.

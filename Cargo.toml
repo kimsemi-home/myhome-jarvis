@@ -2,6 +2,7 @@
 members = [
   "crates/mhj-core",
   "crates/mhj-command",
+  "crates/mhj-commerce",
   "crates/mhj-harness",
   "crates/mhj-finance",
   "crates/mhj-storage",
