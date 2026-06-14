@@ -12,6 +12,7 @@ env:
   GO_VERSION: "1.26.2"
   FLUTTER_VERSION: "3.44.2"
   UNIT_CACHE_VERSION: "v1"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   ssot:
@@ -90,6 +91,7 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
           cache: true
+          cache-dependency-path: go.mod
 
       - name: Run Go security and harness checks
         if: steps.unit-cache.outputs.cache-hit != 'true'

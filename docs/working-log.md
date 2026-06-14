@@ -6,8 +6,8 @@
 - Mode: online-capable, local-only changes in this pass.
 - Task: Split GitHub Actions into hash-scoped unit caches and confirm SSOT/generated boundaries.
 - Files touched: `.github/workflows/quality.yml`, `.gitignore`, `cmd/mhj/main.go`, `README.md`, `docs/backlog.md`, `docs/ci.md`, `docs/ssot.md`, `docs/working-log.md`.
-- Changes: added `mhj codegen verify`; documented current SSOT domain boundaries; split Actions into SSOT, Go, Rust, and Flutter unit jobs with hash-keyed cache markers; kept generated artifact verification in the SSOT job.
-- Validation after: `go1.26.2 run ./cmd/mhj codegen verify` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed; workflow YAML parsed; public safety scans passed; generated artifacts had no diff after codegen.
+- Changes: added `mhj codegen verify`; documented current SSOT domain boundaries; split Actions into SSOT, Go, Rust, and Flutter unit jobs with hash-keyed cache markers; kept generated artifact verification in the SSOT job; opted Actions into Node 24 and set Go cache dependency path to `go.mod`.
+- Validation after: `go1.26.2 run ./cmd/mhj codegen verify` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed; workflow YAML parsed; public safety scans passed; generated artifacts had no diff after codegen; first split GitHub Actions run succeeded and warmed unit caches.
 - External-write note: no Linear mutation, purchase, finance, card, investment, or other external write was executed.
 - Next: commit, push, and verify hash-scoped GitHub Actions with `gh`.
 
