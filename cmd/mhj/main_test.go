@@ -115,6 +115,20 @@ func TestValidateCIWorkflowContractRejectsPrivilegedTrigger(t *testing.T) {
 	}
 }
 
+func TestValidateCIWorkflowContractRejectsAnyWritePermission(t *testing.T) {
+	root := t.TempDir()
+	workflow := strings.Replace(ciWorkflowFixture(), "  contents: read\n", "  contents: read\n  id-token: write\n", 1)
+	writeTestFile(t, root, ".github/workflows/quality.yml", workflow)
+
+	err := validateCIWorkflowContract(root)
+	if err == nil {
+		t.Fatal("expected write permission to fail")
+	}
+	if !strings.Contains(err.Error(), "id-token: write") {
+		t.Fatalf("expected id-token write permission error, got %v", err)
+	}
+}
+
 func writeToolchainFixture(t *testing.T, goVersion string, goModVersion string, workflowGoVersion string, rustVersion string, workflowRustVersion string) string {
 	t.Helper()
 	root := t.TempDir()

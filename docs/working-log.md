@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 02:44 KST
+
+- Linear issue: KIM-5 created in Linear and kept in progress.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Reject generic CI write permissions.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/main_test.go`, `docs/backlog.md`, `docs/ci.md`, `docs/security.md`, `docs/working-log.md`.
+- Changes: extended `mhj ci verify` to reject any workflow permission line ending in `write`, such as `id-token: write`, while keeping the canonical workflow on top-level `contents: read`.
+- Validation after: `go1.26.2 test ./cmd/mhj` passed; `go1.26.2 run ./cmd/mhj ci verify` passed; workflow YAML parsed; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj codegen verify` passed with no generated diff; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: created Linear issue KIM-5 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, then update Linear issue KIM-5.
+
 ## 2026-06-15 02:39 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

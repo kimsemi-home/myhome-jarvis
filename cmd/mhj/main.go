@@ -655,13 +655,16 @@ func validateCIWorkflowContract(root string) error {
 	}
 	forbidden := []string{
 		"pull_request_target",
-		"contents: write",
 		"write-all",
 	}
 	for _, token := range forbidden {
 		if strings.Contains(workflow, token) {
 			return fmt.Errorf("quality workflow contains forbidden CI contract token %q", token)
 		}
+	}
+	writePermissionPattern := regexp.MustCompile(`(?m)^\s*[A-Za-z0-9_-]+:\s*write\s*$`)
+	if match := writePermissionPattern.FindString(workflow); match != "" {
+		return fmt.Errorf("quality workflow contains forbidden write permission %q", strings.TrimSpace(match))
 	}
 	return nil
 }
