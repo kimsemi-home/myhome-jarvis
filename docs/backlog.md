@@ -185,3 +185,9 @@
 - [x] Add read-only daemon LAN auth status surface.
   - Acceptance: daemon `GET /auth/status` exposes local token configured/missing state, repo-relative token path, file mode, and message without returning token contents; Flutter Status renders a `LAN Auth` metric from that surface.
   - Validation: `go test ./internal/daemon`; `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.
+
+## P22
+
+- [x] Complete fallback Flutter home-control command buttons.
+  - Acceptance: static/offline Flutter snapshots expose YouTube, OTT shortcuts, volume up/down/set, and display sleep dry-run commands so the local client keeps the same core home-control surface even before a daemon connection is available.
+  - Validation: `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.

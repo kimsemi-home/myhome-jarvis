@@ -318,6 +318,23 @@ class JarvisSnapshot {
         payloadFields: ['level'],
       ),
       HomeCommand(
+        name: 'volume-up',
+        payload: '{"step":10}',
+        icon: Icons.volume_up_outlined,
+        payloadFields: ['step'],
+      ),
+      HomeCommand(
+        name: 'volume-down',
+        payload: '{"step":10}',
+        icon: Icons.volume_down_outlined,
+        payloadFields: ['step'],
+      ),
+      HomeCommand(
+        name: 'display-sleep',
+        payload: '{}',
+        icon: Icons.monitor_outlined,
+      ),
+      HomeCommand(
         name: 'movie-mode',
         payload: '{}',
         icon: Icons.theaters_outlined,

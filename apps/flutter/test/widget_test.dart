@@ -37,6 +37,10 @@ void main() {
     expect(find.text('volume-set'), findsOneWidget);
     expect(find.widgetWithText(TextField, 'level'), findsOneWidget);
     expect(find.text('30'), findsOneWidget);
+    expect(find.text('volume-up'), findsOneWidget);
+    expect(find.text('volume-down'), findsOneWidget);
+    expect(find.widgetWithText(TextField, 'step'), findsWidgets);
+    expect(find.text('display-sleep'), findsOneWidget);
     expect(find.byTooltip('Dry-run'), findsWidgets);
   });
 
