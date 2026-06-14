@@ -420,3 +420,10 @@
   - Linear: KIM-14
   - Acceptance: Common Lisp SSOT defines bounded contexts, concept registry, aliases, generated artifact contracts, planning rules, and KnowledgeIndex schema; codegen emits `generated/concepts.generated.json`; `mhj ddd verify` and `mhj knowledge search` work locally; planner status and checkpoints include redacted KnowledgeIndex evidence; docs/logs stay public-safe.
   - Validation: `go test ./internal/knowledge ./internal/planner ./internal/orchestrator ./internal/linear`; `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; `go run ./cmd/mhj knowledge search KnowledgeIndex`; `go run ./cmd/mhj loop once`; security/history checks; full quality gate; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P60
+
+- [x] Strengthen DDD SSOT with events and harness contracts.
+  - Linear: KIM-15
+  - Acceptance: concepts declare valid SSOT-owned `ddd_kind` values and every approved DDD kind is represented; generated concepts include domain events and harness case contracts; `mhj ddd verify` checks DDD kinds, domain events, harness contracts, duplicate concepts, alias drift, generated targets, and KnowledgeIndex policy; `mhj knowledge search DomainEvent` returns event evidence without raw private content.
+  - Validation: `go test ./internal/knowledge ./internal/planner ./internal/orchestrator`; `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; `go run ./cmd/mhj knowledge search DomainEvent`; `go run ./cmd/mhj loop once`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

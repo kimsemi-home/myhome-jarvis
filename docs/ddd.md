@@ -20,5 +20,13 @@ and AntiCorruptionLayer. New semantic terms should be registered in
 `lisp/ssot/ddd.lisp` before implementation and regenerated into
 `generated/concepts.generated.json`.
 
+Each canonical concept declares a `ddd_kind`, and the registry must use every
+approved DDD kind at least once. The same executable SSOT also defines domain
+events and harness case contracts, so generated concept evidence covers
+semantic ownership, emitted events, and the fixture/golden checks that protect
+the context.
+
 `mhj ddd verify` checks duplicate concepts, alias drift, invalid bounded
-contexts, missing generated targets, and KnowledgeIndex policy constraints.
+contexts, invalid DDD kinds, missing or invalid domain events, missing harness
+case contracts, missing generated targets, and KnowledgeIndex policy
+constraints.

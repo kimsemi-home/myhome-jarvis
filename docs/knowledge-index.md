@@ -17,10 +17,11 @@ Indexed areas come from the Common Lisp SSOT:
 - `harness/golden`
 - `data/private/linear-offline-queue.jsonl` when present
 
-Default search output is redacted. It reports concept names, bounded contexts,
-owners, repo-relative paths, line numbers, matched terms, related Linear issue
-keys, duplicate suspicions, and must-read files. It does not print source line
-snippets or raw private queue contents.
+Default search output is redacted. It reports concept names, DDD kinds, bounded
+contexts, owners, domain event summaries, harness case contracts, repo-relative
+paths, line numbers, matched terms, related Linear issue keys, duplicate
+suspicions, and must-read files. It does not print source line snippets or raw
+private queue contents.
 
 Useful commands:
 

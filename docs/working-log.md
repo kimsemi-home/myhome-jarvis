@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 03:47 KST
+
+- Linear issue: KIM-15 created in Linear and kept in progress.
+- Mode: online-capable, local-first implementation after approved Linear issue creation.
+- Task: Strengthen the DDD executable SSOT so the concept registry uses DDD kinds and generated concepts include domain events and harness case contracts.
+- Files touched: `lisp/ssot/ddd.lisp`, `lisp/ssot/package.lisp`, `lisp/ssot/codegen.lisp`, `generated/concepts.generated.json`, `internal/knowledge/index.go`, `internal/knowledge/index_test.go`, `docs/ddd.md`, `docs/knowledge-index.md`, `docs/ssot.md`, `docs/backlog.md`, `docs/working-log.md`.
+- Changes: added `ddd_kind` to SSOT-owned concepts; added `LinearGraphQLAdapter`, `LinearOfflineFallback`, and `CheckpointRecorded` concepts so Entity, ValueObject, Aggregate, DomainEvent, Repository, Policy, Port, Adapter, and AntiCorruptionLayer are all represented; added SSOT domain events and harness case contracts; made `mhj ddd verify` report/check DDD kinds, events, harness contracts, generated targets, aliases, duplicate concepts, and KnowledgeIndex schema; made KnowledgeIndex search return event and harness summaries without source snippets.
+- Validation after: `go1.26.2 test ./internal/knowledge ./internal/planner ./internal/orchestrator` passed; `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj ddd verify` reported 7 contexts, 12 concepts, 2 events, and 3 harness contracts; `go1.26.2 run ./cmd/mhj knowledge search DomainEvent` returned `CheckpointRecorded` and `KnowledgeLookupRecorded` without private markers; `go1.26.2 run ./cmd/mhj loop once` wrote a private checkpoint with `knowledge_evidence` including KIM-15; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan, forbidden language/dependency scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-15 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA to confirm cache behavior, then update Linear issue KIM-15.
+
 ## 2026-06-15 03:31 KST
 
 - Linear issues: KIM-10 and KIM-14 created in Linear and kept in progress during implementation; KIM-11, KIM-12, and KIM-13 seeded as project-prefixed backlog issues by the idempotent backlog seeder.

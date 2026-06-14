@@ -19,8 +19,14 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if report.ContextCount != 7 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 9 {
+	if report.ConceptCount != 12 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
+	}
+	if report.EventCount != 2 {
+		t.Fatalf("event count = %d", report.EventCount)
+	}
+	if report.HarnessCount != 3 {
+		t.Fatalf("harness count = %d", report.HarnessCount)
 	}
 }
 
@@ -60,6 +66,25 @@ func TestSearchReturnsKnowledgeEvidenceWithoutSnippets(t *testing.T) {
 	}
 }
 
+func TestSearchDomainEventReturnsEventEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "DomainEvent")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "CheckpointRecorded") {
+		t.Fatalf("expected CheckpointRecorded concept, got %#v", report.Concepts)
+	}
+	if !hasEvent(report.Events, "CheckpointRecorded") {
+		t.Fatalf("expected CheckpointRecorded event, got %#v", report.Events)
+	}
+	if !hasEvent(report.Events, "KnowledgeLookupRecorded") {
+		t.Fatalf("expected KnowledgeLookupRecorded event, got %#v", report.Events)
+	}
+	if !containsString(report.MustRead, "internal/orchestrator/checkpoint.go") {
+		t.Fatalf("must read missing checkpoint implementation: %#v", report.MustRead)
+	}
+}
+
 func TestRegistryFailuresDetectDuplicateAlias(t *testing.T) {
 	root := t.TempDir()
 	writeTestTarget(t, root, "generated/a.json")
@@ -89,6 +114,43 @@ func TestRegistryFailuresDetectDuplicateAlias(t *testing.T) {
 	}
 }
 
+func TestRegistryFailuresDetectInvalidDDDKind(t *testing.T) {
+	root := t.TempDir()
+	writeTestTarget(t, root, "generated/a.json")
+	registry := Registry{
+		BoundedContexts: []BoundedContext{{Name: "AgentOps"}},
+		DDDPatterns:     []string{"Entity"},
+		Concepts: []Concept{{
+			CanonicalName:    "One",
+			BoundedContext:   "AgentOps",
+			DDDKind:          "Bogus",
+			AllowedAliases:   []string{"one"},
+			GeneratedTargets: []string{"generated/a.json"},
+		}},
+		DomainEvents: []DomainEvent{{
+			Name:           "OneRecorded",
+			BoundedContext: "AgentOps",
+			EmittedBy:      "One",
+			PayloadFields:  []string{"one"},
+		}},
+		HarnessCaseContracts: []HarnessCase{{
+			Name:           "one_harness",
+			BoundedContext: "AgentOps",
+			Command:        "mhj harness home",
+			EvidenceTarget: "generated/a.json",
+		}},
+		GeneratedArtifactContracts: []ArtifactContract{{Name: "a", Path: "generated/a.json"}},
+		PlanningRules: PlanningRules{
+			KnowledgeIndexRequiredBeforePlanning: true,
+		},
+		KnowledgeIndexSchema: IndexSchema{Kind: "local-lexical", IndexRoots: []string{"generated"}},
+	}
+	failures := registryFailures(root, registry)
+	if !containsFailure(failures, "ddd_kind") {
+		t.Fatalf("expected ddd_kind failure, got %#v", failures)
+	}
+}
+
 func containsString(values []string, wanted string) bool {
 	for _, value := range values {
 		if value == wanted {
@@ -101,6 +163,15 @@ func containsString(values []string, wanted string) bool {
 func hasConcept(values []ConceptSummary, wanted string) bool {
 	for _, value := range values {
 		if value.CanonicalName == wanted {
+			return true
+		}
+	}
+	return false
+}
+
+func hasEvent(values []DomainEventSummary, wanted string) bool {
+	for _, value := range values {
+		if value.Name == wanted {
 			return true
 		}
 	}

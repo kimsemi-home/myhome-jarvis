@@ -19,6 +19,8 @@ type Registry struct {
 	BoundedContexts            []BoundedContext   `json:"bounded_contexts"`
 	DDDPatterns                []string           `json:"ddd_patterns"`
 	Concepts                   []Concept          `json:"concepts"`
+	DomainEvents               []DomainEvent      `json:"domain_events"`
+	HarnessCaseContracts       []HarnessCase      `json:"harness_case_contracts"`
 	GeneratedArtifactContracts []ArtifactContract `json:"generated_artifact_contracts"`
 	PlanningRules              PlanningRules      `json:"planning_rules"`
 	KnowledgeIndexSchema       IndexSchema        `json:"knowledge_index_schema"`
@@ -33,11 +35,28 @@ type BoundedContext struct {
 type Concept struct {
 	CanonicalName    string   `json:"canonical_name"`
 	BoundedContext   string   `json:"bounded_context"`
+	DDDKind          string   `json:"ddd_kind"`
 	Description      string   `json:"description"`
 	AllowedAliases   []string `json:"allowed_aliases"`
 	Owner            string   `json:"owner"`
 	GeneratedTargets []string `json:"generated_targets"`
 	RelatedConcepts  []string `json:"related_concepts"`
+}
+
+type DomainEvent struct {
+	Name           string   `json:"name"`
+	BoundedContext string   `json:"bounded_context"`
+	Description    string   `json:"description"`
+	EmittedBy      string   `json:"emitted_by"`
+	PayloadFields  []string `json:"payload_fields"`
+}
+
+type HarnessCase struct {
+	Name           string `json:"name"`
+	BoundedContext string `json:"bounded_context"`
+	Command        string `json:"command"`
+	EvidenceTarget string `json:"evidence_target"`
+	Description    string `json:"description"`
 }
 
 type ArtifactContract struct {
@@ -75,6 +94,8 @@ type VerifyReport struct {
 	CheckedAt    string  `json:"checked_at"`
 	ContextCount int     `json:"context_count"`
 	ConceptCount int     `json:"concept_count"`
+	EventCount   int     `json:"event_count"`
+	HarnessCount int     `json:"harness_count"`
 	Checks       []Check `json:"checks"`
 }
 
@@ -82,6 +103,8 @@ type SearchReport struct {
 	Query               string               `json:"query"`
 	CheckedAt           string               `json:"checked_at"`
 	Concepts            []ConceptSummary     `json:"concepts"`
+	Events              []DomainEventSummary `json:"events,omitempty"`
+	HarnessCases        []HarnessCaseSummary `json:"harness_cases,omitempty"`
 	Hits                []Hit                `json:"hits"`
 	LinearIssues        []string             `json:"linear_issues,omitempty"`
 	DuplicateSuspicions []DuplicateSuspicion `json:"duplicate_suspicions"`
@@ -91,11 +114,26 @@ type SearchReport struct {
 type ConceptSummary struct {
 	CanonicalName    string   `json:"canonical_name"`
 	BoundedContext   string   `json:"bounded_context"`
+	DDDKind          string   `json:"ddd_kind"`
 	Owner            string   `json:"owner"`
 	Definition       string   `json:"definition"`
 	AllowedAliases   []string `json:"allowed_aliases"`
 	GeneratedTargets []string `json:"generated_targets"`
 	RelatedConcepts  []string `json:"related_concepts"`
+}
+
+type DomainEventSummary struct {
+	Name           string   `json:"name"`
+	BoundedContext string   `json:"bounded_context"`
+	EmittedBy      string   `json:"emitted_by"`
+	PayloadFields  []string `json:"payload_fields"`
+}
+
+type HarnessCaseSummary struct {
+	Name           string `json:"name"`
+	BoundedContext string `json:"bounded_context"`
+	Command        string `json:"command"`
+	EvidenceTarget string `json:"evidence_target"`
 }
 
 type Hit struct {
@@ -113,6 +151,8 @@ type DuplicateSuspicion struct {
 type Evidence struct {
 	Query        string   `json:"query"`
 	ConceptCount int      `json:"concept_count"`
+	EventCount   int      `json:"event_count"`
+	HarnessCount int      `json:"harness_count"`
 	HitCount     int      `json:"hit_count"`
 	LinearIssues []string `json:"linear_issues,omitempty"`
 	MustRead     []string `json:"must_read,omitempty"`
@@ -123,6 +163,8 @@ func SummarizeSearch(report SearchReport) Evidence {
 	return Evidence{
 		Query:        report.Query,
 		ConceptCount: len(report.Concepts),
+		EventCount:   len(report.Events),
+		HarnessCount: len(report.HarnessCases),
 		HitCount:     len(report.Hits),
 		LinearIssues: append([]string(nil), report.LinearIssues...),
 		MustRead:     append([]string(nil), report.MustRead...),
@@ -160,10 +202,15 @@ func Verify(root string) (VerifyReport, error) {
 	}
 	report.ContextCount = len(registry.BoundedContexts)
 	report.ConceptCount = len(registry.Concepts)
+	report.EventCount = len(registry.DomainEvents)
+	report.HarnessCount = len(registry.HarnessCaseContracts)
 	failures := registryFailures(root, registry)
 	if len(failures) == 0 {
 		report.Checks = append(report.Checks,
 			Check{Name: "bounded contexts", Status: "pass"},
+			Check{Name: "ddd kinds", Status: "pass"},
+			Check{Name: "domain events", Status: "pass"},
+			Check{Name: "harness case contracts", Status: "pass"},
 			Check{Name: "duplicate concepts", Status: "pass"},
 			Check{Name: "registered domain terms", Status: "pass"},
 			Check{Name: "alias drift", Status: "pass"},
@@ -193,7 +240,10 @@ func Search(root string, query string) (SearchReport, error) {
 		CheckedAt: time.Now().UTC().Format(time.RFC3339),
 	}
 	matched := matchedConcepts(registry, query)
+	matchedHarnesses := matchedHarnessCases(registry, query, matched)
 	report.Concepts = conceptSummaries(matched)
+	report.Events = eventSummaries(matchedEvents(registry, query, matched))
+	report.HarnessCases = harnessSummaries(matchedHarnesses)
 	report.DuplicateSuspicions = duplicateSuspicionsFor(registry, query)
 
 	files, err := indexFiles(root, registry.KnowledgeIndexSchema.IndexRoots)
@@ -210,7 +260,7 @@ func Search(root string, query string) (SearchReport, error) {
 	}
 	report.Hits = hits
 	report.LinearIssues = issues
-	report.MustRead = mustReadFiles(root, matched, hits)
+	report.MustRead = mustReadFiles(root, matched, matchedHarnesses, hits)
 	return report, nil
 }
 
@@ -247,6 +297,11 @@ func registryFailures(root string, registry Registry) []string {
 	}
 	concepts := map[string]bool{}
 	aliases := map[string]string{}
+	dddKinds := map[string]bool{}
+	for _, pattern := range registry.DDDPatterns {
+		dddKinds[strings.TrimSpace(pattern)] = true
+	}
+	usedKinds := map[string]bool{}
 	for _, concept := range registry.Concepts {
 		name := strings.TrimSpace(concept.CanonicalName)
 		if name == "" {
@@ -259,6 +314,12 @@ func registryFailures(root string, registry Registry) []string {
 		concepts[name] = true
 		if !contexts[concept.BoundedContext] {
 			failures = append(failures, fmt.Sprintf("concept %q references unknown bounded context %q", name, concept.BoundedContext))
+		}
+		kind := strings.TrimSpace(concept.DDDKind)
+		if kind == "" || !dddKinds[kind] {
+			failures = append(failures, fmt.Sprintf("concept %q references invalid ddd_kind %q", name, concept.DDDKind))
+		} else {
+			usedKinds[kind] = true
 		}
 		if len(concept.GeneratedTargets) == 0 {
 			failures = append(failures, fmt.Sprintf("concept %q must declare generated targets", name))
@@ -280,11 +341,50 @@ func registryFailures(root string, registry Registry) []string {
 			aliases[key] = name
 		}
 	}
+	for _, pattern := range registry.DDDPatterns {
+		if !usedKinds[strings.TrimSpace(pattern)] {
+			failures = append(failures, fmt.Sprintf("ddd kind %q is not used by any concept", pattern))
+		}
+	}
 	for _, concept := range registry.Concepts {
 		for _, related := range concept.RelatedConcepts {
 			if !concepts[related] {
 				failures = append(failures, fmt.Sprintf("concept %q references unknown related concept %q", concept.CanonicalName, related))
 			}
+		}
+	}
+	if len(registry.DomainEvents) == 0 {
+		failures = append(failures, "domain events are required")
+	}
+	for _, event := range registry.DomainEvents {
+		if strings.TrimSpace(event.Name) == "" {
+			failures = append(failures, "domain event name is required")
+		}
+		if !contexts[event.BoundedContext] {
+			failures = append(failures, fmt.Sprintf("domain event %q references unknown bounded context %q", event.Name, event.BoundedContext))
+		}
+		if !concepts[event.EmittedBy] {
+			failures = append(failures, fmt.Sprintf("domain event %q references unknown emitter concept %q", event.Name, event.EmittedBy))
+		}
+		if len(event.PayloadFields) == 0 {
+			failures = append(failures, fmt.Sprintf("domain event %q must declare payload fields", event.Name))
+		}
+	}
+	if len(registry.HarnessCaseContracts) == 0 {
+		failures = append(failures, "harness case contracts are required")
+	}
+	for _, harness := range registry.HarnessCaseContracts {
+		if strings.TrimSpace(harness.Name) == "" {
+			failures = append(failures, "harness case name is required")
+		}
+		if !contexts[harness.BoundedContext] {
+			failures = append(failures, fmt.Sprintf("harness case %q references unknown bounded context %q", harness.Name, harness.BoundedContext))
+		}
+		if strings.TrimSpace(harness.Command) == "" {
+			failures = append(failures, fmt.Sprintf("harness case %q must declare command", harness.Name))
+		}
+		if err := requirePublicTarget(root, harness.EvidenceTarget); err != nil {
+			failures = append(failures, fmt.Sprintf("harness case %q target %q: %v", harness.Name, harness.EvidenceTarget, err))
 		}
 	}
 	for _, contract := range registry.GeneratedArtifactContracts {
@@ -358,6 +458,7 @@ func conceptSummaries(concepts []Concept) []ConceptSummary {
 		summaries = append(summaries, ConceptSummary{
 			CanonicalName:    concept.CanonicalName,
 			BoundedContext:   concept.BoundedContext,
+			DDDKind:          concept.DDDKind,
 			Owner:            concept.Owner,
 			Definition:       RegistryRelativePath,
 			AllowedAliases:   append([]string(nil), concept.AllowedAliases...),
@@ -367,6 +468,69 @@ func conceptSummaries(concepts []Concept) []ConceptSummary {
 	}
 	sort.Slice(summaries, func(i, j int) bool {
 		return summaries[i].CanonicalName < summaries[j].CanonicalName
+	})
+	return summaries
+}
+
+func matchedEvents(registry Registry, query string, concepts []Concept) []DomainEvent {
+	queryKey := normalizedTerm(query)
+	conceptNames := map[string]bool{}
+	for _, concept := range concepts {
+		conceptNames[concept.CanonicalName] = true
+	}
+	var matched []DomainEvent
+	includeAllEvents := queryKey == normalizedTerm("DomainEvent") || queryKey == normalizedTerm("event")
+	for _, event := range registry.DomainEvents {
+		if includeAllEvents || conceptNames[event.Name] || conceptNames[event.EmittedBy] || matchesAny(queryKey, event.Name, event.BoundedContext, event.EmittedBy, event.Description) {
+			matched = append(matched, event)
+		}
+	}
+	return matched
+}
+
+func eventSummaries(events []DomainEvent) []DomainEventSummary {
+	summaries := make([]DomainEventSummary, 0, len(events))
+	for _, event := range events {
+		summaries = append(summaries, DomainEventSummary{
+			Name:           event.Name,
+			BoundedContext: event.BoundedContext,
+			EmittedBy:      event.EmittedBy,
+			PayloadFields:  append([]string(nil), event.PayloadFields...),
+		})
+	}
+	sort.Slice(summaries, func(i, j int) bool {
+		return summaries[i].Name < summaries[j].Name
+	})
+	return summaries
+}
+
+func matchedHarnessCases(registry Registry, query string, concepts []Concept) []HarnessCase {
+	queryKey := normalizedTerm(query)
+	contexts := map[string]bool{}
+	for _, concept := range concepts {
+		contexts[concept.BoundedContext] = true
+	}
+	var matched []HarnessCase
+	for _, harness := range registry.HarnessCaseContracts {
+		if contexts[harness.BoundedContext] || matchesAny(queryKey, harness.Name, harness.BoundedContext, harness.Command, harness.EvidenceTarget, harness.Description) {
+			matched = append(matched, harness)
+		}
+	}
+	return matched
+}
+
+func harnessSummaries(harnesses []HarnessCase) []HarnessCaseSummary {
+	summaries := make([]HarnessCaseSummary, 0, len(harnesses))
+	for _, harness := range harnesses {
+		summaries = append(summaries, HarnessCaseSummary{
+			Name:           harness.Name,
+			BoundedContext: harness.BoundedContext,
+			Command:        harness.Command,
+			EvidenceTarget: harness.EvidenceTarget,
+		})
+	}
+	sort.Slice(summaries, func(i, j int) bool {
+		return summaries[i].Name < summaries[j].Name
 	})
 	return summaries
 }
@@ -387,10 +551,20 @@ func termsForConcepts(concepts []Concept) []termMatch {
 }
 
 func conceptTerms(concept Concept) []string {
-	terms := []string{concept.CanonicalName, concept.BoundedContext}
+	terms := []string{concept.CanonicalName, concept.BoundedContext, concept.DDDKind}
 	terms = append(terms, concept.AllowedAliases...)
 	terms = append(terms, concept.RelatedConcepts...)
 	return terms
+}
+
+func matchesAny(queryKey string, values ...string) bool {
+	for _, value := range values {
+		key := normalizedTerm(value)
+		if key != "" && (strings.Contains(key, queryKey) || strings.Contains(queryKey, key)) {
+			return true
+		}
+	}
+	return false
 }
 
 func indexFiles(root string, roots []string) ([]string, error) {
@@ -540,7 +714,7 @@ func duplicateSuspicionsFor(registry Registry, query string) []DuplicateSuspicio
 	return suspicions
 }
 
-func mustReadFiles(root string, concepts []Concept, hits []Hit) []string {
+func mustReadFiles(root string, concepts []Concept, harnesses []HarnessCase, hits []Hit) []string {
 	seen := map[string]bool{}
 	var files []string
 	files = appendUniqueRel(files, seen, RegistryRelativePath)
@@ -549,6 +723,11 @@ func mustReadFiles(root string, concepts []Concept, hits []Hit) []string {
 			if _, err := os.Stat(filepath.Join(root, filepath.FromSlash(target))); err == nil {
 				files = appendUniqueRel(files, seen, target)
 			}
+		}
+	}
+	for _, harness := range harnesses {
+		if _, err := os.Stat(filepath.Join(root, filepath.FromSlash(harness.EvidenceTarget))); err == nil {
+			files = appendUniqueRel(files, seen, harness.EvidenceTarget)
 		}
 	}
 	for _, hit := range hits {

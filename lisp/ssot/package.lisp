@@ -6,6 +6,8 @@
    #:*bounded-contexts*
    #:*ddd-patterns*
    #:*concept-registry*
+   #:*domain-events*
+   #:*harness-case-contracts*
    #:*generated-artifact-contracts*
    #:*planning-rules*
    #:*knowledge-index-schema*

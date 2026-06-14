@@ -22,8 +22,9 @@ only consumes the daemon status. This keeps task graph shape, Linear templates,
 quality requirements, and external-write boundaries in one Lisp-owned source.
 
 The DDD SSOT emits `generated/concepts.generated.json`. Go verifies that
-bounded contexts, concept aliases, generated targets, and local KnowledgeIndex
-policy stay coherent with `mhj ddd verify`.
+bounded contexts, DDD kinds, concept aliases, domain events, harness case
+contracts, generated targets, and local KnowledgeIndex policy stay coherent
+with `mhj ddd verify`.
 
 The command SSOT emits `generated/commands.generated.json`. Go keeps the
 runtime command registry and macOS execution planning in `internal/commands`,
