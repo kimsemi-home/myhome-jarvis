@@ -72,6 +72,8 @@ type backlogSeed struct {
 	Priority    int    `json:"priority"`
 }
 
+const projectIssueTitlePrefix = "[myhome-jarvis]"
+
 type issueScope struct {
 	TeamID  string
 	TeamKey string
@@ -112,6 +114,14 @@ func NextIssue(ctx context.Context, root string, client *http.Client) OperationR
 			result.Message = "No Linear issue is available."
 		}
 		return result
+	}
+	for index := range result.Issues {
+		issue := result.Issues[index]
+		if isOpenState(issue.State) && isProjectIssue(issue) {
+			result.Issue = &issue
+			result.Message = "Selected next project Linear issue."
+			return result
+		}
 	}
 	for index := range result.Issues {
 		issue := result.Issues[index]
@@ -401,30 +411,34 @@ func filterActiveIssues(issues []Issue, scope issueScope) []Issue {
 	return filtered
 }
 
+func isProjectIssue(issue Issue) bool {
+	return strings.HasPrefix(strings.TrimSpace(issue.Title), projectIssueTitlePrefix)
+}
+
 func backlogSeeds() []backlogSeed {
 	return []backlogSeed{
 		{
-			Title:       "P0: Enforce no-Python language policy",
+			Title:       "[myhome-jarvis] P0: Enforce no-Python language policy",
 			Description: "Acceptance: `go run ./cmd/mhj security check` rejects Python, Node.js, TypeScript, secret, and private-data risks.",
 			Priority:    1,
 		},
 		{
-			Title:       "P0: Add Go mhj CLI skeleton",
+			Title:       "[myhome-jarvis] P0: Add Go mhj CLI skeleton",
 			Description: "Acceptance: `version`, `security check`, `command`, `harness home`, `linear status`, `linear pull`, `linear next`, `linear comment`, `linear transition`, `loop once`, and `quality` commands exist.",
 			Priority:    1,
 		},
 		{
-			Title:       "P0: Add Common Lisp executable SSOT",
+			Title:       "[myhome-jarvis] P0: Add Common Lisp executable SSOT",
 			Description: "Acceptance: SBCL validation and deterministic codegen both pass.",
 			Priority:    1,
 		},
 		{
-			Title:       "P0: Implement Rust command validation core",
+			Title:       "[myhome-jarvis] P0: Implement Rust command validation core",
 			Description: "Acceptance: Rust tests cover YouTube, OTT, volume, display, and unsafe URL cases.",
 			Priority:    1,
 		},
 		{
-			Title:       "P1: Add Linear GraphQL client in Go",
+			Title:       "[myhome-jarvis] P1: Add Linear GraphQL client in Go",
 			Description: "Acceptance: status, pull, next, comment, transition, and create-from-backlog use direct GraphQL HTTP calls with offline fallback.",
 			Priority:    2,
 		},

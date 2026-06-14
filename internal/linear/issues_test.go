@@ -140,6 +140,70 @@ func TestFilterActiveIssuesFiltersConfiguredTeamID(t *testing.T) {
 	}
 }
 
+func TestNextIssuePrefersProjectIssue(t *testing.T) {
+	t.Setenv("LINEAR_API_KEY", "linear-example-key")
+	t.Setenv("LINEAR_TEAM_ID", "")
+	t.Setenv("LINEAR_TEAM_KEY", "KIM")
+	client := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Header:     http.Header{},
+			Body: io.NopCloser(strings.NewReader(`{
+				"data": {
+					"issues": {
+						"nodes": [{
+							"id": "onboarding-id",
+							"identifier": "KIM-1",
+							"title": "Get familiar with Linear",
+							"updatedAt": "2026-06-14T00:00:00.000Z",
+							"team": {"id": "team-kim", "key": "KIM"},
+							"state": {"id": "todo-state", "name": "Todo", "type": "unstarted"}
+						}, {
+							"id": "project-id",
+							"identifier": "KIM-7",
+							"title": "[myhome-jarvis] Prefer project Linear issues in next selection",
+							"updatedAt": "2026-06-14T00:00:00.000Z",
+							"team": {"id": "team-kim", "key": "KIM"},
+							"state": {"id": "started-state", "name": "In Progress", "type": "started"}
+						}]
+					}
+				}
+			}`)),
+		}, nil
+	})}
+
+	result := NextIssue(context.Background(), t.TempDir(), client)
+	if !result.Synced || result.Issue == nil {
+		t.Fatalf("unexpected next result: %#v", result)
+	}
+	if result.Issue.Identifier != "KIM-7" {
+		t.Fatalf("next issue = %s, expected KIM-7", result.Issue.Identifier)
+	}
+	if result.Message != "Selected next project Linear issue." {
+		t.Fatalf("message = %q", result.Message)
+	}
+}
+
+func TestProjectIssueTitlePrefixMatchesGeneratedPolicy(t *testing.T) {
+	data, err := os.ReadFile(filepath.Join("..", "..", "generated", "linear.generated.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var policy struct {
+		ProjectIssueTitlePrefix string `json:"project_issue_title_prefix"`
+		NextPrefersProjectIssue bool   `json:"next_prefers_project_issues"`
+	}
+	if err := json.Unmarshal(data, &policy); err != nil {
+		t.Fatal(err)
+	}
+	if policy.ProjectIssueTitlePrefix != projectIssueTitlePrefix {
+		t.Fatalf("project prefix = %q, expected %q", policy.ProjectIssueTitlePrefix, projectIssueTitlePrefix)
+	}
+	if !policy.NextPrefersProjectIssue {
+		t.Fatal("generated policy must keep next_prefers_project_issues enabled")
+	}
+}
+
 func TestOperationSummaryRedactsLinearIssueDetails(t *testing.T) {
 	result := OperationResult{
 		Mode:               "online",

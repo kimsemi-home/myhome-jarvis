@@ -37,6 +37,11 @@ scope those commands to one Linear team. The team scope is used for filtering
 only; default CLI and daemon summaries still do not print team names, team IDs,
 workspace URLs, raw descriptions, or token sources.
 
+Project-owned Linear issues use the SSOT-owned `[myhome-jarvis]` title prefix.
+When active team results include both project issues and unrelated active items
+such as Linear onboarding tasks, `mhj linear next` prefers the project-prefixed
+issue first. Locally seeded backlog titles use the same prefix.
+
 Mutation commands use GraphQL variables rather than string interpolation.
 When credentials are unavailable or a GraphQL call fails, the command writes a
 structured `synced=false` event to `data/private/linear-offline-queue.jsonl`.

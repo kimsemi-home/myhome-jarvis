@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 02:58 KST
+
+- Linear issue: KIM-7 created in Linear and kept in progress.
+- Mode: online-capable, local-only implementation after Linear issue creation.
+- Task: Prefer project Linear issues in next selection.
+- Files touched: `internal/linear/issues.go`, `internal/linear/issues_test.go`, `lisp/ssot/linear.lisp`, `lisp/ssot/codegen.lisp`, `generated/linear.generated.json`, `docs/backlog.md`, `docs/linear-workflow.md`, `docs/working-log.md`.
+- Changes: added the SSOT-owned `[myhome-jarvis]` Linear issue title prefix; made `mhj linear next` prefer active project-prefixed issues over unrelated active team items; updated local backlog seed titles to use the same prefix while keeping default summaries redacted.
+- Validation after: `go1.26.2 test ./internal/linear` passed; `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `LINEAR_TEAM_KEY=KIM go1.26.2 run ./cmd/mhj linear next` returned a redacted online summary with KIM-7 selected ahead of onboarding issues; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan, forbidden language/dependency scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-7 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, then update Linear issue KIM-7.
+
 ## 2026-06-15 02:51 KST
 
 - Linear issue: KIM-6 created in Linear and kept in progress.

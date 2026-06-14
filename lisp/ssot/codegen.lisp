@@ -41,6 +41,11 @@
       (error "Linear pull must stay scoped to active issues by default"))
     (unless (getf *linear-policy* :team_scope_private)
       (error "Linear team scope must stay private"))
+    (unless (string= (getf *linear-policy* :project_issue_title_prefix)
+                     "[myhome-jarvis]")
+      (error "Linear project issue title prefix must identify myhome-jarvis work"))
+    (unless (getf *linear-policy* :next_prefers_project_issues)
+      (error "Linear next must prefer project issues"))
     (unless (> (length (getf *planner-policy* :task_graph)) 0)
       (error "Planner policy must include a task graph"))
     (unless (find "linear_sync"
