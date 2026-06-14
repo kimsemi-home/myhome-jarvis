@@ -17,6 +17,8 @@ Current scope:
 - Supervisor status rendering from `/supervisor/status` as a reachable/stale
   daemon process metric.
 - Command audit rendering from `/audit/status` as a redacted journal count.
+- Quality evidence rendering from `/quality/status` as the latest quality gate
+  result.
 - Recommendation rendering from fixture-only local summaries.
 - User, Spouse, and Household fixture scope switching.
 - Dry-run preview client for `/intent`; command buttons always send

@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 22:00 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add redacted quality gate evidence journal.
+- Files touched: `internal/qualitylog/runs.go`, `internal/qualitylog/runs_test.go`, `cmd/mhj/main.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/ci.md`, `docs/closed-loop.md`, `docs/flutter.md`, `docs/quality-evidence.md`, `docs/working-log.md`.
+- Changes: added private quality run JSONL evidence; wired `mhj quality` to append redacted summaries; added `mhj quality status`, daemon `GET /quality/status`, and Flutter quality status; kept evidence free of command argv, command output, raw test output, environment variables, tokens, and local absolute paths.
+- Validation after: `go1.26.2 test ./internal/qualitylog ./internal/daemon` passed; `cd apps/flutter && flutter test test/daemon_client_test.dart` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and appended a private redacted quality run; `go1.26.2 run ./cmd/mhj quality status` returned repo-relative journal status; private quality journal redaction scan passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 21:51 local
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -23,7 +23,8 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /commands`, `POST /intent`, `POST /harness/run`, `GET /linear/status`,
 `POST /linear/sync`, `GET /repo/status`, `GET /loop/status`, `GET /domain/summary`,
 `GET /household/summary`, `GET /recommendations/summary`, `GET /metrics`,
-`GET /events`, `GET /supervisor/status`, and `GET /audit/status`.
+`GET /events`, `GET /supervisor/status`, `GET /audit/status`, and
+`GET /quality/status`.
 It binds to `127.0.0.1` by default.
 LAN binding requires `--allow-lan` and non-localhost requests must include a
 Bearer token stored only in `data/private/local-token.txt`.
@@ -43,6 +44,12 @@ The first command audit surface records redacted command intent metadata under
 `data/private/audit/command-intents.jsonl`. `mhj audit status` and
 `GET /audit/status` expose only the repo-relative journal path, count, and last
 redacted event. Payloads, argv arrays, URLs, headers, bearer tokens, raw errors,
+and local absolute paths are never recorded.
+
+The first quality evidence surface records redacted quality gate summaries
+under `data/private/quality/runs.jsonl`. `mhj quality status` and
+`GET /quality/status` expose only the repo-relative journal path, count, and
+last run summary. Command output, argv, environment variables, raw test output,
 and local absolute paths are never recorded.
 
 The first repository safety surface is read-only. `mhj repo status` and daemon
@@ -77,5 +84,5 @@ client with status, command, Linear, storage, household, and optimization tabs.
 It can load snapshots from the localhost daemon while keeping a deterministic
 offline fallback. The Status tab also surfaces whether the repository is clean
 or dirty, whether the recorded daemon supervisor state is reachable, and how
-many command audit events are recorded.
+many command audit and quality gate events are recorded.
 Platform runner files are left out until device packaging is required.

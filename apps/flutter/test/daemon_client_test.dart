@@ -143,6 +143,20 @@ void main() {
             'count': 4,
           });
           return;
+        case '/quality/status':
+          _writeJson(request, {
+            'path': 'data/private/quality/runs.jsonl',
+            'exists': true,
+            'count': 3,
+            'last': {
+              'ok': true,
+              'step_count': 12,
+              'pass_count': 12,
+              'fail_count': 0,
+              'skip_count': 0,
+            },
+          });
+          return;
         case '/intent':
           final body = jsonDecode(await utf8.decoder.bind(request).join());
           expect(body, isA<Map<String, Object?>>());
@@ -179,6 +193,10 @@ void main() {
       contains('127.0.0.1'),
     );
     expect(snapshot.metrics.map((metric) => metric.value), contains('7'));
+    expect(
+      snapshot.metrics.singleWhere((metric) => metric.label == 'Quality').value,
+      'Passing (3)',
+    );
     expect(
       snapshot.metrics.singleWhere((metric) => metric.label == 'Events').value,
       '2',

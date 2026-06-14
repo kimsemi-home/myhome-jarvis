@@ -21,3 +21,8 @@ without claiming external sync success.
 Before committing or pushing, closed-loop work can inspect repository state with
 `mhj repo status` or daemon `GET /repo/status`. The response uses
 repository-relative paths only, including ignored private data paths.
+
+Quality evidence can be inspected with `mhj quality status` or daemon
+`GET /quality/status`. The private journal records step names and statuses only,
+not command output, argv arrays, raw test output, tokens, or local absolute
+paths.

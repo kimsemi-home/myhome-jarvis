@@ -36,6 +36,7 @@ go run ./cmd/mhj loop status
 go run ./cmd/mhj loop worker --cycles 1
 go run ./cmd/mhj benchmark smoke
 go run ./cmd/mhj codegen verify
+go run ./cmd/mhj quality status
 go run ./cmd/mhj daemon
 go run ./cmd/mhj daemon status
 cargo test -p mhj-core recommendations
@@ -65,6 +66,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/repo`: Git worktree status inspection for closed-loop safety.
 - `internal/domain`: read-only finance, commerce, household, storage, and recommendation summaries.
 - `internal/orchestrator`: one-shot checkpoint loop foundation.
+- `internal/qualitylog`: private quality gate evidence journal.
 - `internal/scheduler`: heartbeat, backoff, rate-limit, and recovery state for bounded loop workers.
 - `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading.
 - `crates/mhj-core/src/benchmark.rs`: fixture-pipeline benchmark smoke tests.

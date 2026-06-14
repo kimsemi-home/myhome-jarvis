@@ -21,4 +21,9 @@ Local equivalents:
 ```sh
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj quality
+go run ./cmd/mhj quality status
 ```
+
+`mhj quality` also writes a redacted private run summary under
+`data/private/quality/runs.jsonl` for closed-loop evidence. The journal stores
+step names and statuses only, not command output or absolute local paths.

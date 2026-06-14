@@ -20,6 +20,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/orchestrator"
+	"github.com/kimsemi-home/myhome-jarvis/internal/qualitylog"
 	"github.com/kimsemi-home/myhome-jarvis/internal/repo"
 	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
@@ -161,6 +162,9 @@ func run(args []string) error {
 			return runBenchmarkSmoke(root)
 		}
 	case "quality":
+		if len(args) == 2 && args[1] == "status" {
+			return qualityStatus(root)
+		}
 		return runQuality(root)
 	case "codegen":
 		if len(args) == 2 && args[1] == "verify" {
@@ -172,7 +176,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -275,6 +279,14 @@ func auditStatus(root string) error {
 	return writeJSON(status)
 }
 
+func qualityStatus(root string) error {
+	status, err := qualitylog.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
 func loopWorker(root string, args []string) error {
 	flags := flag.NewFlagSet("loop worker", flag.ContinueOnError)
 	flags.SetOutput(os.Stderr)
@@ -321,6 +333,7 @@ type qualityReport struct {
 }
 
 func runQuality(root string) error {
+	started := time.Now()
 	report := qualityReport{OK: true}
 	goTool := envWithDefault("MHJ_GO", "go")
 	gofmtTool := envWithDefault("MHJ_GOFMT", "gofmt")
@@ -361,6 +374,9 @@ func runQuality(root string) error {
 		report.Steps = append(report.Steps, qualityStep{Name: "flutter", Status: "skip", Output: "apps/flutter is not started yet"})
 	}
 
+	if err := qualitylog.AppendRun(root, qualitylog.NewRun(started, report.OK, qualityEvidenceSteps(report.Steps))); err != nil {
+		return err
+	}
 	if err := writeJSON(report); err != nil {
 		return err
 	}
@@ -368,6 +384,14 @@ func runQuality(root string) error {
 		return errors.New("quality gate failed")
 	}
 	return nil
+}
+
+func qualityEvidenceSteps(steps []qualityStep) []qualitylog.Step {
+	evidence := make([]qualitylog.Step, 0, len(steps))
+	for _, step := range steps {
+		evidence = append(evidence, qualitylog.Step{Name: step.Name, Status: step.Status})
+	}
+	return evidence
 }
 
 func runBenchmarkSmoke(root string) error {

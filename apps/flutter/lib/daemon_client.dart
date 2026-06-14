@@ -32,6 +32,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
       final audit = await _getObject(client, '/audit/status');
+      final quality = await _getObject(client, '/quality/status');
       return buildSnapshot(
         health: health,
         commands: commands,
@@ -42,6 +43,7 @@ class DaemonSnapshotClient implements JarvisClient {
         events: events,
         supervisor: supervisor,
         audit: audit,
+        quality: quality,
       );
     } finally {
       client.close(force: true);
@@ -144,6 +146,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
   required Map<String, Object?> audit,
+  required Map<String, Object?> quality,
 }) {
   final bindHost =
       _string(metrics['bind_host']) ?? _string(health['host']) ?? '127.0.0.1';
@@ -152,6 +155,11 @@ JarvisSnapshot buildSnapshot({
   final requestCount = _int(metrics['requests']);
   final eventCount = _int(events['count']) ?? _int(metrics['event_count']);
   final auditCount = _int(audit['count']);
+  final qualityCount = _int(quality['count']) ?? 0;
+  final qualityLast = quality['last'];
+  final qualityOK = qualityLast is Map<String, Object?>
+      ? _bool(qualityLast['ok'])
+      : null;
   final supervisorStale = _bool(supervisor['stale']);
   final supervisorRecorded = _bool(supervisor['recorded']) ?? false;
   final linearMode = _string(linear['mode']) ?? 'offline';
@@ -168,6 +176,13 @@ JarvisSnapshot buildSnapshot({
         label: 'Mode',
         value: dryRun ? 'Dry-run' : 'Execute-ready',
         icon: Icons.shield_outlined,
+      ),
+      SystemMetric(
+        label: 'Quality',
+        value: qualityCount == 0
+            ? 'Unrecorded'
+            : '${qualityOK == false ? 'Failing' : 'Passing'} ($qualityCount)',
+        icon: Icons.verified_outlined,
       ),
       SystemMetric(
         label: 'Requests',
