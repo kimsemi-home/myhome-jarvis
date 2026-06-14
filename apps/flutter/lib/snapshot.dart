@@ -148,6 +148,61 @@ class FinanceDashboard {
 }
 
 @immutable
+class PurchaseOwner {
+  const PurchaseOwner({
+    required this.owner,
+    required this.records,
+    required this.currency,
+    required this.purchaseSpendMinorUnits,
+  });
+
+  final String owner;
+  final int records;
+  final String currency;
+  final int purchaseSpendMinorUnits;
+}
+
+@immutable
+class RecurringPurchase {
+  const RecurringPurchase({
+    required this.merchantName,
+    required this.itemName,
+    required this.currency,
+    required this.purchaseCount,
+    required this.latestTotalMinorUnits,
+    required this.latestPurchasedAt,
+  });
+
+  final String merchantName;
+  final String itemName;
+  final String currency;
+  final int purchaseCount;
+  final int latestTotalMinorUnits;
+  final String latestPurchasedAt;
+}
+
+@immutable
+class PurchaseDashboard {
+  const PurchaseDashboard({
+    required this.records,
+    required this.currency,
+    required this.totalSpendMinorUnits,
+    required this.recurringCandidateCount,
+    required this.recurringCandidates,
+    required this.categories,
+    required this.owners,
+  });
+
+  final int records;
+  final String currency;
+  final int totalSpendMinorUnits;
+  final int recurringCandidateCount;
+  final List<RecurringPurchase> recurringCandidates;
+  final List<String> categories;
+  final List<PurchaseOwner> owners;
+}
+
+@immutable
 class JarvisSnapshot {
   const JarvisSnapshot({
     required this.metrics,
@@ -157,6 +212,7 @@ class JarvisSnapshot {
     required this.recommendationItems,
     required this.householdScopes,
     required this.financeDashboard,
+    required this.purchaseDashboard,
   });
 
   final List<SystemMetric> metrics;
@@ -166,6 +222,7 @@ class JarvisSnapshot {
   final List<String> recommendationItems;
   final List<HouseholdScope> householdScopes;
   final FinanceDashboard financeDashboard;
+  final PurchaseDashboard purchaseDashboard;
 
   static const sample = JarvisSnapshot(
     metrics: [
@@ -309,6 +366,37 @@ class JarvisSnapshot {
         ),
       ],
     ),
+    purchaseDashboard: PurchaseDashboard(
+      records: 3,
+      currency: 'KRW',
+      totalSpendMinorUnits: 26800,
+      recurringCandidateCount: 1,
+      recurringCandidates: [
+        RecurringPurchase(
+          merchantName: 'Coupang',
+          itemName: 'Bottled water 2L x 6',
+          currency: 'KRW',
+          purchaseCount: 2,
+          latestTotalMinorUnits: 11800,
+          latestPurchasedAt: '2026-06-10',
+        ),
+      ],
+      categories: ['grocery', 'household'],
+      owners: [
+        PurchaseOwner(
+          owner: 'household',
+          records: 2,
+          currency: 'KRW',
+          purchaseSpendMinorUnits: 23600,
+        ),
+        PurchaseOwner(
+          owner: 'user',
+          records: 1,
+          currency: 'KRW',
+          purchaseSpendMinorUnits: 3200,
+        ),
+      ],
+    ),
   );
 
   factory JarvisSnapshot.offlineFallback() {
@@ -341,6 +429,7 @@ class JarvisSnapshot {
       recommendationItems: sample.recommendationItems,
       householdScopes: sample.householdScopes,
       financeDashboard: sample.financeDashboard,
+      purchaseDashboard: sample.purchaseDashboard,
     );
   }
 }

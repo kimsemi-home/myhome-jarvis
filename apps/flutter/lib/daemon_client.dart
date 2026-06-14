@@ -237,6 +237,7 @@ JarvisSnapshot buildSnapshot({
     recommendationItems: _recommendationItems(domain),
     householdScopes: _householdScopes(domain),
     financeDashboard: _financeDashboard(domain),
+    purchaseDashboard: _purchaseDashboard(domain),
   );
 }
 
@@ -416,6 +417,67 @@ FinanceDashboard _financeDashboard(Map<String, Object?> domain) {
     cardDebitMinorUnits: _int(finance['card_debit_minor_units']) ?? 0,
     cardDebitCount: _int(finance['card_debit_count']) ?? 0,
     categories: _stringList(finance['categories']),
+    owners: owners,
+  );
+}
+
+PurchaseDashboard _purchaseDashboard(Map<String, Object?> domain) {
+  final commerce = _object(domain['commerce']);
+  if (commerce == null) {
+    return JarvisSnapshot.sample.purchaseDashboard;
+  }
+  final candidates = <RecurringPurchase>[];
+  final rawCandidates = commerce['recurring_candidates'];
+  if (rawCandidates is List<Object?>) {
+    for (final item in rawCandidates.whereType<Map<String, Object?>>()) {
+      final merchantName = _string(item['merchant_name']);
+      final itemName = _string(item['item_name']);
+      if (merchantName == null ||
+          merchantName.isEmpty ||
+          itemName == null ||
+          itemName.isEmpty) {
+        continue;
+      }
+      candidates.add(
+        RecurringPurchase(
+          merchantName: merchantName,
+          itemName: itemName,
+          currency: _string(item['currency']) ?? '',
+          purchaseCount: _int(item['purchase_count']) ?? 0,
+          latestTotalMinorUnits: _int(item['latest_total_minor_units']) ?? 0,
+          latestPurchasedAt: _string(item['latest_purchased_at']) ?? '',
+        ),
+      );
+    }
+  }
+
+  final owners = <PurchaseOwner>[];
+  final rawOwners = commerce['owner_breakdown'];
+  if (rawOwners is List<Object?>) {
+    for (final item in rawOwners.whereType<Map<String, Object?>>()) {
+      final owner = _string(item['owner']);
+      if (owner == null || owner.isEmpty) {
+        continue;
+      }
+      owners.add(
+        PurchaseOwner(
+          owner: owner,
+          records: _int(item['records']) ?? 0,
+          currency: _string(item['currency']) ?? '',
+          purchaseSpendMinorUnits:
+              _int(item['purchase_spend_minor_units']) ?? 0,
+        ),
+      );
+    }
+  }
+
+  return PurchaseDashboard(
+    records: _int(commerce['records']) ?? 0,
+    currency: _string(commerce['currency']) ?? '',
+    totalSpendMinorUnits: _int(commerce['total_spend_minor_units']) ?? 0,
+    recurringCandidateCount: _int(commerce['recurring_candidate_count']) ?? 0,
+    recurringCandidates: candidates,
+    categories: _stringList(commerce['categories']),
     owners: owners,
   );
 }

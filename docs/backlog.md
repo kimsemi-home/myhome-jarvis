@@ -161,3 +161,9 @@
 - [x] Add fixture-only Flutter finance dashboard.
   - Acceptance: Flutter parses finance totals, subscription spend, card-linked debit totals, categories, and owner breakdown from daemon `/domain/summary`; the app exposes a dedicated Finance tab without requesting credentials or executing finance actions.
   - Validation: `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.
+
+## P18
+
+- [x] Add fixture-only Flutter purchases dashboard.
+  - Acceptance: Flutter parses commerce spend, recurring purchase candidates, categories, and owner spend breakdown from daemon `/domain/summary`; the app exposes a dedicated Purchases tab without scraping, credentials, or purchase automation.
+  - Validation: `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.

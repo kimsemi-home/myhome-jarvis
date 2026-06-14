@@ -77,7 +77,7 @@ void main() {
   });
 
   testWidgets(
-    'shows finance, Linear, storage, household, and optimization tabs',
+    'shows finance, purchases, Linear, storage, household, and optimization tabs',
     (tester) async {
       await tester.pumpWidget(const JarvisApp());
 
@@ -97,6 +97,21 @@ void main() {
       expect(find.text('Owner Breakdown'), findsOneWidget);
       expect(find.text('Household net'), findsOneWidget);
       expect(find.text('Categories'), findsOneWidget);
+
+      await tester.tap(
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Purchases'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Spend'), findsOneWidget);
+      expect(find.text('26800 KRW'), findsOneWidget);
+      expect(find.text('Recurring Candidates'), findsOneWidget);
+      expect(find.text('Bottled water 2L x 6'), findsOneWidget);
+      expect(find.text('Coupang / 2 purchases / 2026-06-10'), findsOneWidget);
+      expect(find.text('Owner Spend'), findsOneWidget);
+      expect(find.text('Household spend'), findsOneWidget);
 
       await tester.tap(
         find.descendant(of: find.byType(TabBar), matching: find.text('Linear')),

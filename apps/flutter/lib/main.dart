@@ -102,7 +102,7 @@ class JarvisScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 7,
+      length: 8,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('myhome-jarvis'),
@@ -123,6 +123,7 @@ class JarvisScaffold extends StatelessWidget {
                 icon: Icon(Icons.account_balance_wallet_outlined),
                 text: 'Finance',
               ),
+              Tab(icon: Icon(Icons.shopping_bag_outlined), text: 'Purchases'),
               Tab(icon: Icon(Icons.hub_outlined), text: 'Linear'),
               Tab(icon: Icon(Icons.storage_outlined), text: 'Storage'),
               Tab(icon: Icon(Icons.groups_outlined), text: 'Household'),
@@ -137,6 +138,7 @@ class JarvisScaffold extends StatelessWidget {
                 StatusView(metrics: snapshot.metrics),
                 CommandsView(commands: snapshot.commands, client: client),
                 FinanceView(dashboard: snapshot.financeDashboard),
+                PurchasesView(dashboard: snapshot.purchaseDashboard),
                 PlainListView(title: 'Linear', items: snapshot.linearItems),
                 PlainListView(title: 'Storage', items: snapshot.storageItems),
                 HouseholdView(scopes: snapshot.householdScopes),
@@ -360,6 +362,104 @@ class FinanceMetricTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PurchasesView extends StatelessWidget {
+  const PurchasesView({super.key, required this.dashboard});
+
+  final PurchaseDashboard dashboard;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          GridView.count(
+            crossAxisCount: MediaQuery.sizeOf(context).width >= 760 ? 3 : 2,
+            childAspectRatio: 2.5,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              FinanceMetricTile(
+                label: 'Spend',
+                value: _moneyText(
+                  dashboard.totalSpendMinorUnits,
+                  dashboard.currency,
+                ),
+                icon: Icons.shopping_bag_outlined,
+              ),
+              FinanceMetricTile(
+                label: 'Recurring',
+                value: '${dashboard.recurringCandidateCount}',
+                icon: Icons.repeat_outlined,
+              ),
+              FinanceMetricTile(
+                label: 'Records',
+                value: '${dashboard.records}',
+                icon: Icons.receipt_long_outlined,
+              ),
+            ],
+          ),
+          if (dashboard.recurringCandidates.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            Text(
+              'Recurring Candidates',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            for (final candidate in dashboard.recurringCandidates) ...[
+              ListTile(
+                leading: const Icon(Icons.repeat_outlined),
+                title: Text(candidate.itemName),
+                subtitle: Text(
+                  '${candidate.merchantName} / ${candidate.purchaseCount} purchases / ${candidate.latestPurchasedAt}',
+                ),
+                trailing: Text(
+                  _moneyText(
+                    candidate.latestTotalMinorUnits,
+                    candidate.currency,
+                  ),
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+              const Divider(height: 1),
+            ],
+          ],
+          const SizedBox(height: 20),
+          Text('Owner Spend', style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 8),
+          for (final owner in dashboard.owners) ...[
+            ListTile(
+              leading: const Icon(Icons.person_outline),
+              title: Text('${_title(owner.owner)} spend'),
+              subtitle: Text('${owner.records} purchases'),
+              trailing: Text(
+                _moneyText(owner.purchaseSpendMinorUnits, owner.currency),
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            ),
+            const Divider(height: 1),
+          ],
+          if (dashboard.categories.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            Text('Categories', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final category in dashboard.categories)
+                  Chip(label: Text(category)),
+              ],
+            ),
+          ],
+        ],
       ),
     );
   }

@@ -100,17 +100,24 @@ breakdowns from daemon `/domain/summary`; it does not request credentials,
 connect to banks or cards, or execute transfers, subscription changes, card
 actions, or investment trades.
 
+The first purchases dashboard is fixture-only. Flutter reads commerce spend,
+recurring purchase candidates, categories, and owner spend breakdowns from
+daemon `/domain/summary`; it does not request commerce credentials, scrape
+stores or payment services, or automate purchases.
+
 The first household surface is also fixture-only. Finance and commerce owner
 fields are projected into User, Spouse, and Household scopes so the UI can
 switch views without introducing real account credentials.
 
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
-client with status, command, finance, Linear, storage, household, and
+client with status, command, finance, purchases, Linear, storage, household, and
 optimization tabs.
 It can load snapshots from the localhost daemon while keeping a deterministic
 offline fallback. The command tab includes explicit OTT shortcuts plus editable
 payload commands for search, URL, and volume operations. The Finance tab shows
 fixture cashflow totals and review-only subscription/card-linked spend signals.
+The Purchases tab shows fixture commerce spend and recurring purchase review
+signals without purchase automation.
 The Status tab also surfaces whether the repository is clean or dirty, whether
 the recorded daemon supervisor state is reachable, and how many command audit
 and quality gate events are recorded.

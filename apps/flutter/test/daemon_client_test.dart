@@ -112,7 +112,37 @@ void main() {
                 },
               ],
             },
-            'commerce': {'records': 3, 'recurring_candidate_count': 1},
+            'commerce': {
+              'records': 3,
+              'currency': 'KRW',
+              'total_spend_minor_units': 26800,
+              'recurring_candidate_count': 1,
+              'recurring_candidates': [
+                {
+                  'merchant_name': 'Coupang',
+                  'item_name': 'Bottled water 2L x 6',
+                  'currency': 'KRW',
+                  'purchase_count': 2,
+                  'latest_total_minor_units': 11800,
+                  'latest_purchased_at': '2026-06-10',
+                },
+              ],
+              'categories': ['grocery', 'household'],
+              'owner_breakdown': [
+                {
+                  'owner': 'household',
+                  'records': 2,
+                  'currency': 'KRW',
+                  'purchase_spend_minor_units': 23600,
+                },
+                {
+                  'owner': 'user',
+                  'records': 1,
+                  'currency': 'KRW',
+                  'purchase_spend_minor_units': 3200,
+                },
+              ],
+            },
             'household': {
               'scopes': [
                 {
@@ -310,6 +340,25 @@ void main() {
     expect(snapshot.storageItems, contains('Finance net: 4346800 KRW'));
     expect(snapshot.storageItems, contains('Commerce: 3 purchases'));
     expect(snapshot.storageItems, contains('Storage: parquet+zstd'));
+    expect(snapshot.purchaseDashboard.totalSpendMinorUnits, 26800);
+    expect(snapshot.purchaseDashboard.recurringCandidateCount, 1);
+    expect(snapshot.purchaseDashboard.categories, contains('grocery'));
+    expect(snapshot.purchaseDashboard.owners.map((owner) => owner.owner), [
+      'household',
+      'user',
+    ]);
+    expect(
+      snapshot.purchaseDashboard.recurringCandidates.single.itemName,
+      'Bottled water 2L x 6',
+    );
+    expect(
+      snapshot
+          .purchaseDashboard
+          .recurringCandidates
+          .single
+          .latestTotalMinorUnits,
+      11800,
+    );
     expect(snapshot.financeDashboard.netMinorUnits, 4346800);
     expect(snapshot.financeDashboard.subscriptionMinorUnits, 65900);
     expect(snapshot.financeDashboard.cardDebitCount, 2);

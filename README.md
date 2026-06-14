@@ -76,7 +76,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/orchestrator`: one-shot checkpoint loop foundation.
 - `internal/qualitylog`: private quality gate evidence journal.
 - `internal/scheduler`: heartbeat, backoff, rate-limit, and recovery state for bounded loop workers.
-- `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading and a fixture finance dashboard.
+- `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading and fixture finance/purchases dashboards.
 - `crates/mhj-commerce`: fixture-only purchase IR validation, spend summaries, and recurring purchase candidates.
 - `crates/mhj-finance`: fixture-only finance IR validation, cashflow summaries, and subscription review candidates.
 - `crates/mhj-core/src/benchmark.rs`: fixture-pipeline benchmark smoke tests.
