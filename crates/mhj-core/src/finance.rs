@@ -3,6 +3,7 @@ use crate::{
     FixtureError, MoneyAmount, Owner, ValidationError,
 };
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
 
 pub const FINANCE_FIXTURE_JSONL: &str =
     include_str!("../../../fixtures/finance_transactions.jsonl");
@@ -93,6 +94,15 @@ pub struct CashflowSummary {
     pub net_minor_units: i64,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CardUsageCandidate {
+    pub currency: String,
+    pub debit_minor_units: i64,
+    pub transaction_count: usize,
+    pub subscription_minor_units: i64,
+    pub subscription_count: usize,
+}
+
 pub fn parse_transactions_jsonl(input: &str) -> Result<Vec<TransactionIr>, FixtureError> {
     parse_jsonl(input, TransactionIr::validate)
 }
@@ -125,6 +135,53 @@ pub fn summarize_cashflow(
     })
 }
 
+pub fn card_usage_candidates(
+    transactions: &[TransactionIr],
+    currency: &str,
+) -> Result<Vec<CardUsageCandidate>, ValidationError> {
+    let mut cards = BTreeMap::<String, CardUsageCandidate>::new();
+    for transaction in transactions {
+        transaction.validate()?;
+        if transaction.amount.currency != currency
+            || !matches!(transaction.direction, TransactionDirection::Debit)
+        {
+            continue;
+        }
+        let card_id = transaction.card_id.as_deref().unwrap_or_default().trim();
+        if card_id.is_empty() {
+            continue;
+        }
+        let candidate = cards
+            .entry(card_id.to_string())
+            .or_insert_with(|| CardUsageCandidate {
+                currency: currency.to_string(),
+                debit_minor_units: 0,
+                transaction_count: 0,
+                subscription_minor_units: 0,
+                subscription_count: 0,
+            });
+        candidate.debit_minor_units += transaction.amount.minor_units;
+        candidate.transaction_count += 1;
+        if transaction
+            .category
+            .as_deref()
+            .unwrap_or_default()
+            .eq_ignore_ascii_case("subscription")
+        {
+            candidate.subscription_minor_units += transaction.amount.minor_units;
+            candidate.subscription_count += 1;
+        }
+    }
+    let mut candidates = cards.into_values().collect::<Vec<_>>();
+    candidates.sort_by(|left, right| {
+        right
+            .debit_minor_units
+            .cmp(&left.debit_minor_units)
+            .then_with(|| right.transaction_count.cmp(&left.transaction_count))
+    });
+    Ok(candidates)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -145,6 +202,19 @@ mod tests {
         assert_eq!(summary.credit_minor_units, 4_500_000);
         assert_eq!(summary.debit_minor_units, 153_200);
         assert_eq!(summary.net_minor_units, 4_346_800);
+    }
+
+    #[test]
+    fn card_usage_candidates_are_review_only() {
+        let transactions = fixture_transactions().expect("finance fixture parses");
+        let candidates = card_usage_candidates(&transactions, "KRW").expect("cards summarize");
+
+        assert_eq!(candidates.len(), 1);
+        assert_eq!(candidates[0].currency, "KRW");
+        assert_eq!(candidates[0].transaction_count, 2);
+        assert_eq!(candidates[0].debit_minor_units, 153_200);
+        assert_eq!(candidates[0].subscription_count, 1);
+        assert_eq!(candidates[0].subscription_minor_units, 65_900);
     }
 
     #[test]

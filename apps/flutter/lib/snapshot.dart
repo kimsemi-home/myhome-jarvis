@@ -171,6 +171,7 @@ class JarvisSnapshot {
     ],
     recommendationItems: [
       '81 - Compare recurring purchase: Bottled water 2L x 6',
+      '67 - Review card-linked household spend',
       '61 - Review household subscriptions',
       '49 - Keep household cash buffer',
     ],

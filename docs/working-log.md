@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 23:02 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add fixture-only card usage review recommendations.
+- Files touched: `crates/mhj-core/src/finance.rs`, `crates/mhj-core/src/recommendations.rs`, `crates/mhj-finance/src/lib.rs`, `internal/domain/summary.go`, `internal/domain/summary_test.go`, `internal/commands/harness.go`, `internal/daemon/server_test.go`, `lisp/ssot/recommendations.lisp`, `generated/recommendations.generated.json`, `apps/flutter/lib/snapshot.dart`, `apps/flutter/test/daemon_client_test.dart`, `apps/flutter/test/widget_test.dart`, `docs/architecture.md`, `docs/backlog.md`, `docs/flutter.md`, `docs/recommendations.md`, `docs/working-log.md`.
+- Changes: added review-only card-linked spend candidates in Rust finance boundaries; added `card_usage_review` recommendation scoring in Rust and Go; exposed the item through daemon summaries and Flutter Optimize; updated SSOT/generated recommendation kinds; kept card IDs out of user-facing recommendation titles.
+- Validation after: `cargo test -p mhj-core recommendations` passed; `cargo test -p mhj-core finance` passed; `cargo test -p mhj-finance` passed; `go test ./internal/domain ./internal/commands ./internal/daemon` passed; `cd apps/flutter && flutter test` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 15-step quality run; generated recommendation artifact changed from SSOT as intended; public safety scans passed; private quality journal redaction scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, subscription, scraping, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 22:55 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -644,8 +644,9 @@ func TestRecommendationsSummaryReturnsLocalFixtureRecommendations(t *testing.T) 
 	}
 	body := recorder.Body.String()
 	for _, expected := range []string{
-		`"count": 3`,
+		`"count": 4`,
 		`"kind": "recurring_purchase_review"`,
+		`"kind": "card_usage_review"`,
 		`"kind": "subscription_review"`,
 	} {
 		if !bytes.Contains([]byte(body), []byte(expected)) {

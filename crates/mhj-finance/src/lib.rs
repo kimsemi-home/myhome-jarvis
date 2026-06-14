@@ -1,5 +1,6 @@
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
 use std::error::Error;
 use std::fmt;
 
@@ -156,6 +157,15 @@ pub struct SubscriptionCandidate {
     pub currency: String,
     pub monthly_minor_units: i64,
     pub evidence_tag_count: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CardUsageCandidate {
+    pub currency: String,
+    pub debit_minor_units: i64,
+    pub transaction_count: usize,
+    pub subscription_minor_units: i64,
+    pub subscription_count: usize,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -317,6 +327,49 @@ pub fn subscription_candidates(
             .monthly_minor_units
             .cmp(&left.monthly_minor_units)
             .then_with(|| left.merchant_name.cmp(&right.merchant_name))
+    });
+    Ok(candidates)
+}
+
+pub fn card_usage_candidates(
+    transactions: &[TransactionIr],
+    currency: &str,
+) -> Result<Vec<CardUsageCandidate>, ValidationError> {
+    ensure_currency("currency", currency)?;
+    let mut cards = BTreeMap::<String, CardUsageCandidate>::new();
+    for transaction in transactions {
+        transaction.validate()?;
+        if transaction.amount.currency != currency
+            || !matches!(transaction.direction, TransactionDirection::Debit)
+        {
+            continue;
+        }
+        let card_id = transaction.card_id.as_deref().unwrap_or_default().trim();
+        if card_id.is_empty() {
+            continue;
+        }
+        let candidate = cards
+            .entry(card_id.to_string())
+            .or_insert_with(|| CardUsageCandidate {
+                currency: currency.to_string(),
+                debit_minor_units: 0,
+                transaction_count: 0,
+                subscription_minor_units: 0,
+                subscription_count: 0,
+            });
+        candidate.debit_minor_units += transaction.amount.minor_units;
+        candidate.transaction_count += 1;
+        if is_subscription(transaction) {
+            candidate.subscription_minor_units += transaction.amount.minor_units;
+            candidate.subscription_count += 1;
+        }
+    }
+    let mut candidates = cards.into_values().collect::<Vec<_>>();
+    candidates.sort_by(|left, right| {
+        right
+            .debit_minor_units
+            .cmp(&left.debit_minor_units)
+            .then_with(|| right.transaction_count.cmp(&left.transaction_count))
     });
     Ok(candidates)
 }
@@ -491,6 +544,18 @@ mod tests {
         assert_eq!(candidates[0].merchant_name, "Streaming Bundle");
         assert_eq!(candidates[0].monthly_minor_units, 65_900);
         assert_eq!(candidates[0].owner, Owner::Household);
+    }
+
+    #[test]
+    fn card_usage_candidates_are_review_only() {
+        let transactions = fixture_transactions().expect("finance fixture parses");
+        let candidates = card_usage_candidates(&transactions, "KRW").expect("cards summarize");
+        assert_eq!(candidates.len(), 1);
+        assert_eq!(candidates[0].currency, "KRW");
+        assert_eq!(candidates[0].transaction_count, 2);
+        assert_eq!(candidates[0].debit_minor_units, 153_200);
+        assert_eq!(candidates[0].subscription_count, 1);
+        assert_eq!(candidates[0].subscription_minor_units, 65_900);
     }
 
     #[test]

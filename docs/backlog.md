@@ -143,3 +143,9 @@
 - [x] Add fixture-only Parquet metadata reader.
   - Acceptance: `crates/mhj-storage` can inspect finance and commerce curated Parquet fixture files through repo-relative lake paths; reader reports row count, row group count, column count, schema version, and Zstd compression without exposing row contents; raw layer curated reads are rejected.
   - Validation: `cargo test -p mhj-storage`; `cargo test --workspace`; full quality gate.
+
+## P15
+
+- [x] Add fixture-only card usage review recommendations.
+  - Acceptance: Rust, Go, daemon summaries, and Flutter Optimize surface include a card-linked spend review recommendation derived only from local fixture card-linked debit records; recommendation is review-only and does not expose card IDs or execute card actions.
+  - Validation: `cargo test -p mhj-core recommendations`; `cargo test -p mhj-finance`; `go test ./internal/domain ./internal/commands ./internal/daemon`; `cd apps/flutter && flutter test`; full quality gate.

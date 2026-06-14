@@ -26,6 +26,8 @@ type FinanceSummary struct {
 	NetMinorUnits          int64                 `json:"net_minor_units"`
 	SubscriptionMinorUnits int64                 `json:"subscription_minor_units"`
 	SubscriptionCount      int                   `json:"subscription_count"`
+	CardDebitMinorUnits    int64                 `json:"card_debit_minor_units"`
+	CardDebitCount         int                   `json:"card_debit_count"`
 	Categories             []string              `json:"categories"`
 	OwnerBreakdown         []FinanceOwnerSummary `json:"owner_breakdown"`
 }
@@ -115,6 +117,7 @@ type financeTransaction struct {
 	Amount    moneyAmount `json:"amount"`
 	Direction string      `json:"direction"`
 	Category  string      `json:"category"`
+	CardID    string      `json:"card_id"`
 }
 
 type commercePurchase struct {
@@ -180,6 +183,10 @@ func BuildFinanceSummary(path string) (FinanceSummary, error) {
 				summary.SubscriptionMinorUnits += transaction.Amount.MinorUnits
 				summary.SubscriptionCount++
 			}
+			if strings.TrimSpace(transaction.CardID) != "" {
+				summary.CardDebitMinorUnits += transaction.Amount.MinorUnits
+				summary.CardDebitCount++
+			}
 		default:
 			return fmt.Errorf("line %d: unknown direction %q", line, transaction.Direction)
 		}
@@ -217,6 +224,17 @@ func BuildRecommendationsSummary(finance FinanceSummary, commerce CommerceSummar
 			Currency:                   finance.Currency,
 			EstimatedMonthlyMinorUnits: finance.SubscriptionMinorUnits,
 			EvidenceCount:              finance.SubscriptionCount,
+		})
+	}
+	if finance.CardDebitMinorUnits > 0 {
+		items = append(items, RecommendationItem{
+			Kind:                       "card_usage_review",
+			Title:                      "Review card-linked household spend",
+			Rationale:                  "Card-linked debit fixtures exist; keep this as a review-only recommendation, not a card action.",
+			Score:                      clampScore(52 + int(finance.CardDebitMinorUnits/10_000)),
+			Currency:                   finance.Currency,
+			EstimatedMonthlyMinorUnits: finance.CardDebitMinorUnits,
+			EvidenceCount:              finance.CardDebitCount,
 		})
 	}
 	for _, candidate := range commerce.RecurringCandidates {

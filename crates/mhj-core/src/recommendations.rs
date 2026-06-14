@@ -1,11 +1,14 @@
 use crate::commerce::{recurring_candidates, PurchaseIr};
-use crate::finance::{summarize_cashflow, TransactionDirection, TransactionIr};
+use crate::finance::{
+    card_usage_candidates, summarize_cashflow, TransactionDirection, TransactionIr,
+};
 use crate::{FixtureError, ValidationError};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum RecommendationKind {
+    CardUsageReview,
     CashBuffer,
     RecurringPurchaseReview,
     SubscriptionReview,
@@ -86,6 +89,18 @@ pub fn score_recommendations(
         });
     }
 
+    for candidate in card_usage_candidates(transactions, "KRW")? {
+        recommendations.push(Recommendation {
+            kind: RecommendationKind::CardUsageReview,
+            title: "Review card-linked household spend".to_string(),
+            rationale: "Card-linked debit fixtures exist; keep this as a review-only recommendation, not a card action.".to_string(),
+            score: clamp_score(52 + candidate.debit_minor_units / 10_000),
+            currency: candidate.currency,
+            estimated_monthly_minor_units: candidate.debit_minor_units,
+            evidence_count: candidate.transaction_count,
+        });
+    }
+
     for candidate in recurring_candidates(purchases) {
         recommendations.push(Recommendation {
             kind: RecommendationKind::RecurringPurchaseReview,
@@ -124,7 +139,7 @@ mod tests {
     #[test]
     fn fixture_recommendations_are_ranked_and_bounded() {
         let recommendations = fixture_recommendations().expect("recommendations score");
-        assert_eq!(recommendations.len(), 3);
+        assert_eq!(recommendations.len(), 4);
         assert!(recommendations
             .windows(2)
             .all(|window| window[0].score >= window[1].score));
@@ -134,6 +149,11 @@ mod tests {
         assert!(recommendations
             .iter()
             .any(|recommendation| recommendation.kind == RecommendationKind::SubscriptionReview));
+        assert!(recommendations.iter().any(|recommendation| {
+            recommendation.kind == RecommendationKind::CardUsageReview
+                && recommendation.evidence_count == 2
+                && recommendation.estimated_monthly_minor_units == 153_200
+        }));
         assert!(recommendations.iter().any(|recommendation| {
             recommendation.kind == RecommendationKind::RecurringPurchaseReview
                 && recommendation.evidence_count == 2

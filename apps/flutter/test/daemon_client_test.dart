@@ -95,12 +95,17 @@ void main() {
               ],
             },
             'recommendations': {
-              'count': 2,
+              'count': 3,
               'items': [
                 {
                   'kind': 'recurring_purchase_review',
                   'title': 'Compare recurring purchase: Bottled water',
                   'score': 81,
+                },
+                {
+                  'kind': 'card_usage_review',
+                  'title': 'Review card-linked household spend',
+                  'score': 67,
                 },
                 {
                   'kind': 'subscription_review',
@@ -248,6 +253,10 @@ void main() {
     expect(
       snapshot.recommendationItems,
       contains('81 - Compare recurring purchase: Bottled water'),
+    );
+    expect(
+      snapshot.recommendationItems,
+      contains('67 - Review card-linked household spend'),
     );
     expect(
       snapshot.recommendationItems,

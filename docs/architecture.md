@@ -87,9 +87,10 @@ validate the same read-only fixture summaries without introducing external
 credentials or actions.
 
 The first recommendation surface is fixture-only. Rust owns the scoring
-skeleton, Go projects read-only daemon summaries, and Flutter shows the ranked
-items in an Optimize tab. Recommendations never execute purchases, subscription
-changes, card actions, transfers, or investment trades.
+skeleton, Go projects read-only daemon summaries, and Flutter shows cash
+buffer, subscription, card-linked spend, and recurring purchase review items in
+an Optimize tab. Recommendations never execute purchases, subscription changes,
+card actions, transfers, or investment trades.
 
 The first household surface is also fixture-only. Finance and commerce owner
 fields are projected into User, Spouse, and Household scopes so the UI can

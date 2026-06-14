@@ -20,7 +20,8 @@ Current scope:
 - Quality evidence rendering from `/quality/status` as the latest quality gate
   result.
 - Planner status rendering from `/planner/status` as ready task graph progress.
-- Recommendation rendering from fixture-only local summaries.
+- Recommendation rendering from fixture-only local summaries, including
+  card-linked spend review items that never execute card actions.
 - User, Spouse, and Household fixture scope switching.
 - Dry-run preview client for `/intent`; command buttons always send
   `execute=false`, even though the daemon has a separately gated execution

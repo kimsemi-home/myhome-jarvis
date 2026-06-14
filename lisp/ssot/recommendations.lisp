@@ -3,11 +3,13 @@
 (defparameter *recommendation-policy*
   (list :mode "fixture_only"
         :external_actions_allowed nil
-        :kinds #("cash_buffer"
+        :kinds #("card_usage_review"
+                 "cash_buffer"
                  "recurring_purchase_review"
                  "subscription_review")
         :score_min 0
         :score_max 100
         :default_currency "KRW"
-        :recommendation_only_actions #("subscription_review"
+        :recommendation_only_actions #("card_usage_review"
+                                       "subscription_review"
                                        "recurring_purchase_review")))

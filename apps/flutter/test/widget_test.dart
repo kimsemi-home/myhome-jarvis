@@ -100,6 +100,10 @@ void main() {
       find.text('81 - Compare recurring purchase: Bottled water 2L x 6'),
       findsOneWidget,
     );
+    expect(
+      find.text('67 - Review card-linked household spend'),
+      findsOneWidget,
+    );
     expect(find.text('61 - Review household subscriptions'), findsOneWidget);
   });
 }

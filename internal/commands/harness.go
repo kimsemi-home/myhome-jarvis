@@ -87,6 +87,7 @@ func RunFinanceHarness(root string) HarnessReport {
 	report.addCheck("finance debit total", finance.DebitMinorUnits == 153_200, fmt.Sprintf("debit=%d", finance.DebitMinorUnits))
 	report.addCheck("finance net total", finance.NetMinorUnits == 4_346_800, fmt.Sprintf("net=%d", finance.NetMinorUnits))
 	report.addCheck("subscription review candidates", finance.SubscriptionCount == 1 && finance.SubscriptionMinorUnits == 65_900, fmt.Sprintf("subscriptions=%d total=%d", finance.SubscriptionCount, finance.SubscriptionMinorUnits))
+	report.addCheck("card-linked debit review candidates", finance.CardDebitCount == 2 && finance.CardDebitMinorUnits == 153_200, fmt.Sprintf("card_debits=%d total=%d", finance.CardDebitCount, finance.CardDebitMinorUnits))
 
 	user := financeOwner(finance.OwnerBreakdown, "user")
 	report.addCheck("user finance scope", user != nil && user.Records == 1 && user.NetMinorUnits == -87_300, financeOwnerMessage(user))
