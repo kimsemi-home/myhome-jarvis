@@ -13,6 +13,8 @@ Current scope:
   Wavve, and Coupang Play, plus the generic `open_ott` command.
 - Static/offline fallback command buttons for volume up/down/set and display
   sleep, matching the core home-control surface even without daemon reachability.
+- Static/offline fallback payload editors for YouTube search, safe URL open,
+  and generic OTT service selection.
 - Daemon snapshot client for `/health`, `/commands`, `/linear/status`, and
   `/metrics`.
 - Domain summary rendering from `/domain/summary` for finance, commerce, and

@@ -28,18 +28,26 @@ void main() {
     expect(find.text('open-tving'), findsOneWidget);
     expect(find.text('open-wavve'), findsOneWidget);
     expect(find.text('open-coupang-play'), findsOneWidget);
-    await tester.drag(
-      find.byKey(const Key('commands-list')),
-      const Offset(0, -500),
-    );
-    await tester.pumpAndSettle();
+    await _scrollCommandIntoView(tester, 'open-youtube-search');
+    expect(find.text('open-youtube-search'), findsOneWidget);
+    expect(find.widgetWithText(TextField, 'query'), findsOneWidget);
+    await _scrollCommandIntoView(tester, 'open-url');
+    expect(find.text('open-url'), findsOneWidget);
+    expect(find.widgetWithText(TextField, 'url'), findsOneWidget);
+    await _scrollCommandIntoView(tester, 'open-ott');
+    expect(find.text('open-ott'), findsOneWidget);
+    expect(find.text('service'), findsOneWidget);
 
+    await _scrollCommandIntoView(tester, 'volume-set');
     expect(find.text('volume-set'), findsOneWidget);
     expect(find.widgetWithText(TextField, 'level'), findsOneWidget);
     expect(find.text('30'), findsOneWidget);
+    await _scrollCommandIntoView(tester, 'volume-up');
     expect(find.text('volume-up'), findsOneWidget);
+    await _scrollCommandIntoView(tester, 'volume-down');
     expect(find.text('volume-down'), findsOneWidget);
     expect(find.widgetWithText(TextField, 'step'), findsWidgets);
+    await _scrollCommandIntoView(tester, 'display-sleep');
     expect(find.text('display-sleep'), findsOneWidget);
     expect(find.byTooltip('Dry-run'), findsWidgets);
   });
@@ -62,11 +70,7 @@ void main() {
     await tester.tap(find.text('Commands'));
     await tester.pumpAndSettle();
 
-    await tester.drag(
-      find.byKey(const Key('commands-list')),
-      const Offset(0, -500),
-    );
-    await tester.pumpAndSettle();
+    await _scrollCommandIntoView(tester, 'volume-set');
 
     await tester.enterText(find.widgetWithText(TextField, 'level'), '42');
     final volumeSetRow = find.ancestor(
@@ -178,4 +182,19 @@ void main() {
       expect(find.text('65900 KRW'), findsOneWidget);
     },
   );
+}
+
+Future<void> _scrollCommandIntoView(WidgetTester tester, String name) async {
+  await tester.scrollUntilVisible(
+    find.text(name),
+    240,
+    scrollable: find.descendant(
+      of: find.byType(CommandsView),
+      matching: find.byWidgetPredicate(
+        (widget) =>
+            widget is Scrollable && widget.axisDirection == AxisDirection.down,
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
 }

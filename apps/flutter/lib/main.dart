@@ -772,6 +772,7 @@ class PayloadFieldsEditor extends StatelessWidget {
               child: field == 'service'
                   ? DropdownButtonFormField<String>(
                       initialValue: service ?? _serviceOptions.first,
+                      isExpanded: true,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         isDense: true,
@@ -779,7 +780,13 @@ class PayloadFieldsEditor extends StatelessWidget {
                       ),
                       items: [
                         for (final option in _serviceOptions)
-                          DropdownMenuItem(value: option, child: Text(option)),
+                          DropdownMenuItem(
+                            value: option,
+                            child: Text(
+                              option,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                       ],
                       onChanged: onServiceChanged,
                     )

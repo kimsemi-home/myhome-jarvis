@@ -191,3 +191,9 @@
 - [x] Complete fallback Flutter home-control command buttons.
   - Acceptance: static/offline Flutter snapshots expose YouTube, OTT shortcuts, volume up/down/set, and display sleep dry-run commands so the local client keeps the same core home-control surface even before a daemon connection is available.
   - Validation: `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.
+
+## P23
+
+- [x] Add fallback Flutter URL and search command controls.
+  - Acceptance: static/offline Flutter snapshots expose `open-youtube-search`, `open-url`, and generic `open-ott` editable dry-run commands in addition to dedicated shortcuts, so daemon-unavailable clients can still preview YouTube search, safe URL open, and service-selected OTT intents.
+  - Validation: `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.

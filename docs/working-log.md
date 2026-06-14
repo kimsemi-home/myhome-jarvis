@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 23:49 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add fallback Flutter URL and search command controls.
+- Files touched: `apps/flutter/lib/main.dart`, `apps/flutter/lib/snapshot.dart`, `apps/flutter/test/widget_test.dart`, `docs/backlog.md`, `docs/flutter.md`, `docs/working-log.md`.
+- Changes: added static/offline fallback commands for `open-youtube-search`, `open-url`, and generic `open-ott`; kept editable payload fields for query, URL, and OTT service; made command widget tests scroll to named rows instead of relying on a fixed list position; kept the generic OTT dropdown expanded so service labels fit.
+- Validation after: `cd apps/flutter && flutter test` passed; `cd apps/flutter && flutter analyze` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 15-step quality run; generated artifacts had no diff; public safety scans passed; private quality journal redaction scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 23:45 KST
 
 - Linear issue: local continuation, no external Linear writes executed.
