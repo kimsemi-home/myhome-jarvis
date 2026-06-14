@@ -392,3 +392,10 @@
   - Linear: KIM-7
   - Acceptance: SSOT owns the `[myhome-jarvis]` Linear issue title prefix; `mhj linear next` prefers active project-prefixed issues over unrelated active team issues; local backlog seeds use the same prefix; default summaries remain redacted.
   - Validation: `go test ./internal/linear`; `LINEAR_TEAM_KEY=KIM go run ./cmd/mhj linear next`; SSOT validation and codegen verification; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P56
+
+- [x] Require project Linear issue for next selection.
+  - Linear: KIM-8
+  - Acceptance: `mhj linear next` selects only active `[myhome-jarvis]` issues; when active team issues exist but none are project-prefixed, it returns a redacted synced result without a selected issue; `mhj linear pull` still returns active redacted summaries.
+  - Validation: `go test ./internal/linear`; `LINEAR_TEAM_KEY=KIM go run ./cmd/mhj linear next` before and after completing KIM-8; SSOT validation and codegen verification; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

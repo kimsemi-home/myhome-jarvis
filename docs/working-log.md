@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 03:03 KST
+
+- Linear issue: KIM-8 created in Linear and kept in progress.
+- Mode: online-capable, local-only implementation after Linear issue creation.
+- Task: Require project Linear issue for next selection.
+- Files touched: `internal/linear/issues.go`, `internal/linear/issues_test.go`, `lisp/ssot/linear.lisp`, `lisp/ssot/codegen.lisp`, `generated/linear.generated.json`, `docs/backlog.md`, `docs/linear-workflow.md`, `docs/working-log.md`.
+- Changes: made `mhj linear next` select only active `[myhome-jarvis]` issues; when only onboarding or unrelated active team issues remain, next returns a redacted synced result without a selected issue while pull still reports active summaries.
+- Validation after: `go1.26.2 test ./internal/linear` passed; `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `LINEAR_TEAM_KEY=KIM go1.26.2 run ./cmd/mhj linear next` returned a redacted online summary with KIM-8 selected while active; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan, forbidden language/dependency scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-8 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, verify GitHub Actions with `gh`, update Linear issue KIM-8, then confirm `LINEAR_TEAM_KEY=KIM mhj linear next` returns no selected project issue after completion.
+
 ## 2026-06-15 02:58 KST
 
 - Linear issue: KIM-7 created in Linear and kept in progress.

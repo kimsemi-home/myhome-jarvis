@@ -40,7 +40,9 @@ workspace URLs, raw descriptions, or token sources.
 Project-owned Linear issues use the SSOT-owned `[myhome-jarvis]` title prefix.
 When active team results include both project issues and unrelated active items
 such as Linear onboarding tasks, `mhj linear next` prefers the project-prefixed
-issue first. Locally seeded backlog titles use the same prefix.
+issue first. When no active project-prefixed issue exists, `mhj linear next`
+returns no selected issue instead of selecting unrelated active items. Locally
+seeded backlog titles use the same prefix.
 
 Mutation commands use GraphQL variables rather than string interpolation.
 When credentials are unavailable or a GraphQL call fails, the command writes a

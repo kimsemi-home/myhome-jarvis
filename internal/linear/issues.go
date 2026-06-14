@@ -123,15 +123,7 @@ func NextIssue(ctx context.Context, root string, client *http.Client) OperationR
 			return result
 		}
 	}
-	for index := range result.Issues {
-		issue := result.Issues[index]
-		if isOpenState(issue.State) {
-			result.Issue = &issue
-			result.Message = "Selected next open Linear issue."
-			return result
-		}
-	}
-	result.Message = "Pulled issues, but none had an open state."
+	result.Message = "Pulled active Linear issues, but none matched the project issue prefix."
 	return result
 }
 

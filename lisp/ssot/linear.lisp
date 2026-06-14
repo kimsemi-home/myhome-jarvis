@@ -16,6 +16,7 @@
         :team_scope_private t
         :project_issue_title_prefix "[myhome-jarvis]"
         :next_prefers_project_issues t
+        :next_requires_project_issue t
         :commands #("mhj linear status"
                     "mhj linear sync"
                     "mhj linear pull"

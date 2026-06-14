@@ -184,14 +184,60 @@ func TestNextIssuePrefersProjectIssue(t *testing.T) {
 	}
 }
 
+func TestNextIssueDoesNotSelectUnrelatedActiveIssue(t *testing.T) {
+	t.Setenv("LINEAR_API_KEY", "linear-example-key")
+	t.Setenv("LINEAR_TEAM_ID", "")
+	t.Setenv("LINEAR_TEAM_KEY", "KIM")
+	client := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Header:     http.Header{},
+			Body: io.NopCloser(strings.NewReader(`{
+				"data": {
+					"issues": {
+						"nodes": [{
+							"id": "onboarding-id",
+							"identifier": "KIM-1",
+							"title": "Get familiar with Linear",
+							"updatedAt": "2026-06-14T00:00:00.000Z",
+							"team": {"id": "team-kim", "key": "KIM"},
+							"state": {"id": "todo-state", "name": "Todo", "type": "unstarted"}
+						}, {
+							"id": "tools-id",
+							"identifier": "KIM-3",
+							"title": "Connect your tools",
+							"updatedAt": "2026-06-14T00:00:00.000Z",
+							"team": {"id": "team-kim", "key": "KIM"},
+							"state": {"id": "todo-state", "name": "Todo", "type": "unstarted"}
+						}]
+					}
+				}
+			}`)),
+		}, nil
+	})}
+
+	result := NextIssue(context.Background(), t.TempDir(), client)
+	if !result.Synced || len(result.Issues) != 2 {
+		t.Fatalf("unexpected next result: %#v", result)
+	}
+	if result.Issue != nil {
+		t.Fatalf("unexpected selected issue: %#v", result.Issue)
+	}
+	expected := "Pulled active Linear issues, but none matched the project issue prefix."
+	if result.Message != expected {
+		t.Fatalf("message = %q, expected %q", result.Message, expected)
+	}
+}
+
 func TestProjectIssueTitlePrefixMatchesGeneratedPolicy(t *testing.T) {
 	data, err := os.ReadFile(filepath.Join("..", "..", "generated", "linear.generated.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
 	var policy struct {
-		ProjectIssueTitlePrefix string `json:"project_issue_title_prefix"`
-		NextPrefersProjectIssue bool   `json:"next_prefers_project_issues"`
+		ProjectIssueTitlePrefix  string `json:"project_issue_title_prefix"`
+		NextPrefersProjectIssue  bool   `json:"next_prefers_project_issues"`
+		NextRequiresProjectIssue bool   `json:"next_requires_project_issue"`
 	}
 	if err := json.Unmarshal(data, &policy); err != nil {
 		t.Fatal(err)
@@ -201,6 +247,9 @@ func TestProjectIssueTitlePrefixMatchesGeneratedPolicy(t *testing.T) {
 	}
 	if !policy.NextPrefersProjectIssue {
 		t.Fatal("generated policy must keep next_prefers_project_issues enabled")
+	}
+	if !policy.NextRequiresProjectIssue {
+		t.Fatal("generated policy must keep next_requires_project_issue enabled")
 	}
 }
 

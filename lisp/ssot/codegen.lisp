@@ -46,6 +46,8 @@
       (error "Linear project issue title prefix must identify myhome-jarvis work"))
     (unless (getf *linear-policy* :next_prefers_project_issues)
       (error "Linear next must prefer project issues"))
+    (unless (getf *linear-policy* :next_requires_project_issue)
+      (error "Linear next must not select unrelated active issues"))
     (unless (> (length (getf *planner-policy* :task_graph)) 0)
       (error "Planner policy must include a task graph"))
     (unless (find "linear_sync"
