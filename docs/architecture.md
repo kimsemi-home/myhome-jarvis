@@ -14,6 +14,10 @@ boundaries.
 
 The system defaults to dry-run. Any real macOS command execution must be
 explicitly enabled and must use argv arrays, never shell interpolation.
+The first execution boundary is intentionally narrow: CLI execution requires
+`MYHOME_EXECUTE=true`, while daemon execution also requires `--execute` and
+request `execute=true`. The executor only permits `open`, `osascript`, and
+`pmset` argv plans.
 
 The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /commands`, `POST /intent`, `POST /harness/run`, `GET /linear/status`,

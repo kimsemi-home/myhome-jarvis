@@ -22,12 +22,14 @@ import (
 )
 
 type Config struct {
-	Root         string
-	Host         string
-	Port         int
-	Execute      bool
-	AllowLANBind bool
-	Version      string
+	Root            string
+	Host            string
+	Port            int
+	Execute         bool
+	AllowLANBind    bool
+	Version         string
+	CommandPlatform string
+	CommandRunner   commands.Runner
 }
 
 type Server struct {
@@ -170,6 +172,16 @@ func (server *Server) handleIntent(writer http.ResponseWriter, request *http.Req
 	plan = commands.WithExecuteAllowed(plan, executeAllowed)
 	if body.Execute && !server.config.Execute {
 		plan.Warnings = append(plan.Warnings, "execute was requested but daemon execute mode is disabled")
+	}
+	if executeAllowed {
+		var err error
+		plan, err = commands.Execute(request.Context(), plan, commands.ExecuteOptions{
+			Platform: server.config.CommandPlatform,
+			Runner:   server.config.CommandRunner,
+		})
+		if err != nil {
+			return err
+		}
 	}
 	return writeJSON(writer, http.StatusOK, plan)
 }

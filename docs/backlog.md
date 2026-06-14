@@ -71,3 +71,7 @@
 - [x] Add repository status inspection for closed-loop safety.
   - Acceptance: Go inspects Git branch/head/dirty state with repository-relative paths; daemon exposes `GET /repo/status`; Flutter status shows clean or dirty repository state; private ignored paths remain relative.
   - Validation: `go test ./internal/repo ./internal/daemon`; `cd apps/flutter && flutter test`; full quality gate.
+
+- [x] Add explicit home-control command execution boundary.
+  - Acceptance: dry-run remains default; CLI execution requires `MYHOME_EXECUTE=true`; daemon execution requires daemon execute mode and request `execute=true`; execution uses argv arrays only and allows only `open`, `osascript`, and `pmset`; non-macOS platforms skip safely.
+  - Validation: `go test ./internal/commands ./internal/daemon`; full quality gate.

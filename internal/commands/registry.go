@@ -26,6 +26,7 @@ type Plan struct {
 	DryRun         bool         `json:"dry_run"`
 	ExecuteAllowed bool         `json:"execute_allowed"`
 	Invocations    []Invocation `json:"invocations"`
+	Executions     []Execution  `json:"executions,omitempty"`
 	Warnings       []string     `json:"warnings,omitempty"`
 }
 
@@ -148,9 +149,6 @@ func Build(name string, payload []byte) (Plan, error) {
 
 func WithExecuteAllowed(plan Plan, executeAllowed bool) Plan {
 	plan.ExecuteAllowed = executeAllowed
-	if executeAllowed {
-		plan.Warnings = append(plan.Warnings, "execution is explicitly allowed, but this boundary currently returns a dry-run plan only")
-	}
 	return plan
 }
 

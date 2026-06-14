@@ -70,6 +70,12 @@ func run(args []string) error {
 			return err
 		}
 		plan = commands.WithExecuteAllowed(plan, os.Getenv("MYHOME_EXECUTE") == "true")
+		if plan.ExecuteAllowed {
+			plan, err = commands.Execute(context.Background(), plan, commands.ExecuteOptions{})
+			if err != nil {
+				return err
+			}
+		}
 		return writeJSON(plan)
 	case "harness":
 		if len(args) == 2 && args[1] == "home" {

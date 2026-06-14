@@ -5,6 +5,10 @@ Security defaults:
 - Bind local services to `127.0.0.1` unless LAN bind is explicitly configured.
 - Keep command execution dry-run unless `MYHOME_EXECUTE=true` or an equivalent
   local private config is set.
+- Require daemon `--execute` and per-request `execute=true` before daemon
+  command execution.
+- Execute only validated argv arrays for `open`, `osascript`, and `pmset`; never
+  execute through a shell.
 - Store local tokens only under `data/private`.
 - Keep raw data and lake data under ignored private paths.
 - Reject Python, Node.js, TypeScript, shell-interpolated command execution, and

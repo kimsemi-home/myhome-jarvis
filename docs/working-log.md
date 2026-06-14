@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 21:16 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add explicit home-control command execution boundary.
+- Files touched: `internal/commands/executor.go`, `internal/commands/executor_test.go`, `internal/commands/registry.go`, `cmd/mhj/main.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `docs/architecture.md`, `docs/backlog.md`, `docs/flutter.md`, `docs/home-control.md`, `docs/security.md`, `docs/working-log.md`.
+- Changes: added gated command execution metadata and runner; kept dry-run default; wired CLI execution to `MYHOME_EXECUTE=true`; wired daemon execution to both daemon execute mode and request `execute=true`; restricted execution to argv plans for `open`, `osascript`, and `pmset`; added non-macOS safe skip behavior and fake-runner tests.
+- Validation after: `go1.26.2 test ./internal/commands ./internal/daemon` passed; `go1.26.2 run ./cmd/mhj command volume-set '{"level":30}'` returned a dry-run plan with `execute_allowed=false`; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 21:08 local
 
 - Linear issue: local continuation, no external Linear writes executed.

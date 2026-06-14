@@ -16,8 +16,9 @@ Current scope:
   metric.
 - Recommendation rendering from fixture-only local summaries.
 - User, Spouse, and Household fixture scope switching.
-- Dry-run preview client for `/intent`; command buttons show the daemon plan
-  before any execution boundary exists.
+- Dry-run preview client for `/intent`; command buttons always send
+  `execute=false`, even though the daemon has a separately gated execution
+  boundary.
 - Widget and client tests for the first local operations screens.
 
 Platform runner files are intentionally deferred until packaging or device

@@ -22,4 +22,14 @@ Volume levels are restricted to `0..100`.
 
 The Flutter client calls daemon `POST /intent` with `execute=false` to preview
 plans. This keeps the UI on the dry-run side of the boundary while showing the
-argv plan that would be considered for later explicit execution.
+argv plan.
+
+Explicit execution boundary:
+
+- CLI execution requires `MYHOME_EXECUTE=true`.
+- Daemon execution requires `MYHOME_EXECUTE=true`, `mhj daemon --execute`, and a
+  request body with `execute=true`.
+- Execution runs argv arrays directly; it never uses shell interpolation.
+- Only `open`, `osascript`, and `pmset` are allowed executables.
+- Non-macOS platforms skip execution and return execution metadata instead of
+  running commands.
