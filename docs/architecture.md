@@ -59,7 +59,12 @@ and local absolute paths are never recorded.
 
 The first repository safety surface is read-only. `mhj repo status` and daemon
 `GET /repo/status` report branch, head SHA, tracked changes, untracked files,
-and ignored private data paths using repository-relative paths only.
+and ignored private data paths using repository-relative paths only. Public
+release safety also includes `mhj security history`, which scans reachable Git
+commits and commit metadata for private identity markers, local absolute paths,
+forbidden language artifacts, private/lake data paths except empty keep
+placeholders, and secret-looking literals without returning raw matched secret
+contents.
 
 The first scheduler surface is bounded and local-only. `mhj loop worker
 --cycles N` records heartbeat/checkpoint state under `data/private` and uses

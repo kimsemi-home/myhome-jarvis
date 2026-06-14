@@ -203,3 +203,9 @@
 - [x] Add command SSOT to Go registry parity checks.
   - Acceptance: Go command tests load `generated/commands.generated.json` and fail on drift in command names, summaries, payload fields, OTT service allowlist, or generated URL targets, keeping Lisp SSOT artifacts and Go execution plans aligned.
   - Validation: `go test ./internal/commands`; full quality gate.
+
+## P25
+
+- [x] Add Git history public-safety gate.
+  - Acceptance: `mhj security history` scans reachable Git commits for private identity markers, local absolute paths, forbidden language/dependency files, private/lake data paths except empty keep placeholders, sensitive-looking paths, secret-looking literals, and commit metadata issues without reporting raw matched secrets; CI always runs a full-history public-safety job before the hash-scoped unit summary can pass.
+  - Validation: `go test ./internal/security`; `go run ./cmd/mhj security history`; full quality gate; GitHub Actions run.

@@ -15,5 +15,14 @@ Security defaults:
 - Reject Python, Node.js, TypeScript, shell-interpolated command execution, and
   tracked private-data artifacts.
 
-The Go security checker is the first enforceable guard. It scans path names and
-language/dependency files and exits non-zero when a forbidden file is present.
+The Go security checker is the first enforceable guard. `mhj security check`
+scans the current working tree's path names and language/dependency files and
+exits non-zero when a forbidden file is present.
+
+`mhj security history` scans reachable Git commits before public pushes. It
+checks historical file paths, historical file contents, and commit metadata for
+private identity markers, local absolute paths, forbidden Python/Node/TypeScript
+artifacts, private/lake data paths except empty keep placeholders,
+sensitive-looking file names, and secret-looking literals. Findings report
+commit, repo-relative path, line number, code, and a coarse message only;
+matched secret contents are not returned.

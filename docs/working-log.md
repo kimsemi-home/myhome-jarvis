@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 00:02 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add Git history public-safety gate.
+- Files touched: `.github/workflows/quality.yml`, `cmd/mhj/main.go`, `internal/security/security.go`, `internal/security/security_test.go`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/ci.md`, `docs/security.md`, `docs/working-log.md`.
+- Changes: added `mhj security history` to scan reachable Git commits, historical paths, content, and commit metadata for private identity markers, local absolute paths, forbidden language/dependency artifacts, private/lake data paths except empty keep placeholders, sensitive-looking paths, and secret-looking literals without returning matched secret contents; added an always-run full-history public-safety CI job while keeping Go/Rust/Flutter/SSOT as hash-scoped units.
+- Validation after: `go test ./internal/security` passed; `go run ./cmd/mhj security history` passed against the current repository history; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed and recorded a private redacted 16-step quality run; generated artifacts had no diff; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 23:55 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

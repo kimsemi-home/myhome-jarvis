@@ -72,6 +72,19 @@ func run(args []string) error {
 			}
 			return nil
 		}
+		if len(args) == 2 && args[1] == "history" {
+			report, err := security.CheckHistory(root)
+			if err != nil {
+				return err
+			}
+			if err := writeJSON(report); err != nil {
+				return err
+			}
+			if !report.OK {
+				return errors.New("security history check failed")
+			}
+			return nil
+		}
 	case "command":
 		if len(args) != 3 {
 			return errors.New("usage: mhj command <name> '<json-payload>'")
@@ -172,7 +185,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|command|harness home|harness finance|harness commerce|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|security history|command|harness home|harness finance|harness commerce|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -375,6 +388,16 @@ func runQuality(root string) error {
 	} else {
 		report.OK = false
 		report.Steps = append(report.Steps, qualityStep{Name: "security check", Status: "fail", Output: "security findings present"})
+	}
+	securityHistoryReport, err := security.CheckHistory(root)
+	if err != nil {
+		return err
+	}
+	if securityHistoryReport.OK {
+		report.Steps = append(report.Steps, qualityStep{Name: "security history", Status: "pass"})
+	} else {
+		report.OK = false
+		report.Steps = append(report.Steps, qualityStep{Name: "security history", Status: "fail", Output: "security history findings present"})
 	}
 
 	report.addHarness("home harness", commands.RunHomeHarness())
