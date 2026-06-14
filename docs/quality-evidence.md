@@ -26,6 +26,10 @@ It does not record command argv, command output, local absolute paths,
 environment variables, tokens, private data, generated artifact contents, or
 raw test output.
 
+The default `mhj quality` JSON printed to stdout uses the same redaction
+boundary. It reports overall status and step names/statuses only, while keeping
+command argv and raw command output out of default CLI output.
+
 ## Status Surfaces
 
 - `mhj quality status`

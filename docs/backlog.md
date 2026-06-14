@@ -293,3 +293,9 @@
 - [x] Redact current-tree security report root.
   - Acceptance: `mhj security check` reports the checked root as `.` instead of the local checkout path while preserving repo-relative findings and the existing full-history security gate.
   - Validation: `go test ./internal/security`; `go run ./cmd/mhj security check`; full quality gate.
+
+## P40
+
+- [x] Redact default quality gate CLI output.
+  - Acceptance: `mhj quality` prints only overall status plus step names/statuses by default; command argv, raw command output, raw test output, and local absolute paths stay out of stdout while internal pass/fail handling and the private redacted quality journal remain intact.
+  - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj quality`; full quality gate.

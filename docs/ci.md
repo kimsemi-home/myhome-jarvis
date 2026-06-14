@@ -52,3 +52,5 @@ go run ./cmd/mhj quality status
 `mhj quality` also writes a redacted private run summary under
 `data/private/quality/runs.jsonl` for closed-loop evidence. The journal stores
 step names and statuses only, not command output or absolute local paths.
+The default `mhj quality` JSON output follows the same redacted shape: overall
+status plus step names/statuses, without command argv or raw command output.

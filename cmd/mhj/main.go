@@ -378,8 +378,8 @@ func loopWorker(root string, args []string) error {
 type qualityStep struct {
 	Name    string   `json:"name"`
 	Status  string   `json:"status"`
-	Command []string `json:"command,omitempty"`
-	Output  string   `json:"output,omitempty"`
+	Command []string `json:"-"`
+	Output  string   `json:"-"`
 }
 
 type qualityReport struct {

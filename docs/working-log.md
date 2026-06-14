@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 01:33 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Redact default quality gate CLI output.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/main_test.go`, `docs/backlog.md`, `docs/ci.md`, `docs/quality-evidence.md`, `docs/working-log.md`.
+- Changes: kept quality command execution and pass/fail handling unchanged while removing command argv and raw command output from the default `mhj quality` JSON surface; added regression coverage that quality report JSON contains only overall status and step names/statuses; documented that stdout and the private quality journal share the same redaction boundary.
+- Validation after: `go1.26.2 test ./cmd/mhj` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt go1.26.2 run ./cmd/mhj quality` passed and printed only redacted step summaries; quality output redaction probe found no command/output or local path markers; `go1.26.2 run ./cmd/mhj codegen verify` passed; public safety scans passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 01:29 KST
 
 - Linear issue: local continuation, no external Linear writes executed.
