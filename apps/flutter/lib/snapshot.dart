@@ -260,6 +260,11 @@ class JarvisSnapshot {
         icon: Icons.wifi_off_outlined,
       ),
       SystemMetric(
+        label: 'LAN Auth',
+        value: 'Configured',
+        icon: Icons.vpn_key_outlined,
+      ),
+      SystemMetric(
         label: 'Mode',
         value: 'Dry-run',
         icon: Icons.shield_outlined,
@@ -480,6 +485,11 @@ class JarvisSnapshot {
           label: 'Network',
           value: 'Local-only',
           icon: Icons.wifi_off_outlined,
+        ),
+        SystemMetric(
+          label: 'LAN Auth',
+          value: 'Unavailable',
+          icon: Icons.vpn_key_outlined,
         ),
         SystemMetric(
           label: 'Mode',

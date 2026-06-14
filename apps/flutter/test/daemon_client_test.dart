@@ -20,6 +20,14 @@ void main() {
             'host': '127.0.0.1',
           });
           return;
+        case '/auth/status':
+          _writeJson(request, {
+            'configured': true,
+            'path': 'data/private/local-token.txt',
+            'mode': '-rw-------',
+            'message': 'local LAN token is configured',
+          });
+          return;
         case '/commands':
           _writeJson(request, [
             {
@@ -308,6 +316,12 @@ void main() {
       snapshot.metrics.singleWhere((metric) => metric.label == 'Network').value,
       'Local-only',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'LAN Auth')
+          .value,
+      'Configured',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('7'));
     expect(
       snapshot.metrics.singleWhere((metric) => metric.label == 'Quality').value,
@@ -469,6 +483,7 @@ void main() {
         'dry_run': true,
         'host': '192.168.1.10',
       },
+      auth: const <String, Object?>{'configured': true},
       commands: const <Object?>[],
       linear: const <String, Object?>{},
       repo: const <String, Object?>{},

@@ -179,3 +179,9 @@
 - [x] Add explicit Flutter local-only network mode indicator.
   - Acceptance: Flutter derives a Network status metric from daemon `/health` and `/metrics`; localhost/default mode renders as `Local-only`, LAN-enabled mode renders as `LAN token-gated`, and the offline fallback remains local-only.
   - Validation: `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.
+
+## P21
+
+- [x] Add read-only daemon LAN auth status surface.
+  - Acceptance: daemon `GET /auth/status` exposes local token configured/missing state, repo-relative token path, file mode, and message without returning token contents; Flutter Status renders a `LAN Auth` metric from that surface.
+  - Validation: `go test ./internal/daemon`; `cd apps/flutter && flutter test`; `cd apps/flutter && flutter analyze`; full quality gate.

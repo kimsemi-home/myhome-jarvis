@@ -24,6 +24,7 @@ class DaemonSnapshotClient implements JarvisClient {
     final client = HttpClient()..connectionTimeout = timeout;
     try {
       final health = await _getObject(client, '/health');
+      final auth = await _getObject(client, '/auth/status');
       final commands = await _getArray(client, '/commands');
       final linear = await _getObject(client, '/linear/status');
       final repo = await _getObject(client, '/repo/status');
@@ -36,6 +37,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final planner = await _getObject(client, '/planner/status');
       return buildSnapshot(
         health: health,
+        auth: auth,
         commands: commands,
         linear: linear,
         repo: repo,
@@ -140,6 +142,7 @@ CommandPlan commandPlanFromJson(Map<String, Object?> json) {
 
 JarvisSnapshot buildSnapshot({
   required Map<String, Object?> health,
+  required Map<String, Object?> auth,
   required List<Object?> commands,
   required Map<String, Object?> linear,
   required Map<String, Object?> repo,
@@ -172,6 +175,7 @@ JarvisSnapshot buildSnapshot({
   final plannerTasks = _int(planner['task_count']) ?? 0;
   final linearMode = _string(linear['mode']) ?? 'offline';
   final repoClean = _bool(repo['worktree_clean']);
+  final authConfigured = _bool(auth['configured']);
 
   return JarvisSnapshot(
     metrics: [
@@ -184,6 +188,11 @@ JarvisSnapshot buildSnapshot({
         label: 'Network',
         value: _networkMode(bindHost, healthMode, lanBindAllowed),
         icon: lanBindAllowed ? Icons.lan_outlined : Icons.wifi_off_outlined,
+      ),
+      SystemMetric(
+        label: 'LAN Auth',
+        value: authConfigured == true ? 'Configured' : 'Missing',
+        icon: Icons.vpn_key_outlined,
       ),
       SystemMetric(
         label: 'Mode',

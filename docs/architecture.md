@@ -22,14 +22,17 @@ and Coupang Play are zero-payload dry-run commands over the same safe URL map
 as `open_ott`.
 
 The first Go daemon surface exposes `GET /health`, `GET /version`,
-`GET /commands`, `POST /intent`, `POST /harness/run`, `GET /linear/status`,
-`POST /linear/sync`, `GET /repo/status`, `GET /loop/status`, `GET /domain/summary`,
-`GET /household/summary`, `GET /recommendations/summary`, `GET /metrics`,
-`GET /events`, `GET /supervisor/status`, `GET /audit/status`, and
-`GET /quality/status`, and `GET /planner/status`.
+`GET /auth/status`, `GET /commands`, `POST /intent`, `POST /harness/run`,
+`GET /linear/status`, `POST /linear/sync`, `GET /repo/status`,
+`GET /loop/status`, `GET /domain/summary`, `GET /household/summary`,
+`GET /recommendations/summary`, `GET /metrics`, `GET /events`,
+`GET /supervisor/status`, `GET /audit/status`, `GET /quality/status`, and
+`GET /planner/status`.
 It binds to `127.0.0.1` by default.
 LAN binding requires `--allow-lan` and non-localhost requests must include a
 Bearer token stored only in `data/private/local-token.txt`.
+`GET /auth/status` reports configured/missing state and repo-relative token
+path metadata only; it never returns the token value.
 
 The first daemon observability surface is local and bounded. It keeps the
 newest 100 request events in memory and records only method, path, status,
@@ -122,8 +125,8 @@ signals without purchase automation.
 The Optimize tab renders structured review-only recommendations from daemon
 summaries, including purchase, subscription, card-linked spend, and cash-buffer
 signals.
-The Status tab also surfaces local-only or token-gated LAN network mode,
-whether the repository is clean or dirty, whether the recorded daemon
-supervisor state is reachable, and how many command audit and quality gate
-events are recorded.
+The Status tab also surfaces local-only or token-gated LAN network mode, LAN
+auth configured/missing state without token contents, whether the repository is
+clean or dirty, whether the recorded daemon supervisor state is reachable, and
+how many command audit and quality gate events are recorded.
 Platform runner files are left out until device packaging is required.

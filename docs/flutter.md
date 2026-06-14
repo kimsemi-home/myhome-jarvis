@@ -23,6 +23,8 @@ Current scope:
   metric.
 - Local-only network mode rendering from `/health` and `/metrics`, with
   LAN-enabled daemon mode shown as token-gated.
+- LAN auth status rendering from `/auth/status` without displaying token
+  contents.
 - Supervisor status rendering from `/supervisor/status` as a reachable/stale
   daemon process metric.
 - Command audit rendering from `/audit/status` as a redacted journal count.
