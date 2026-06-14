@@ -108,6 +108,10 @@ func run(args []string) error {
 		return writeJSON(plan)
 	case "harness":
 		return runHarness(root, args[1:])
+	case "toolchain":
+		if len(args) == 2 && args[1] == "verify" {
+			return runToolchainVerify(root)
+		}
 	case "linear":
 		if len(args) == 2 && args[1] == "status" {
 			return writeJSON(linear.SummarizeStatus(linear.CurrentStatus(root)))
@@ -190,7 +194,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|security history|command|harness home|harness finance|harness commerce|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|security history|command|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -464,6 +468,13 @@ func (report *qualityReport) addHarness(name string, harness commands.HarnessRep
 	}
 	report.OK = false
 	report.Steps = append(report.Steps, qualityStep{Name: name, Status: "fail"})
+}
+
+func runToolchainVerify(root string) error {
+	if err := validateToolchainPins(root); err != nil {
+		return err
+	}
+	return writeJSON(map[string]any{"ok": true})
 }
 
 func (report *qualityReport) addCheck(name string, err error) {

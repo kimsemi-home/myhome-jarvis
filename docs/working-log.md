@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 02:28 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Run toolchain pin verification in split CI.
+- Files touched: `.github/workflows/quality.yml`, `cmd/mhj/main.go`, `README.md`, `docs/backlog.md`, `docs/ci.md`, `docs/working-log.md`.
+- Changes: added `mhj toolchain verify`; wired the split Go GitHub Actions unit to run that lightweight check on cache misses; included `.go-version` and `rust-toolchain.toml` in the Go unit cache key so pin-only changes rerun the check before saving a new marker.
+- Validation after: `go1.26.2 test ./cmd/mhj` passed; `go1.26.2 run ./cmd/mhj toolchain verify` passed; workflow YAML parsed; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: run focused Go tests, `mhj toolchain verify`, full quality, codegen verification, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 02:23 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

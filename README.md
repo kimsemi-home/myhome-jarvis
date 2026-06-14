@@ -26,6 +26,7 @@ go run ./cmd/mhj auth status
 go run ./cmd/mhj audit status
 go run ./cmd/mhj security check
 go run ./cmd/mhj security history
+go run ./cmd/mhj toolchain verify
 go run ./cmd/mhj command open-youtube '{}'
 go run ./cmd/mhj command open-netflix '{}'
 go run ./cmd/mhj command volume-set '{"level":30}'

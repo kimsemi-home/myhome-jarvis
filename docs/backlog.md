@@ -353,3 +353,9 @@
 - [x] Add toolchain pin drift check to quality gate.
   - Acceptance: `mhj quality` fails when `.go-version`, `go.mod`, generated project Go version, workflow `GO_VERSION`, `rust-toolchain.toml`, or workflow `RUST_TOOLCHAIN` drift from each other; the default quality output remains redacted to step names and statuses.
   - Validation: `go test ./cmd/mhj`; full quality gate; public safety scans; GitHub Actions run.
+
+## P50
+
+- [x] Run toolchain pin verification in split CI.
+  - Acceptance: `mhj toolchain verify` exposes the toolchain pin check as a lightweight CLI; the Go GitHub Actions unit runs it on cache misses; the Go unit cache key includes `.go-version` and `rust-toolchain.toml` so pin-only changes cannot reuse an old Go unit marker.
+  - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj toolchain verify`; workflow YAML parses; full quality gate; GitHub Actions run and same-SHA cache-hit rerun.

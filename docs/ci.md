@@ -51,9 +51,12 @@ version in `.go-version`, `go.mod`, generated project metadata, or workflow
 `GO_VERSION` drift, and when `rust-toolchain.toml` differs from workflow
 `RUST_TOOLCHAIN`.
 
-The Go unit runs `home`, `finance`, and `commerce` harness smoke commands
-before package tests and vet. Public-safety checks live in their own always-run
-job so docs-only or metadata-only risks are not hidden by the Go unit cache.
+The Go unit runs `mhj toolchain verify`, then `home`, `finance`, and
+`commerce` harness smoke commands before package tests and vet. Its unit cache
+key includes `.go-version`, `rust-toolchain.toml`, generated metadata, and the
+workflow file, so pin drift reruns this lightweight check before a new marker
+can be saved. Public-safety checks live in their own always-run job so docs-only
+or metadata-only risks are not hidden by the Go unit cache.
 The Rust unit runs the whole workspace, including `mhj-harness`, so the
 dedicated Rust harness boundary is covered whenever command, finance, commerce,
 fixtures, or Rust harness inputs change.

@@ -106,7 +106,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: .github/unit-cache/go
-          key: go-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', 'go.mod', 'go.sum', 'cmd/**/*.go', 'internal/**/*.go', 'generated/*.json') }}
+          key: go-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'go.mod', 'go.sum', 'cmd/**/*.go', 'internal/**/*.go', 'generated/*.json') }}
 
       - name: Report Go cache hit
         if: steps.unit-cache.outputs.cache-hit == 'true'
@@ -119,6 +119,10 @@ jobs:
           go-version: ${{ env.GO_VERSION }}
           cache: true
           cache-dependency-path: go.mod
+
+      - name: Verify toolchain pins
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: go run ./cmd/mhj toolchain verify
 
       - name: Run Go harness checks
         if: steps.unit-cache.outputs.cache-hit != 'true'
