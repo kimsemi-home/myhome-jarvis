@@ -365,3 +365,9 @@
 - [x] Guard split CI workflow cache contract.
   - Acceptance: `mhj ci verify` fails when the quality workflow loses public-safety history checks, Go toolchain verification wiring, generated cache inputs, canonical-repo cache save scoping, or generated command catalog coverage; `mhj quality` includes the redacted `ci workflow` step.
   - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj ci verify`; workflow YAML parses; full quality gate; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P52
+
+- [x] Guard public-repo CI permission boundary.
+  - Acceptance: `mhj ci verify` fails when the quality workflow loses top-level read-only contents permission, adds `pull_request_target`, or grants write permissions such as `contents: write` or `write-all`.
+  - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj ci verify`; workflow YAML parses; full quality gate; GitHub Actions run and same-SHA cache-hit rerun.

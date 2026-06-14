@@ -43,3 +43,7 @@ local repository root.
 Closed-loop checkpoints use the same aggregate public-safety status. This keeps
 private scheduler evidence useful for recovery without storing raw matched
 findings or local roots.
+
+GitHub Actions stays in a read-only public-repository posture. `mhj ci verify`
+fails if the quality workflow adds `pull_request_target`, grants write
+permissions, or removes top-level `contents: read`.

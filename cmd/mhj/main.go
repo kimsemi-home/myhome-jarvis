@@ -635,6 +635,8 @@ func validateCIWorkflowContract(root string) error {
 	workflow := string(body)
 	required := []string{
 		"cancel-in-progress: true",
+		"permissions:",
+		"contents: read",
 		"fetch-depth: 0",
 		"go run ./cmd/mhj security check",
 		"go run ./cmd/mhj security history",
@@ -649,6 +651,16 @@ func validateCIWorkflowContract(root string) error {
 	for _, token := range required {
 		if !strings.Contains(workflow, token) {
 			return fmt.Errorf("quality workflow missing CI contract token %q", token)
+		}
+	}
+	forbidden := []string{
+		"pull_request_target",
+		"contents: write",
+		"write-all",
+	}
+	for _, token := range forbidden {
+		if strings.Contains(workflow, token) {
+			return fmt.Errorf("quality workflow contains forbidden CI contract token %q", token)
 		}
 	}
 	return nil

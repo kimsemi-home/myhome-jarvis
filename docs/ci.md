@@ -49,10 +49,12 @@ updates pass before commit while still catching stale artifacts.
 `mhj quality` also includes `ci workflow` and `toolchain pins` steps. The CI
 workflow check verifies that the split workflow keeps public safety always-run,
 unit cache trust scoping, generated input coverage, and the lightweight
-toolchain check wired into the Go unit. The toolchain step fails when the Go
-version in `.go-version`, `go.mod`, generated project metadata, or workflow
-`GO_VERSION` drift, and when `rust-toolchain.toml` differs from workflow
-`RUST_TOOLCHAIN`.
+toolchain check wired into the Go unit. It also keeps the workflow on
+`pull_request` instead of `pull_request_target` and requires top-level
+`contents: read` permissions without write scopes. The toolchain step fails
+when the Go version in `.go-version`, `go.mod`, generated project metadata, or
+workflow `GO_VERSION` drift, and when `rust-toolchain.toml` differs from
+workflow `RUST_TOOLCHAIN`.
 
 The Go unit runs `mhj ci verify`, `mhj toolchain verify`, then `home`,
 `finance`, and `commerce` harness smoke commands before package tests and vet.

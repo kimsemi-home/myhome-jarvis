@@ -102,6 +102,19 @@ func TestValidateCIWorkflowContractRejectsMissingCacheInput(t *testing.T) {
 	}
 }
 
+func TestValidateCIWorkflowContractRejectsPrivilegedTrigger(t *testing.T) {
+	root := t.TempDir()
+	writeTestFile(t, root, ".github/workflows/quality.yml", strings.Replace(ciWorkflowFixture(), "  pull_request:\n", "  pull_request:\n  pull_request_target:\n", 1))
+
+	err := validateCIWorkflowContract(root)
+	if err == nil {
+		t.Fatal("expected privileged trigger to fail")
+	}
+	if !strings.Contains(err.Error(), "pull_request_target") {
+		t.Fatalf("expected pull_request_target error, got %v", err)
+	}
+}
+
 func writeToolchainFixture(t *testing.T, goVersion string, goModVersion string, workflowGoVersion string, rustVersion string, workflowRustVersion string) string {
 	t.Helper()
 	root := t.TempDir()
@@ -115,8 +128,13 @@ func writeToolchainFixture(t *testing.T, goVersion string, goModVersion string, 
 
 func ciWorkflowFixture() string {
 	return `name: quality
+on:
+  push:
+  pull_request:
 concurrency:
   cancel-in-progress: true
+permissions:
+  contents: read
 jobs:
   public-safety:
     steps:
