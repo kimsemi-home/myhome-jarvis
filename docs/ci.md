@@ -23,6 +23,11 @@ hit and skips its heavy toolchain setup and tests. A lightweight workflow run
 still exists for each push so GitHub can report status, but unchanged units
 avoid repeated work.
 
+Unit caches restore for push and pull-request runs, but new unit cache markers
+are saved only from push events in the canonical `kimsemi-home/myhome-jarvis`
+repository. Pull requests still verify cache misses, but they cannot publish
+new known-good markers for later runs.
+
 Workflow-maintained action refs use Node 24-capable releases:
 `actions/checkout@v6`, `actions/setup-go@v6`, and `actions/cache@v5`.
 Because `.github/workflows/quality.yml` is part of every unit cache key, action

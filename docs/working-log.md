@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 02:12 KST
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Trust-scope GitHub Actions unit cache saves.
+- Files touched: `.github/workflows/quality.yml`, `docs/backlog.md`, `docs/ci.md`, `docs/working-log.md`.
+- Changes: restricted SSOT, Go, Rust, and Flutter unit cache marker saves to push events in the canonical `kimsemi-home/myhome-jarvis` repository while keeping cache restores available for push and pull-request runs.
+- Validation after: workflow YAML parsed; full `mhj quality` with Go 1.26.2 passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj security check` and `security history` passed; public forbidden marker scan and forbidden language/dependency scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, or other external write was executed.
+- Next: parse workflow YAML, run full quality and public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-15 02:10 KST
 
 - Linear issue: local continuation, no external Linear writes executed.

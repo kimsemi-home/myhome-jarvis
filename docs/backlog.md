@@ -335,3 +335,9 @@
 - [x] Include generated command catalog in Flutter CI cache key.
   - Acceptance: the Flutter hash-scoped GitHub Actions unit reruns when `generated/commands.generated.json` changes, because Flutter fallback tests read that artifact directly; unchanged Flutter/generated command hashes still skip heavy setup/tests.
   - Validation: workflow YAML parses; `cd apps/flutter && flutter test test/snapshot_test.dart`; full quality gate; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P47
+
+- [x] Trust-scope GitHub Actions unit cache saves.
+  - Acceptance: SSOT, Go, Rust, and Flutter unit caches can be restored by push and pull-request runs, but new known-good unit cache markers are saved only by push events in the canonical `kimsemi-home/myhome-jarvis` repository; pull requests still run cache-miss validation without publishing cache markers.
+  - Validation: workflow YAML parses; full quality gate; GitHub Actions run.

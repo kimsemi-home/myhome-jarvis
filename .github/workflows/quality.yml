@@ -84,7 +84,7 @@ jobs:
           printf '%s\n' '${{ steps.unit-cache.outputs.cache-primary-key }}' > .github/unit-cache/ssot/key
 
       - name: Save SSOT unit cache
-        if: steps.unit-cache.outputs.cache-hit != 'true'
+        if: steps.unit-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'
         uses: actions/cache/save@v5
         continue-on-error: true
         with:
@@ -148,7 +148,7 @@ jobs:
           printf '%s\n' '${{ steps.unit-cache.outputs.cache-primary-key }}' > .github/unit-cache/go/key
 
       - name: Save Go unit cache
-        if: steps.unit-cache.outputs.cache-hit != 'true'
+        if: steps.unit-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'
         uses: actions/cache/save@v5
         continue-on-error: true
         with:
@@ -200,7 +200,7 @@ jobs:
           printf '%s\n' '${{ steps.unit-cache.outputs.cache-primary-key }}' > .github/unit-cache/rust/key
 
       - name: Save Rust unit cache
-        if: steps.unit-cache.outputs.cache-hit != 'true'
+        if: steps.unit-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'
         uses: actions/cache/save@v5
         continue-on-error: true
         with:
@@ -249,7 +249,7 @@ jobs:
           printf '%s\n' '${{ steps.unit-cache.outputs.cache-primary-key }}' > .github/unit-cache/flutter/key
 
       - name: Save Flutter unit cache
-        if: steps.unit-cache.outputs.cache-hit != 'true'
+        if: steps.unit-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'
         uses: actions/cache/save@v5
         continue-on-error: true
         with:
