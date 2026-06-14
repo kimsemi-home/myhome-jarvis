@@ -24,7 +24,7 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `POST /linear/sync`, `GET /repo/status`, `GET /loop/status`, `GET /domain/summary`,
 `GET /household/summary`, `GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`, and
-`GET /quality/status`.
+`GET /quality/status`, and `GET /planner/status`.
 It binds to `127.0.0.1` by default.
 LAN binding requires `--allow-lan` and non-localhost requests must include a
 Bearer token stored only in `data/private/local-token.txt`.
@@ -60,6 +60,11 @@ The first scheduler surface is bounded and local-only. `mhj loop worker
 --cycles N` records heartbeat/checkpoint state under `data/private` and uses
 rate-limit/backoff metadata instead of spinning forever. `GET /loop/status`
 exposes the current closed-loop policy and recovered private state.
+
+The first planner surface is SSOT-backed. Common Lisp owns the task graph,
+Linear issue templates, quality requirement, and external-write boundary;
+`generated/planner.generated.json`, `mhj planner status`, and
+`GET /planner/status` expose only repository-relative planning metadata.
 
 The first Rust domain surface lives in `mhj-core`. It validates finance
 transaction fixtures, commerce purchase fixtures, and Parquet+Zstd-ready lake

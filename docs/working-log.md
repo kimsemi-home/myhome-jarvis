@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 22:07 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add generated planner task graph.
+- Files touched: `lisp/ssot/planner.lisp`, `lisp/ssot/codegen.lisp`, `generated/planner.generated.json`, `internal/planner/status.go`, `internal/planner/status_test.go`, `cmd/mhj/main.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/flutter.md`, `docs/planner.md`, `docs/ssot.md`, `docs/working-log.md`.
+- Changes: expanded planner SSOT into a generated task graph with Linear templates and an explicit `blocked_external_write` boundary; added `mhj planner status`, daemon `GET /planner/status`, and Flutter Planner status; kept checkpoint paths repo-relative under `data/private`.
+- Validation after: `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 test ./internal/planner ./internal/daemon` passed; `cd apps/flutter && flutter test test/daemon_client_test.dart` passed; `go1.26.2 run ./cmd/mhj planner status` returned 5 ready tasks, 1 blocked external-write task, and next task `repo_safety`; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed; public safety scans passed; private quality journal redaction scan passed.
+- External-write note: no local macOS command, Linear mutation, purchase, finance, card, investment, or other external write was executed.
+- Next: run focused tests, full quality, public safety scans, then commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 22:00 local
 
 - Linear issue: local continuation, no external Linear writes executed.

@@ -33,6 +33,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final supervisor = await _getObject(client, '/supervisor/status');
       final audit = await _getObject(client, '/audit/status');
       final quality = await _getObject(client, '/quality/status');
+      final planner = await _getObject(client, '/planner/status');
       return buildSnapshot(
         health: health,
         commands: commands,
@@ -44,6 +45,7 @@ class DaemonSnapshotClient implements JarvisClient {
         supervisor: supervisor,
         audit: audit,
         quality: quality,
+        planner: planner,
       );
     } finally {
       client.close(force: true);
@@ -147,6 +149,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> supervisor,
   required Map<String, Object?> audit,
   required Map<String, Object?> quality,
+  required Map<String, Object?> planner,
 }) {
   final bindHost =
       _string(metrics['bind_host']) ?? _string(health['host']) ?? '127.0.0.1';
@@ -162,6 +165,8 @@ JarvisSnapshot buildSnapshot({
       : null;
   final supervisorStale = _bool(supervisor['stale']);
   final supervisorRecorded = _bool(supervisor['recorded']) ?? false;
+  final plannerReady = _int(planner['ready_count']) ?? 0;
+  final plannerTasks = _int(planner['task_count']) ?? 0;
   final linearMode = _string(linear['mode']) ?? 'offline';
   final repoClean = _bool(repo['worktree_clean']);
 
@@ -205,6 +210,11 @@ JarvisSnapshot buildSnapshot({
         label: 'Command Audit',
         value: auditCount == null ? '0' : '$auditCount',
         icon: Icons.fact_check_outlined,
+      ),
+      SystemMetric(
+        label: 'Planner',
+        value: '$plannerReady/$plannerTasks ready',
+        icon: Icons.schema_outlined,
       ),
       SystemMetric(
         label: 'Linear',

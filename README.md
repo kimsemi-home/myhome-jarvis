@@ -31,6 +31,7 @@ go run ./cmd/mhj linear status
 go run ./cmd/mhj linear pull
 go run ./cmd/mhj linear next
 go run ./cmd/mhj repo status
+go run ./cmd/mhj planner status
 go run ./cmd/mhj loop once
 go run ./cmd/mhj loop status
 go run ./cmd/mhj loop worker --cycles 1
@@ -63,6 +64,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/supervisor`: daemon process state and status checks.
 - `internal/security`: forbidden language, secret, and private-data checks.
 - `internal/linear`: Linear offline status and local queue.
+- `internal/planner`: generated planner task graph status.
 - `internal/repo`: Git worktree status inspection for closed-loop safety.
 - `internal/domain`: read-only finance, commerce, household, storage, and recommendation summaries.
 - `internal/orchestrator`: one-shot checkpoint loop foundation.

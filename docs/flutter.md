@@ -19,6 +19,7 @@ Current scope:
 - Command audit rendering from `/audit/status` as a redacted journal count.
 - Quality evidence rendering from `/quality/status` as the latest quality gate
   result.
+- Planner status rendering from `/planner/status` as ready task graph progress.
 - Recommendation rendering from fixture-only local summaries.
 - User, Spouse, and Household fixture scope switching.
 - Dry-run preview client for `/intent`; command buttons always send

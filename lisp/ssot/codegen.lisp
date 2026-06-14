@@ -26,6 +26,14 @@
       (error "Scheduler policy must require crash recovery"))
     (unless (getf *security-policy* :lan_requires_bearer_token)
       (error "LAN daemon access must require a bearer token"))
+    (unless (> (length (getf *planner-policy* :task_graph)) 0)
+      (error "Planner policy must include a task graph"))
+    (unless (find "linear_sync"
+                  (coerce (map 'vector (lambda (task) (getf task :id))
+                               (getf *planner-policy* :task_graph))
+                          'list)
+                  :test #'string=)
+      (error "Planner task graph must include Linear sync boundary"))
     t))
 
 (defun write-generated-artifacts (root)
@@ -51,6 +59,8 @@
                    *security-policy*)
   (write-json-file (merge-pathnames "generated/linear.generated.json" root)
                    *linear-policy*)
+  (write-json-file (merge-pathnames "generated/planner.generated.json" root)
+                   *planner-policy*)
   t)
 
 (defun write-json-file (path value)

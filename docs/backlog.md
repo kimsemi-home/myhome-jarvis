@@ -101,3 +101,9 @@
 - [x] Add redacted quality gate evidence journal.
   - Acceptance: `mhj quality` appends a private JSONL run summary with overall status, duration, step count, pass/fail/skip counts, and step names/statuses only; command argv, command output, raw test output, environment variables, tokens, and local absolute paths are not recorded; `mhj quality status`, daemon `GET /quality/status`, and Flutter Status expose the last run.
   - Validation: `go test ./internal/qualitylog ./internal/daemon`; `go run ./cmd/mhj quality status`; `cd apps/flutter && flutter test`; full quality gate.
+
+## P8
+
+- [x] Add generated planner task graph.
+  - Acceptance: Common Lisp SSOT owns the planner task graph, Linear templates, quality requirement, and external-write boundary; codegen emits `generated/planner.generated.json`; `mhj planner status`, daemon `GET /planner/status`, and Flutter Status expose ready/blocked counts and the next local task without writing to Linear.
+  - Validation: `go test ./internal/planner ./internal/daemon`; `go run ./cmd/mhj planner status`; `cd apps/flutter && flutter test`; full quality gate.

@@ -19,6 +19,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/domain"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
+	"github.com/kimsemi-home/myhome-jarvis/internal/planner"
 	"github.com/kimsemi-home/myhome-jarvis/internal/qualitylog"
 	"github.com/kimsemi-home/myhome-jarvis/internal/repo"
 	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
@@ -119,6 +120,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /supervisor/status", server.wrap(server.handleSupervisorStatus))
 	mux.HandleFunc("GET /audit/status", server.wrap(server.handleAuditStatus))
 	mux.HandleFunc("GET /quality/status", server.wrap(server.handleQualityStatus))
+	mux.HandleFunc("GET /planner/status", server.wrap(server.handlePlannerStatus))
 	return mux
 }
 
@@ -344,6 +346,14 @@ func (server *Server) handleAuditStatus(writer http.ResponseWriter, request *htt
 
 func (server *Server) handleQualityStatus(writer http.ResponseWriter, request *http.Request) error {
 	status, err := qualitylog.StatusForRoot(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, status)
+}
+
+func (server *Server) handlePlannerStatus(writer http.ResponseWriter, request *http.Request) error {
+	status, err := planner.StatusForRoot(server.config.Root)
 	if err != nil {
 		return err
 	}

@@ -157,6 +157,19 @@ void main() {
             },
           });
           return;
+        case '/planner/status':
+          _writeJson(request, {
+            'loop_mode': 'closed-loop',
+            'task_count': 6,
+            'ready_count': 5,
+            'blocked_external_write_count': 1,
+            'next_task': {'id': 'repo_safety'},
+            'linear_template_count': 2,
+            'quality_required': true,
+            'linear_offline_fallback': true,
+            'checkpoint_root': 'data/private/checkpoints',
+          });
+          return;
         case '/intent':
           final body = jsonDecode(await utf8.decoder.bind(request).join());
           expect(body, isA<Map<String, Object?>>());
@@ -212,6 +225,10 @@ void main() {
           .singleWhere((metric) => metric.label == 'Command Audit')
           .value,
       '4',
+    );
+    expect(
+      snapshot.metrics.singleWhere((metric) => metric.label == 'Planner').value,
+      '5/6 ready',
     );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(

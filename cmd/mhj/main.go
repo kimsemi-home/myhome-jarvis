@@ -20,6 +20,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/orchestrator"
+	"github.com/kimsemi-home/myhome-jarvis/internal/planner"
 	"github.com/kimsemi-home/myhome-jarvis/internal/qualitylog"
 	"github.com/kimsemi-home/myhome-jarvis/internal/repo"
 	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
@@ -147,6 +148,10 @@ func run(args []string) error {
 		if len(args) == 2 && args[1] == "status" {
 			return repoStatus(root)
 		}
+	case "planner":
+		if len(args) == 2 && args[1] == "status" {
+			return plannerStatus(root)
+		}
 	case "loop":
 		if len(args) == 2 && args[1] == "once" {
 			return loopOnce(root)
@@ -176,7 +181,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|daemon status|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -265,6 +270,14 @@ func loopStatus(root string) error {
 
 func repoStatus(root string) error {
 	status, err := repo.Inspect(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
+func plannerStatus(root string) error {
+	status, err := planner.StatusForRoot(root)
 	if err != nil {
 		return err
 	}
