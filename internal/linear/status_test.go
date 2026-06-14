@@ -34,7 +34,7 @@ func TestQueryViewerUsesGraphQLEndpointAndAuthorization(t *testing.T) {
 			Header:     http.Header{"X-RateLimit-Remaining": []string{"4999"}},
 			Body: io.NopCloser(strings.NewReader(`{
 				"data": {
-					"viewer": {"id": "user-id", "name": "Example User", "email": "user@example.com"},
+					"viewer": {"id": "user-id", "name": "Example User"},
 					"teams": {"nodes": [{"id": "team-id", "name": "Home"}]}
 				}
 			}`)),

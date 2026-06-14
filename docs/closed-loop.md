@@ -17,3 +17,7 @@ The bounded worker surface is `mhj loop worker --cycles <n>`. Each cycle writes
 private scheduler state with heartbeat, next-run, backoff, and checkpoint
 metadata. `mhj loop status` and daemon `GET /loop/status` recover that state
 without claiming external sync success.
+
+Before committing or pushing, closed-loop work can inspect repository state with
+`mhj repo status` or daemon `GET /repo/status`. The response uses
+repository-relative paths only, including ignored private data paths.

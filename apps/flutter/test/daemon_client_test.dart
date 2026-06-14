@@ -42,6 +42,17 @@ void main() {
             ],
           });
           return;
+        case '/repo/status':
+          _writeJson(request, {
+            'branch': 'main',
+            'short_sha': 'abc123',
+            'worktree_clean': false,
+            'tracked_changes': [
+              {'code': ' M', 'path': 'README.md'},
+            ],
+            'untracked_files': ['docs/new.md'],
+          });
+          return;
         case '/domain/summary':
           _writeJson(request, {
             'finance': {
@@ -147,6 +158,7 @@ void main() {
       contains('127.0.0.1'),
     );
     expect(snapshot.metrics.map((metric) => metric.value), contains('7'));
+    expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
       contains('open-youtube'),

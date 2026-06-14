@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-14 21:08 local
+
+- Linear issue: local continuation, no external Linear writes executed.
+- Mode: online-capable, local-only changes in this pass.
+- Task: Add repository status inspection for closed-loop safety.
+- Files touched: `internal/repo/status.go`, `internal/repo/status_test.go`, `cmd/mhj/main.go`, `internal/daemon/server.go`, `internal/daemon/server_test.go`, `internal/linear/status.go`, `internal/linear/status_test.go`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/test/daemon_client_test.dart`, `README.md`, `docs/architecture.md`, `docs/backlog.md`, `docs/closed-loop.md`, `docs/flutter.md`, `docs/repo-status.md`, `docs/working-log.md`.
+- Changes: added Git worktree inspection with branch/head/dirty state, tracked changes, untracked files, and ignored private paths using repository-relative paths; exposed `mhj repo status` and daemon `GET /repo/status`; surfaced clean/dirty repo state in Flutter; reduced runtime absolute private path exposure in metrics and Linear status.
+- Validation after: `go1.26.2 test ./internal/repo ./internal/daemon ./internal/linear` passed; `go1.26.2 run ./cmd/mhj repo status` returned repository-relative dirty state; `cd apps/flutter && flutter test` passed; `MHJ_GO=$HOME/go/bin/go1.26.2 MHJ_GOFMT=$HOME/sdk/go1.26.2/bin/gofmt $HOME/go/bin/go1.26.2 run ./cmd/mhj quality` passed; generated artifacts had no diff; public safety scans passed.
+- External-write note: no Linear mutation, purchase, finance, card, investment, or other external write was executed.
+- Next: commit, push, and verify GitHub Actions with `gh`.
+
 ## 2026-06-14 20:57 local
 
 - Linear issue: local continuation, no external Linear writes executed.

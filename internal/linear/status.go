@@ -92,7 +92,7 @@ func CurrentStatus(root string) Status {
 }
 
 func StatusForRequest(parent context.Context, root string, client *http.Client) Status {
-	queuePath := filepath.Join(root, "data", "private", "linear-offline-queue.jsonl")
+	queuePath := filepathJoinSlash(root, "data", "private", "linear-offline-queue.jsonl")
 	status := Status{
 		Mode:      "offline",
 		Synced:    false,
@@ -175,7 +175,7 @@ func loadToken(root string) (tokenConfig, error) {
 
 func queryViewer(ctx context.Context, client *http.Client, token string) (*ViewerStatus, []TeamStatus, int, int, error) {
 	var decoded viewerResponse
-	httpStatus, remaining, err := doGraphQL(ctx, client, token, `query Me { viewer { id name email } teams(first: 1) { nodes { id name } } }`, nil, &decoded)
+	httpStatus, remaining, err := doGraphQL(ctx, client, token, `query Me { viewer { id name } teams(first: 1) { nodes { id name } } }`, nil, &decoded)
 	if err != nil {
 		return nil, nil, httpStatus, remaining, err
 	}

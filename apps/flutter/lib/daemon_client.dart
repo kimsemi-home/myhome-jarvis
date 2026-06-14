@@ -24,12 +24,14 @@ class DaemonSnapshotClient implements JarvisClient {
       final health = await _getObject(client, '/health');
       final commands = await _getArray(client, '/commands');
       final linear = await _getObject(client, '/linear/status');
+      final repo = await _getObject(client, '/repo/status');
       final domain = await _getObject(client, '/domain/summary');
       final metrics = await _getObject(client, '/metrics');
       return buildSnapshot(
         health: health,
         commands: commands,
         linear: linear,
+        repo: repo,
         domain: domain,
         metrics: metrics,
       );
@@ -119,6 +121,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> health,
   required List<Object?> commands,
   required Map<String, Object?> linear,
+  required Map<String, Object?> repo,
   required Map<String, Object?> domain,
   required Map<String, Object?> metrics,
 }) {
@@ -128,6 +131,7 @@ JarvisSnapshot buildSnapshot({
       _bool(health['dry_run']) ?? _bool(metrics['dry_run_default']) ?? true;
   final requestCount = _int(metrics['requests']);
   final linearMode = _string(linear['mode']) ?? 'offline';
+  final repoClean = _bool(repo['worktree_clean']);
 
   return JarvisSnapshot(
     metrics: [
@@ -150,6 +154,11 @@ JarvisSnapshot buildSnapshot({
         label: 'Linear',
         value: _title(linearMode),
         icon: Icons.hub_outlined,
+      ),
+      SystemMetric(
+        label: 'Repo',
+        value: repoClean == false ? 'Dirty' : 'Clean',
+        icon: Icons.account_tree_outlined,
       ),
     ],
     commands: commands

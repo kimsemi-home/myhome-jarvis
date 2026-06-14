@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"testing"
 )
@@ -91,6 +92,40 @@ func TestLoopStatusReturnsSchedulerPolicy(t *testing.T) {
 	}
 }
 
+func TestRepoStatusReturnsGitWorktreeState(t *testing.T) {
+	root := initTempRepo(t)
+	if err := os.WriteFile(filepath.Join(root, "tracked.txt"), []byte("changed\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(root, "new.txt"), []byte("new\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	server, err := New(DefaultConfig(root, "test"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	request := httptest.NewRequest(http.MethodGet, "/repo/status", nil)
+	request.RemoteAddr = "127.0.0.1:1234"
+	recorder := httptest.NewRecorder()
+
+	server.Routes().ServeHTTP(recorder, request)
+
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status = %d body = %s", recorder.Code, recorder.Body.String())
+	}
+	body := recorder.Body.String()
+	for _, expected := range []string{
+		`"branch": "main"`,
+		`"worktree_clean": false`,
+		`"path": "tracked.txt"`,
+		`"new.txt"`,
+	} {
+		if !bytes.Contains([]byte(body), []byte(expected)) {
+			t.Fatalf("expected %s in %s", expected, body)
+		}
+	}
+}
+
 func TestHouseholdSummaryReturnsScopeSwitchingData(t *testing.T) {
 	server, err := New(DefaultConfig(repoRoot(t), "test"))
 	if err != nil {
@@ -115,6 +150,29 @@ func TestHouseholdSummaryReturnsScopeSwitchingData(t *testing.T) {
 		if !bytes.Contains([]byte(body), []byte(expected)) {
 			t.Fatalf("expected %s in %s", expected, body)
 		}
+	}
+}
+
+func initTempRepo(t *testing.T) string {
+	t.Helper()
+	root := t.TempDir()
+	runGit(t, root, "init", "-b", "main")
+	runGit(t, root, "config", "user.name", "Test User")
+	runGit(t, root, "config", "user.email", "test@example.invalid")
+	if err := os.WriteFile(filepath.Join(root, "tracked.txt"), []byte("initial\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	runGit(t, root, "add", "tracked.txt")
+	runGit(t, root, "commit", "-m", "initial")
+	return root
+}
+
+func runGit(t *testing.T, root string, args ...string) {
+	t.Helper()
+	command := append([]string{"-C", root}, args...)
+	cmd := exec.Command("git", command...)
+	if output, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("git %v failed: %v\n%s", args, err, output)
 	}
 }
 

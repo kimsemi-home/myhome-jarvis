@@ -12,6 +12,8 @@ Current scope:
   `/metrics`.
 - Domain summary rendering from `/domain/summary` for finance, commerce, and
   storage fixture status.
+- Repository status rendering from `/repo/status` as a clean/dirty status
+  metric.
 - Recommendation rendering from fixture-only local summaries.
 - User, Spouse, and Household fixture scope switching.
 - Dry-run preview client for `/intent`; command buttons show the daemon plan

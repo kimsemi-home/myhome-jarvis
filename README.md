@@ -28,6 +28,7 @@ go run ./cmd/mhj harness home
 go run ./cmd/mhj linear status
 go run ./cmd/mhj linear pull
 go run ./cmd/mhj linear next
+go run ./cmd/mhj repo status
 go run ./cmd/mhj loop once
 go run ./cmd/mhj loop status
 go run ./cmd/mhj loop worker --cycles 1
@@ -54,6 +55,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/commands`: dry-run command planning and validation.
 - `internal/security`: forbidden language, secret, and private-data checks.
 - `internal/linear`: Linear offline status and local queue.
+- `internal/repo`: Git worktree status inspection for closed-loop safety.
 - `internal/domain`: read-only finance, commerce, household, storage, and recommendation summaries.
 - `internal/orchestrator`: one-shot checkpoint loop foundation.
 - `internal/scheduler`: heartbeat, backoff, rate-limit, and recovery state for bounded loop workers.

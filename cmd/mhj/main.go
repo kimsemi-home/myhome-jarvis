@@ -18,6 +18,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/orchestrator"
+	"github.com/kimsemi-home/myhome-jarvis/internal/repo"
 	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
 )
@@ -123,6 +124,10 @@ func run(args []string) error {
 		}
 	case "daemon":
 		return runDaemon(root, args[1:])
+	case "repo":
+		if len(args) == 2 && args[1] == "status" {
+			return repoStatus(root)
+		}
 	case "loop":
 		if len(args) == 2 && args[1] == "once" {
 			return loopOnce(root)
@@ -149,7 +154,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|security check|command|harness home|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|daemon|repo status|loop once|loop status|loop worker|benchmark smoke|quality|codegen|codegen verify>")
 }
 
 func runDaemon(root string, args []string) error {
@@ -206,6 +211,14 @@ func loopOnce(root string) error {
 
 func loopStatus(root string) error {
 	status, err := scheduler.Status(root, scheduler.ClosedLoopPolicy())
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
+func repoStatus(root string) error {
+	status, err := repo.Inspect(root)
 	if err != nil {
 		return err
 	}

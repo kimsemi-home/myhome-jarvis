@@ -65,3 +65,9 @@
 - [x] Split GitHub Actions into hash-scoped unit caches.
   - Acceptance: SSOT, Go, Rust, and Flutter jobs each use a unit hash cache; cache hits skip heavy setup/tests; generated artifacts are verified on SSOT cache misses.
   - Validation: `mhj codegen verify`; full `mhj quality`; GitHub Actions run.
+
+## P4
+
+- [x] Add repository status inspection for closed-loop safety.
+  - Acceptance: Go inspects Git branch/head/dirty state with repository-relative paths; daemon exposes `GET /repo/status`; Flutter status shows clean or dirty repository state; private ignored paths remain relative.
+  - Validation: `go test ./internal/repo ./internal/daemon`; `cd apps/flutter && flutter test`; full quality gate.
