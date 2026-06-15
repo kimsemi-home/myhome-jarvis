@@ -14,7 +14,8 @@ Current SSOT boundaries are intentionally separated by domain:
 - `commands`: dry-run home command catalog.
 - `finance`, `commerce`, `storage`: local fixture and lakehouse domain policy.
 - `household`, `recommendations`, `scheduler`: local household views, optimization hints, and bounded loop policy.
-- `security`, `linear`, `planner`: public-safety rules, Linear workflow rules, and planning metadata.
+- `security`, `connectors`, `linear`, `planner`: public-safety rules,
+  fixture-only connector readiness, Linear workflow rules, and planning metadata.
 
 The planner SSOT emits `generated/planner.generated.json`. Go reads that
 artifact for `mhj planner status` and daemon `GET /planner/status`; Flutter
@@ -39,6 +40,13 @@ current-tree and Git-history scanners, while the generated policy records that
 current non-private file contents are scanned for private identity markers and
 secret-looking literals, private paths are skipped, and matched secret contents
 must not be reported.
+
+The connector SSOT emits `generated/connectors.generated.json`. Go reads that
+artifact for `mhj connectors status` and daemon `GET /connectors/status`;
+Flutter consumes the daemon status and keeps a static fixture-only fallback.
+The artifact is limited to public-safe planned connector metadata and forbids
+real credentials, external API calls, scraping, payments, transfers, trades,
+purchases, and card actions in this phase.
 
 Use `mhj codegen verify` before committing SSOT or generated artifact changes.
 It snapshots the current `generated` tree, regenerates artifacts from Lisp, and

@@ -95,7 +95,7 @@ void main() {
   });
 
   testWidgets(
-    'shows finance, purchases, Linear, storage, household, and optimization tabs',
+    'shows finance, purchases, Linear, storage, connectors, household, and optimization tabs',
     (tester) async {
       await tester.pumpWidget(const JarvisApp());
 
@@ -147,6 +147,18 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('finance_transactions'), findsOneWidget);
       expect(find.text('commerce_purchases'), findsOneWidget);
+
+      await tester.tap(
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Connectors'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('MyData aggregator'), findsOneWidget);
+      expect(find.text('fixture-only'), findsWidgets);
+      expect(find.textContaining('Allowed:'), findsWidgets);
+      expect(find.textContaining('Blocked:'), findsWidgets);
 
       await tester.tap(
         find.descendant(

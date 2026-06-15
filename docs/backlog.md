@@ -453,3 +453,10 @@
   - Linear: KIM-16
   - Acceptance: `mhj linear replay-offline` replays only in-scope write-safe queued comment and transition actions after Linear credentials are available; `LINEAR_TEAM_KEY` scopes replay to matching public issue keys; successful entries are tracked in private replay evidence to prevent duplicate replay; failed, unsupported, already queued, out-of-scope, and low-rate-limit-paused entries remain `synced=false` in the original queue; summaries expose counts, repo-relative private paths, coarse status, HTTP status, and rate-limit remaining only.
   - Validation: `go test ./internal/linear ./cmd/mhj`; SSOT validation and codegen verification; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P64
+
+- [x] Add public-safe connector readiness catalog.
+  - Linear: KIM-17
+  - Acceptance: Common Lisp SSOT owns planned fixture-only connector categories for MyData, bank, card, securities, commerce, and payment surfaces; generated connector metadata contains only public-safe provider keys, categories, data classes, allowed read-only operations, forbidden operations, and next local preparation steps; `mhj connectors status`, daemon `GET /connectors/status`, and Flutter read-only connector cards expose no credentials, cookies, account identifiers, card numbers, local absolute paths, raw personal data, or external API responses.
+  - Validation: `go test ./internal/connectors ./internal/daemon ./cmd/mhj`; `go run ./cmd/mhj connectors status`; `go run ./cmd/mhj codegen verify`; full quality gate; public safety scans; GitHub Actions run.

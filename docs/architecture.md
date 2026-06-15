@@ -25,7 +25,8 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /auth/status`, `GET /commands`, `POST /intent`, `POST /harness/run`,
 `GET /linear/status`, `POST /linear/sync`, `GET /repo/status`,
 `GET /security/status`, `GET /loop/status`, `GET /domain/summary`,
-`GET /household/summary`, `GET /recommendations/summary`, `GET /metrics`,
+`GET /connectors/status`, `GET /household/summary`,
+`GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`,
 `GET /quality/status`, and `GET /planner/status`.
 It binds to `127.0.0.1` by default.
@@ -135,9 +136,18 @@ The first household surface is also fixture-only. Finance and commerce owner
 fields are projected into User, Spouse, and Household scopes so the UI can
 switch views without introducing real account credentials.
 
+The first connector readiness surface is public-safe and fixture-only. Common
+Lisp SSOT owns `generated/connectors.generated.json`, Go exposes
+`mhj connectors status` and daemon `GET /connectors/status`, and Flutter renders
+read-only connector cards. The catalog lists planned connector keys, categories,
+fixture mode, data classes, allowed read-only operations, forbidden operations,
+and next local preparation steps. It never stores or returns credentials,
+cookies, account identifiers, card numbers, local paths, raw private data, or
+external API responses.
+
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
 client with status, command, finance, purchases, Linear, storage, household, and
-optimization tabs.
+connector readiness, and optimization tabs.
 It can load snapshots from the localhost daemon while keeping a deterministic
 offline fallback. The command tab includes explicit OTT shortcuts plus editable
 payload commands for search, URL, and volume operations. The Finance tab shows

@@ -16,10 +16,10 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if !report.OK {
 		t.Fatalf("verify failed: %#v", report)
 	}
-	if report.ContextCount != 7 {
+	if report.ContextCount != 8 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 12 {
+	if report.ConceptCount != 13 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
@@ -63,6 +63,22 @@ func TestSearchReturnsKnowledgeEvidenceWithoutSnippets(t *testing.T) {
 		if strings.Contains(body, forbidden) {
 			t.Fatalf("search report leaked %q in %s", forbidden, body)
 		}
+	}
+}
+
+func TestSearchConnectorReadinessReturnsCatalogEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "connector readiness")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "ConnectorCatalog") {
+		t.Fatalf("expected ConnectorCatalog concept, got %#v", report.Concepts)
+	}
+	if !containsString(report.MustRead, "generated/connectors.generated.json") {
+		t.Fatalf("must read missing connector artifact: %#v", report.MustRead)
+	}
+	if !containsString(report.MustRead, "docs/connectors.md") {
+		t.Fatalf("must read missing docs/connectors.md: %#v", report.MustRead)
 	}
 }
 

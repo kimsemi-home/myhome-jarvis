@@ -231,6 +231,49 @@ void main() {
             },
           });
           return;
+        case '/connectors/status':
+          _writeJson(request, {
+            'fixture_only': true,
+            'real_credentials_allowed': false,
+            'external_api_calls_allowed': false,
+            'connector_count': 2,
+            'planned_count': 2,
+            'fixture_mode_count': 2,
+            'generated_path': 'generated/connectors.generated.json',
+            'connectors': [
+              {
+                'key': 'mydata',
+                'label': 'MyData aggregator',
+                'category': 'finance_aggregation',
+                'status': 'planned',
+                'fixture_mode': true,
+                'data_classes': ['accounts', 'cards', 'transactions'],
+                'allowed_operations': ['read_fixture', 'summarize'],
+                'forbidden_operations': [
+                  'credential_request',
+                  'external_api_call',
+                  'transfer',
+                ],
+                'next_step': 'Define consent and local vault boundaries.',
+              },
+              {
+                'key': 'commerce',
+                'label': 'Commerce purchases',
+                'category': 'commerce',
+                'status': 'planned',
+                'fixture_mode': true,
+                'data_classes': ['orders', 'items'],
+                'allowed_operations': [
+                  'read_fixture',
+                  'recommend_review',
+                  'summarize',
+                ],
+                'forbidden_operations': ['scraping', 'purchase'],
+                'next_step': 'Extend local purchase fixtures.',
+              },
+            ],
+          });
+          return;
         case '/metrics':
           _writeJson(request, {
             'bind_host': '127.0.0.1',
@@ -391,6 +434,12 @@ void main() {
           .value,
       'Linear Sync',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Connectors')
+          .value,
+      '2/2 fixture',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
@@ -473,6 +522,15 @@ void main() {
     ]);
     expect(snapshot.householdScopes.first.financeNetMinorUnits, -87300);
     expect(snapshot.householdScopes.last.purchaseSpendMinorUnits, 26800);
+    expect(snapshot.connectors.map((connector) => connector.key), [
+      'mydata',
+      'commerce',
+    ]);
+    expect(snapshot.connectors.first.fixtureMode, isTrue);
+    expect(
+      snapshot.connectors.first.forbiddenOperations,
+      contains('external_api_call'),
+    );
 
     final command = snapshot.commands.singleWhere(
       (item) => item.name == 'volume-set',
@@ -534,6 +592,7 @@ void main() {
       repo: const <String, Object?>{},
       security: const <String, Object?>{'ok': true},
       domain: const <String, Object?>{},
+      connectors: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,

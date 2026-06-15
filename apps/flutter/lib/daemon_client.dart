@@ -30,6 +30,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final repo = await _getObject(client, '/repo/status');
       final security = await _getObject(client, '/security/status');
       final domain = await _getObject(client, '/domain/summary');
+      final connectors = await _getObject(client, '/connectors/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -44,6 +45,7 @@ class DaemonSnapshotClient implements JarvisClient {
         repo: repo,
         security: security,
         domain: domain,
+        connectors: connectors,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -150,6 +152,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> repo,
   required Map<String, Object?> security,
   required Map<String, Object?> domain,
+  required Map<String, Object?> connectors,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -189,6 +192,8 @@ JarvisSnapshot buildSnapshot({
   final securityFindings =
       (_int(security['current_finding_count']) ?? 0) +
       (_int(security['history_finding_count']) ?? 0);
+  final connectorCount = _int(connectors['connector_count']) ?? 0;
+  final fixtureConnectorCount = _int(connectors['fixture_mode_count']) ?? 0;
 
   return JarvisSnapshot(
     metrics: [
@@ -286,6 +291,13 @@ JarvisSnapshot buildSnapshot({
         icon: Icons.hub_outlined,
       ),
       SystemMetric(
+        label: 'Connectors',
+        value: connectorCount == 0
+            ? 'Fixture-only'
+            : '$fixtureConnectorCount/$connectorCount fixture',
+        icon: Icons.cable_outlined,
+      ),
+      SystemMetric(
         label: 'Repo',
         value: repoClean == false ? 'Dirty' : 'Clean',
         icon: Icons.account_tree_outlined,
@@ -303,6 +315,7 @@ JarvisSnapshot buildSnapshot({
     householdScopes: _householdScopes(domain),
     financeDashboard: _financeDashboard(domain),
     purchaseDashboard: _purchaseDashboard(domain),
+    connectors: _connectors(connectors),
   );
 }
 
@@ -626,6 +639,35 @@ PurchaseDashboard _purchaseDashboard(Map<String, Object?> domain) {
     categories: _stringList(commerce['categories']),
     owners: owners,
   );
+}
+
+List<ConnectorReadiness> _connectors(Map<String, Object?> status) {
+  final rawConnectors = status['connectors'];
+  if (rawConnectors is! List<Object?>) {
+    return JarvisSnapshot.sample.connectors;
+  }
+  final connectors = <ConnectorReadiness>[];
+  for (final item in rawConnectors.whereType<Map<String, Object?>>()) {
+    final key = _string(item['key']);
+    final label = _string(item['label']);
+    if (key == null || key.isEmpty || label == null || label.isEmpty) {
+      continue;
+    }
+    connectors.add(
+      ConnectorReadiness(
+        key: key,
+        label: label,
+        category: _string(item['category']) ?? '',
+        status: _string(item['status']) ?? 'planned',
+        fixtureMode: _bool(item['fixture_mode']) ?? true,
+        dataClasses: _stringList(item['data_classes']),
+        allowedOperations: _stringList(item['allowed_operations']),
+        forbiddenOperations: _stringList(item['forbidden_operations']),
+        nextStep: _string(item['next_step']) ?? '',
+      ),
+    );
+  }
+  return connectors.isEmpty ? JarvisSnapshot.sample.connectors : connectors;
 }
 
 String _payloadExample(String name) {

@@ -31,6 +31,7 @@ go run ./cmd/mhj toolchain verify
 go run ./cmd/mhj command open-youtube '{}'
 go run ./cmd/mhj command open-netflix '{}'
 go run ./cmd/mhj command volume-set '{"level":30}'
+go run ./cmd/mhj connectors status
 go run ./cmd/mhj harness home
 go run ./cmd/mhj harness finance
 go run ./cmd/mhj harness commerce
@@ -70,6 +71,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/audit`: private command intent audit journal.
 - `internal/auth`: local LAN bearer-token management.
 - `internal/commands`: dry-run command planning and validation.
+- `internal/connectors`: public-safe fixture-only connector readiness status.
 - `internal/daemon`: local API, auth enforcement, metrics, and bounded request events.
 - `internal/supervisor`: daemon process state and status checks.
 - `internal/security`: forbidden language, secret, and private-data checks.

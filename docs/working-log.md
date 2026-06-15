@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-15 10:01 KST
+
+- Linear issue: KIM-17 created and moved to In Progress.
+- Mode: next-vision foundation, public-safe connector readiness only.
+- Task: Add public-safe connector readiness catalog.
+- Files touched: `lisp/ssot/connectors.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `generated/connectors.generated.json`, `generated/concepts.generated.json`, `internal/connectors/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/main.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and connector docs.
+- Changes: added fixture-only connector SSOT for MyData, bank, card, securities, commerce, and payment readiness; exposed `mhj connectors status` and daemon `GET /connectors/status`; added Flutter read-only connector cards; included the generated connector artifact in Flutter CI cache keys and CI contract validation.
+- Validation after: `go1.26.2 test ./internal/connectors ./internal/daemon ./cmd/mhj` passed; `cd apps/flutter && flutter test test/daemon_client_test.dart test/snapshot_test.dart test/widget_test.dart` passed; `go1.26.2 run ./cmd/mhj connectors status` returned 6 planned fixture-only connectors; `go1.26.2 run ./cmd/mhj ddd verify` passed with 8 contexts and 13 concepts; daemon `GET /connectors/status` passed on localhost; full `mhj quality` with Go 1.26.2 passed; public safety checks passed through the quality gate.
+- External-write note: created Linear issue KIM-17 with the user's approval; no real financial connector, commerce connector, credential request, cookie capture, scraping, purchase, payment, transfer, card action, subscription mutation, investment trade, or local macOS command execution was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, then update Linear issue KIM-17.
+
 ## 2026-06-15 04:18 KST
 
 - Linear issue: KIM-16 transitioned to In Progress.

@@ -10,6 +10,9 @@
     (:name "CommerceIntelligence"
      :owner "commerce"
      :description "Fixture-first commerce purchase IR, recurring purchase candidates, and price intelligence.")
+    (:name "ConnectorReadiness"
+     :owner "connectors"
+     :description "Public-safe planned connector catalog and read-only readiness status.")
     (:name "StorageLake"
      :owner "storage"
      :description "Local lake layout, retention policy, and generated storage contracts.")
@@ -63,6 +66,16 @@
      :generated_targets #("generated/commerce.generated.json"
                           "fixtures/commerce_purchases.jsonl")
      :related_concepts #("StorageLake" "SecurityPolicy"))
+    (:canonical_name "ConnectorCatalog"
+     :bounded_context "ConnectorReadiness"
+     :ddd_kind "Policy"
+     :description "A public-safe catalog of planned read-only connectors that stays fixture-only until explicit connector work begins."
+     :allowed_aliases #("connector" "connector catalog" "connector readiness" "connector status")
+     :owner "lisp/ssot/connectors.lisp"
+     :generated_targets #("generated/connectors.generated.json"
+                          "internal/connectors/status.go"
+                          "docs/connectors.md")
+     :related_concepts #("HouseholdTransaction" "CommercePurchase" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -190,6 +203,7 @@
     (:name "commands" :path "generated/commands.generated.json" :owner "HomeControl")
     (:name "finance" :path "generated/finance.generated.json" :owner "HouseholdFinance")
     (:name "commerce" :path "generated/commerce.generated.json" :owner "CommerceIntelligence")
+    (:name "connectors" :path "generated/connectors.generated.json" :owner "ConnectorReadiness")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

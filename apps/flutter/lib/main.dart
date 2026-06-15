@@ -102,7 +102,7 @@ class JarvisScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 8,
+      length: 9,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('myhome-jarvis'),
@@ -126,6 +126,7 @@ class JarvisScaffold extends StatelessWidget {
               Tab(icon: Icon(Icons.shopping_bag_outlined), text: 'Purchases'),
               Tab(icon: Icon(Icons.hub_outlined), text: 'Linear'),
               Tab(icon: Icon(Icons.storage_outlined), text: 'Storage'),
+              Tab(icon: Icon(Icons.cable_outlined), text: 'Connectors'),
               Tab(icon: Icon(Icons.groups_outlined), text: 'Household'),
               Tab(icon: Icon(Icons.auto_graph_outlined), text: 'Optimize'),
             ],
@@ -141,6 +142,7 @@ class JarvisScaffold extends StatelessWidget {
                 PurchasesView(dashboard: snapshot.purchaseDashboard),
                 PlainListView(title: 'Linear', items: snapshot.linearItems),
                 PlainListView(title: 'Storage', items: snapshot.storageItems),
+                ConnectorsView(connectors: snapshot.connectors),
                 HouseholdView(scopes: snapshot.householdScopes),
                 OptimizeView(recommendations: snapshot.recommendations),
               ],
@@ -478,6 +480,98 @@ class OptimizeView extends StatelessWidget {
           final recommendation = recommendations[index];
           return RecommendationTile(recommendation: recommendation);
         },
+      ),
+    );
+  }
+}
+
+class ConnectorsView extends StatelessWidget {
+  const ConnectorsView({super.key, required this.connectors});
+
+  final List<ConnectorReadiness> connectors;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemCount: connectors.length,
+        separatorBuilder: (_, _) => const SizedBox(height: 8),
+        itemBuilder: (context, index) {
+          return ConnectorTile(connector: connectors[index]);
+        },
+      ),
+    );
+  }
+}
+
+class ConnectorTile extends StatelessWidget {
+  const ConnectorTile({super.key, required this.connector});
+
+  final ConnectorReadiness connector;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(color: colors.outlineVariant),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.cable_outlined, color: colors.primary),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    connector.label,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+                Chip(label: Text(connector.status)),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                Chip(label: Text(connector.category)),
+                Chip(
+                  label: Text(connector.fixtureMode ? 'fixture-only' : 'off'),
+                ),
+                for (final dataClass in connector.dataClasses)
+                  Chip(label: Text(dataClass)),
+              ],
+            ),
+            if (connector.allowedOperations.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Text(
+                'Allowed: ${connector.allowedOperations.join(', ')}',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+            if (connector.forbiddenOperations.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              Text(
+                'Blocked: ${connector.forbiddenOperations.join(', ')}',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+            if (connector.nextStep.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(
+                connector.nextStep,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

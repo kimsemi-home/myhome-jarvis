@@ -38,6 +38,18 @@ void main() {
       );
     }
   });
+
+  test('offline fallback connectors are generated catalog entries', () async {
+    final generated = await _generatedConnectors();
+    final generatedKeys = {
+      for (final connector in generated) _string(connector['key']),
+    };
+    final fallbackKeys = {
+      for (final connector in JarvisSnapshot.sample.connectors) connector.key,
+    };
+
+    expect(generatedKeys, containsAll(fallbackKeys));
+  });
 }
 
 Future<List<Map<String, Object?>>> _generatedCommands() async {
@@ -54,18 +66,35 @@ Future<List<Map<String, Object?>>> _generatedCommands() async {
 }
 
 File _findGeneratedCommandCatalog() {
+  return _findGeneratedFile('generated/commands.generated.json');
+}
+
+Future<List<Map<String, Object?>>> _generatedConnectors() async {
+  final path = _findGeneratedFile('generated/connectors.generated.json');
+  final decoded = jsonDecode(await path.readAsString());
+  if (decoded is! Map<String, Object?>) {
+    throw FormatException('generated connector catalog must be an object');
+  }
+  final connectors = decoded['connectors'];
+  if (connectors is! List<Object?>) {
+    throw FormatException(
+      'generated connector catalog connectors must be a list',
+    );
+  }
+  return connectors.whereType<Map<String, Object?>>().toList(growable: false);
+}
+
+File _findGeneratedFile(String relativePath) {
   var directory = Directory.current;
   for (;;) {
-    final candidate = File(
-      '${directory.path}/generated/commands.generated.json',
-    );
+    final candidate = File('${directory.path}/$relativePath');
     if (candidate.existsSync()) {
       return candidate;
     }
     final parent = directory.parent;
     if (parent.path == directory.path) {
       throw FileSystemException(
-        'could not find generated command catalog',
+        'could not find generated file',
         Directory.current.path,
       );
     }

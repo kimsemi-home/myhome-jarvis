@@ -224,6 +224,31 @@ class RecommendationInsight {
 }
 
 @immutable
+class ConnectorReadiness {
+  const ConnectorReadiness({
+    required this.key,
+    required this.label,
+    required this.category,
+    required this.status,
+    required this.fixtureMode,
+    required this.dataClasses,
+    required this.allowedOperations,
+    required this.forbiddenOperations,
+    required this.nextStep,
+  });
+
+  final String key;
+  final String label;
+  final String category;
+  final String status;
+  final bool fixtureMode;
+  final List<String> dataClasses;
+  final List<String> allowedOperations;
+  final List<String> forbiddenOperations;
+  final String nextStep;
+}
+
+@immutable
 class JarvisSnapshot {
   const JarvisSnapshot({
     required this.metrics,
@@ -235,6 +260,7 @@ class JarvisSnapshot {
     required this.householdScopes,
     required this.financeDashboard,
     required this.purchaseDashboard,
+    required this.connectors,
   });
 
   final List<SystemMetric> metrics;
@@ -246,6 +272,7 @@ class JarvisSnapshot {
   final List<HouseholdScope> householdScopes;
   final FinanceDashboard financeDashboard;
   final PurchaseDashboard purchaseDashboard;
+  final List<ConnectorReadiness> connectors;
 
   static const sample = JarvisSnapshot(
     metrics: [
@@ -521,6 +548,43 @@ class JarvisSnapshot {
         ),
       ],
     ),
+    connectors: [
+      ConnectorReadiness(
+        key: 'mydata',
+        label: 'MyData aggregator',
+        category: 'finance_aggregation',
+        status: 'planned',
+        fixtureMode: true,
+        dataClasses: ['accounts', 'cards', 'transactions'],
+        allowedOperations: ['read_fixture', 'summarize'],
+        forbiddenOperations: [
+          'credential_request',
+          'external_api_call',
+          'transfer',
+          'trade',
+          'card_action',
+        ],
+        nextStep:
+            'Define consent and local vault boundaries before any real connector.',
+      ),
+      ConnectorReadiness(
+        key: 'commerce',
+        label: 'Commerce purchases',
+        category: 'commerce',
+        status: 'planned',
+        fixtureMode: true,
+        dataClasses: ['orders', 'items', 'recurring_candidates'],
+        allowedOperations: ['read_fixture', 'recommend_review', 'summarize'],
+        forbiddenOperations: [
+          'credential_request',
+          'cookie_import',
+          'scraping',
+          'purchase',
+        ],
+        nextStep:
+            'Extend local purchase fixtures and avoid scraping/cookie capture.',
+      ),
+    ],
   );
 
   factory JarvisSnapshot.offlineFallback() {
@@ -565,6 +629,7 @@ class JarvisSnapshot {
       householdScopes: sample.householdScopes,
       financeDashboard: sample.financeDashboard,
       purchaseDashboard: sample.purchaseDashboard,
+      connectors: sample.connectors,
     );
   }
 }

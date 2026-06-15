@@ -12,6 +12,8 @@ Security defaults:
   execute through a shell.
 - Store local tokens only under `data/private` with private file permissions.
 - Keep raw data and lake data under ignored private paths.
+- Keep connector readiness fixture-only until a separate consent and vault
+  design is implemented.
 - Reject Python, Node.js, TypeScript, shell-interpolated command execution, and
   tracked private-data artifacts.
 
