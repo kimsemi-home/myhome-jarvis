@@ -922,3 +922,10 @@
   - Linear: KIM-83
   - Acceptance: `apps/flutter/lib/main.dart` keeps the `JarvisApp` entrypoint under the normal 75-line budget by moving home/scaffold, status tiles, finance/purchase dashboard sections, command rows and payload editors, connector/cluster/recommendation cards, household scope UI, simple list views, formatters, and command preview dialog into focused Flutter UI part files; tab coverage, command editing, dry-run preview behavior, dashboard summaries, public-safe display text, and widget-test behavior remain unchanged; `apps/flutter/lib/main.dart` is removed from Code Shape legacy debt.
   - Validation: `cd apps/flutter && flutter test && flutter analyze`; `go test ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P131
+
+- [x] Ratchet Rust storage crate under 75 lines.
+  - Linear: KIM-84
+  - Acceptance: `crates/mhj-storage/src/lib.rs` keeps the public `mhj_storage` API under the normal 75-line budget by moving manifests, path rules, partitioning, raw JSONL writing, curated Parquet writing/reading, schemas, validation, records, reports, and column builders into focused modules; finance and commerce fixture Parquet behavior, Zstd metadata checks, raw-layer rejection, and repo-relative lake path safety remain unchanged; `crates/mhj-storage/src/lib.rs` is removed from Code Shape legacy debt.
+  - Validation: `cargo test -p mhj-storage`; `go test ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

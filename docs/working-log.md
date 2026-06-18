@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 08:14 KST
+
+- Linear issue: KIM-84 created and moved to In Progress.
+- Mode: code-shape burn-down, Rust storage crate refactor.
+- Task: Remove `crates/mhj-storage/src/lib.rs` from code-shape legacy debt by splitting lake planning, path safety, raw writing, curated Parquet read/write, validation, schema, and column construction into focused modules.
+- Files touched: `crates/mhj-storage/src/lib.rs`, `crates/mhj-storage/src/*.rs`, `crates/mhj-storage/tests/*.rs`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept the public `mhj_storage` API intact; moved manifest planning, path validation, partition planning, raw JSONL writing, curated Parquet materialization/inspection, finance/commerce record validation, Arrow schema construction, RecordBatch construction, reports, and errors into small modules; moved former unit coverage into integration tests; removed `crates/mhj-storage/src/lib.rs` from generated code-shape legacy debt; kept storage source and test files below 75 lines.
+- Validation after: `cargo test -p mhj-storage`, focused Code Shape tests, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 35 legacy debt files.
+- External-write note: created Linear issue KIM-84 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 07:57 KST
 
 - Linear issue: KIM-83 created and moved to In Progress.
