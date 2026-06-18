@@ -1,10 +1,6 @@
 package domain
 
-import (
-	"os"
-	"path/filepath"
-	"testing"
-)
+import "testing"
 
 func TestBuildSummaryFromRepoFixtures(t *testing.T) {
 	root := repoRoot(t)
@@ -13,91 +9,9 @@ func TestBuildSummaryFromRepoFixtures(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if summary.Finance.Records != 3 {
-		t.Fatalf("finance records = %d", summary.Finance.Records)
-	}
-	if summary.Finance.Currency != "KRW" {
-		t.Fatalf("finance currency = %q", summary.Finance.Currency)
-	}
-	if summary.Finance.NetMinorUnits != 4_346_800 {
-		t.Fatalf("finance net = %d", summary.Finance.NetMinorUnits)
-	}
-	if summary.Finance.SubscriptionMinorUnits != 65_900 {
-		t.Fatalf("subscription total = %d", summary.Finance.SubscriptionMinorUnits)
-	}
-	if summary.Finance.CardDebitMinorUnits != 153_200 || summary.Finance.CardDebitCount != 2 {
-		t.Fatalf("card debit summary = %#v", summary.Finance)
-	}
-	if len(summary.Finance.OwnerBreakdown) != 2 {
-		t.Fatalf("finance owner breakdown = %#v", summary.Finance.OwnerBreakdown)
-	}
-	if summary.Commerce.Records != 3 {
-		t.Fatalf("commerce records = %d", summary.Commerce.Records)
-	}
-	if summary.Commerce.TotalSpendMinorUnits != 26_800 {
-		t.Fatalf("commerce spend = %d", summary.Commerce.TotalSpendMinorUnits)
-	}
-	if summary.Commerce.RecurringCandidateCount != 1 {
-		t.Fatalf("recurring candidates = %d", summary.Commerce.RecurringCandidateCount)
-	}
-	if summary.Commerce.RecurringCandidates[0].MerchantName != "Coupang" {
-		t.Fatalf("recurring merchant = %q", summary.Commerce.RecurringCandidates[0].MerchantName)
-	}
-	if summary.Storage.LongTermFormat != "parquet" || summary.Storage.Compression != "zstd" {
-		t.Fatalf("storage policy = %#v", summary.Storage)
-	}
-	if summary.Recommendations.Count != 4 {
-		t.Fatalf("recommendation count = %d", summary.Recommendations.Count)
-	}
-	if summary.Recommendations.Items[0].Kind != "recurring_purchase_review" {
-		t.Fatalf("top recommendation = %#v", summary.Recommendations.Items[0])
-	}
-	if summary.Recommendations.Items[0].Score < summary.Recommendations.Items[1].Score {
-		t.Fatalf("recommendations are not ranked: %#v", summary.Recommendations.Items)
-	}
-	foundCardReview := false
-	for _, item := range summary.Recommendations.Items {
-		if item.Kind == "card_usage_review" {
-			foundCardReview = true
-			if item.EstimatedMonthlyMinorUnits != 153_200 || item.EvidenceCount != 2 {
-				t.Fatalf("card recommendation = %#v", item)
-			}
-		}
-	}
-	if !foundCardReview {
-		t.Fatalf("missing card recommendation: %#v", summary.Recommendations.Items)
-	}
-	if len(summary.Household.Scopes) != 3 {
-		t.Fatalf("household scopes = %#v", summary.Household.Scopes)
-	}
-	user := summary.Household.Scopes[0]
-	if user.Scope != "user" || user.FinanceNetMinorUnits != -87_300 || user.PurchaseSpendMinorUnits != 3_200 {
-		t.Fatalf("user scope = %#v", user)
-	}
-	spouse := summary.Household.Scopes[1]
-	if spouse.Scope != "spouse" || spouse.FinanceRecords != 0 || spouse.PurchaseRecords != 0 {
-		t.Fatalf("spouse scope = %#v", spouse)
-	}
-	household := summary.Household.Scopes[2]
-	if household.Scope != "household" || household.FinanceNetMinorUnits != 4_346_800 || household.PurchaseSpendMinorUnits != 26_800 {
-		t.Fatalf("household scope = %#v", household)
-	}
-}
-
-func repoRoot(t *testing.T) string {
-	t.Helper()
-	dir, err := os.Getwd()
-	if err != nil {
-		t.Fatal(err)
-	}
-	for {
-		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
-			return dir
-		}
-		next := filepath.Dir(dir)
-		if next == dir {
-			t.Fatal("could not find repo root")
-		}
-		dir = next
-	}
+	assertFinanceSummary(t, summary)
+	assertCommerceSummary(t, summary)
+	assertStoragePolicy(t, summary)
+	assertRecommendationSummary(t, summary)
+	assertHouseholdSummary(t, summary)
 }

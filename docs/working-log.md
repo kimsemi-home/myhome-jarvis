@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 01:51 KST
+
+- Linear issue: KIM-44 created and moved to In Progress.
+- Mode: code-shape burn-down, domain summary test refactor.
+- Task: Remove `internal/domain/summary_test.go` from code-shape legacy debt by splitting fixture summary assertions into focused files.
+- Files touched: `internal/domain/summary_test.go`, `internal/domain/summary_fixture_test.go`, `internal/domain/summary_recommendations_test.go`, `internal/domain/summary_household_test.go`, `internal/domain/test_helpers_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved finance, commerce, storage, recommendation, household, and repo-root assertions/helpers out of the end-to-end fixture summary test; removed `internal/domain/summary_test.go` from the generated code-shape legacy debt list; kept the domain test files below 75 lines.
+- Validation after: focused Go tests for Domain and Code Shape passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions, 74 legacy debt files, and `internal/domain/summary_test.go` removed from legacy debt; full `mhj quality` with Go 1.26.2 passed; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-44 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 01:38 KST
 
 - Linear issue: KIM-43 created and moved to In Progress.

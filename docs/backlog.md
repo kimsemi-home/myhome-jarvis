@@ -642,3 +642,10 @@
   - Linear: KIM-43
   - Acceptance: `internal/auth/local.go` keeps only the shared local-token model and relative path helper under 75 lines by moving status, create/rotate, read, and token generation behavior into focused files; local LAN token behavior remains unchanged; `internal/auth/local.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/auth ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P91
+
+- [x] Ratchet domain summary test debt under 75 lines.
+  - Linear: KIM-44
+  - Acceptance: `internal/domain/summary_test.go` keeps the end-to-end fixture summary flow under 75 lines by moving finance, commerce, storage, recommendation, household, and repo-root assertions/helpers into focused test files; fixture summary behavior remains unchanged; `internal/domain/summary_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/domain ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
