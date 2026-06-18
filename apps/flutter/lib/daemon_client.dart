@@ -35,6 +35,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final learning = await _getObject(client, '/learning/status');
       final evidence = await _getObject(client, '/evidence/status');
       final confidence = await _getObject(client, '/confidence/status');
+      final translation = await _getObject(client, '/translation/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -54,6 +55,7 @@ class DaemonSnapshotClient implements JarvisClient {
         learning: learning,
         evidence: evidence,
         confidence: confidence,
+        translation: translation,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -165,6 +167,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> learning,
   required Map<String, Object?> evidence,
   required Map<String, Object?> confidence,
+  required Map<String, Object?> translation,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -217,6 +220,9 @@ JarvisSnapshot buildSnapshot({
       _int(evidence['dangling_evidence_ref_count']) ?? 0;
   final confidenceCap = _string(confidence['level_cap']) ?? 'unknown';
   final confidenceBlocked = _bool(confidence['blocked']) ?? false;
+  final translationOpenDebt = _int(translation['open_debt_count']) ?? 0;
+  final translationForbidden = _int(translation['forbidden_loss_count']) ?? 0;
+  final translationManifests = _int(translation['manifest_count']) ?? 0;
 
   return JarvisSnapshot(
     metrics: [
@@ -347,6 +353,15 @@ JarvisSnapshot buildSnapshot({
         label: 'Confidence',
         value: confidenceBlocked ? 'Blocked' : _title(confidenceCap),
         icon: Icons.rule_folder_outlined,
+      ),
+      SystemMetric(
+        label: 'Translation',
+        value: translationForbidden > 0
+            ? '$translationForbidden forbidden'
+            : (translationOpenDebt > 0
+                  ? '$translationOpenDebt open debt'
+                  : '$translationManifests manifests'),
+        icon: Icons.translate_outlined,
       ),
       SystemMetric(
         label: 'Repo',

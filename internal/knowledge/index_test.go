@@ -19,7 +19,7 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if report.ContextCount != 9 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 17 {
+	if report.ConceptCount != 18 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
@@ -143,6 +143,22 @@ func TestSearchConfidenceAssessorReturnsGateEvidence(t *testing.T) {
 	}
 	if !containsString(report.MustRead, "docs/confidence-assessor.md") {
 		t.Fatalf("must read missing docs/confidence-assessor.md: %#v", report.MustRead)
+	}
+}
+
+func TestSearchTranslationManifestReturnsLossLedgerEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "translation manifest loss ledger")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "TranslationManifest") {
+		t.Fatalf("expected TranslationManifest concept, got %#v", report.Concepts)
+	}
+	if !containsString(report.MustRead, "generated/translation.generated.json") {
+		t.Fatalf("must read missing translation artifact: %#v", report.MustRead)
+	}
+	if !containsString(report.MustRead, "docs/translation-manifest.md") {
+		t.Fatalf("must read missing docs/translation-manifest.md: %#v", report.MustRead)
 	}
 }
 

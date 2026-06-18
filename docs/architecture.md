@@ -185,6 +185,13 @@ missing evidence links and dangling refs cap confidence at low; open learning
 debt or missing quality evidence cap confidence at medium. The assessor exposes
 only counts, booleans, active rule, and the cap.
 
+The first Translation Manifest surface makes context movement explicit. Common
+Lisp SSOT owns `generated/translation.generated.json`, Go exposes
+`mhj translation status` and daemon `GET /translation/status`, and Flutter
+shows a redacted Translation metric. Private manifests and semantic loss
+records stay under `data/private/translation`; public status exposes only
+counts, context names, levels, booleans, and timestamps.
+
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
 client with status, command, finance, purchases, Linear, storage, connector
 readiness, Agent Cluster, household, and optimization tabs.
@@ -203,5 +210,6 @@ clean or dirty, aggregate public-safety status without raw findings, whether
 the recorded daemon supervisor state is reachable, and how many command audit
 quality gate, open learning observations, and Evidence Graph links are
 recorded. It also shows the external Confidence cap instead of any agent
-self-reported certainty.
+self-reported certainty, plus the Translation manifest debt count for context
+movement.
 Platform runner files are left out until device packaging is required.

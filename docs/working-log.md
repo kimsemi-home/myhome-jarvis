@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 10:24 KST
+
+- Linear issue: KIM-22 created and moved to In Progress.
+- Mode: next-vision foundation, Translation Manifest and Loss Ledger status only.
+- Task: Add an executable context-translation status surface so semantic movement and meaning loss become tracked debt instead of hidden drift.
+- Files touched: `lisp/ssot/translation.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `generated/translation.generated.json`, `generated/concepts.generated.json`, `internal/translation/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Translation Manifest docs.
+- Changes: added SSOT-owned translation manifest/loss ledger policy; added redacted translation status over private manifest and loss-ledger sources; exposed `mhj translation status` and daemon `GET /translation/status`; added Flutter Translation metric; included generated translation metadata in Flutter CI cache keys and CI contract validation.
+- Validation after: focused Go tests for translation, daemon, CLI, and KnowledgeIndex passed; `mhj translation status` returned zero private manifest/loss debt with only redacted counts and repo-relative private paths; `mhj codegen verify` passed; `mhj ddd verify` passed with 9 contexts and 18 concepts; `mhj knowledge search "translation manifest loss ledger"` returned the TranslationManifest concept and generated/docs targets; Flutter focused tests passed; full `mhj quality` with Go 1.26.2 passed; daemon `GET /translation/status` smoke passed; public safety current/history checks, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-22 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-22.
+
 ## 2026-06-18 10:09 KST
 
 - Linear issue: KIM-21 created and moved to In Progress.

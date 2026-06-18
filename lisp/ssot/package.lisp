@@ -23,6 +23,7 @@
    #:*learning-policy*
    #:*evidence-graph-policy*
    #:*confidence-policy*
+   #:*translation-policy*
    #:*linear-policy*
    #:*planner-policy*
    #:validate-ssot

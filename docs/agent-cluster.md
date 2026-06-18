@@ -72,6 +72,11 @@ redacted Evidence Graph, quality evidence, public-safety status, and open
 learning debt, then returns a confidence cap. Agent self-reported confidence is
 not accepted.
 
+The Translation Manifest is the first executable context-map and loss-ledger
+surface. It reads private translation manifests and loss records, then exposes
+only redacted counts for missing manifests, malformed manifests, open semantic
+debt, forbidden loss categories, and source/target contexts.
+
 ## Validation
 
 Use these checks after changing the policy:
@@ -80,8 +85,9 @@ Use these checks after changing the policy:
 go run ./cmd/mhj agent-cluster status
 go run ./cmd/mhj evidence status
 go run ./cmd/mhj confidence status
+go run ./cmd/mhj translation status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
-go test ./internal/agentcluster ./internal/daemon ./cmd/mhj
+go test ./internal/agentcluster ./internal/translation ./internal/daemon ./cmd/mhj
 cd apps/flutter && flutter test test/daemon_client_test.dart test/snapshot_test.dart test/widget_test.dart
 ```

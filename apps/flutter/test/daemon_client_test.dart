@@ -362,6 +362,27 @@ void main() {
             'active_rule': 'open_learning_debt',
           });
           return;
+        case '/translation/status':
+          _writeJson(request, {
+            'policy_path': 'generated/translation.generated.json',
+            'ledger_path': 'data/private/translation/losses.jsonl',
+            'manifest_root': 'data/private/translation/manifests',
+            'ledger_exists': true,
+            'manifest_root_exists': true,
+            'manifest_count': 2,
+            'invalid_manifest_count': 0,
+            'missing_manifest_count': 0,
+            'loss_count': 1,
+            'open_loss_count': 1,
+            'closed_loss_count': 0,
+            'invalid_loss_count': 0,
+            'open_debt_count': 1,
+            'forbidden_loss_count': 0,
+            'by_level': {'l2_degraded': 1},
+            'by_source_context': {'AgentCluster': 1},
+            'by_target_context': {'KnowledgeIndex': 1},
+          });
+          return;
         case '/metrics':
           _writeJson(request, {
             'bind_host': '127.0.0.1',
@@ -552,6 +573,12 @@ void main() {
           .value,
       'Medium',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Translation')
+          .value,
+      '1 open debt',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
@@ -714,6 +741,7 @@ void main() {
       learning: const <String, Object?>{},
       evidence: const <String, Object?>{},
       confidence: const <String, Object?>{},
+      translation: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,

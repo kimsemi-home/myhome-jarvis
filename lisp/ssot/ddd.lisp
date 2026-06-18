@@ -119,6 +119,16 @@
                           "internal/confidence/status.go"
                           "docs/confidence-assessor.md")
      :related_concepts #("EvidenceGraph" "LearningLedger" "AgentClusterPolicy" "SecurityPolicy"))
+    (:canonical_name "TranslationManifest"
+     :bounded_context "AgentCluster"
+     :ddd_kind "ValueObject"
+     :description "A private context-translation manifest and loss ledger summary that keeps semantic movement and meaning loss traceable without exposing raw private notes."
+     :allowed_aliases #("translation manifest" "loss ledger" "semantic loss" "translation debt" "context map")
+     :owner "internal/translation"
+     :generated_targets #("generated/translation.generated.json"
+                          "internal/translation/status.go"
+                          "docs/translation-manifest.md")
+     :related_concepts #("ConceptRegistry" "EvidenceGraph" "LearningLedger" "AgentClusterPolicy" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -251,6 +261,7 @@
     (:name "learning" :path "generated/learning.generated.json" :owner "AgentCluster")
     (:name "evidence" :path "generated/evidence.generated.json" :owner "AgentCluster")
     (:name "confidence" :path "generated/confidence.generated.json" :owner "AgentCluster")
+    (:name "translation" :path "generated/translation.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

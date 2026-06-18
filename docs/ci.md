@@ -6,7 +6,8 @@ GitHub Actions is split into hash-scoped units:
 - `ssot`: Common Lisp SSOT sources, SSOT loader scripts, and generated JSON artifacts.
 - `go`: Go CLI, daemon, internal packages, and generated JSON inputs.
 - `rust`: Rust workspace crates and fixture inputs.
-- `flutter`: Flutter local client files and generated command catalog input.
+- `flutter`: Flutter local client files and generated command/status catalog
+  inputs.
 
 The public-safety job always runs because every new commit can introduce a
 public-history risk, even when the Go/Rust/Flutter/SSOT source hashes are
@@ -66,8 +67,11 @@ cache.
 The Rust unit runs the whole workspace, including `mhj-harness`, so the
 dedicated Rust harness boundary is covered whenever command, finance, commerce,
 fixtures, or Rust harness inputs change.
-The Flutter unit also keys on `generated/commands.generated.json` because its
-static/offline fallback tests read the Lisp-owned command catalog directly.
+The Flutter unit also keys on generated command and status artifacts such as
+`generated/commands.generated.json`, connector readiness, Agent Cluster,
+Learning Ledger, Evidence Graph, Confidence Assessor, and Translation Manifest
+artifacts because its daemon and fallback tests read those Lisp-owned catalogs
+directly.
 
 Local equivalents:
 

@@ -17,6 +17,7 @@
                (:file "learning")
                (:file "evidence")
                (:file "confidence")
+               (:file "translation")
                (:file "linear")
                (:file "planner")
                (:file "codegen")))

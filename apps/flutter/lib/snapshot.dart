@@ -348,6 +348,11 @@ class JarvisSnapshot {
         value: 'Local',
         icon: Icons.rule_folder_outlined,
       ),
+      SystemMetric(
+        label: 'Translation',
+        value: '0 manifests',
+        icon: Icons.translate_outlined,
+      ),
     ],
     commands: [
       HomeCommand(
@@ -697,6 +702,11 @@ class JarvisSnapshot {
           label: 'Confidence',
           value: 'Local',
           icon: Icons.rule_folder_outlined,
+        ),
+        SystemMetric(
+          label: 'Translation',
+          value: 'Local',
+          icon: Icons.translate_outlined,
         ),
       ],
       commands: sample.commands,
