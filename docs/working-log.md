@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 03:50 KST
+
+- Linear issue: KIM-58 created and moved to In Progress.
+- Mode: code-shape burn-down, command executor refactor.
+- Task: Remove `internal/commands/executor.go` from code-shape legacy debt by splitting command execution orchestration, execution models, invocation validation, default runner behavior, skipped-execution construction, and output limiting into focused files.
+- Files touched: `internal/commands/executor.go`, `internal/commands/execution.go`, `internal/commands/executor_validate.go`, `internal/commands/executor_runner.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved command execution models, validation, runner, skipped-execution, and output limiting helpers out of the orchestration file; removed `internal/commands/executor.go` from the generated code-shape legacy debt list; kept changed command executor files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Commands and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 60 legacy debt files.
+- External-write note: created Linear issue KIM-58 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 03:39 KST
 
 - Linear issue: KIM-57 created and moved to In Progress.

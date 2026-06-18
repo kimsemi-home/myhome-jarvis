@@ -740,3 +740,10 @@
   - Linear: KIM-57
   - Acceptance: `internal/evidence/status_test.go` keeps Evidence Graph node/edge count coverage under the normal 75-line budget by moving redaction, policy rejection, and fixture helpers into focused files; graph counts, dangling-ref redaction, and raw-public-evidence policy rejection remain unchanged; `internal/evidence/status_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/evidence ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P105
+
+- [x] Ratchet command executor debt under 75 lines.
+  - Linear: KIM-58
+  - Acceptance: `internal/commands/executor.go` keeps command execution orchestration under the normal 75-line budget by moving execution models, invocation validation, default runner behavior, skipped-execution construction, and output limiting into focused files; execution gating, platform skip, executable allow-listing, NUL-byte rejection, runner metadata, and output limiting behavior remain unchanged; `internal/commands/executor.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/commands ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
