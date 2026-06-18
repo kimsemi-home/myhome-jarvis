@@ -29,6 +29,9 @@ are allowed only when listed in the generated legacy-debt baseline and still at
 or below that baseline. Any new oversized file or growth beyond its baseline is
 a budget regression and makes the command fail.
 
+When a legacy file is split or shortened, its generated baseline should be
+ratcheted down in the same change so the debt cannot silently grow back.
+
 Daemon `GET /code-shape/status` returns the same redacted status. Flutter shows
 that summary as a `Code Shape` metric.
 

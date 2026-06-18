@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 23:10 KST
+
+- Linear issue: KIM-29 created and moved to In Progress.
+- Mode: code-shape burn-down, CLI refactor.
+- Task: Reduce `cmd/mhj/main.go` legacy debt while preserving CLI behavior and keeping new files within the 75-line budget.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/ci_verify.go`, `cmd/mhj/codegen_run.go`, `cmd/mhj/codegen_snapshot.go`, `cmd/mhj/quality_run.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and Code Shape docs/backlog.
+- Changes: extracted CI workflow verification, codegen verification snapshots, and quality orchestration into focused package-local files; ratcheted `cmd/mhj/main.go` generated code-shape baseline from 1093 to 893 lines; kept all newly added files at or below 75 lines.
+- Validation after: focused Go tests for CLI, Code Shape, and KnowledgeIndex passed; `mhj ci verify`, `mhj codegen verify`, and `mhj code-shape status` passed with zero budget regressions and `cmd/mhj/main.go` at the 893-line baseline; full `mhj quality` with Go 1.26.2 passed; new CLI files, Code Shape docs, and Code Shape SSOT are each within 75 lines; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-29 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-29.
+
 ## 2026-06-18 23:01 KST
 
 - Linear issue: KIM-28 created and moved to In Progress.

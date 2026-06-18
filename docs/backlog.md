@@ -537,3 +537,10 @@
   - Linear: KIM-28
   - Acceptance: Common Lisp SSOT owns a 75-line source budget with generated legacy-debt baselines; `mhj code-shape status`, daemon `GET /code-shape/status`, GitHub Actions Go unit, and Flutter Status expose only redacted repo-relative budget status. Current oversized files are tracked as legacy debt, while new oversized files or growth beyond baseline fail the budget guard. Public surfaces must not expose source excerpts, local absolute paths, credentials, account IDs, Linear URLs, or private evidence.
   - Validation: `go test ./internal/codeshape ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj code-shape status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P76
+
+- [x] Ratchet CLI code shape debt.
+  - Linear: KIM-29
+  - Acceptance: `cmd/mhj/main.go` sheds codegen, CI workflow contract, and quality orchestration helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 1093-line debt value; `mhj quality`, `mhj ci verify`, and `mhj codegen verify` behavior remains unchanged.
+  - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/knowledge`; `go run ./cmd/mhj ci verify`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

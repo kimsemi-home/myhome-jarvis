@@ -12,7 +12,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
-	"sort"
 	"strings"
 	"time"
 
@@ -616,70 +615,6 @@ type qualityReport struct {
 	Steps []qualityStep `json:"steps"`
 }
 
-func runQuality(root string) error {
-	started := time.Now()
-	report := qualityReport{OK: true}
-	goTool := envWithDefault("MHJ_GO", "go")
-	gofmtTool := envWithDefault("MHJ_GOFMT", "gofmt")
-
-	securityReport, err := security.Check(root)
-	if err != nil {
-		return err
-	}
-	if securityReport.OK {
-		report.Steps = append(report.Steps, qualityStep{Name: "security check", Status: "pass"})
-	} else {
-		report.OK = false
-		report.Steps = append(report.Steps, qualityStep{Name: "security check", Status: "fail", Output: "security findings present"})
-	}
-	securityHistoryReport, err := security.CheckHistory(root)
-	if err != nil {
-		return err
-	}
-	if securityHistoryReport.OK {
-		report.Steps = append(report.Steps, qualityStep{Name: "security history", Status: "pass"})
-	} else {
-		report.OK = false
-		report.Steps = append(report.Steps, qualityStep{Name: "security history", Status: "fail", Output: "security history findings present"})
-	}
-	report.addCheck("toolchain pins", validateToolchainPins(root))
-	report.addCheck("ci workflow", validateCIWorkflowContract(root))
-	report.addCommand(root, "code shape", []string{goTool, "run", "./cmd/mhj", "code-shape", "status"})
-
-	report.addHarness("home harness", commands.RunHomeHarness())
-	report.addHarness("finance harness", commands.RunFinanceHarness(root))
-	report.addHarness("commerce harness", commands.RunCommerceHarness(root))
-
-	report.addCommand(root, "go test", []string{goTool, "test", "./..."})
-	report.addCommand(root, "go vet", []string{goTool, "vet", "./..."})
-	report.addGofmt(root, gofmtTool)
-	report.addCommand(root, "cargo test", []string{"cargo", "test", "--workspace"})
-	report.addCommand(root, "benchmark smoke", benchmarkSmokeCommand())
-	report.addCommand(root, "cargo fmt", []string{"cargo", "fmt", "--check"})
-	report.addCommand(root, "cargo clippy", []string{"cargo", "clippy", "--workspace", "--", "-D", "warnings"})
-	report.addCommand(root, "ssot validate", []string{"sbcl", "--script", "lisp/scripts/validate-ssot.lisp"})
-	report.addCommand(root, "codegen verify", []string{goTool, "run", "./cmd/mhj", "codegen", "verify"})
-	report.addCommand(root, "ddd verify", []string{goTool, "run", "./cmd/mhj", "ddd", "verify"})
-	if _, err := os.Stat(filepath.Join(root, "apps", "flutter", "pubspec.yaml")); err == nil {
-		flutterRoot := filepath.Join(root, "apps", "flutter")
-		report.addCommand(flutterRoot, "flutter test", []string{"flutter", "test"})
-		report.addCommand(flutterRoot, "flutter analyze", []string{"flutter", "analyze"})
-	} else {
-		report.Steps = append(report.Steps, qualityStep{Name: "flutter", Status: "skip", Output: "apps/flutter is not started yet"})
-	}
-
-	if err := qualitylog.AppendRun(root, qualitylog.NewRun(started, report.OK, qualityEvidenceSteps(report.Steps))); err != nil {
-		return err
-	}
-	if err := writeJSON(report); err != nil {
-		return err
-	}
-	if !report.OK {
-		return errors.New("quality gate failed")
-	}
-	return nil
-}
-
 func qualityEvidenceSteps(steps []qualityStep) []qualitylog.Step {
 	evidence := make([]qualitylog.Step, 0, len(steps))
 	for _, step := range steps {
@@ -699,13 +634,6 @@ func (report *qualityReport) addHarness(name string, harness commands.HarnessRep
 
 func runToolchainVerify(root string) error {
 	if err := validateToolchainPins(root); err != nil {
-		return err
-	}
-	return writeJSON(map[string]any{"ok": true})
-}
-
-func runCIVerify(root string) error {
-	if err := validateCIWorkflowContract(root); err != nil {
 		return err
 	}
 	return writeJSON(map[string]any{"ok": true})
@@ -895,61 +823,6 @@ func validateToolchainPins(root string) error {
 	return nil
 }
 
-func validateCIWorkflowContract(root string) error {
-	body, err := os.ReadFile(filepath.Join(root, ".github", "workflows", "quality.yml"))
-	if err != nil {
-		return err
-	}
-	workflow := string(body)
-	required := []string{
-		"cancel-in-progress: true",
-		"permissions:",
-		"contents: read",
-		"fetch-depth: 0",
-		"go run ./cmd/mhj security check",
-		"go run ./cmd/mhj security history",
-		"go run ./cmd/mhj ci verify",
-		"go run ./cmd/mhj code-shape status",
-		"go run ./cmd/mhj toolchain verify",
-		"'.go-version'",
-		"'rust-toolchain.toml'",
-		"'generated/*.json'",
-		"'generated/commands.generated.json'",
-		"'generated/connectors.generated.json'",
-		"'generated/agent_cluster.generated.json'",
-		"'generated/learning.generated.json'",
-		"'generated/evidence.generated.json'",
-		"'generated/confidence.generated.json'",
-		"'generated/translation.generated.json'",
-		"'generated/control_plane.generated.json'",
-		"'generated/incidents.generated.json'",
-		"'generated/evidence_quality.generated.json'",
-		"'generated/review.generated.json'",
-		"'generated/code_shape.generated.json'",
-		"'generated/authority.generated.json'",
-		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",
-	}
-	for _, token := range required {
-		if !strings.Contains(workflow, token) {
-			return fmt.Errorf("quality workflow missing CI contract token %q", token)
-		}
-	}
-	forbidden := []string{
-		"pull_request_target",
-		"write-all",
-	}
-	for _, token := range forbidden {
-		if strings.Contains(workflow, token) {
-			return fmt.Errorf("quality workflow contains forbidden CI contract token %q", token)
-		}
-	}
-	writePermissionPattern := regexp.MustCompile(`(?m)^\s*[A-Za-z0-9_-]+:\s*write\s*$`)
-	if match := writePermissionPattern.FindString(workflow); match != "" {
-		return fmt.Errorf("quality workflow contains forbidden write permission %q", strings.TrimSpace(match))
-	}
-	return nil
-}
-
 func readTrimmedFile(root string, rel string) (string, error) {
 	body, err := os.ReadFile(filepath.Join(root, filepath.FromSlash(rel)))
 	if err != nil {
@@ -1011,79 +884,6 @@ func requireEqualValue(label string, expected string, actual string) error {
 		return fmt.Errorf("%s = %q, expected %q", label, actual, expected)
 	}
 	return nil
-}
-
-func runCodegen(root string) error {
-	if _, err := exec.LookPath("sbcl"); err != nil {
-		return errors.New("missing executable: sbcl")
-	}
-	cmd := exec.Command("sbcl", "--script", "lisp/scripts/codegen.lisp")
-	cmd.Dir = root
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	return cmd.Run()
-}
-
-func runCodegenVerify(root string) error {
-	before, err := generatedSnapshot(root)
-	if err != nil {
-		return err
-	}
-	if err := runCodegen(root); err != nil {
-		return err
-	}
-	after, err := generatedSnapshot(root)
-	if err != nil {
-		return err
-	}
-	changed := changedGeneratedFiles(before, after)
-	if len(changed) > 0 {
-		return fmt.Errorf("generated artifacts are out of date: %s", strings.Join(changed, ", "))
-	}
-	fmt.Fprintln(os.Stdout, "Generated artifacts verified")
-	return nil
-}
-
-func generatedSnapshot(root string) (map[string][]byte, error) {
-	generatedRoot := filepath.Join(root, "generated")
-	files := map[string][]byte{}
-	err := filepath.WalkDir(generatedRoot, func(path string, entry os.DirEntry, walkErr error) error {
-		if walkErr != nil {
-			return walkErr
-		}
-		if entry.IsDir() {
-			return nil
-		}
-		body, err := os.ReadFile(path)
-		if err != nil {
-			return err
-		}
-		rel, err := filepath.Rel(root, path)
-		if err != nil {
-			return err
-		}
-		files[filepath.ToSlash(rel)] = body
-		return nil
-	})
-	return files, err
-}
-
-func changedGeneratedFiles(before map[string][]byte, after map[string][]byte) []string {
-	seen := map[string]bool{}
-	var changed []string
-	for path, body := range before {
-		seen[path] = true
-		if next, ok := after[path]; !ok || !bytes.Equal(body, next) {
-			changed = append(changed, path)
-		}
-	}
-	for path := range after {
-		if !seen[path] {
-			changed = append(changed, path)
-		}
-	}
-	sort.Strings(changed)
-	return changed
 }
 
 func writeJSON(value any) error {
