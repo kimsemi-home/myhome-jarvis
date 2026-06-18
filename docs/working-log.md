@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 07:57 KST
+
+- Linear issue: KIM-83 created and moved to In Progress.
+- Mode: code-shape burn-down, Flutter main UI refactor.
+- Task: Remove `apps/flutter/lib/main.dart` from code-shape legacy debt by splitting the Flutter UI into focused app, scaffold, tab, tile, command, formatting, and helper part files.
+- Files touched: `apps/flutter/lib/main.dart`, `apps/flutter/lib/ui/*.dart`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `JarvisApp` as the public entrypoint; moved home/scaffold, status tiles, finance and purchase dashboard sections, command rows and payload editors, command preview, connector/cluster/recommendation cards, household scope UI, simple list views, and formatting helpers into focused UI part files; removed `apps/flutter/lib/main.dart` from the generated code-shape legacy debt list; kept changed Flutter UI files below 75 lines.
+- Validation after: Flutter tests, Flutter analyze, focused Code Shape tests, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 36 legacy debt files.
+- External-write note: created Linear issue KIM-83 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 07:44 KST
 
 - Linear issue: KIM-82 created and moved to In Progress.

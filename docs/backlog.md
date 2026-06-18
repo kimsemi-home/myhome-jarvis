@@ -915,3 +915,10 @@
   - Linear: KIM-82
   - Acceptance: `internal/daemon/server_test.go` keeps daemon endpoint coverage under the normal 75-line budget by splitting intent, Linear, generated status endpoint, auth, event, metrics, supervisor, audit, quality, domain, harness, loop, planner, repo, security, household, recommendation, and shared helper tests into focused files; endpoint assertions, public redaction checks, private helper behavior, and local git fixture behavior remain unchanged; `internal/daemon/server_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/daemon ./internal/codeshape`; `go run ./cmd/mhj security check`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P130
+
+- [x] Ratchet Flutter main UI under 75 lines.
+  - Linear: KIM-83
+  - Acceptance: `apps/flutter/lib/main.dart` keeps the `JarvisApp` entrypoint under the normal 75-line budget by moving home/scaffold, status tiles, finance/purchase dashboard sections, command rows and payload editors, connector/cluster/recommendation cards, household scope UI, simple list views, formatters, and command preview dialog into focused Flutter UI part files; tab coverage, command editing, dry-run preview behavior, dashboard summaries, public-safe display text, and widget-test behavior remain unchanged; `apps/flutter/lib/main.dart` is removed from Code Shape legacy debt.
+  - Validation: `cd apps/flutter && flutter test && flutter analyze`; `go test ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
