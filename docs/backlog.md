@@ -852,3 +852,10 @@
   - Linear: KIM-73
   - Acceptance: `crates/mhj-core/src/recommendations.rs` keeps the public `mhj_core::recommendations` API under the normal 75-line budget by moving recommendation models, fixture loading, score orchestration, cash-buffer scoring, subscription scoring, card-usage scoring, recurring-purchase scoring, and tests into focused files; fixture-only review recommendation ranking, score clamping, and validation behavior remain unchanged; `crates/mhj-core/src/recommendations.rs` is removed from Code Shape legacy debt.
   - Validation: `cargo test -p mhj-core recommendations`; `cargo test -p mhj-core`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P121
+
+- [x] Ratchet Agent Cluster status runtime under 75 lines.
+  - Linear: KIM-74
+  - Acceptance: `internal/agentcluster/status.go` keeps the public Agent Cluster status API under the normal 75-line budget by moving status models, generated policy loading, policy validation, ordered-list helpers, and public-safe sanitization into focused files; public-safe Agent Cluster policy loading, validation, status counts, signals, generated path, and message behavior remain unchanged; `internal/agentcluster/status.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/agentcluster ./internal/codeshape`; `go run ./cmd/mhj agent-cluster status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

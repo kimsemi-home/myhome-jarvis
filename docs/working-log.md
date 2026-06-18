@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 06:27 KST
+
+- Linear issue: KIM-74 created and moved to In Progress.
+- Mode: code-shape burn-down, Agent Cluster status runtime refactor.
+- Task: Remove `internal/agentcluster/status.go` from code-shape legacy debt by splitting Agent Cluster status models, generated policy loading, validation, ordered-list helpers, and sanitization into focused files.
+- Files touched: `internal/agentcluster/status.go`, `internal/agentcluster/model.go`, `internal/agentcluster/policy.go`, `internal/agentcluster/validate.go`, `internal/agentcluster/order.go`, `internal/agentcluster/sanitize.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `StatusForRoot` as the status orchestration surface; moved public models, generated policy JSON shape/loading, safety and lifecycle validation, ordered-list normalization, and public-safe role/sidecar/signal sanitization into focused files; removed `internal/agentcluster/status.go` from the generated code-shape legacy debt list; kept changed Agent Cluster Go files below 75 lines.
+- Validation after: focused Agent Cluster and Code Shape tests, `mhj agent-cluster status`, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 45 legacy debt files.
+- External-write note: created Linear issue KIM-74 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 06:14 KST
 
 - Linear issue: KIM-73 created and moved to In Progress.
