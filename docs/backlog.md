@@ -803,3 +803,10 @@
   - Linear: KIM-66
   - Acceptance: `internal/audit/command_intent.go` keeps command intent event construction under the normal 75-line budget by moving command intent models, append-only JSONL writing, status reading, path handling, and normalization/error categorization into focused files; CLI/daemon audit event construction, private append behavior, redacted status reading, and error category behavior remain unchanged; `internal/audit/command_intent.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/audit ./internal/codeshape`; `go run ./cmd/mhj audit status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P114
+
+- [x] Ratchet evidence-quality status test debt under 75 lines.
+  - Linear: KIM-67
+  - Acceptance: `internal/evidencequality/status_test.go` keeps missing-ledger and stale/low/blocked/mapping status coverage under the normal 75-line budget by moving malformed/debt, redaction, policy rejection, and fixture helpers into focused test files; evidence-quality debt counts, redaction checks, and policy rejection behavior remain unchanged; `internal/evidencequality/status_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/evidencequality ./internal/codeshape`; `go run ./cmd/mhj evidence-quality status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

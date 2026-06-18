@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 05:12 KST
+
+- Linear issue: KIM-67 created and moved to In Progress.
+- Mode: code-shape burn-down, Evidence Quality status test refactor.
+- Task: Remove `internal/evidencequality/status_test.go` from code-shape legacy debt by splitting missing-ledger status, stale/low/blocked/mapping debt counts, malformed/missing-evidence debt counts, public JSON redaction, raw-public policy rejection, and fixture helpers into focused test files.
+- Files touched: `internal/evidencequality/status_test.go`, `internal/evidencequality/debt_test.go`, `internal/evidencequality/redaction_test.go`, `internal/evidencequality/policy_test.go`, `internal/evidencequality/fixture_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved evidence-quality malformed/debt coverage, public redaction assertions, policy rejection, and fixture helpers out of the single oversized status test file; removed `internal/evidencequality/status_test.go` from the generated code-shape legacy debt list; kept changed evidence-quality test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Evidence Quality and Code Shape, `mhj evidence-quality status`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 51 legacy debt files.
+- External-write note: created Linear issue KIM-67 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 05:04 KST
 
 - Linear issue: KIM-66 created and moved to In Progress.
