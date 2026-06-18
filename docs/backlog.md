@@ -824,3 +824,10 @@
   - Linear: KIM-69
   - Acceptance: `apps/flutter/test/snapshot_test.dart` keeps generated command catalog and payload coverage under the normal 75-line budget by moving connector/signal catalog tests and generated JSON helper lookup/type validation into focused files; offline snapshot command, connector, and Agent Cluster fallback coverage remains unchanged; `apps/flutter/test/snapshot_test.dart` is removed from Code Shape legacy debt.
   - Validation: `cd apps/flutter && flutter test test/snapshot_test.dart test/snapshot_catalog_test.dart`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P117
+
+- [x] Ratchet planner status test debt under 75 lines.
+  - Linear: KIM-70
+  - Acceptance: `internal/planner/status_test.go` keeps generated planner graph status coverage under the normal 75-line budget by moving Linear write-evidence separation checks, policy rejection checks, and planner fixture helpers into focused test files; generated planner graph behavior, external-write gate separation, and policy validation behavior remain unchanged; `internal/planner/status_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/planner ./internal/codeshape`; `go run ./cmd/mhj planner status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

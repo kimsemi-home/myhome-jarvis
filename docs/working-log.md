@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 05:48 KST
+
+- Linear issue: KIM-70 created and moved to In Progress.
+- Mode: code-shape burn-down, Planner status test refactor.
+- Task: Remove `internal/planner/status_test.go` from code-shape legacy debt by splitting generated planner graph status coverage, Linear write-evidence separation checks, policy rejection checks, and planner fixture helpers into focused test files.
+- Files touched: `internal/planner/status_test.go`, `internal/planner/evidence_test.go`, `internal/planner/policy_test.go`, `internal/planner/repo_root_test.go`, `internal/planner/test_helpers_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept generated planner graph status assertions in the original test; moved Linear synced write evidence and external-write boundary assertions to a focused evidence test; moved invalid policy rejection cases to a policy test; moved repo-root and planner fixture helpers into a shared test helper; removed `internal/planner/status_test.go` from the generated code-shape legacy debt list; kept changed planner test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Planner and Code Shape tests, `mhj planner status`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 49 legacy debt files.
+- External-write note: created Linear issue KIM-70 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 05:40 KST
 
 - Linear issue: KIM-69 created and moved to In Progress.
