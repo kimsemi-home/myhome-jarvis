@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 04:45 KST
+
+- Linear issue: KIM-64 created and moved to In Progress.
+- Mode: code-shape burn-down, Agent Cluster SSOT formatting ratchet.
+- Task: Remove `lisp/ssot/agent-cluster.lisp` from code-shape legacy debt by compacting Agent Cluster policy vector, role, sidecar, lifecycle, debt, quarantine, failure-condition, signal, and forbidden-field formatting while preserving policy values.
+- Files touched: `lisp/ssot/agent-cluster.lisp`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: compacted Agent Cluster SSOT policy formatting from 150 lines to 44 lines; removed `lisp/ssot/agent-cluster.lisp` from the generated code-shape legacy debt list; `generated/agent_cluster.generated.json` remained unchanged.
+- Validation after: SSOT validation, codegen verify, focused Go tests for AgentCluster and Code Shape, `mhj agent-cluster status`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 54 legacy debt files.
+- External-write note: created Linear issue KIM-64 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 04:36 KST
 
 - Linear issue: KIM-63 created and moved to In Progress.

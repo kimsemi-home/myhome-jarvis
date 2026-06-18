@@ -782,3 +782,10 @@
   - Linear: KIM-63
   - Acceptance: `crates/mhj-core/src/commerce.rs` keeps the public `mhj_core::commerce` API while moving purchase IR modeling, validation, recurring-candidate grouping, and tests into focused files under the normal 75-line budget; fixture parsing, purchase validation, recurring-candidate behavior, and commerce tests remain unchanged; `crates/mhj-core/src/commerce.rs` is removed from Code Shape legacy debt.
   - Validation: `cargo test -p mhj-core commerce`; `cargo test -p mhj-core`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P111
+
+- [x] Ratchet Agent Cluster SSOT policy under 75 lines.
+  - Linear: KIM-64
+  - Acceptance: `lisp/ssot/agent-cluster.lisp` keeps Agent Cluster policy values unchanged while compacting SSOT vector and role formatting under the normal 75-line budget; generated `agent_cluster` policy remains semantically unchanged; `lisp/ssot/agent-cluster.lisp` is removed from Code Shape legacy debt.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/agentcluster ./internal/codeshape`; `go run ./cmd/mhj agent-cluster status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

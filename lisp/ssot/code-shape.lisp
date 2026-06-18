@@ -38,7 +38,7 @@
                               (:path "internal/translation/status_test.go" :max_lines 167) (:path "crates/mhj-core/src/recommendations.rs" :max_lines 162)
                               (:path "internal/connectors/status.go" :max_lines 156) (:path "internal/planner/status_test.go" :max_lines 154)
                               (:path "internal/evidencequality/status_test.go" :max_lines 152) (:path "internal/audit/command_intent.go" :max_lines 152)
-                              (:path "lisp/ssot/agent-cluster.lisp" :max_lines 150) (:path "internal/incidents/status_test.go" :max_lines 150)
+                              (:path "internal/incidents/status_test.go" :max_lines 150)
                               (:path "apps/flutter/test/snapshot_test.dart" :max_lines 150))
         :public_summary_fields #("policy_path" "max_file_lines" "file_count"
                                  "over_budget_count" "legacy_debt_count"
