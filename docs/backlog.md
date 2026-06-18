@@ -838,3 +838,10 @@
   - Linear: KIM-71
   - Acceptance: `internal/connectors/status.go` keeps connector status assembly under the normal 75-line budget by moving connector models, generated policy loading, public-safe sanitization, token/list normalization, and operation counting into focused files; fixture-only generated connector readiness, unsafe-operation rejection, and public-safe metadata behavior remain unchanged; `internal/connectors/status.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/connectors ./internal/codeshape`; `go run ./cmd/mhj connectors status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P119
+
+- [x] Ratchet translation status test debt under 75 lines.
+  - Linear: KIM-72
+  - Acceptance: `internal/translation/status_test.go` keeps manifest and missing/malformed debt coverage under the normal 75-line budget by moving forbidden-loss checks, public redaction checks, raw-public policy rejection, and translation policy/file helpers into focused files; private manifest/loss debt counting, forbidden loss counting, and public status redaction behavior remain unchanged; `internal/translation/status_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/translation ./internal/codeshape`; `go run ./cmd/mhj translation status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

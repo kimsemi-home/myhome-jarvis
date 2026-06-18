@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 06:07 KST
+
+- Linear issue: KIM-72 created and moved to In Progress.
+- Mode: code-shape burn-down, Translation status test refactor.
+- Task: Remove `internal/translation/status_test.go` from code-shape legacy debt by splitting manifest debt, missing/malformed manifest debt, forbidden loss, public redaction, raw-public policy rejection, and fixture helpers into focused test files.
+- Files touched: `internal/translation/status_test.go`, `internal/translation/forbidden_test.go`, `internal/translation/redaction_test.go`, `internal/translation/policy_test.go`, `internal/translation/fixture_test.go`, `internal/translation/fixture_values_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept manifest and missing/malformed debt assertions in the original test; moved forbidden-loss coverage to a focused test; moved public redaction assertions to a redaction test; moved raw-public policy rejection to a policy test; moved translation policy and file fixtures into helper files; removed `internal/translation/status_test.go` from the generated code-shape legacy debt list; kept changed translation test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Translation and Code Shape tests, `mhj translation status`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 47 legacy debt files.
+- External-write note: created Linear issue KIM-72 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 06:00 KST
 
 - Linear issue: KIM-71 created and moved to In Progress.
