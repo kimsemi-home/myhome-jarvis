@@ -25,6 +25,7 @@
    #:*confidence-policy*
    #:*translation-policy*
    #:*control-plane-policy*
+   #:*incident-policy*
    #:*linear-policy*
    #:*planner-policy*
    #:validate-ssot

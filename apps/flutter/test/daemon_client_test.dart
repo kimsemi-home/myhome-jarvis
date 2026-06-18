@@ -323,7 +323,7 @@ void main() {
           _writeJson(request, {
             'policy_path': 'generated/evidence.generated.json',
             'private_root': 'data/private',
-            'source_count': 6,
+            'source_count': 7,
             'present_source_count': 2,
             'node_count': 4,
             'edge_count': 2,
@@ -398,6 +398,27 @@ void main() {
             'by_decision_kind': {'loop_once': 1, 'loop_worker_cycle': 1},
             'by_authority_profile': {'local_readonly': 2},
             'by_lease_status': {'finished': 2},
+          });
+          return;
+        case '/incidents/status':
+          _writeJson(request, {
+            'policy_path': 'generated/incidents.generated.json',
+            'ledger_path': 'data/private/incidents/incidents.jsonl',
+            'exists': true,
+            'count': 3,
+            'open_count': 2,
+            'closed_count': 1,
+            'invalid_incident_count': 0,
+            'incident_debt_count': 1,
+            'missing_owner_count': 0,
+            'missing_evidence_ref_count': 0,
+            'stale_quarantine_count': 1,
+            'quarantine_stale_after_hours': 168,
+            'by_kind': {'quarantine': 1, 'evidence_gap': 2},
+            'by_stage': {'owner_assigned': 1, 'knowledge_updated': 2},
+            'by_status': {'quarantined': 1, 'closed': 1, 'open': 1},
+            'by_owner_role': {'governance_steward': 1, 'go': 2},
+            'by_quarantine_state': {'quarantined': 1, 'released': 1},
           });
           return;
         case '/metrics':
@@ -602,6 +623,12 @@ void main() {
           .value,
       '2 manifests',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Incidents')
+          .value,
+      '1 incident debt',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
@@ -766,6 +793,7 @@ void main() {
       confidence: const <String, Object?>{},
       translation: const <String, Object?>{},
       controlPlane: const <String, Object?>{},
+      incidents: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,

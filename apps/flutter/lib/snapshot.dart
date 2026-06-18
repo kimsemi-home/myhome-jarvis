@@ -358,6 +358,11 @@ class JarvisSnapshot {
         value: '0 manifests',
         icon: Icons.route_outlined,
       ),
+      SystemMetric(
+        label: 'Incidents',
+        value: '0 incidents',
+        icon: Icons.crisis_alert_outlined,
+      ),
     ],
     commands: [
       HomeCommand(
@@ -717,6 +722,11 @@ class JarvisSnapshot {
           label: 'Control Plane',
           value: 'Local',
           icon: Icons.route_outlined,
+        ),
+        SystemMetric(
+          label: 'Incidents',
+          value: 'Local',
+          icon: Icons.crisis_alert_outlined,
         ),
       ],
       commands: sample.commands,

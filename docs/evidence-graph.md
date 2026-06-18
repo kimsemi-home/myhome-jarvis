@@ -28,8 +28,9 @@ go run ./cmd/mhj evidence status
 ```
 
 The command reads private evidence sources such as the Learning Ledger, quality
-runs, checkpoints, Control Plane manifests, Linear write evidence, and command
-intent audit journal. It returns a redacted graph summary only.
+runs, checkpoints, Control Plane manifests, Incident Lifecycle records, Linear
+write evidence, and command intent audit journal. It returns a redacted graph
+summary only.
 
 ## Daemon Status
 

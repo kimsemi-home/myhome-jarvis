@@ -82,6 +82,11 @@ records private local routing decisions with policy version, ontology version,
 authority profile, lease, separated reviewer/verifier roles, evidence inputs,
 and output refs, then exposes only redacted counts and manifest debt.
 
+The Incident Lifecycle is the first executable incident follow-through surface.
+It reads private incident records, checks lifecycle stage, owner role, evidence
+refs, and quarantine state, then exposes only redacted counts and incident debt
+so observed failures cannot vanish without classification and ownership.
+
 ## Validation
 
 Use these checks after changing the policy:
@@ -92,8 +97,9 @@ go run ./cmd/mhj evidence status
 go run ./cmd/mhj confidence status
 go run ./cmd/mhj translation status
 go run ./cmd/mhj control-plane status
+go run ./cmd/mhj incidents status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
-go test ./internal/agentcluster ./internal/translation ./internal/controlplane ./internal/daemon ./cmd/mhj
+go test ./internal/agentcluster ./internal/translation ./internal/controlplane ./internal/incidents ./internal/daemon ./cmd/mhj
 cd apps/flutter && flutter test test/daemon_client_test.dart test/snapshot_test.dart test/widget_test.dart
 ```

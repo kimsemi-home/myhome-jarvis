@@ -77,6 +77,7 @@
     (validate-confidence-policy *confidence-policy*)
     (validate-translation-policy *translation-policy*)
     (validate-control-plane-policy *control-plane-policy*)
+    (validate-incident-policy *incident-policy*)
     (unless (getf *linear-policy* :pull_active_only)
       (error "Linear pull must stay scoped to active issues by default"))
     (unless (getf *linear-policy* :team_scope_private)
@@ -469,6 +470,81 @@
       (error "Control-plane status command must stay in SSOT"))
     t))
 
+(defun validate-incident-policy (policy)
+  (let ((ledger (getf policy :private_incident_ledger))
+        (kinds (coerce (getf policy :allowed_kinds) 'list))
+        (lifecycle (coerce (getf policy :lifecycle) 'list))
+        (statuses (coerce (getf policy :allowed_statuses) 'list))
+        (owner-roles (coerce (getf policy :owner_roles) 'list))
+        (quarantine-states (coerce (getf policy :quarantine_states) 'list))
+        (required-fields (coerce (getf policy :required_fields) 'list))
+        (summary-fields (coerce (getf policy :public_summary_fields) 'list))
+        (stale-hours (getf policy :quarantine_stale_after_hours)))
+    (unless (string= (getf policy :context) "AgentCluster")
+      (error "Incident policy must belong to AgentCluster"))
+    (unless (and (stringp ledger)
+                 (>= (length ledger) 13)
+                 (string= "data/private/" (subseq ledger 0 13))
+                 (>= (length ledger) 6)
+                 (string= ".jsonl" (subseq ledger (- (length ledger) 6))))
+      (error "Incident ledger must stay under data/private as JSONL"))
+    (unless (and (getf policy :append_only)
+                 (getf policy :public_status_redacted))
+      (error "Incident ledger must be append-only and redacted"))
+    (when (getf policy :raw_incident_public_allowed)
+      (error "Incident status must not expose raw incident details"))
+    (unless (and (integerp stale-hours) (> stale-hours 0))
+      (error "Incident quarantine stale threshold must be positive"))
+    (dolist (kind '("quality_regression"
+                    "public_safety"
+                    "evidence_gap"
+                    "authority_violation"
+                    "quarantine"
+                    "feedback_loop_gap"))
+      (unless (find kind kinds :test #'string=)
+        (error "Incident kind missing: ~A" kind)))
+    (dolist (stage '("observed"
+                     "evidence_recorded"
+                     "classified"
+                     "owner_assigned"
+                     "fix_planned"
+                     "verified"
+                     "knowledge_updated"))
+      (unless (find stage lifecycle :test #'string=)
+        (error "Incident lifecycle missing stage: ~A" stage)))
+    (dolist (status '("open" "mitigating" "verified" "closed" "quarantined"))
+      (unless (find status statuses :test #'string=)
+        (error "Incident status missing: ~A" status)))
+    (dolist (role '("producer"
+                    "independent_reviewer"
+                    "adversarial_reviewer"
+                    "deterministic_verifier"
+                    "governance_steward"))
+      (unless (find role owner-roles :test #'string=)
+        (error "Incident owner role missing: ~A" role)))
+    (dolist (state '("none" "quarantined" "release_requested" "released"))
+      (unless (find state quarantine-states :test #'string=)
+        (error "Incident quarantine state missing: ~A" state)))
+    (dolist (field '("at" "kind" "stage" "status" "owner_role" "evidence_refs"))
+      (unless (find field required-fields :test #'string=)
+        (error "Incident required field missing: ~A" field)))
+    (dolist (field '("count"
+                     "open_count"
+                     "incident_debt_count"
+                     "missing_owner_count"
+                     "missing_evidence_ref_count"
+                     "stale_quarantine_count"
+                     "by_stage"
+                     "by_owner_role"
+                     "checked_at"))
+      (unless (find field summary-fields :test #'string=)
+        (error "Incident summary missing field: ~A" field)))
+    (unless (find "mhj incidents status"
+                  (coerce (getf policy :commands) 'list)
+                  :test #'string=)
+      (error "Incident status command must stay in SSOT"))
+    t))
+
 (defun validate-translation-policy (policy)
   (let ((ledger (getf policy :private_loss_ledger))
         (manifest-root (getf policy :private_manifest_root))
@@ -569,6 +645,8 @@
                    *translation-policy*)
   (write-json-file (merge-pathnames "generated/control_plane.generated.json" root)
                    *control-plane-policy*)
+  (write-json-file (merge-pathnames "generated/incidents.generated.json" root)
+                   *incident-policy*)
   (write-json-file (merge-pathnames "generated/linear.generated.json" root)
                    *linear-policy*)
   (write-json-file (merge-pathnames "generated/planner.generated.json" root)

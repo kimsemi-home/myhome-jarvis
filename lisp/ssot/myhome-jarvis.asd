@@ -19,6 +19,7 @@
                (:file "confidence")
                (:file "translation")
                (:file "control-plane")
+               (:file "incidents")
                (:file "linear")
                (:file "planner")
                (:file "codegen")))

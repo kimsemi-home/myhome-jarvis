@@ -139,6 +139,16 @@
                           "internal/controlplane/status.go"
                           "docs/control-plane-manifest.md")
      :related_concepts #("ClosedLoopPlanner" "CheckpointRecorded" "EvidenceGraph" "AgentClusterPolicy" "SecurityPolicy"))
+    (:canonical_name "IncidentLifecycle"
+     :bounded_context "AgentCluster"
+     :ddd_kind "Repository"
+     :description "A private incident lifecycle ledger that classifies observed failures, assigns owner roles, tracks quarantine state, and exposes only redacted incident debt."
+     :allowed_aliases #("incident lifecycle" "incident ledger" "quarantine report" "incident debt" "feedback loop incident")
+     :owner "internal/incidents"
+     :generated_targets #("generated/incidents.generated.json"
+                          "internal/incidents/status.go"
+                          "docs/incident-lifecycle.md")
+     :related_concepts #("LearningLedger" "EvidenceGraph" "ConfidenceAssessor" "AgentClusterPolicy" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -273,6 +283,7 @@
     (:name "confidence" :path "generated/confidence.generated.json" :owner "AgentCluster")
     (:name "translation" :path "generated/translation.generated.json" :owner "AgentCluster")
     (:name "control_plane" :path "generated/control_plane.generated.json" :owner "AgentOps")
+    (:name "incidents" :path "generated/incidents.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

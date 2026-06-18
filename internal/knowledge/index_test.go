@@ -19,7 +19,7 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if report.ContextCount != 9 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 19 {
+	if report.ConceptCount != 20 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
@@ -175,6 +175,22 @@ func TestSearchControlPlaneManifestReturnsRoutingEvidence(t *testing.T) {
 	}
 	if !containsString(report.MustRead, "docs/control-plane-manifest.md") {
 		t.Fatalf("must read missing docs/control-plane-manifest.md: %#v", report.MustRead)
+	}
+}
+
+func TestSearchIncidentLifecycleReturnsIncidentEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "incident lifecycle quarantine owner")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "IncidentLifecycle") {
+		t.Fatalf("expected IncidentLifecycle concept, got %#v", report.Concepts)
+	}
+	if !containsString(report.MustRead, "generated/incidents.generated.json") {
+		t.Fatalf("must read missing incidents artifact: %#v", report.MustRead)
+	}
+	if !containsString(report.MustRead, "docs/incident-lifecycle.md") {
+		t.Fatalf("must read missing docs/incident-lifecycle.md: %#v", report.MustRead)
 	}
 }
 

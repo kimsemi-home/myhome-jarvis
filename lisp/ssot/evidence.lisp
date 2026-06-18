@@ -12,6 +12,7 @@
                       "evidence_artifact"
                       "checkpoint"
                       "control_plane_manifest"
+                      "incident"
                       "quality_run"
                       "linear_write"
                       "audit_event")
@@ -30,6 +31,10 @@
                             (:key "control_plane"
                              :path "data/private/control-plane/manifests.jsonl"
                              :node_kind "control_plane_manifest"
+                             :format "jsonl")
+                            (:key "incidents"
+                             :path "data/private/incidents/incidents.jsonl"
+                             :node_kind "incident"
                              :format "jsonl")
                             (:key "quality"
                              :path "data/private/quality/runs.jsonl"

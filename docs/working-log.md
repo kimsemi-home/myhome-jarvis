@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 21:17 KST
+
+- Linear issue: KIM-24 created and moved to In Progress.
+- Mode: next-vision foundation, Incident Lifecycle status only.
+- Task: Add private incident lifecycle status so observed failures can be classified, assigned to an owner role, checked for quarantine debt, and tracked without publishing raw incident details.
+- Files touched: `lisp/ssot/incidents.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/evidence.lisp`, `lisp/ssot/codegen.lisp`, `generated/incidents.generated.json`, `generated/concepts.generated.json`, `generated/evidence.generated.json`, `internal/incidents/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Incident Lifecycle docs.
+- Changes: added SSOT-owned Incident Lifecycle policy; added redacted incident status over a private append-only incident ledger; counts malformed records, missing owner roles, missing evidence refs, and stale quarantine as incident debt; exposed `mhj incidents status` and daemon `GET /incidents/status`; added Flutter Incidents metric; included generated incident metadata in Flutter CI cache keys and CI contract validation.
+- Validation after: full `mhj quality` with Go 1.26.2 passed, including security current/history checks, Go test/vet/gofmt, SSOT validation, codegen verify, DDD verify, Flutter test/analyze, and Rust checks; private identity narrow scan and `git diff --check` passed.
+- External-write note: created Linear issue KIM-24 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-24.
+
 ## 2026-06-18 10:51 KST
 
 - Linear issue: KIM-23 created and moved to In Progress.

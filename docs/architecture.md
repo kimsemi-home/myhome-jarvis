@@ -31,7 +31,7 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`,
 `GET /quality/status`, `GET /planner/status`, and
-`GET /control-plane/status`.
+`GET /control-plane/status`, and `GET /incidents/status`.
 It binds to `127.0.0.1` by default.
 LAN binding requires `--allow-lan` and non-localhost requests must include a
 Bearer token stored only in `data/private/local-token.txt`.
@@ -202,6 +202,14 @@ shows a read-only Control Plane metric. Raw rationale, candidate agents,
 evidence refs, output refs, Linear URLs, tokens, credentials, local absolute
 paths, and private evidence contents stay out of public surfaces.
 
+The first Incident Lifecycle surface makes observed failures traceable without
+publishing incident details. Common Lisp SSOT owns
+`generated/incidents.generated.json`, Go exposes `mhj incidents status` and
+daemon `GET /incidents/status`, and Flutter shows a read-only Incidents metric.
+Private incident records stay under `data/private/incidents`; public status
+exposes only counts, lifecycle buckets, owner-role buckets, quarantine state
+buckets, stale quarantine debt, and timestamps.
+
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
 client with status, command, finance, purchases, Linear, storage, connector
 readiness, Agent Cluster, household, and optimization tabs.
@@ -222,5 +230,6 @@ quality gate, open learning observations, and Evidence Graph links are
 recorded. It also shows the external Confidence cap instead of any agent
 self-reported certainty, the Translation manifest debt count for context
 movement, and the Control Plane manifest debt count for orchestration
-decisions.
+decisions. It also shows Incident Lifecycle debt so classified failures and
+quarantine state remain visible without leaking raw incident contents.
 Platform runner files are left out until device packaging is required.

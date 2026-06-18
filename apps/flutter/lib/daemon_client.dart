@@ -37,6 +37,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final confidence = await _getObject(client, '/confidence/status');
       final translation = await _getObject(client, '/translation/status');
       final controlPlane = await _getObject(client, '/control-plane/status');
+      final incidents = await _getObject(client, '/incidents/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -58,6 +59,7 @@ class DaemonSnapshotClient implements JarvisClient {
         confidence: confidence,
         translation: translation,
         controlPlane: controlPlane,
+        incidents: incidents,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -171,6 +173,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> confidence,
   required Map<String, Object?> translation,
   required Map<String, Object?> controlPlane,
+  required Map<String, Object?> incidents,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -228,6 +231,8 @@ JarvisSnapshot buildSnapshot({
   final translationManifests = _int(translation['manifest_count']) ?? 0;
   final controlPlaneManifests = _int(controlPlane['count']) ?? 0;
   final controlPlaneDebt = _int(controlPlane['manifest_debt_count']) ?? 0;
+  final incidentCount = _int(incidents['count']) ?? 0;
+  final incidentDebt = _int(incidents['incident_debt_count']) ?? 0;
 
   return JarvisSnapshot(
     metrics: [
@@ -374,6 +379,13 @@ JarvisSnapshot buildSnapshot({
             ? '$controlPlaneDebt manifest debt'
             : '$controlPlaneManifests manifests',
         icon: Icons.route_outlined,
+      ),
+      SystemMetric(
+        label: 'Incidents',
+        value: incidentDebt > 0
+            ? '$incidentDebt incident debt'
+            : '$incidentCount incidents',
+        icon: Icons.crisis_alert_outlined,
       ),
       SystemMetric(
         label: 'Repo',

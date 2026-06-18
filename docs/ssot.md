@@ -23,6 +23,7 @@ Current SSOT boundaries are intentionally separated by domain:
 - `confidence`: external confidence cap policy over local evidence signals.
 - `translation`: context translation manifest and semantic loss ledger policy.
 - `control-plane`: private orchestration decision manifest policy.
+- `incidents`: private incident lifecycle and quarantine debt policy.
 
 The planner SSOT emits `generated/planner.generated.json`. Go reads that
 artifact for `mhj planner status` and daemon `GET /planner/status`; Flutter
@@ -100,6 +101,13 @@ consumes the daemon status as a read-only Control Plane metric. The generated
 policy keeps local orchestration decision receipts private, requires
 reviewer/verifier separation, validates lease bounds and authority profiles,
 and exposes only counts, debt totals, booleans, and timestamps.
+
+The Incident Lifecycle SSOT emits `generated/incidents.generated.json`. Go
+reads that artifact for `mhj incidents status` and daemon
+`GET /incidents/status`; Flutter consumes the daemon status as a read-only
+Incidents metric. The generated policy keeps incident records private, requires
+owner roles and evidence refs, tracks quarantine stale debt, and exposes only
+counts, buckets, booleans, and timestamps.
 
 Use `mhj codegen verify` before committing SSOT or generated artifact changes.
 It snapshots the current `generated` tree, regenerates artifacts from Lisp, and

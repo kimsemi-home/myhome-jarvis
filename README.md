@@ -82,6 +82,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/confidence`: external confidence cap status over local evidence.
 - `internal/translation`: private Translation Manifest and Loss Ledger status.
 - `internal/controlplane`: private Control Plane Manifest status for local orchestration decisions.
+- `internal/incidents`: private Incident Lifecycle status for classified failures, owner roles, and quarantine debt.
 - `internal/daemon`: local API, auth enforcement, metrics, and bounded request events.
 - `internal/supervisor`: daemon process state and status checks.
 - `internal/security`: forbidden language, secret, and private-data checks.
