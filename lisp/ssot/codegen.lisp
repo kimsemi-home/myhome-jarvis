@@ -76,6 +76,7 @@
     (validate-evidence-graph-policy *evidence-graph-policy*)
     (validate-confidence-policy *confidence-policy*)
     (validate-translation-policy *translation-policy*)
+    (validate-control-plane-policy *control-plane-policy*)
     (unless (getf *linear-policy* :pull_active_only)
       (error "Linear pull must stay scoped to active issues by default"))
     (unless (getf *linear-policy* :team_scope_private)
@@ -403,6 +404,71 @@
           (error "Harness case ~A must declare an evidence target" name))))
     t))
 
+(defun validate-control-plane-policy (policy)
+  (let ((ledger (getf policy :private_manifest_ledger))
+        (decision-kinds (coerce (getf policy :allowed_decision_kinds) 'list))
+        (authority-profiles (coerce (getf policy :allowed_authority_profiles) 'list))
+        (lease-statuses (coerce (getf policy :allowed_lease_statuses) 'list))
+        (required-fields (coerce (getf policy :required_fields) 'list))
+        (summary-fields (coerce (getf policy :public_summary_fields) 'list))
+        (min-lease (getf policy :min_lease_seconds))
+        (max-lease (getf policy :max_lease_seconds)))
+    (unless (string= (getf policy :context) "AgentOps")
+      (error "Control-plane policy must belong to AgentOps"))
+    (unless (and (stringp ledger)
+                 (>= (length ledger) 13)
+                 (string= "data/private/" (subseq ledger 0 13))
+                 (>= (length ledger) 6)
+                 (string= ".jsonl" (subseq ledger (- (length ledger) 6))))
+      (error "Control-plane manifest ledger must stay under data/private as JSONL"))
+    (unless (and (getf policy :manifest_required)
+                 (getf policy :append_only)
+                 (getf policy :public_status_redacted))
+      (error "Control-plane manifests must be append-only, required, and redacted"))
+    (when (getf policy :raw_rationale_public_allowed)
+      (error "Control-plane status must not expose raw rationale"))
+    (unless (getf policy :verifier_separation_required)
+      (error "Control-plane verifier separation must be required"))
+    (unless (and (integerp min-lease) (integerp max-lease) (< min-lease max-lease))
+      (error "Control-plane lease bounds must be valid"))
+    (dolist (kind '("loop_once" "loop_worker_cycle" "checkpoint_write"))
+      (unless (find kind decision-kinds :test #'string=)
+        (error "Control-plane decision kind missing: ~A" kind)))
+    (dolist (profile '("local_readonly" "external_write_gated"))
+      (unless (find profile authority-profiles :test #'string=)
+        (error "Control-plane authority profile missing: ~A" profile)))
+    (dolist (status '("issued" "active" "finished" "aborted" "quarantined"))
+      (unless (find status lease-statuses :test #'string=)
+        (error "Control-plane lease status missing: ~A" status)))
+    (dolist (field '("decision_kind"
+                     "policy_version"
+                     "ontology_version"
+                     "authority_profile"
+                     "selected_route"
+                     "reviewer_role"
+                     "verifier_role"
+                     "lease_seconds"
+                     "lease_status"
+                     "evidence_refs"
+                     "output_ref"))
+      (unless (find field required-fields :test #'string=)
+        (error "Control-plane manifest missing required field: ~A" field)))
+    (dolist (field '("count"
+                     "invalid_manifest_count"
+                     "manifest_debt_count"
+                     "verifier_violation_count"
+                     "by_decision_kind"
+                     "by_authority_profile"
+                     "by_lease_status"
+                     "checked_at"))
+      (unless (find field summary-fields :test #'string=)
+        (error "Control-plane summary missing field: ~A" field)))
+    (unless (find "mhj control-plane status"
+                  (coerce (getf policy :commands) 'list)
+                  :test #'string=)
+      (error "Control-plane status command must stay in SSOT"))
+    t))
+
 (defun validate-translation-policy (policy)
   (let ((ledger (getf policy :private_loss_ledger))
         (manifest-root (getf policy :private_manifest_root))
@@ -501,6 +567,8 @@
                    *confidence-policy*)
   (write-json-file (merge-pathnames "generated/translation.generated.json" root)
                    *translation-policy*)
+  (write-json-file (merge-pathnames "generated/control_plane.generated.json" root)
+                   *control-plane-policy*)
   (write-json-file (merge-pathnames "generated/linear.generated.json" root)
                    *linear-policy*)
   (write-json-file (merge-pathnames "generated/planner.generated.json" root)

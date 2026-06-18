@@ -22,6 +22,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/confidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/connectors"
+	"github.com/kimsemi-home/myhome-jarvis/internal/controlplane"
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/knowledge"
@@ -139,6 +140,10 @@ func run(args []string) error {
 		if len(args) == 2 && args[1] == "status" {
 			return translationStatus(root)
 		}
+	case "control-plane":
+		if len(args) == 2 && args[1] == "status" {
+			return controlPlaneStatus(root)
+		}
 	case "harness":
 		return runHarness(root, args[1:])
 	case "toolchain":
@@ -236,7 +241,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|evidence status|confidence status|translation status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|evidence status|confidence status|translation status|control-plane status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -349,6 +354,9 @@ func loopOnce(root string) error {
 	if err != nil {
 		return err
 	}
+	if _, err := appendControlPlaneManifest(root, "loop_once", "loop_once", filepath.ToSlash(checkpointPath)); err != nil {
+		return err
+	}
 	return writeJSON(map[string]any{
 		"ok":              securityStatus.OK,
 		"checkpoint":      filepath.ToSlash(checkpointPath),
@@ -439,6 +447,14 @@ func translationStatus(root string) error {
 	return writeJSON(status)
 }
 
+func controlPlaneStatus(root string) error {
+	status, err := controlplane.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
 func loopWorker(root string, args []string) error {
 	flags := flag.NewFlagSet("loop worker", flag.ContinueOnError)
 	flags.SetOutput(os.Stderr)
@@ -482,12 +498,39 @@ func loopWorker(root string, args []string) error {
 		if err != nil {
 			return scheduler.JobResult{}, err
 		}
+		checkpointRef := path
+		if rel, err := filepath.Rel(root, path); err == nil {
+			checkpointRef = filepath.ToSlash(rel)
+		}
+		if _, err := appendControlPlaneManifest(root, "loop_worker_cycle", "loop_worker", checkpointRef); err != nil {
+			return scheduler.JobResult{}, err
+		}
 		return scheduler.JobResult{Checkpoint: path}, nil
 	})
 	if err != nil {
 		return err
 	}
 	return writeJSON(status)
+}
+
+func appendControlPlaneManifest(root string, decisionKind string, selectedRoute string, outputRef string) (controlplane.RecordResult, error) {
+	return controlplane.AppendManifest(root, controlplane.ManifestRequest{
+		DecisionKind:     decisionKind,
+		PolicyVersion:    "control-plane:v1",
+		OntologyVersion:  "concepts:v1",
+		AuthorityProfile: "local_readonly",
+		SelectedRoute:    selectedRoute,
+		ReviewerRole:     "go_review_gate",
+		VerifierRole:     "deterministic_verifier",
+		LeaseSeconds:     120,
+		LeaseStatus:      "finished",
+		EvidenceRefs: []string{
+			"generated/control_plane.generated.json",
+			"generated/planner.generated.json",
+			"generated/concepts.generated.json",
+		},
+		OutputRef: outputRef,
+	})
 }
 
 type qualityStep struct {
@@ -805,6 +848,7 @@ func validateCIWorkflowContract(root string) error {
 		"'generated/evidence.generated.json'",
 		"'generated/confidence.generated.json'",
 		"'generated/translation.generated.json'",
+		"'generated/control_plane.generated.json'",
 		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",
 	}
 	for _, token := range required {

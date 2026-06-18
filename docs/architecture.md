@@ -30,7 +30,8 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /confidence/status`, `GET /household/summary`,
 `GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`,
-`GET /quality/status`, and `GET /planner/status`.
+`GET /quality/status`, `GET /planner/status`, and
+`GET /control-plane/status`.
 It binds to `127.0.0.1` by default.
 LAN binding requires `--allow-lan` and non-localhost requests must include a
 Bearer token stored only in `data/private/local-token.txt`.
@@ -192,6 +193,15 @@ shows a redacted Translation metric. Private manifests and semantic loss
 records stay under `data/private/translation`; public status exposes only
 counts, context names, levels, booleans, and timestamps.
 
+The first Control Plane Manifest surface makes local orchestration choices
+auditable without publishing routing rationale. Common Lisp SSOT owns
+`generated/control_plane.generated.json`, Go appends private manifests for
+`mhj loop once` and bounded loop-worker decisions, daemon
+`GET /control-plane/status` exposes only redacted counts and debt, and Flutter
+shows a read-only Control Plane metric. Raw rationale, candidate agents,
+evidence refs, output refs, Linear URLs, tokens, credentials, local absolute
+paths, and private evidence contents stay out of public surfaces.
+
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
 client with status, command, finance, purchases, Linear, storage, connector
 readiness, Agent Cluster, household, and optimization tabs.
@@ -210,6 +220,7 @@ clean or dirty, aggregate public-safety status without raw findings, whether
 the recorded daemon supervisor state is reachable, and how many command audit
 quality gate, open learning observations, and Evidence Graph links are
 recorded. It also shows the external Confidence cap instead of any agent
-self-reported certainty, plus the Translation manifest debt count for context
-movement.
+self-reported certainty, the Translation manifest debt count for context
+movement, and the Control Plane manifest debt count for orchestration
+decisions.
 Platform runner files are left out until device packaging is required.

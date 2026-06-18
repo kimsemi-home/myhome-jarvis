@@ -323,7 +323,7 @@ void main() {
           _writeJson(request, {
             'policy_path': 'generated/evidence.generated.json',
             'private_root': 'data/private',
-            'source_count': 5,
+            'source_count': 6,
             'present_source_count': 2,
             'node_count': 4,
             'edge_count': 2,
@@ -381,6 +381,23 @@ void main() {
             'by_level': {'l2_degraded': 1},
             'by_source_context': {'AgentCluster': 1},
             'by_target_context': {'KnowledgeIndex': 1},
+          });
+          return;
+        case '/control-plane/status':
+          _writeJson(request, {
+            'policy_path': 'generated/control_plane.generated.json',
+            'manifest_path': 'data/private/control-plane/manifests.jsonl',
+            'exists': true,
+            'count': 2,
+            'invalid_manifest_count': 0,
+            'manifest_debt_count': 0,
+            'verifier_separation_required': true,
+            'verifier_violation_count': 0,
+            'min_lease_seconds': 1,
+            'max_lease_seconds': 3600,
+            'by_decision_kind': {'loop_once': 1, 'loop_worker_cycle': 1},
+            'by_authority_profile': {'local_readonly': 2},
+            'by_lease_status': {'finished': 2},
           });
           return;
         case '/metrics':
@@ -579,6 +596,12 @@ void main() {
           .value,
       '1 open debt',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Control Plane')
+          .value,
+      '2 manifests',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
@@ -742,6 +765,7 @@ void main() {
       evidence: const <String, Object?>{},
       confidence: const <String, Object?>{},
       translation: const <String, Object?>{},
+      controlPlane: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,

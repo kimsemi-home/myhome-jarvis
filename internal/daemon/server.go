@@ -21,6 +21,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/confidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/connectors"
+	"github.com/kimsemi-home/myhome-jarvis/internal/controlplane"
 	"github.com/kimsemi-home/myhome-jarvis/internal/domain"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/learning"
@@ -171,6 +172,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /evidence/status", server.wrap(server.handleEvidenceStatus))
 	mux.HandleFunc("GET /confidence/status", server.wrap(server.handleConfidenceStatus))
 	mux.HandleFunc("GET /translation/status", server.wrap(server.handleTranslationStatus))
+	mux.HandleFunc("GET /control-plane/status", server.wrap(server.handleControlPlaneStatus))
 	mux.HandleFunc("GET /household/summary", server.wrap(server.handleHouseholdSummary))
 	mux.HandleFunc("GET /recommendations/summary", server.wrap(server.handleRecommendationsSummary))
 	mux.HandleFunc("GET /metrics", server.wrap(server.handleMetrics))
@@ -412,6 +414,14 @@ func (server *Server) handleConfidenceStatus(writer http.ResponseWriter, request
 
 func (server *Server) handleTranslationStatus(writer http.ResponseWriter, request *http.Request) error {
 	status, err := translation.StatusForRoot(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, status)
+}
+
+func (server *Server) handleControlPlaneStatus(writer http.ResponseWriter, request *http.Request) error {
+	status, err := controlplane.StatusForRoot(server.config.Root)
 	if err != nil {
 		return err
 	}

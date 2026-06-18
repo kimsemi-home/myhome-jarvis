@@ -18,6 +18,7 @@
                (:file "evidence")
                (:file "confidence")
                (:file "translation")
+               (:file "control-plane")
                (:file "linear")
                (:file "planner")
                (:file "codegen")))

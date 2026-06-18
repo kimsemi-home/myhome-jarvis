@@ -353,6 +353,11 @@ class JarvisSnapshot {
         value: '0 manifests',
         icon: Icons.translate_outlined,
       ),
+      SystemMetric(
+        label: 'Control Plane',
+        value: '0 manifests',
+        icon: Icons.route_outlined,
+      ),
     ],
     commands: [
       HomeCommand(
@@ -707,6 +712,11 @@ class JarvisSnapshot {
           label: 'Translation',
           value: 'Local',
           icon: Icons.translate_outlined,
+        ),
+        SystemMetric(
+          label: 'Control Plane',
+          value: 'Local',
+          icon: Icons.route_outlined,
         ),
       ],
       commands: sample.commands,

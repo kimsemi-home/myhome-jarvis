@@ -77,6 +77,11 @@ surface. It reads private translation manifests and loss records, then exposes
 only redacted counts for missing manifests, malformed manifests, open semantic
 debt, forbidden loss categories, and source/target contexts.
 
+The Control Plane Manifest is the first executable orchestration receipt. It
+records private local routing decisions with policy version, ontology version,
+authority profile, lease, separated reviewer/verifier roles, evidence inputs,
+and output refs, then exposes only redacted counts and manifest debt.
+
 ## Validation
 
 Use these checks after changing the policy:
@@ -86,8 +91,9 @@ go run ./cmd/mhj agent-cluster status
 go run ./cmd/mhj evidence status
 go run ./cmd/mhj confidence status
 go run ./cmd/mhj translation status
+go run ./cmd/mhj control-plane status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
-go test ./internal/agentcluster ./internal/translation ./internal/daemon ./cmd/mhj
+go test ./internal/agentcluster ./internal/translation ./internal/controlplane ./internal/daemon ./cmd/mhj
 cd apps/flutter && flutter test test/daemon_client_test.dart test/snapshot_test.dart test/widget_test.dart
 ```

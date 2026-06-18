@@ -11,6 +11,7 @@
         :node_kinds #("learning_observation"
                       "evidence_artifact"
                       "checkpoint"
+                      "control_plane_manifest"
                       "quality_run"
                       "linear_write"
                       "audit_event")
@@ -26,6 +27,10 @@
                              :path "data/private/checkpoints"
                              :node_kind "checkpoint"
                              :format "directory")
+                            (:key "control_plane"
+                             :path "data/private/control-plane/manifests.jsonl"
+                             :node_kind "control_plane_manifest"
+                             :format "jsonl")
                             (:key "quality"
                              :path "data/private/quality/runs.jsonl"
                              :node_kind "quality_run"

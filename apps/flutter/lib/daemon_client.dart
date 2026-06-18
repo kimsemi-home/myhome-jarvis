@@ -36,6 +36,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final evidence = await _getObject(client, '/evidence/status');
       final confidence = await _getObject(client, '/confidence/status');
       final translation = await _getObject(client, '/translation/status');
+      final controlPlane = await _getObject(client, '/control-plane/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -56,6 +57,7 @@ class DaemonSnapshotClient implements JarvisClient {
         evidence: evidence,
         confidence: confidence,
         translation: translation,
+        controlPlane: controlPlane,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -168,6 +170,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> evidence,
   required Map<String, Object?> confidence,
   required Map<String, Object?> translation,
+  required Map<String, Object?> controlPlane,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -223,6 +226,8 @@ JarvisSnapshot buildSnapshot({
   final translationOpenDebt = _int(translation['open_debt_count']) ?? 0;
   final translationForbidden = _int(translation['forbidden_loss_count']) ?? 0;
   final translationManifests = _int(translation['manifest_count']) ?? 0;
+  final controlPlaneManifests = _int(controlPlane['count']) ?? 0;
+  final controlPlaneDebt = _int(controlPlane['manifest_debt_count']) ?? 0;
 
   return JarvisSnapshot(
     metrics: [
@@ -362,6 +367,13 @@ JarvisSnapshot buildSnapshot({
                   ? '$translationOpenDebt open debt'
                   : '$translationManifests manifests'),
         icon: Icons.translate_outlined,
+      ),
+      SystemMetric(
+        label: 'Control Plane',
+        value: controlPlaneDebt > 0
+            ? '$controlPlaneDebt manifest debt'
+            : '$controlPlaneManifests manifests',
+        icon: Icons.route_outlined,
       ),
       SystemMetric(
         label: 'Repo',

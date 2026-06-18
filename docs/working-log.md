@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 10:51 KST
+
+- Linear issue: KIM-23 created and moved to In Progress.
+- Mode: next-vision foundation, Control Plane Manifest status only.
+- Task: Add private orchestration decision receipts so closed-loop routing, authority, leases, verifier separation, evidence inputs, and checkpoint outputs become auditable without publishing raw rationale.
+- Files touched: `lisp/ssot/control-plane.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/evidence.lisp`, `lisp/ssot/codegen.lisp`, `generated/control_plane.generated.json`, `generated/concepts.generated.json`, `generated/evidence.generated.json`, `internal/controlplane/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Control Plane Manifest docs.
+- Changes: added SSOT-owned Control Plane Manifest policy; added private append-only manifest validation and redacted status; counts raw-rationale or sensitive manifest markers as debt; wired loop checkpoints to append local decision receipts; exposed `mhj control-plane status` and daemon `GET /control-plane/status`; added Flutter Control Plane metric; included generated control-plane metadata in Flutter CI cache keys and CI contract validation.
+- Validation after: `sbcl --script lisp/scripts/validate-ssot.lisp` passed; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj ddd verify` passed with 9 contexts and 19 concepts; focused Go tests for control-plane, daemon, CLI, KnowledgeIndex, and Evidence Graph passed; Flutter focused tests passed; `mhj control-plane status` returned one private `loop_once` manifest with zero debt after `mhj loop once`; `mhj evidence status` counted one `control_plane_manifest` node and zero dangling refs; `mhj knowledge search "control plane manifest orchestration"` returned `ControlPlaneManifest`; full `mhj quality` with Go 1.26.2 passed; daemon `GET /control-plane/status` smoke passed; public safety current/history checks, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-23 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: complete local validation, public-safety scans, commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-23.
+
 ## 2026-06-18 10:24 KST
 
 - Linear issue: KIM-22 created and moved to In Progress.

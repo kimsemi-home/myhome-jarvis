@@ -22,6 +22,7 @@
                   "../ssot/evidence.lisp"
                   "../ssot/confidence.lisp"
                   "../ssot/translation.lisp"
+                  "../ssot/control-plane.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"
                   "../ssot/codegen.lisp"))

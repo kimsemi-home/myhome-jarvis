@@ -24,6 +24,7 @@
    #:*evidence-graph-policy*
    #:*confidence-policy*
    #:*translation-policy*
+   #:*control-plane-policy*
    #:*linear-policy*
    #:*planner-policy*
    #:validate-ssot

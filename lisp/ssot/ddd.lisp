@@ -129,6 +129,16 @@
                           "internal/translation/status.go"
                           "docs/translation-manifest.md")
      :related_concepts #("ConceptRegistry" "EvidenceGraph" "LearningLedger" "AgentClusterPolicy" "SecurityPolicy"))
+    (:canonical_name "ControlPlaneManifest"
+     :bounded_context "AgentOps"
+     :ddd_kind "ValueObject"
+     :description "A private orchestration decision receipt that records local closed-loop routing policy, authority, lease, verifier separation, evidence inputs, and output refs without exposing raw rationale."
+     :allowed_aliases #("control plane manifest" "orchestration manifest" "routing receipt" "control-plane verifier" "lease manifest")
+     :owner "internal/controlplane"
+     :generated_targets #("generated/control_plane.generated.json"
+                          "internal/controlplane/status.go"
+                          "docs/control-plane-manifest.md")
+     :related_concepts #("ClosedLoopPlanner" "CheckpointRecorded" "EvidenceGraph" "AgentClusterPolicy" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -262,6 +272,7 @@
     (:name "evidence" :path "generated/evidence.generated.json" :owner "AgentCluster")
     (:name "confidence" :path "generated/confidence.generated.json" :owner "AgentCluster")
     (:name "translation" :path "generated/translation.generated.json" :owner "AgentCluster")
+    (:name "control_plane" :path "generated/control_plane.generated.json" :owner "AgentOps")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

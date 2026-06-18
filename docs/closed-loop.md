@@ -9,7 +9,7 @@ Each autonomous cycle should:
 5. Record a working-log start entry.
 6. Modify one file or a tightly connected set of files.
 7. Run the relevant quality gate.
-8. Record results and checkpoint evidence.
+8. Record results, checkpoint evidence, and a private Control Plane Manifest.
 
 The initial `loop once` command records a local checkpoint and never loops
 forever. Checkpoint filenames include sub-second precision so adjacent loop
@@ -17,8 +17,16 @@ cycles do not overwrite each other.
 
 The bounded worker surface is `mhj loop worker --cycles <n>`. Each cycle writes
 private scheduler state with heartbeat, next-run, backoff, and checkpoint
-metadata. `mhj loop status` and daemon `GET /loop/status` recover that state
-without claiming external sync success.
+metadata, then appends a private orchestration receipt. `mhj loop status` and
+daemon `GET /loop/status` recover scheduler state without claiming external
+sync success.
+
+Control Plane Manifest evidence records the local decision kind, policy
+version, ontology version, authority profile, lease, separated reviewer and
+verifier roles, evidence inputs, and checkpoint output reference under
+`data/private/control-plane/manifests.jsonl`. `mhj control-plane status` and
+daemon `GET /control-plane/status` expose only redacted counts, debt totals,
+booleans, lease bounds, and timestamps.
 
 Closed-loop checkpoints store redacted status summaries. Linear status evidence
 keeps mode, token-configured state, sync state, repo-relative queue path, HTTP
