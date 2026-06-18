@@ -558,3 +558,10 @@
   - Linear: KIM-31
   - Acceptance: `cmd/mhj/main.go` sheds bounded loop orchestration, checkpoint, scheduler worker, and control-plane manifest append helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 791-line debt value; `mhj loop once`, `mhj loop status`, `mhj loop worker --cycles 1`, and `mhj quality` behavior remains unchanged.
   - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/orchestrator ./internal/scheduler`; `go run ./cmd/mhj loop once`; `go run ./cmd/mhj loop status`; `go run ./cmd/mhj loop worker --cycles 1`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P79
+
+- [x] Ratchet CLI status helper debt.
+  - Linear: KIM-32
+  - Acceptance: `cmd/mhj/main.go` sheds read-only status helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 647-line debt value; status command routing, JSON output shape, and code-shape failure behavior remain unchanged.
+  - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/agentcluster ./internal/authority`; representative status commands; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

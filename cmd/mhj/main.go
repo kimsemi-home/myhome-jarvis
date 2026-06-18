@@ -14,29 +14,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kimsemi-home/myhome-jarvis/internal/agentcluster"
 	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
-	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
-	"github.com/kimsemi-home/myhome-jarvis/internal/codeshape"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
-	"github.com/kimsemi-home/myhome-jarvis/internal/confidence"
-	"github.com/kimsemi-home/myhome-jarvis/internal/connectors"
-	"github.com/kimsemi-home/myhome-jarvis/internal/controlplane"
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
-	"github.com/kimsemi-home/myhome-jarvis/internal/evidence"
-	"github.com/kimsemi-home/myhome-jarvis/internal/evidencequality"
-	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
 	"github.com/kimsemi-home/myhome-jarvis/internal/knowledge"
 	"github.com/kimsemi-home/myhome-jarvis/internal/learning"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
-	"github.com/kimsemi-home/myhome-jarvis/internal/planner"
 	"github.com/kimsemi-home/myhome-jarvis/internal/qualitylog"
-	"github.com/kimsemi-home/myhome-jarvis/internal/repo"
-	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
 	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
-	"github.com/kimsemi-home/myhome-jarvis/internal/translation"
 )
 
 const version = "0.1.0-bootstrap"
@@ -330,132 +317,6 @@ func runHarness(root string, args []string) error {
 		return fmt.Errorf("%s harness failed", report.Name)
 	}
 	return nil
-}
-
-func repoStatus(root string) error {
-	status, err := repo.Inspect(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func plannerStatus(root string) error {
-	status, err := planner.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func connectorsStatus(root string) error {
-	status, err := connectors.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func agentClusterStatus(root string) error {
-	status, err := agentcluster.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func auditStatus(root string) error {
-	status, err := audit.CommandIntentStatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func qualityStatus(root string) error {
-	status, err := qualitylog.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func codeShapeStatus(root string) error {
-	status, err := codeshape.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	if err := writeJSON(status); err != nil {
-		return err
-	}
-	if !status.OK {
-		return errors.New("code shape budget regression")
-	}
-	return nil
-}
-
-func evidenceStatus(root string) error {
-	status, err := evidence.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func confidenceStatus(root string) error {
-	status, err := confidence.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func translationStatus(root string) error {
-	status, err := translation.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func controlPlaneStatus(root string) error {
-	status, err := controlplane.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func incidentsStatus(root string) error {
-	status, err := incidents.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func evidenceQualityStatus(root string) error {
-	status, err := evidencequality.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func reviewStatus(root string) error {
-	status, err := review.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func authorityStatus(root string) error {
-	status, err := authority.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
 }
 
 type qualityStep struct {
