@@ -1,27 +1,29 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myhome_jarvis_app/snapshot.dart';
 
+import 'snapshot_generated_helpers.dart';
+
 void main() {
   test('offline fallback commands match generated command catalog', () async {
-    final generated = await _generatedCommands();
+    final generated = await generatedCommands();
     final fallbackByName = {
       for (final command in JarvisSnapshot.sample.commands)
         command.name: command,
     };
     final generatedNames = {
-      for (final command in generated) _displayName(_string(command['name'])),
+      for (final command in generated)
+        displayName(requiredString(command['name'])),
     };
 
     expect(fallbackByName.keys, unorderedEquals(generatedNames));
 
     for (final command in generated) {
-      final name = _displayName(_string(command['name']));
+      final name = displayName(requiredString(command['name']));
       final fallback = fallbackByName[name];
       expect(fallback, isNotNull, reason: '$name missing from fallback');
-      final fields = _stringList(command['payload_fields']);
+      final fields = requiredStringList(command['payload_fields']);
       expect(fallback!.payloadFields, fields, reason: '$name payload fields');
 
       final decoded = jsonDecode(fallback.payload);
@@ -38,113 +40,4 @@ void main() {
       );
     }
   });
-
-  test('offline fallback connectors are generated catalog entries', () async {
-    final generated = await _generatedConnectors();
-    final generatedKeys = {
-      for (final connector in generated) _string(connector['key']),
-    };
-    final fallbackKeys = {
-      for (final connector in JarvisSnapshot.sample.connectors) connector.key,
-    };
-
-    expect(generatedKeys, containsAll(fallbackKeys));
-  });
-
-  test(
-    'offline fallback agent cluster signals are generated entries',
-    () async {
-      final generated = await _generatedAgentClusterSignals();
-      final generatedKeys = {
-        for (final signal in generated) _string(signal['key']),
-      };
-      final fallbackKeys = {
-        for (final signal in JarvisSnapshot.sample.agentClusterSignals)
-          signal.key,
-      };
-
-      expect(generatedKeys, containsAll(fallbackKeys));
-    },
-  );
-}
-
-Future<List<Map<String, Object?>>> _generatedCommands() async {
-  final path = _findGeneratedCommandCatalog();
-  final decoded = jsonDecode(await path.readAsString());
-  if (decoded is! Map<String, Object?>) {
-    throw FormatException('generated command catalog must be an object');
-  }
-  final commands = decoded['commands'];
-  if (commands is! List<Object?>) {
-    throw FormatException('generated command catalog commands must be a list');
-  }
-  return commands.whereType<Map<String, Object?>>().toList(growable: false);
-}
-
-File _findGeneratedCommandCatalog() {
-  return _findGeneratedFile('generated/commands.generated.json');
-}
-
-Future<List<Map<String, Object?>>> _generatedConnectors() async {
-  final path = _findGeneratedFile('generated/connectors.generated.json');
-  final decoded = jsonDecode(await path.readAsString());
-  if (decoded is! Map<String, Object?>) {
-    throw FormatException('generated connector catalog must be an object');
-  }
-  final connectors = decoded['connectors'];
-  if (connectors is! List<Object?>) {
-    throw FormatException(
-      'generated connector catalog connectors must be a list',
-    );
-  }
-  return connectors.whereType<Map<String, Object?>>().toList(growable: false);
-}
-
-Future<List<Map<String, Object?>>> _generatedAgentClusterSignals() async {
-  final path = _findGeneratedFile('generated/agent_cluster.generated.json');
-  final decoded = jsonDecode(await path.readAsString());
-  if (decoded is! Map<String, Object?>) {
-    throw FormatException('generated agent cluster policy must be an object');
-  }
-  final signals = decoded['signals'];
-  if (signals is! List<Object?>) {
-    throw FormatException('generated agent cluster signals must be a list');
-  }
-  return signals.whereType<Map<String, Object?>>().toList(growable: false);
-}
-
-File _findGeneratedFile(String relativePath) {
-  var directory = Directory.current;
-  for (;;) {
-    final candidate = File('${directory.path}/$relativePath');
-    if (candidate.existsSync()) {
-      return candidate;
-    }
-    final parent = directory.parent;
-    if (parent.path == directory.path) {
-      throw FileSystemException(
-        'could not find generated file',
-        Directory.current.path,
-      );
-    }
-    directory = parent;
-  }
-}
-
-String _displayName(String name) {
-  return name.replaceAll('_', '-');
-}
-
-String _string(Object? value) {
-  if (value is String && value.isNotEmpty) {
-    return value;
-  }
-  throw FormatException('expected non-empty string');
-}
-
-List<String> _stringList(Object? value) {
-  if (value is! List<Object?>) {
-    throw FormatException('expected string list');
-  }
-  return value.whereType<String>().toList(growable: false);
 }

@@ -36,8 +36,7 @@
                               (:path "internal/linear/replay_test.go" :max_lines 185)
                               (:path "crates/mhj-core/src/household.rs" :max_lines 178) (:path "crates/mhj-core/src/storage.rs" :max_lines 177)
                               (:path "internal/translation/status_test.go" :max_lines 167) (:path "crates/mhj-core/src/recommendations.rs" :max_lines 162)
-                              (:path "internal/connectors/status.go" :max_lines 156) (:path "internal/planner/status_test.go" :max_lines 154)
-                              (:path "apps/flutter/test/snapshot_test.dart" :max_lines 150))
+                              (:path "internal/connectors/status.go" :max_lines 156) (:path "internal/planner/status_test.go" :max_lines 154))
         :public_summary_fields #("policy_path" "max_file_lines" "file_count"
                                  "over_budget_count" "legacy_debt_count"
                                  "budget_regression_count" "max_observed_path"

@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 05:40 KST
+
+- Linear issue: KIM-69 created and moved to In Progress.
+- Mode: code-shape burn-down, Flutter offline snapshot test refactor.
+- Task: Remove `apps/flutter/test/snapshot_test.dart` from code-shape legacy debt by splitting generated command catalog coverage, connector/signal catalog coverage, and generated JSON helper lookup/type validation into focused files.
+- Files touched: `apps/flutter/test/snapshot_test.dart`, `apps/flutter/test/snapshot_catalog_test.dart`, `apps/flutter/test/snapshot_generated_helpers.dart`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept offline fallback command and payload coverage in the original test; moved connector and Agent Cluster signal catalog checks to a focused catalog test; moved generated JSON lookup/type helper functions into a support file; removed `apps/flutter/test/snapshot_test.dart` from the generated code-shape legacy debt list; kept changed Flutter test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Flutter snapshot tests, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 50 legacy debt files.
+- External-write note: created Linear issue KIM-69 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 05:31 KST
 
 - Linear issue: KIM-68 created and moved to In Progress.

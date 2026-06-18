@@ -817,3 +817,10 @@
   - Linear: KIM-68
   - Acceptance: SSOT CI keeps hash-scoped unit cache behavior and generated artifact verification on cache misses while replacing the direct `apt-get install sbcl` path with a Common Lisp setup action using `sbcl-bin`; CI contract verification requires the stable Lisp setup and Roswell-backed script invocations.
   - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj ci verify`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P116
+
+- [x] Ratchet Flutter snapshot test debt under 75 lines.
+  - Linear: KIM-69
+  - Acceptance: `apps/flutter/test/snapshot_test.dart` keeps generated command catalog and payload coverage under the normal 75-line budget by moving connector/signal catalog tests and generated JSON helper lookup/type validation into focused files; offline snapshot command, connector, and Agent Cluster fallback coverage remains unchanged; `apps/flutter/test/snapshot_test.dart` is removed from Code Shape legacy debt.
+  - Validation: `cd apps/flutter && flutter test test/snapshot_test.dart test/snapshot_catalog_test.dart`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
