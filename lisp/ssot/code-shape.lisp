@@ -33,7 +33,7 @@
                               (:path "internal/supervisor/status.go" :max_lines 215) (:path "crates/mhj-core/src/lib.rs" :max_lines 204)
                               (:path "internal/commands/registry_test.go" :max_lines 202) (:path "internal/commands/harness.go" :max_lines 197)
                               (:path "internal/controlplane/status_test.go" :max_lines 194) (:path "lisp/ssot/authority.lisp" :max_lines 192)
-                              (:path "cmd/mhj/main_test.go" :max_lines 188) (:path "internal/linear/replay_test.go" :max_lines 185)
+                              (:path "internal/linear/replay_test.go" :max_lines 185)
                               (:path "crates/mhj-core/src/household.rs" :max_lines 178) (:path "crates/mhj-core/src/storage.rs" :max_lines 177)
                               (:path "internal/translation/status_test.go" :max_lines 167) (:path "crates/mhj-core/src/recommendations.rs" :max_lines 162)
                               (:path "internal/connectors/status.go" :max_lines 156) (:path "internal/planner/status_test.go" :max_lines 154)

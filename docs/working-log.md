@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 00:37 KST
+
+- Linear issue: KIM-37 created and moved to In Progress.
+- Mode: code-shape burn-down, CLI test refactor.
+- Task: Remove the remaining `cmd/mhj` code-shape legacy debt by splitting `cmd/mhj/main_test.go` into focused test files while preserving coverage.
+- Files touched: `cmd/mhj/main_test.go`, `cmd/mhj/codegen_diff_test.go`, `cmd/mhj/quality_report_test.go`, `cmd/mhj/toolchain_verify_test.go`, `cmd/mhj/ci_verify_test.go`, `cmd/mhj/ci_fixture_test.go`, `cmd/mhj/test_helpers_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: split generated artifact diff tests, quality JSON redaction tests, toolchain pin tests, CI workflow contract tests, CI fixture text, and shared write-test-file helper into focused files; removed `cmd/mhj/main_test.go` from the generated code-shape legacy debt list; kept all `cmd/mhj/*.go` files at or below 75 lines.
+- Validation after: focused Go tests for CLI and Code Shape passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions, 81 legacy debt files, and no `cmd/mhj/*.go` file above 75 lines; full `mhj quality` with Go 1.26.2 passed; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-37 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 00:21 KST
 
 - Linear issue: KIM-36 created and moved to In Progress.

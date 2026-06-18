@@ -593,3 +593,10 @@
   - Linear: KIM-36
   - Acceptance: `cmd/mhj/main.go` keeps only the process entrypoint and drops under the normal 75-line budget; remaining CLI dispatch moves into small basic/status/operation route files that each stay within 75 lines; version, commands, status, quality, codegen, loop, daemon, Linear, security, command, and knowledge routing behavior remain unchanged.
   - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/commands ./internal/linear`; representative basic, status, operation, loop, codegen, and quality commands; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P84
+
+- [x] Ratchet CLI test debt under 75 lines.
+  - Linear: KIM-37
+  - Acceptance: `cmd/mhj/main_test.go` is split into focused generated-diff, quality redaction, toolchain pin, CI workflow, fixture, and helper test files that each stay within 75 lines; no `cmd/mhj/*.go` file exceeds the normal 75-line budget; existing test assertions and behavior remain unchanged.
+  - Validation: `go test ./cmd/mhj ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
