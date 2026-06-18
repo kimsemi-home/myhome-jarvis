@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 02:08 KST
+
+- Linear issue: KIM-46 created and moved to In Progress.
+- Mode: code-shape burn-down, Evidence Quality SSOT compaction.
+- Task: Remove `lisp/ssot/evidence-quality.lisp` from code-shape legacy debt by compacting policy vector formatting while preserving generated Evidence Quality Assessor semantics.
+- Files touched: `lisp/ssot/evidence-quality.lisp`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: compacted Evidence Quality Assessor policy vectors without changing policy values; removed `lisp/ssot/evidence-quality.lisp` from the generated code-shape legacy debt list; kept the SSOT file below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Evidence Quality and Code Shape, `mhj evidence-quality status`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 72 legacy debt files.
+- External-write note: created Linear issue KIM-46 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 02:01 KST
 
 - Linear issue: KIM-45 created and moved to In Progress.

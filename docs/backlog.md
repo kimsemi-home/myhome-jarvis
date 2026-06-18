@@ -656,3 +656,10 @@
   - Linear: KIM-45
   - Acceptance: `lisp/ssot/control-plane.lisp` keeps the Control Plane Manifest policy values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/control-plane.lisp` is removed from Code Shape legacy debt.
   - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P93
+
+- [x] Ratchet evidence-quality SSOT debt under 75 lines.
+  - Linear: KIM-46
+  - Acceptance: `lisp/ssot/evidence-quality.lisp` keeps the Evidence Quality Assessor policy values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/evidence-quality.lisp` is removed from Code Shape legacy debt.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
