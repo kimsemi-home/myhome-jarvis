@@ -712,3 +712,10 @@
   - Linear: KIM-53
   - Acceptance: `internal/daemon/events.go` keeps request event construction and redacted error labels under the normal 75-line budget by moving bounded event log storage and HTTP status recording into focused files; `/events` and `/metrics` behavior remains unchanged; `internal/daemon/events.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/daemon ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P101
+
+- [x] Ratchet supervisor status test debt under 75 lines.
+  - Linear: KIM-54
+  - Acceptance: `internal/supervisor/status_test.go` keeps missing-state and private state write/read coverage under the normal 75-line budget by moving recorded daemon health-probe coverage into a focused test file; supervisor status behavior remains unchanged; `internal/supervisor/status_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/supervisor ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

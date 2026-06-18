@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 03:13 KST
+
+- Linear issue: KIM-54 created and moved to In Progress.
+- Mode: code-shape burn-down, supervisor status test refactor.
+- Task: Remove `internal/supervisor/status_test.go` from code-shape legacy debt by splitting recorded daemon health-probe coverage into a focused test file while preserving missing-state and private state write/read coverage.
+- Files touched: `internal/supervisor/status_test.go`, `internal/supervisor/status_probe_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved recorded daemon health-probe coverage out of the supervisor state test file; removed `internal/supervisor/status_test.go` from the generated code-shape legacy debt list; kept changed supervisor test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Supervisor and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 64 legacy debt files.
+- External-write note: created Linear issue KIM-54 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 03:05 KST
 
 - Linear issue: KIM-53 created and moved to In Progress.
