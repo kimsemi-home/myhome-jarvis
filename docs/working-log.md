@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 01:02 KST
+
+- Linear issue: KIM-39 created and moved to In Progress.
+- Mode: code-shape burn-down, connector status test refactor.
+- Task: Remove `internal/connectors/status_test.go` from code-shape legacy debt by extracting repo-root fixture discovery into a focused helper file.
+- Files touched: `internal/connectors/status_test.go`, `internal/connectors/test_helpers_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved `repoRoot` test helper out of the connector status tests; removed `internal/connectors/status_test.go` from the generated code-shape legacy debt list; kept connector status tests and helper files below 75 lines.
+- Validation after: focused Go tests for Connectors and Code Shape passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions, 79 legacy debt files, and `internal/connectors/status_test.go` removed from legacy debt; full `mhj quality` with Go 1.26.2 passed; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-39 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 00:49 KST
 
 - Linear issue: KIM-38 created and moved to In Progress.
