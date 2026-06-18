@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 06:00 KST
+
+- Linear issue: KIM-71 created and moved to In Progress.
+- Mode: code-shape burn-down, Connector status runtime refactor.
+- Task: Remove `internal/connectors/status.go` from code-shape legacy debt by splitting connector status assembly, public-safe models, generated policy loading, sanitization, normalization, and operation counting into focused files.
+- Files touched: `internal/connectors/status.go`, `internal/connectors/model.go`, `internal/connectors/policy.go`, `internal/connectors/sanitize.go`, `internal/connectors/normalize.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept connector status orchestration in the original file; moved connector status models and generated policy shape to a model file; moved generated JSON loading to a policy file; moved fixture-only and forbidden-operation validation to a sanitizer file; moved token/list normalization and read-only operation counting to a normalization file; removed `internal/connectors/status.go` from the generated code-shape legacy debt list; kept changed connector runtime files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Connectors and Code Shape tests, `mhj connectors status`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 48 legacy debt files.
+- External-write note: created Linear issue KIM-71 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 05:48 KST
 
 - Linear issue: KIM-70 created and moved to In Progress.
