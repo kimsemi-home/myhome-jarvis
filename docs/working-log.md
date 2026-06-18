@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 08:39 KST
+
+- Linear issue: KIM-86 created and moved to In Progress.
+- Mode: code-shape burn-down, Flutter daemon client refactor.
+- Task: Remove `apps/flutter/lib/daemon_client.dart` from code-shape legacy debt by splitting daemon transport, endpoint loading, command conversion, snapshot assembly, metrics, and domain parsing into focused Dart part files.
+- Files touched: `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/daemon_client/*.dart`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `DaemonSnapshotClient`, `commandPlanFromJson`, and `buildSnapshot` as the public daemon client surface; moved HTTP transport/auth, endpoint collection, command metadata, snapshot status maps, metric groups, domain summary lists, recommendations, household, finance, purchase, connectors, Agent Cluster signals, formatting, and JSON helpers into focused part files; removed `apps/flutter/lib/daemon_client.dart` from generated code-shape legacy debt; kept daemon client files below 75 lines.
+- Validation after: Flutter tests, Flutter analyze, focused Code Shape tests, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 33 legacy debt files.
+- External-write note: created Linear issue KIM-86 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 08:27 KST
 
 - Linear issue: KIM-85 created and moved to In Progress.

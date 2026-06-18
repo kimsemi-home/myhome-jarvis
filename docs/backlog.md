@@ -936,3 +936,10 @@
   - Linear: KIM-85
   - Acceptance: `lisp/ssot/codegen.lisp` keeps only the public `validate-ssot` and `write-generated-artifacts` facade under the normal 75-line budget by moving shared validation helpers, policy validators, DDD registry checks, JSON encoding, and generated artifact writing into focused Lisp files; generated artifact bytes stay stable except for the intentional Code Shape debt-list update; `lisp/ssot/codegen.lisp` is removed from Code Shape legacy debt.
   - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `sbcl --script lisp/scripts/codegen.lisp`; `go test ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P133
+
+- [x] Ratchet Flutter daemon client under 75 lines.
+  - Linear: KIM-86
+  - Acceptance: `apps/flutter/lib/daemon_client.dart` keeps the public daemon client API under the normal 75-line budget by moving client transport, endpoint loading, command conversion, snapshot assembly, metric groups, domain parsers, connector/signal parsers, and JSON helpers into focused Dart part files; daemon snapshot behavior, bearer-token dry runs, dashboard parsing, generated fallback behavior, and public-safe display text remain unchanged; `apps/flutter/lib/daemon_client.dart` is removed from Code Shape legacy debt.
+  - Validation: `cd apps/flutter && flutter test && flutter analyze`; `go test ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

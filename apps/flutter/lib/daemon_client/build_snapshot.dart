@@ -1,0 +1,73 @@
+part of '../daemon_client.dart';
+
+JarvisSnapshot buildSnapshot({
+  required Map<String, Object?> health,
+  required Map<String, Object?> auth,
+  required List<Object?> commands,
+  required Map<String, Object?> linear,
+  required Map<String, Object?> repo,
+  required Map<String, Object?> security,
+  required Map<String, Object?> codeShape,
+  required Map<String, Object?> domain,
+  required Map<String, Object?> connectors,
+  required Map<String, Object?> agentCluster,
+  required Map<String, Object?> learning,
+  required Map<String, Object?> evidence,
+  required Map<String, Object?> confidence,
+  required Map<String, Object?> translation,
+  required Map<String, Object?> controlPlane,
+  required Map<String, Object?> incidents,
+  required Map<String, Object?> evidenceQuality,
+  required Map<String, Object?> review,
+  required Map<String, Object?> authority,
+  required Map<String, Object?> metrics,
+  required Map<String, Object?> events,
+  required Map<String, Object?> supervisor,
+  required Map<String, Object?> audit,
+  required Map<String, Object?> quality,
+  required Map<String, Object?> planner,
+}) {
+  final status = _StatusMaps(
+    health: health,
+    auth: auth,
+    linear: linear,
+    repo: repo,
+    security: security,
+    codeShape: codeShape,
+    domain: domain,
+    connectors: connectors,
+    agentCluster: agentCluster,
+    learning: learning,
+    evidence: evidence,
+    confidence: confidence,
+    translation: translation,
+    controlPlane: controlPlane,
+    incidents: incidents,
+    evidenceQuality: evidenceQuality,
+    review: review,
+    authority: authority,
+    metrics: metrics,
+    events: events,
+    supervisor: supervisor,
+    audit: audit,
+    quality: quality,
+    planner: planner,
+  );
+  return JarvisSnapshot(
+    metrics: _systemMetrics(status),
+    commands: commands
+        .whereType<Map<String, Object?>>()
+        .map(_commandFromSpec)
+        .whereType<HomeCommand>()
+        .toList(growable: false),
+    linearItems: _linearItems(linear),
+    storageItems: _domainItems(domain),
+    recommendationItems: _recommendationItems(domain),
+    recommendations: _recommendations(domain),
+    householdScopes: _householdScopes(domain),
+    financeDashboard: _financeDashboard(domain),
+    purchaseDashboard: _purchaseDashboard(domain),
+    connectors: _connectors(connectors),
+    agentClusterSignals: _agentClusterSignals(agentCluster),
+  );
+}
