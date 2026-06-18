@@ -691,3 +691,10 @@
   - Linear: KIM-50
   - Acceptance: `lisp/ssot/translation.lisp` keeps the Translation Loss Ledger policy values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/translation.lisp` is removed from Code Shape legacy debt.
   - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/translation ./internal/codeshape`; `go run ./cmd/mhj translation status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P98
+
+- [x] Ratchet evidence graph SSOT debt under 75 lines.
+  - Linear: KIM-51
+  - Acceptance: `lisp/ssot/evidence.lisp` keeps the Evidence Graph policy values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/evidence.lisp` is removed from Code Shape legacy debt.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/evidence ./internal/codeshape`; `go run ./cmd/mhj evidence status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

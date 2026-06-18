@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 02:46 KST
+
+- Linear issue: KIM-51 created and moved to In Progress.
+- Mode: code-shape burn-down, Evidence Graph SSOT compaction.
+- Task: Remove `lisp/ssot/evidence.lisp` from code-shape legacy debt by compacting policy vector formatting while preserving generated Evidence Graph semantics.
+- Files touched: `lisp/ssot/evidence.lisp`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: compacted Evidence Graph policy vectors and private source entries without changing policy values; removed `lisp/ssot/evidence.lisp` from the generated code-shape legacy debt list; kept the SSOT file below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Evidence and Code Shape, `mhj evidence status`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 67 legacy debt files.
+- External-write note: created Linear issue KIM-51 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 02:39 KST
 
 - Linear issue: KIM-50 created and moved to In Progress.
