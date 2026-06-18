@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -9,10 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"os/exec"
-	"path/filepath"
 	"strings"
-	"time"
 
 	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
@@ -21,7 +17,6 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/knowledge"
 	"github.com/kimsemi-home/myhome-jarvis/internal/learning"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
-	"github.com/kimsemi-home/myhome-jarvis/internal/qualitylog"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
 	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
 )
@@ -319,35 +314,6 @@ func runHarness(root string, args []string) error {
 	return nil
 }
 
-type qualityStep struct {
-	Name    string   `json:"name"`
-	Status  string   `json:"status"`
-	Command []string `json:"-"`
-	Output  string   `json:"-"`
-}
-
-type qualityReport struct {
-	OK    bool          `json:"ok"`
-	Steps []qualityStep `json:"steps"`
-}
-
-func qualityEvidenceSteps(steps []qualityStep) []qualitylog.Step {
-	evidence := make([]qualitylog.Step, 0, len(steps))
-	for _, step := range steps {
-		evidence = append(evidence, qualitylog.Step{Name: step.Name, Status: step.Status})
-	}
-	return evidence
-}
-
-func (report *qualityReport) addHarness(name string, harness commands.HarnessReport) {
-	if harness.Passed {
-		report.Steps = append(report.Steps, qualityStep{Name: name, Status: "pass"})
-		return
-	}
-	report.OK = false
-	report.Steps = append(report.Steps, qualityStep{Name: name, Status: "fail"})
-}
-
 func runDDDVerify(root string) error {
 	report, err := knowledge.Verify(root)
 	if err != nil {
@@ -392,105 +358,6 @@ func runLearning(root string, args []string) error {
 		return writeJSON(result)
 	}
 	return errors.New("usage: mhj learning <status|record json-payload>")
-}
-
-func (report *qualityReport) addCheck(name string, err error) {
-	if err == nil {
-		report.Steps = append(report.Steps, qualityStep{Name: name, Status: "pass"})
-		return
-	}
-	report.OK = false
-	report.Steps = append(report.Steps, qualityStep{Name: name, Status: "fail", Output: err.Error()})
-}
-
-func runBenchmarkSmoke(root string) error {
-	report := qualityReport{OK: true}
-	report.addCommand(root, "benchmark smoke", benchmarkSmokeCommand())
-	if err := writeJSON(report); err != nil {
-		return err
-	}
-	if !report.OK {
-		return errors.New("benchmark smoke failed")
-	}
-	return nil
-}
-
-func benchmarkSmokeCommand() []string {
-	return []string{"cargo", "test", "-p", "mhj-core", "benchmark_smoke", "--", "--nocapture"}
-}
-
-func (report *qualityReport) addCommand(root string, name string, command []string) {
-	step := qualityStep{Name: name, Command: command}
-	if _, err := exec.LookPath(command[0]); err != nil {
-		step.Status = "fail"
-		step.Output = "missing executable: " + command[0]
-		report.OK = false
-		report.Steps = append(report.Steps, step)
-		return
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
-	defer cancel()
-	cmd := exec.CommandContext(ctx, command[0], command[1:]...)
-	cmd.Dir = root
-	var output bytes.Buffer
-	cmd.Stdout = &output
-	cmd.Stderr = &output
-	if err := cmd.Run(); err != nil {
-		step.Status = "fail"
-		step.Output = strings.TrimSpace(output.String())
-		report.OK = false
-	} else {
-		step.Status = "pass"
-		step.Output = strings.TrimSpace(output.String())
-	}
-	report.Steps = append(report.Steps, step)
-}
-
-func (report *qualityReport) addGofmt(root string, gofmtTool string) {
-	files, err := collectGoFiles(root)
-	if err != nil {
-		report.OK = false
-		report.Steps = append(report.Steps, qualityStep{Name: "gofmt", Status: "fail", Output: err.Error()})
-		return
-	}
-	if len(files) == 0 {
-		report.Steps = append(report.Steps, qualityStep{Name: "gofmt", Status: "skip", Output: "no Go files"})
-		return
-	}
-	command := append([]string{gofmtTool, "-l"}, files...)
-	report.addCommand(root, "gofmt", command)
-	last := &report.Steps[len(report.Steps)-1]
-	if last.Status == "pass" && strings.TrimSpace(last.Output) != "" {
-		last.Status = "fail"
-		last.Output = "unformatted files:\n" + last.Output
-		report.OK = false
-	}
-}
-
-func collectGoFiles(root string) ([]string, error) {
-	var files []string
-	err := filepath.WalkDir(root, func(path string, entry os.DirEntry, walkErr error) error {
-		if walkErr != nil {
-			return walkErr
-		}
-		if entry.IsDir() {
-			switch entry.Name() {
-			case ".git", "target", "build", "dist", "bin":
-				return filepath.SkipDir
-			}
-			return nil
-		}
-		if filepath.Ext(path) != ".go" {
-			return nil
-		}
-		rel, err := filepath.Rel(root, path)
-		if err != nil {
-			return err
-		}
-		files = append(files, filepath.ToSlash(rel))
-		return nil
-	})
-	return files, err
 }
 
 func envWithDefault(name string, fallback string) string {

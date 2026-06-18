@@ -565,3 +565,10 @@
   - Linear: KIM-32
   - Acceptance: `cmd/mhj/main.go` sheds read-only status helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 647-line debt value; status command routing, JSON output shape, and code-shape failure behavior remain unchanged.
   - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/agentcluster ./internal/authority`; representative status commands; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P80
+
+- [x] Ratchet CLI quality helper debt.
+  - Linear: KIM-33
+  - Acceptance: `cmd/mhj/main.go` sheds quality report, command-runner, benchmark-smoke, gofmt, and Go file collection helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 508-line debt value; `mhj quality`, `mhj benchmark smoke`, redacted quality JSON, and code-shape behavior remain unchanged.
+  - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/qualitylog`; `go run ./cmd/mhj benchmark smoke`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

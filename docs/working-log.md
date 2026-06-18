@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-18 23:45 KST
+
+- Linear issue: KIM-33 created and moved to In Progress.
+- Mode: code-shape burn-down, CLI quality helper refactor.
+- Task: Reduce `cmd/mhj/main.go` legacy debt again by extracting quality report, command-runner, benchmark-smoke, gofmt, and Go file collection helpers while preserving redacted quality evidence output.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/quality_report.go`, `cmd/mhj/quality_command.go`, `cmd/mhj/quality_gofmt.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: extracted quality report model/evidence conversion, quality step status helpers, benchmark smoke command execution, generic command runner, gofmt check, and Go file collection into focused package-local files; ratcheted `cmd/mhj/main.go` generated code-shape baseline from 508 to 375 lines; kept new quality files at 44, 53, and 54 lines.
+- Validation after: focused Go tests for CLI, Code Shape, and Quality Log passed; `mhj benchmark smoke`, `mhj codegen verify`, and `mhj code-shape status` passed with zero budget regressions and `cmd/mhj/main.go` at the 375-line baseline; full `mhj quality` with Go 1.26.2 passed; new quality files are 44, 53, and 54 lines; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-33 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-18 23:36 KST
 
 - Linear issue: KIM-32 created and moved to In Progress.
