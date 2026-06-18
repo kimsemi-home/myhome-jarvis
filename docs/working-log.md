@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 01:30 KST
+
+- Linear issue: KIM-42 created and moved to In Progress.
+- Mode: code-shape burn-down, Agent Cluster status test refactor.
+- Task: Remove `internal/agentcluster/status_test.go` from code-shape legacy debt by splitting self-approval rejection coverage and repo-root fixture discovery into focused files.
+- Files touched: `internal/agentcluster/status_test.go`, `internal/agentcluster/status_safety_test.go`, `internal/agentcluster/test_helpers_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved self-approval rejection coverage and repo-root fixture discovery out of the Agent Cluster public-safe policy test; removed `internal/agentcluster/status_test.go` from the generated code-shape legacy debt list; kept the Agent Cluster test files below 75 lines.
+- Validation after: focused Go tests for Agent Cluster and Code Shape passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions, 76 legacy debt files, and `internal/agentcluster/status_test.go` removed from legacy debt; full `mhj quality` with Go 1.26.2 passed; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-42 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 01:19 KST
 
 - Linear issue: KIM-41 created and moved to In Progress.

@@ -628,3 +628,10 @@
   - Linear: KIM-41
   - Acceptance: `internal/scheduler/scheduler_test.go` keeps policy bounds and heartbeat/private state assertions under 75 lines by moving failure backoff and recovery coverage into a focused recovery test file; scheduler behavior remains unchanged; `internal/scheduler/scheduler_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/scheduler ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P89
+
+- [x] Ratchet Agent Cluster status test debt under 75 lines.
+  - Linear: KIM-42
+  - Acceptance: `internal/agentcluster/status_test.go` keeps public-safe learning-loop policy assertions under 75 lines by moving self-approval rejection and repo-root fixture discovery into focused test/helper files; Agent Cluster status behavior remains unchanged; `internal/agentcluster/status_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/agentcluster ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
