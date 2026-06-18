@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 01:19 KST
+
+- Linear issue: KIM-41 created and moved to In Progress.
+- Mode: code-shape burn-down, scheduler test refactor.
+- Task: Remove `internal/scheduler/scheduler_test.go` from code-shape legacy debt by splitting failure backoff and recovery coverage into a focused test file.
+- Files touched: `internal/scheduler/scheduler_test.go`, `internal/scheduler/scheduler_recovery_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved failure backoff and recovery coverage out of the scheduler policy/state test file; removed `internal/scheduler/scheduler_test.go` from the generated code-shape legacy debt list; kept the scheduler test files below 75 lines.
+- Validation after: focused Go tests for Scheduler and Code Shape passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions, 77 legacy debt files, and `internal/scheduler/scheduler_test.go` removed from legacy debt; full `mhj quality` with Go 1.26.2 passed; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-41 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 01:09 KST
 
 - Linear issue: KIM-40 created and moved to In Progress.

@@ -621,3 +621,10 @@
   - Linear: KIM-40
   - Acceptance: `internal/commands/executor_test.go` keeps allowed execution, dry-run skip, and platform skip assertions under 75 lines by moving unsafe executable rejection into a focused safety test file; command execution behavior remains unchanged; `internal/commands/executor_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/commands ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P88
+
+- [x] Ratchet scheduler test debt under 75 lines.
+  - Linear: KIM-41
+  - Acceptance: `internal/scheduler/scheduler_test.go` keeps policy bounds and heartbeat/private state assertions under 75 lines by moving failure backoff and recovery coverage into a focused recovery test file; scheduler behavior remains unchanged; `internal/scheduler/scheduler_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/scheduler ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
