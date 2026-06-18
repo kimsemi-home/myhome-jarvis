@@ -460,3 +460,10 @@
   - Linear: KIM-17
   - Acceptance: Common Lisp SSOT owns planned fixture-only connector categories for MyData, bank, card, securities, commerce, and payment surfaces; generated connector metadata contains only public-safe provider keys, categories, data classes, allowed read-only operations, forbidden operations, and next local preparation steps; `mhj connectors status`, daemon `GET /connectors/status`, and Flutter read-only connector cards expose no credentials, cookies, account identifiers, card numbers, local absolute paths, raw personal data, or external API responses.
   - Validation: `go test ./internal/connectors ./internal/daemon ./cmd/mhj`; `go run ./cmd/mhj connectors status`; `go run ./cmd/mhj codegen verify`; full quality gate; public safety scans; GitHub Actions run.
+
+## P65
+
+- [x] Add public-safe Agent Cluster learning-loop policy.
+  - Linear: KIM-18
+  - Acceptance: Common Lisp SSOT owns an evidence-first Agent Cluster policy with ontology/context rules, separated agent roles, verification sidecars, incident lifecycle, debt classes, quarantine triggers, failure conditions, and read-only status signals; codegen emits `generated/agent_cluster.generated.json`; `mhj agent-cluster status`, daemon `GET /agent-cluster/status`, and Flutter Cluster cards expose no external agent execution, raw transcript storage, private public evidence, self-approval, self-reported final confidence, credentials, tokens, local absolute paths, or raw private data.
+  - Validation: `go test ./internal/agentcluster ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj agent-cluster status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

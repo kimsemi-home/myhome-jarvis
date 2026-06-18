@@ -14,8 +14,9 @@ Current SSOT boundaries are intentionally separated by domain:
 - `commands`: dry-run home command catalog.
 - `finance`, `commerce`, `storage`: local fixture and lakehouse domain policy.
 - `household`, `recommendations`, `scheduler`: local household views, optimization hints, and bounded loop policy.
-- `security`, `connectors`, `linear`, `planner`: public-safety rules,
-  fixture-only connector readiness, Linear workflow rules, and planning metadata.
+- `security`, `connectors`, `agent-cluster`, `linear`, `planner`:
+  public-safety rules, fixture-only connector readiness, evidence-first agent
+  cluster policy, Linear workflow rules, and planning metadata.
 
 The planner SSOT emits `generated/planner.generated.json`. Go reads that
 artifact for `mhj planner status` and daemon `GET /planner/status`; Flutter
@@ -47,6 +48,16 @@ Flutter consumes the daemon status and keeps a static fixture-only fallback.
 The artifact is limited to public-safe planned connector metadata and forbids
 real credentials, external API calls, scraping, payments, transfers, trades,
 purchases, and card actions in this phase.
+
+The Agent Cluster SSOT emits `generated/agent_cluster.generated.json`. Go reads
+that artifact for `mhj agent-cluster status` and daemon
+`GET /agent-cluster/status`; Flutter consumes the daemon status and keeps a
+static fallback aligned with generated signal keys. The artifact records
+evidence-first ordering, role separation, sidecars, incident lifecycle, debt
+classes, quarantine triggers, failure conditions, and public-safe status
+signals. It forbids external agent execution, raw transcript storage, private
+data in public evidence, self-approval, and self-reported final confidence in
+this phase.
 
 Use `mhj codegen verify` before committing SSOT or generated artifact changes.
 It snapshots the current `generated` tree, regenerates artifacts from Lisp, and

@@ -13,6 +13,9 @@
     (:name "ConnectorReadiness"
      :owner "connectors"
      :description "Public-safe planned connector catalog and read-only readiness status.")
+    (:name "AgentCluster"
+     :owner "agent-cluster"
+     :description "Evidence-first multi-agent learning loop policy, authority gates, and verification sidecars.")
     (:name "StorageLake"
      :owner "storage"
      :description "Local lake layout, retention policy, and generated storage contracts.")
@@ -76,6 +79,16 @@
                           "internal/connectors/status.go"
                           "docs/connectors.md")
      :related_concepts #("HouseholdTransaction" "CommercePurchase" "SecurityPolicy"))
+    (:canonical_name "AgentClusterPolicy"
+     :bounded_context "AgentCluster"
+     :ddd_kind "Policy"
+     :description "A public-safe evidence-first learning loop policy for agent roles, sidecars, confidence gates, leases, quarantine, and knowledge updates."
+     :allowed_aliases #("agent cluster" "learning loop" "evidence-first workflow" "governed compiler farm" "authority gate")
+     :owner "lisp/ssot/agent-cluster.lisp"
+     :generated_targets #("generated/agent_cluster.generated.json"
+                          "internal/agentcluster/status.go"
+                          "docs/agent-cluster.md")
+     :related_concepts #("ClosedLoopPlanner" "KnowledgeIndex" "SecurityPolicy" "ConceptRegistry"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -204,6 +217,7 @@
     (:name "finance" :path "generated/finance.generated.json" :owner "HouseholdFinance")
     (:name "commerce" :path "generated/commerce.generated.json" :owner "CommerceIntelligence")
     (:name "connectors" :path "generated/connectors.generated.json" :owner "ConnectorReadiness")
+    (:name "agent_cluster" :path "generated/agent_cluster.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

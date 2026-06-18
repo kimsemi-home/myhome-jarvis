@@ -15,6 +15,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/kimsemi-home/myhome-jarvis/internal/agentcluster"
 	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
@@ -161,6 +162,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /loop/status", server.wrap(server.handleLoopStatus))
 	mux.HandleFunc("GET /domain/summary", server.wrap(server.handleDomainSummary))
 	mux.HandleFunc("GET /connectors/status", server.wrap(server.handleConnectorsStatus))
+	mux.HandleFunc("GET /agent-cluster/status", server.wrap(server.handleAgentClusterStatus))
 	mux.HandleFunc("GET /household/summary", server.wrap(server.handleHouseholdSummary))
 	mux.HandleFunc("GET /recommendations/summary", server.wrap(server.handleRecommendationsSummary))
 	mux.HandleFunc("GET /metrics", server.wrap(server.handleMetrics))
@@ -362,6 +364,14 @@ func (server *Server) handleDomainSummary(writer http.ResponseWriter, request *h
 
 func (server *Server) handleConnectorsStatus(writer http.ResponseWriter, request *http.Request) error {
 	status, err := connectors.StatusForRoot(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, status)
+}
+
+func (server *Server) handleAgentClusterStatus(writer http.ResponseWriter, request *http.Request) error {
+	status, err := agentcluster.StatusForRoot(server.config.Root)
 	if err != nil {
 		return err
 	}

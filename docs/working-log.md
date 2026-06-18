@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 09:00 KST
+
+- Linear issue: KIM-18 created and moved to In Progress.
+- Mode: next-vision foundation, public-safe Agent Cluster learning-loop policy only.
+- Task: Apply evidence-first Agent Cluster principles as executable SSOT and read-only status surfaces.
+- Files touched: `lisp/ssot/agent-cluster.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `generated/agent_cluster.generated.json`, `generated/concepts.generated.json`, `internal/agentcluster/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/main.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Agent Cluster docs.
+- Changes: added a public-safe Agent Cluster SSOT for evidence-first flow, role separation, authority gates, verification sidecars, incident lifecycle, debt classes, quarantine triggers, failure conditions, and UI status signals; exposed `mhj agent-cluster status` and daemon `GET /agent-cluster/status`; added Flutter read-only Cluster cards; included the generated Agent Cluster artifact in Flutter CI cache keys and CI contract validation.
+- Validation after: `go1.26.2 test ./internal/agentcluster ./internal/daemon ./internal/knowledge ./cmd/mhj` passed; `go1.26.2 run ./cmd/mhj agent-cluster status` returned the public-safe policy with 10 evidence stages, 5 roles, and 6 sidecars; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj ddd verify` passed with 9 contexts and 14 concepts; daemon `GET /agent-cluster/status` passed on localhost; Flutter focused tests for daemon client, generated snapshot fallback, and widgets passed; full `mhj quality` with Go 1.26.2 passed; public safety current/history checks and `git diff --check` passed.
+- External-write note: created Linear issue KIM-18 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or other external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, then update Linear issue KIM-18.
+
 ## 2026-06-15 10:01 KST
 
 - Linear issue: KIM-17 created and moved to In Progress.

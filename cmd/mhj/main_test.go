@@ -171,7 +171,7 @@ jobs:
     steps:
       - uses: actions/cache/restore@v5
         with:
-          key: flutter-${{ hashFiles('generated/commands.generated.json', 'generated/connectors.generated.json') }}
+          key: flutter-${{ hashFiles('generated/commands.generated.json', 'generated/connectors.generated.json', 'generated/agent_cluster.generated.json') }}
 `
 }
 

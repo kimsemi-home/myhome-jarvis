@@ -16,10 +16,10 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if !report.OK {
 		t.Fatalf("verify failed: %#v", report)
 	}
-	if report.ContextCount != 8 {
+	if report.ContextCount != 9 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 13 {
+	if report.ConceptCount != 14 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
@@ -79,6 +79,22 @@ func TestSearchConnectorReadinessReturnsCatalogEvidence(t *testing.T) {
 	}
 	if !containsString(report.MustRead, "docs/connectors.md") {
 		t.Fatalf("must read missing docs/connectors.md: %#v", report.MustRead)
+	}
+}
+
+func TestSearchAgentClusterReturnsPolicyEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "agent cluster learning loop")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "AgentClusterPolicy") {
+		t.Fatalf("expected AgentClusterPolicy concept, got %#v", report.Concepts)
+	}
+	if !containsString(report.MustRead, "generated/agent_cluster.generated.json") {
+		t.Fatalf("must read missing agent cluster artifact: %#v", report.MustRead)
+	}
+	if !containsString(report.MustRead, "docs/agent-cluster.md") {
+		t.Fatalf("must read missing docs/agent-cluster.md: %#v", report.MustRead)
 	}
 }
 

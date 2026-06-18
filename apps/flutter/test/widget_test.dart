@@ -16,6 +16,8 @@ void main() {
     expect(find.text('Dry-run'), findsOneWidget);
     expect(find.text('Public Safety'), findsOneWidget);
     expect(find.text('Clear'), findsOneWidget);
+    expect(find.text('Agent Cluster'), findsOneWidget);
+    expect(find.text('5 roles gated'), findsOneWidget);
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 
@@ -159,6 +161,17 @@ void main() {
       expect(find.text('fixture-only'), findsWidgets);
       expect(find.textContaining('Allowed:'), findsWidgets);
       expect(find.textContaining('Blocked:'), findsWidgets);
+
+      await tester.tap(
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Cluster'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Evidence first'), findsOneWidget);
+      expect(find.text('Authority gated'), findsOneWidget);
+      expect(find.text('Feedback loop'), findsOneWidget);
 
       await tester.tap(
         find.descendant(

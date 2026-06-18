@@ -249,6 +249,21 @@ class ConnectorReadiness {
 }
 
 @immutable
+class AgentClusterSignal {
+  const AgentClusterSignal({
+    required this.key,
+    required this.label,
+    required this.status,
+    required this.evidence,
+  });
+
+  final String key;
+  final String label;
+  final String status;
+  final String evidence;
+}
+
+@immutable
 class JarvisSnapshot {
   const JarvisSnapshot({
     required this.metrics,
@@ -261,6 +276,7 @@ class JarvisSnapshot {
     required this.financeDashboard,
     required this.purchaseDashboard,
     required this.connectors,
+    required this.agentClusterSignals,
   });
 
   final List<SystemMetric> metrics;
@@ -273,6 +289,7 @@ class JarvisSnapshot {
   final FinanceDashboard financeDashboard;
   final PurchaseDashboard purchaseDashboard;
   final List<ConnectorReadiness> connectors;
+  final List<AgentClusterSignal> agentClusterSignals;
 
   static const sample = JarvisSnapshot(
     metrics: [
@@ -310,6 +327,11 @@ class JarvisSnapshot {
         label: 'Linear',
         value: 'Online-ready',
         icon: Icons.hub_outlined,
+      ),
+      SystemMetric(
+        label: 'Agent Cluster',
+        value: '5 roles gated',
+        icon: Icons.account_tree_outlined,
       ),
     ],
     commands: [
@@ -585,6 +607,27 @@ class JarvisSnapshot {
             'Extend local purchase fixtures and avoid scraping/cookie capture.',
       ),
     ],
+    agentClusterSignals: [
+      AgentClusterSignal(
+        key: 'evidence_first',
+        label: 'Evidence first',
+        status: 'active',
+        evidence: 'observation and evidence precede code',
+      ),
+      AgentClusterSignal(
+        key: 'authority_gated',
+        label: 'Authority gated',
+        status: 'gated',
+        evidence:
+            'producer, reviewer, verifier, and steward roles are separated',
+      ),
+      AgentClusterSignal(
+        key: 'feedback_loop',
+        label: 'Feedback loop',
+        status: 'tracked',
+        evidence: 'incidents must end in verification and knowledge update',
+      ),
+    ],
   );
 
   factory JarvisSnapshot.offlineFallback() {
@@ -620,6 +663,11 @@ class JarvisSnapshot {
           value: 'Offline',
           icon: Icons.hub_outlined,
         ),
+        SystemMetric(
+          label: 'Agent Cluster',
+          value: 'Local',
+          icon: Icons.account_tree_outlined,
+        ),
       ],
       commands: sample.commands,
       linearItems: const ['Offline queue', 'Local fallback'],
@@ -630,6 +678,7 @@ class JarvisSnapshot {
       financeDashboard: sample.financeDashboard,
       purchaseDashboard: sample.purchaseDashboard,
       connectors: sample.connectors,
+      agentClusterSignals: sample.agentClusterSignals,
     );
   }
 }

@@ -19,6 +19,7 @@
    #:*scheduler-policy*
    #:*security-policy*
    #:*connector-policy*
+   #:*agent-cluster-policy*
    #:*linear-policy*
    #:*planner-policy*
    #:validate-ssot

@@ -102,7 +102,7 @@ class JarvisScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 9,
+      length: 10,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('myhome-jarvis'),
@@ -127,6 +127,7 @@ class JarvisScaffold extends StatelessWidget {
               Tab(icon: Icon(Icons.hub_outlined), text: 'Linear'),
               Tab(icon: Icon(Icons.storage_outlined), text: 'Storage'),
               Tab(icon: Icon(Icons.cable_outlined), text: 'Connectors'),
+              Tab(icon: Icon(Icons.account_tree_outlined), text: 'Cluster'),
               Tab(icon: Icon(Icons.groups_outlined), text: 'Household'),
               Tab(icon: Icon(Icons.auto_graph_outlined), text: 'Optimize'),
             ],
@@ -143,6 +144,7 @@ class JarvisScaffold extends StatelessWidget {
                 PlainListView(title: 'Linear', items: snapshot.linearItems),
                 PlainListView(title: 'Storage', items: snapshot.storageItems),
                 ConnectorsView(connectors: snapshot.connectors),
+                AgentClusterView(signals: snapshot.agentClusterSignals),
                 HouseholdView(scopes: snapshot.householdScopes),
                 OptimizeView(recommendations: snapshot.recommendations),
               ],
@@ -500,6 +502,78 @@ class ConnectorsView extends StatelessWidget {
         itemBuilder: (context, index) {
           return ConnectorTile(connector: connectors[index]);
         },
+      ),
+    );
+  }
+}
+
+class AgentClusterView extends StatelessWidget {
+  const AgentClusterView({super.key, required this.signals});
+
+  final List<AgentClusterSignal> signals;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemCount: signals.length,
+        separatorBuilder: (_, _) => const SizedBox(height: 8),
+        itemBuilder: (context, index) {
+          return AgentClusterTile(signal: signals[index]);
+        },
+      ),
+    );
+  }
+}
+
+class AgentClusterTile extends StatelessWidget {
+  const AgentClusterTile({super.key, required this.signal});
+
+  final AgentClusterSignal signal;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(color: colors.outlineVariant),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.account_tree_outlined, color: colors.primary),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          signal.label,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ),
+                      Chip(label: Text(signal.status)),
+                    ],
+                  ),
+                  if (signal.evidence.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      signal.evidence,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

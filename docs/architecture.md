@@ -25,7 +25,8 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /auth/status`, `GET /commands`, `POST /intent`, `POST /harness/run`,
 `GET /linear/status`, `POST /linear/sync`, `GET /repo/status`,
 `GET /security/status`, `GET /loop/status`, `GET /domain/summary`,
-`GET /connectors/status`, `GET /household/summary`,
+`GET /connectors/status`, `GET /agent-cluster/status`,
+`GET /household/summary`,
 `GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`,
 `GET /quality/status`, and `GET /planner/status`.
@@ -145,9 +146,19 @@ and next local preparation steps. It never stores or returns credentials,
 cookies, account identifiers, card numbers, local paths, raw private data, or
 external API responses.
 
+The first Agent Cluster surface is also public-safe and read-only. Common Lisp
+SSOT owns `generated/agent_cluster.generated.json`, Go exposes
+`mhj agent-cluster status` and daemon `GET /agent-cluster/status`, and Flutter
+renders the Cluster tab from daemon status signals. The policy records the
+evidence-first learning loop, separated producer/reviewer/verifier/steward
+roles, verification sidecars, incident lifecycle, debt classes, quarantine
+triggers, and failure conditions. It does not execute external agents, store raw
+transcripts, allow private data in public evidence, allow self-approval, or
+accept self-reported final confidence.
+
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
-client with status, command, finance, purchases, Linear, storage, household, and
-connector readiness, and optimization tabs.
+client with status, command, finance, purchases, Linear, storage, connector
+readiness, Agent Cluster, household, and optimization tabs.
 It can load snapshots from the localhost daemon while keeping a deterministic
 offline fallback. The command tab includes explicit OTT shortcuts plus editable
 payload commands for search, URL, and volume operations. The Finance tab shows

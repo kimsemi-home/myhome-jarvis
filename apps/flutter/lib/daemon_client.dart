@@ -31,6 +31,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final security = await _getObject(client, '/security/status');
       final domain = await _getObject(client, '/domain/summary');
       final connectors = await _getObject(client, '/connectors/status');
+      final agentCluster = await _getObject(client, '/agent-cluster/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -46,6 +47,7 @@ class DaemonSnapshotClient implements JarvisClient {
         security: security,
         domain: domain,
         connectors: connectors,
+        agentCluster: agentCluster,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -153,6 +155,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> security,
   required Map<String, Object?> domain,
   required Map<String, Object?> connectors,
+  required Map<String, Object?> agentCluster,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -194,6 +197,9 @@ JarvisSnapshot buildSnapshot({
       (_int(security['history_finding_count']) ?? 0);
   final connectorCount = _int(connectors['connector_count']) ?? 0;
   final fixtureConnectorCount = _int(connectors['fixture_mode_count']) ?? 0;
+  final agentRoleCount = _int(agentCluster['role_count']) ?? 0;
+  final authorityGateRequired =
+      _bool(agentCluster['authority_gate_required']) ?? false;
 
   return JarvisSnapshot(
     metrics: [
@@ -298,6 +304,13 @@ JarvisSnapshot buildSnapshot({
         icon: Icons.cable_outlined,
       ),
       SystemMetric(
+        label: 'Agent Cluster',
+        value: authorityGateRequired
+            ? (agentRoleCount == 0 ? 'Governed' : '$agentRoleCount roles gated')
+            : 'Ungated',
+        icon: Icons.account_tree_outlined,
+      ),
+      SystemMetric(
         label: 'Repo',
         value: repoClean == false ? 'Dirty' : 'Clean',
         icon: Icons.account_tree_outlined,
@@ -316,6 +329,7 @@ JarvisSnapshot buildSnapshot({
     financeDashboard: _financeDashboard(domain),
     purchaseDashboard: _purchaseDashboard(domain),
     connectors: _connectors(connectors),
+    agentClusterSignals: _agentClusterSignals(agentCluster),
   );
 }
 
@@ -668,6 +682,30 @@ List<ConnectorReadiness> _connectors(Map<String, Object?> status) {
     );
   }
   return connectors.isEmpty ? JarvisSnapshot.sample.connectors : connectors;
+}
+
+List<AgentClusterSignal> _agentClusterSignals(Map<String, Object?> status) {
+  final rawSignals = status['signals'];
+  if (rawSignals is! List<Object?>) {
+    return JarvisSnapshot.sample.agentClusterSignals;
+  }
+  final signals = <AgentClusterSignal>[];
+  for (final item in rawSignals.whereType<Map<String, Object?>>()) {
+    final key = _string(item['key']);
+    final label = _string(item['label']);
+    if (key == null || key.isEmpty || label == null || label.isEmpty) {
+      continue;
+    }
+    signals.add(
+      AgentClusterSignal(
+        key: key,
+        label: label,
+        status: _string(item['status']) ?? 'tracked',
+        evidence: _string(item['evidence']) ?? '',
+      ),
+    );
+  }
+  return signals.isEmpty ? JarvisSnapshot.sample.agentClusterSignals : signals;
 }
 
 String _payloadExample(String name) {

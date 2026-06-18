@@ -16,6 +16,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/kimsemi-home/myhome-jarvis/internal/agentcluster"
 	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
@@ -116,6 +117,10 @@ func run(args []string) error {
 		if len(args) == 2 && args[1] == "status" {
 			return connectorsStatus(root)
 		}
+	case "agent-cluster":
+		if len(args) == 2 && args[1] == "status" {
+			return agentClusterStatus(root)
+		}
 	case "harness":
 		return runHarness(root, args[1:])
 	case "toolchain":
@@ -213,7 +218,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -362,6 +367,14 @@ func plannerStatus(root string) error {
 
 func connectorsStatus(root string) error {
 	status, err := connectors.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
+func agentClusterStatus(root string) error {
+	status, err := agentcluster.StatusForRoot(root)
 	if err != nil {
 		return err
 	}
@@ -727,6 +740,7 @@ func validateCIWorkflowContract(root string) error {
 		"'generated/*.json'",
 		"'generated/commands.generated.json'",
 		"'generated/connectors.generated.json'",
+		"'generated/agent_cluster.generated.json'",
 		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",
 	}
 	for _, token := range required {

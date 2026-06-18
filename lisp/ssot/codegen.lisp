@@ -57,6 +57,21 @@
           (error "Connector ~A must not allow external API calls" key))
         (when (find "credential_request" allowed :test #'string=)
           (error "Connector ~A must not allow credential requests" key))))
+    (unless (getf *agent-cluster-policy* :public_safe)
+      (error "Agent cluster policy must be public-safe"))
+    (when (getf *agent-cluster-policy* :raw_transcript_storage_allowed)
+      (error "Agent cluster policy must not store raw transcripts"))
+    (when (getf *agent-cluster-policy* :private_data_in_evidence_allowed)
+      (error "Agent cluster policy must not allow private data in public evidence"))
+    (when (getf *agent-cluster-policy* :external_agent_execution_allowed)
+      (error "Agent cluster policy must not enable external agent execution"))
+    (when (getf *agent-cluster-policy* :self_approval_allowed)
+      (error "Agent cluster policy must not allow self-approval"))
+    (when (getf *agent-cluster-policy* :confidence_self_report_allowed)
+      (error "Agent cluster confidence must be assessed externally"))
+    (unless (getf *agent-cluster-policy* :authority_gate_required)
+      (error "Agent cluster policy must require an authority gate"))
+    (validate-agent-cluster-policy *agent-cluster-policy*)
     (unless (getf *linear-policy* :pull_active_only)
       (error "Linear pull must stay scoped to active issues by default"))
     (unless (getf *linear-policy* :team_scope_private)
@@ -108,6 +123,59 @@
                    (string= (getf gate :evidence_path)
                             "data/private/linear-write-evidence.jsonl"))
         (error "Planner external-write gate policy must stay explicit and private")))
+    t))
+
+(defun validate-agent-cluster-policy (policy)
+  (let ((flow (coerce (getf policy :evidence_flow) 'list))
+        (lifecycle (coerce (getf policy :incident_lifecycle) 'list))
+        (roles (coerce (getf policy :agent_roles) 'list))
+        (sidecars (coerce (getf policy :sidecars) 'list)))
+    (dolist (stage '("observation"
+                     "evidence"
+                     "interpretation"
+                     "rulebook"
+                     "code"
+                     "verification_evidence"
+                     "knowledge_update"))
+      (unless (find stage flow :test #'string=)
+        (error "Agent cluster evidence flow missing stage: ~A" stage)))
+    (let ((observation (position "observation" flow :test #'string=))
+          (evidence (position "evidence" flow :test #'string=))
+          (code (position "code" flow :test #'string=))
+          (verification (position "verification_evidence" flow :test #'string=))
+          (knowledge (position "knowledge_update" flow :test #'string=)))
+      (unless (and observation evidence code verification knowledge
+                   (< observation evidence)
+                   (< evidence code)
+                   (< code verification)
+                   (< verification knowledge))
+        (error "Agent cluster evidence flow must be observation -> evidence -> code -> verification -> knowledge")))
+    (dolist (stage '("observed"
+                     "evidence_recorded"
+                     "classified"
+                     "owner_assigned"
+                     "verified"
+                     "knowledge_updated"))
+      (unless (find stage lifecycle :test #'string=)
+        (error "Agent cluster lifecycle missing stage: ~A" stage)))
+    (unless (>= (length roles) 4)
+      (error "Agent cluster policy must declare separated roles"))
+    (dolist (role roles)
+      (let ((key (getf role :key))
+            (must-produce (coerce (getf role :must_produce) 'list))
+            (must-not (coerce (getf role :must_not) 'list)))
+        (when (or (null key) (string= key ""))
+          (error "Agent cluster role key is required"))
+        (unless (> (length must-produce) 0)
+          (error "Agent cluster role ~A must declare produced evidence" key))
+        (unless (> (length must-not) 0)
+          (error "Agent cluster role ~A must declare forbidden authority" key))))
+    (unless (>= (length sidecars) 4)
+      (error "Agent cluster policy must declare verification sidecars"))
+    (unless (find "mhj agent-cluster status"
+                  (coerce (getf policy :commands) 'list)
+                  :test #'string=)
+      (error "Agent cluster status command must stay in SSOT"))
     t))
 
 (defun validate-ddd-registry ()
@@ -224,6 +292,8 @@
                    *security-policy*)
   (write-json-file (merge-pathnames "generated/connectors.generated.json" root)
                    *connector-policy*)
+  (write-json-file (merge-pathnames "generated/agent_cluster.generated.json" root)
+                   *agent-cluster-policy*)
   (write-json-file (merge-pathnames "generated/linear.generated.json" root)
                    *linear-policy*)
   (write-json-file (merge-pathnames "generated/planner.generated.json" root)

@@ -50,6 +50,22 @@ void main() {
 
     expect(generatedKeys, containsAll(fallbackKeys));
   });
+
+  test(
+    'offline fallback agent cluster signals are generated entries',
+    () async {
+      final generated = await _generatedAgentClusterSignals();
+      final generatedKeys = {
+        for (final signal in generated) _string(signal['key']),
+      };
+      final fallbackKeys = {
+        for (final signal in JarvisSnapshot.sample.agentClusterSignals)
+          signal.key,
+      };
+
+      expect(generatedKeys, containsAll(fallbackKeys));
+    },
+  );
 }
 
 Future<List<Map<String, Object?>>> _generatedCommands() async {
@@ -82,6 +98,19 @@ Future<List<Map<String, Object?>>> _generatedConnectors() async {
     );
   }
   return connectors.whereType<Map<String, Object?>>().toList(growable: false);
+}
+
+Future<List<Map<String, Object?>>> _generatedAgentClusterSignals() async {
+  final path = _findGeneratedFile('generated/agent_cluster.generated.json');
+  final decoded = jsonDecode(await path.readAsString());
+  if (decoded is! Map<String, Object?>) {
+    throw FormatException('generated agent cluster policy must be an object');
+  }
+  final signals = decoded['signals'];
+  if (signals is! List<Object?>) {
+    throw FormatException('generated agent cluster signals must be a list');
+  }
+  return signals.whereType<Map<String, Object?>>().toList(growable: false);
 }
 
 File _findGeneratedFile(String relativePath) {

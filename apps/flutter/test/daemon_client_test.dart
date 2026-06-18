@@ -274,6 +274,35 @@ void main() {
             ],
           });
           return;
+        case '/agent-cluster/status':
+          _writeJson(request, {
+            'context': 'AgentCluster',
+            'version': 'v1',
+            'public_safe': true,
+            'external_agent_execution_allowed': false,
+            'self_approval_allowed': false,
+            'authority_gate_required': true,
+            'evidence_stage_count': 10,
+            'role_count': 5,
+            'sidecar_count': 6,
+            'generated_path': 'generated/agent_cluster.generated.json',
+            'signals': [
+              {
+                'key': 'evidence_first',
+                'label': 'Evidence first',
+                'status': 'active',
+                'evidence': 'observation and evidence precede code',
+              },
+              {
+                'key': 'authority_gated',
+                'label': 'Authority gated',
+                'status': 'gated',
+                'evidence':
+                    'producer, reviewer, verifier, and steward roles are separated',
+              },
+            ],
+          });
+          return;
         case '/metrics':
           _writeJson(request, {
             'bind_host': '127.0.0.1',
@@ -440,6 +469,12 @@ void main() {
           .value,
       '2/2 fixture',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Agent Cluster')
+          .value,
+      '5 roles gated',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
@@ -531,6 +566,11 @@ void main() {
       snapshot.connectors.first.forbiddenOperations,
       contains('external_api_call'),
     );
+    expect(snapshot.agentClusterSignals.map((signal) => signal.key), [
+      'evidence_first',
+      'authority_gated',
+    ]);
+    expect(snapshot.agentClusterSignals.first.status, 'active');
 
     final command = snapshot.commands.singleWhere(
       (item) => item.name == 'volume-set',
@@ -593,6 +633,7 @@ void main() {
       security: const <String, Object?>{'ok': true},
       domain: const <String, Object?>{},
       connectors: const <String, Object?>{},
+      agentCluster: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,
