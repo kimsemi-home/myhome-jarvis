@@ -19,7 +19,7 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if report.ContextCount != 9 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 22 {
+	if report.ConceptCount != 23 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
@@ -191,6 +191,22 @@ func TestSearchAuthorityGateReturnsRBACEvidence(t *testing.T) {
 	}
 	if !containsString(report.MustRead, "docs/authority-gate.md") {
 		t.Fatalf("must read missing docs/authority-gate.md: %#v", report.MustRead)
+	}
+}
+
+func TestSearchHumanReviewCapacityReturnsQueueEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "human review capacity backup steward review debt")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "HumanReviewCapacity") {
+		t.Fatalf("expected HumanReviewCapacity concept, got %#v", report.Concepts)
+	}
+	if !containsString(report.MustRead, "generated/review.generated.json") {
+		t.Fatalf("must read missing review artifact: %#v", report.MustRead)
+	}
+	if !containsString(report.MustRead, "docs/human-review-capacity.md") {
+		t.Fatalf("must read missing docs/human-review-capacity.md: %#v", report.MustRead)
 	}
 }
 

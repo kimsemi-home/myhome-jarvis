@@ -4,7 +4,8 @@ Authority Gate is the executable status surface for Reasoning RBAC and Domain
 ABAC inside the Agent Cluster policy. It does not grant authority to an agent.
 It limits what can proceed based on public safety, external confidence,
 evidence quality, incident debt, control-plane debt, translation debt, and the
-public-repository boundary.
+public-repository boundary. Human review capacity is also an input, so a
+reviewer overload can require review before broader changes proceed.
 
 Reasoning tiers may produce candidates, reviews, and verification plans, but a
 tier alone never grants approval. Self-authority remains disabled. High-risk
@@ -35,7 +36,8 @@ go run ./cmd/mhj authority status
 
 The command reads the generated Authority Gate policy plus redacted status from
 Confidence Assessor, Evidence Quality Assessor, Incident Lifecycle, Control
-Plane Manifest, Translation Manifest, and public-safety checks.
+Plane Manifest, Translation Manifest, Human Review Capacity, and public-safety
+checks.
 
 Daemon `GET /authority/status` returns the same redacted shape. Flutter Status
 renders the current outcome as a read-only Authority Gate metric.
@@ -45,7 +47,7 @@ renders the current outcome as a read-only Authority Gate metric.
 - `blocked`: public safety failed, confidence is blocked or low/unknown, or a
   forbidden translation loss exists.
 - `review_required`: authority debt exists in evidence quality, incidents,
-  control-plane manifests, or translation debt.
+  control-plane manifests, translation debt, or human review capacity.
 - `limited`: low and medium public-safe work may proceed, while high-risk
   decisions remain blocked in public repo mode.
 
@@ -77,6 +79,7 @@ Use these checks after changing the gate policy:
 
 ```sh
 go test ./internal/authority ./internal/daemon ./cmd/mhj ./internal/knowledge
+go run ./cmd/mhj review status
 go run ./cmd/mhj authority status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify

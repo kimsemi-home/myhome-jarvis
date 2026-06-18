@@ -323,7 +323,7 @@ void main() {
           _writeJson(request, {
             'policy_path': 'generated/evidence.generated.json',
             'private_root': 'data/private',
-            'source_count': 8,
+            'source_count': 9,
             'present_source_count': 2,
             'node_count': 4,
             'edge_count': 2,
@@ -439,6 +439,29 @@ void main() {
             'by_mapping_confidence': {'high': 2, 'medium': 1},
             'by_purpose': {'confidence_assessment': 1, 'release_gate': 2},
             'by_reassessment_reason': {'age': 1},
+          });
+          return;
+        case '/review/status':
+          _writeJson(request, {
+            'policy_path': 'generated/review.generated.json',
+            'queue_path': 'data/private/review/queue.jsonl',
+            'exists': true,
+            'count': 2,
+            'open_count': 2,
+            'high_risk_open_count': 0,
+            'invalid_review_count': 0,
+            'missing_evidence_count': 0,
+            'missing_reviewer_count': 1,
+            'backup_available_count': 0,
+            'review_debt_count': 1,
+            'capacity_state': 'constrained',
+            'active_rule': 'missing_reviewer',
+            'max_open_reviews': 5,
+            'max_high_risk_open_reviews': 0,
+            'by_risk': {'medium': 2},
+            'by_status': {'requested': 1, 'assigned': 1},
+            'by_reviewer_role': {'independent_reviewer': 1},
+            'by_queue_class': {'ssot_defect': 2},
           });
           return;
         case '/authority/status':
@@ -629,6 +652,12 @@ void main() {
           .singleWhere((metric) => metric.label == 'Authority Gate')
           .value,
       '3 debt',
+    );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Review Capacity')
+          .value,
+      '1 debt',
     );
     expect(
       snapshot.metrics
@@ -838,6 +867,7 @@ void main() {
       controlPlane: const <String, Object?>{},
       incidents: const <String, Object?>{},
       evidenceQuality: const <String, Object?>{},
+      review: const <String, Object?>{},
       authority: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',

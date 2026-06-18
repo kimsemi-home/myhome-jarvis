@@ -339,6 +339,11 @@ class JarvisSnapshot {
         icon: Icons.admin_panel_settings_outlined,
       ),
       SystemMetric(
+        label: 'Review Capacity',
+        value: 'Available',
+        icon: Icons.rate_review_outlined,
+      ),
+      SystemMetric(
         label: 'Learning',
         value: '0 observed',
         icon: Icons.psychology_alt_outlined,
@@ -712,6 +717,11 @@ class JarvisSnapshot {
           label: 'Authority Gate',
           value: 'Local',
           icon: Icons.admin_panel_settings_outlined,
+        ),
+        SystemMetric(
+          label: 'Review Capacity',
+          value: 'Local',
+          icon: Icons.rate_review_outlined,
         ),
         SystemMetric(
           label: 'Learning',

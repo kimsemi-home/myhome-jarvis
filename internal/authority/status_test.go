@@ -11,6 +11,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/controlplane"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidencequality"
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
+	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
 	"github.com/kimsemi-home/myhome-jarvis/internal/translation"
 )
@@ -64,6 +65,25 @@ func TestAssessRequiresReviewWhenAuthorityDebtExists(t *testing.T) {
 	}
 	if contains(status.AllowedDecisions, "low_risk_fixture_change") {
 		t.Fatalf("fixture change should require review while debt exists: %#v", status.AllowedDecisions)
+	}
+}
+
+func TestAssessRequiresReviewWhenHumanReviewOverloaded(t *testing.T) {
+	inputs := clearInputs()
+	inputs.Review = review.Status{
+		CapacityState:   "overloaded",
+		ReviewDebtCount: 1,
+	}
+
+	status := Assess(testPolicy(), inputs)
+	if status.Outcome != "review_required" || status.ActiveRule != "human_review_overloaded" {
+		t.Fatalf("status = %#v", status)
+	}
+	if status.AuthorityDebtCount != 1 || status.HumanReviewDebtCount != 1 {
+		t.Fatalf("debt counts = %#v", status)
+	}
+	if contains(status.AllowedDecisions, "low_risk_fixture_change") {
+		t.Fatalf("fixture change should require review while reviewers are overloaded: %#v", status.AllowedDecisions)
 	}
 }
 
@@ -127,6 +147,7 @@ func clearInputs() Inputs {
 		Incidents:       incidents.Status{},
 		ControlPlane:    controlplane.Status{},
 		Translation:     translation.Status{},
+		Review:          review.Status{CapacityState: "available"},
 		PublicSafety:    security.Status{OK: true, CurrentOK: true, HistoryOK: true},
 	}
 }
@@ -140,7 +161,7 @@ func testPolicy() Policy {
 		SelfAuthorityAllowed:        false,
 		ReasoningTierGrantsApproval: false,
 		PublicRepoHighRiskBlocked:   true,
-		RequiredInputs:              []string{"confidence_assessor", "evidence_quality", "incident_lifecycle", "control_plane", "translation", "public_safety"},
+		RequiredInputs:              []string{"confidence_assessor", "evidence_quality", "incident_lifecycle", "control_plane", "translation", "human_review", "public_safety"},
 		ReasoningTiers: []ReasoningTier{
 			{Key: "r0_compiler", May: []string{"deterministic_transform"}, MustNot: []string{"approve"}},
 			{Key: "r1_low", May: []string{"small_candidate"}, MustNot: []string{"approve"}},
@@ -159,7 +180,7 @@ func testPolicy() Policy {
 		Decisions:            testDecisions(),
 		Outcomes:             []string{"limited", "review_required", "blocked"},
 		AuthorityDebtClasses: []string{"public_safety", "confidence_cap", "evidence_quality", "incident", "control_plane", "translation", "human_review"},
-		PublicSummaryFields:  []string{"policy_path", "outcome", "active_rule", "input_count", "decision_count", "allowed_decision_count", "blocked_decision_count", "authority_debt_count", "public_repo_mode", "reasoning_tier_grants_approval", "self_authority_allowed", "public_safety_ok", "confidence_cap", "evidence_quality_debt_count", "incident_debt_count", "control_plane_debt_count", "translation_debt_count", "allowed_decisions", "blocked_decisions", "by_risk", "checked_at"},
+		PublicSummaryFields:  []string{"policy_path", "outcome", "active_rule", "input_count", "decision_count", "allowed_decision_count", "blocked_decision_count", "authority_debt_count", "public_repo_mode", "reasoning_tier_grants_approval", "self_authority_allowed", "public_safety_ok", "confidence_cap", "evidence_quality_debt_count", "incident_debt_count", "control_plane_debt_count", "translation_debt_count", "human_review_debt_count", "human_review_capacity_state", "allowed_decisions", "blocked_decisions", "by_risk", "checked_at"},
 		Commands:             []string{"mhj authority status"},
 	}
 }
@@ -169,6 +190,7 @@ func testDecisions() []Decision {
 		{Key: "read_status", Risk: "low", PublicRepoAllowed: true, AllowedWhenBlocked: true},
 		{Key: "evidence_collection", Risk: "low", PublicRepoAllowed: true, AllowedWhenBlocked: true},
 		{Key: "deterministic_verification", Risk: "low", PublicRepoAllowed: true, AllowedWhenBlocked: true},
+		{Key: "revalidation", Risk: "low", PublicRepoAllowed: true, AllowedWhenBlocked: true},
 		{Key: "low_risk_fixture_change", Risk: "medium", PublicRepoAllowed: true},
 		{Key: "incident_response", Risk: "medium", PublicRepoAllowed: true, RequiresHumanReview: true, AllowedWhenBlocked: true},
 		{Key: "major_ontology_change", Risk: "high", RequiresHumanReview: true},

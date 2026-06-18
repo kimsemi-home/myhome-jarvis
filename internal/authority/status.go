@@ -13,6 +13,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/controlplane"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidencequality"
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
+	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
 	"github.com/kimsemi-home/myhome-jarvis/internal/translation"
 )
@@ -66,6 +67,7 @@ type Inputs struct {
 	Incidents       incidents.Status       `json:"-"`
 	ControlPlane    controlplane.Status    `json:"-"`
 	Translation     translation.Status     `json:"-"`
+	Review          review.Status          `json:"-"`
 	PublicSafety    security.Status        `json:"-"`
 }
 
@@ -87,6 +89,8 @@ type Status struct {
 	IncidentDebtCount           int            `json:"incident_debt_count"`
 	ControlPlaneDebtCount       int            `json:"control_plane_debt_count"`
 	TranslationDebtCount        int            `json:"translation_debt_count"`
+	HumanReviewDebtCount        int            `json:"human_review_debt_count"`
+	HumanReviewCapacityState    string         `json:"human_review_capacity_state"`
 	AllowedDecisions            []string       `json:"allowed_decisions"`
 	BlockedDecisions            []string       `json:"blocked_decisions"`
 	ByRisk                      map[string]int `json:"by_risk"`
@@ -118,6 +122,10 @@ func StatusForRoot(root string) (Status, error) {
 	if err != nil {
 		return Status{}, err
 	}
+	reviewStatus, err := review.StatusForRoot(root)
+	if err != nil {
+		return Status{}, err
+	}
 	publicSafetyStatus, err := security.StatusForRoot(root)
 	if err != nil {
 		return Status{}, err
@@ -128,6 +136,7 @@ func StatusForRoot(root string) (Status, error) {
 		Incidents:       incidentStatus,
 		ControlPlane:    controlPlaneStatus,
 		Translation:     translationStatus,
+		Review:          reviewStatus,
 		PublicSafety:    publicSafetyStatus,
 	}), nil
 }
@@ -146,16 +155,22 @@ func Assess(policy Policy, inputs Inputs) Status {
 		IncidentDebtCount:           inputs.Incidents.IncidentDebtCount,
 		ControlPlaneDebtCount:       inputs.ControlPlane.ManifestDebtCount,
 		TranslationDebtCount:        inputs.Translation.OpenDebtCount + inputs.Translation.ForbiddenLossCount,
+		HumanReviewDebtCount:        inputs.Review.ReviewDebtCount,
+		HumanReviewCapacityState:    normalizeToken(inputs.Review.CapacityState),
 		ByRisk:                      map[string]int{},
 		CheckedAt:                   time.Now().UTC().Format(time.RFC3339),
 	}
 	if status.ConfidenceCap == "" {
 		status.ConfidenceCap = "unknown"
 	}
+	if status.HumanReviewCapacityState == "" {
+		status.HumanReviewCapacityState = "unknown"
+	}
 	status.AuthorityDebtCount = status.EvidenceQualityDebtCount +
 		status.IncidentDebtCount +
 		status.ControlPlaneDebtCount +
-		status.TranslationDebtCount
+		status.TranslationDebtCount +
+		status.HumanReviewDebtCount
 
 	status.Outcome, status.ActiveRule = authorityOutcome(status, inputs)
 	for _, decision := range normalizedDecisions(policy.Decisions) {
@@ -186,6 +201,9 @@ func authorityOutcome(status Status, inputs Inputs) (string, string) {
 	if inputs.Translation.ForbiddenLossCount > 0 {
 		return "blocked", "forbidden_translation_loss"
 	}
+	if status.HumanReviewCapacityState == "overloaded" {
+		return "review_required", "human_review_overloaded"
+	}
 	if status.AuthorityDebtCount > 0 {
 		switch {
 		case status.EvidenceQualityDebtCount > 0:
@@ -196,6 +214,8 @@ func authorityOutcome(status Status, inputs Inputs) (string, string) {
 			return "review_required", "control_plane_debt"
 		case status.TranslationDebtCount > 0:
 			return "review_required", "translation_debt"
+		case status.HumanReviewDebtCount > 0:
+			return "review_required", "human_review_debt"
 		}
 	}
 	return "limited", "public_repo_high_risk_block"
@@ -241,7 +261,7 @@ func validatePolicy(policy Policy) error {
 		return fmt.Errorf("authority policy must block high-risk decisions in public repo mode")
 	}
 	inputs := normalizeList(policy.RequiredInputs)
-	for _, input := range []string{"confidence_assessor", "evidence_quality", "incident_lifecycle", "control_plane", "translation", "public_safety"} {
+	for _, input := range []string{"confidence_assessor", "evidence_quality", "incident_lifecycle", "control_plane", "translation", "human_review", "public_safety"} {
 		if !contains(inputs, input) {
 			return fmt.Errorf("authority input %q is missing", input)
 		}
@@ -302,7 +322,7 @@ func validatePolicy(policy Policy) error {
 		}
 	}
 	summary := normalizeList(policy.PublicSummaryFields)
-	for _, field := range []string{"outcome", "active_rule", "allowed_decision_count", "blocked_decision_count", "authority_debt_count", "public_repo_mode", "reasoning_tier_grants_approval", "self_authority_allowed", "public_safety_ok", "confidence_cap", "allowed_decisions", "blocked_decisions", "checked_at"} {
+	for _, field := range []string{"outcome", "active_rule", "allowed_decision_count", "blocked_decision_count", "authority_debt_count", "public_repo_mode", "reasoning_tier_grants_approval", "self_authority_allowed", "public_safety_ok", "confidence_cap", "human_review_debt_count", "human_review_capacity_state", "allowed_decisions", "blocked_decisions", "checked_at"} {
 		if !contains(summary, field) {
 			return fmt.Errorf("authority public summary missing %q", field)
 		}

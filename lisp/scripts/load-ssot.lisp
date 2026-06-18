@@ -25,6 +25,7 @@
                   "../ssot/control-plane.lisp"
                   "../ssot/incidents.lisp"
                   "../ssot/evidence-quality.lisp"
+                  "../ssot/review.lisp"
                   "../ssot/authority.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"

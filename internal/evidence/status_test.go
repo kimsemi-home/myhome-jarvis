@@ -19,7 +19,7 @@ func TestStatusConnectsLearningObservationsToEvidenceArtifacts(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if status.SourceCount != 8 || status.PresentSourceCount != 2 {
+	if status.SourceCount != 9 || status.PresentSourceCount != 2 {
 		t.Fatalf("source counts = %d/%d", status.PresentSourceCount, status.SourceCount)
 	}
 	if status.NodeCount != 4 || status.EdgeCount != 2 {
@@ -94,7 +94,7 @@ func writeEvidencePolicy(t *testing.T, root string, redacted bool) {
   "private_graph_required": true,
   "public_status_redacted": true,
   "raw_evidence_public_allowed": `+rawPublic+`,
-  "node_kinds": ["learning_observation", "evidence_artifact", "checkpoint", "control_plane_manifest", "incident", "evidence_quality_snapshot", "quality_run", "linear_write", "audit_event"],
+  "node_kinds": ["learning_observation", "evidence_artifact", "checkpoint", "control_plane_manifest", "incident", "evidence_quality_snapshot", "review_queue_item", "quality_run", "linear_write", "audit_event"],
   "edge_kinds": ["supports", "observed_in", "verified_by", "recorded_by"],
   "private_sources": [
     {"key": "learning", "path": "data/private/learning/observations.jsonl", "node_kind": "learning_observation", "format": "jsonl"},
@@ -102,6 +102,7 @@ func writeEvidencePolicy(t *testing.T, root string, redacted bool) {
     {"key": "control_plane", "path": "data/private/control-plane/manifests.jsonl", "node_kind": "control_plane_manifest", "format": "jsonl"},
     {"key": "incidents", "path": "data/private/incidents/incidents.jsonl", "node_kind": "incident", "format": "jsonl"},
     {"key": "evidence_quality", "path": "data/private/evidence-quality/snapshots.jsonl", "node_kind": "evidence_quality_snapshot", "format": "jsonl"},
+    {"key": "review", "path": "data/private/review/queue.jsonl", "node_kind": "review_queue_item", "format": "jsonl"},
     {"key": "quality", "path": "data/private/quality/runs.jsonl", "node_kind": "quality_run", "format": "jsonl"},
     {"key": "linear_write", "path": "data/private/linear-write-evidence.jsonl", "node_kind": "linear_write", "format": "jsonl"},
     {"key": "audit", "path": "data/private/audit/command-intents.jsonl", "node_kind": "audit_event", "format": "jsonl"}

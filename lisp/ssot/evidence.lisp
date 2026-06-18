@@ -14,6 +14,7 @@
                       "control_plane_manifest"
                       "incident"
                       "evidence_quality_snapshot"
+                      "review_queue_item"
                       "quality_run"
                       "linear_write"
                       "audit_event")
@@ -40,6 +41,10 @@
                             (:key "evidence_quality"
                              :path "data/private/evidence-quality/snapshots.jsonl"
                              :node_kind "evidence_quality_snapshot"
+                             :format "jsonl")
+                            (:key "review"
+                             :path "data/private/review/queue.jsonl"
+                             :node_kind "review_queue_item"
                              :format "jsonl")
                             (:key "quality"
                              :path "data/private/quality/runs.jsonl"

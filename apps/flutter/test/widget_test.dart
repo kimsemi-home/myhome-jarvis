@@ -22,10 +22,14 @@ void main() {
     expect(find.text('0 observed'), findsOneWidget);
     expect(find.text('Evidence Graph'), findsOneWidget);
     expect(find.text('0 nodes'), findsOneWidget);
+    await tester.drag(find.byType(GridView).first, const Offset(0, -220));
+    await tester.pumpAndSettle();
     expect(find.text('Confidence'), findsOneWidget);
     expect(find.text('Local'), findsWidgets);
     expect(find.text('Authority Gate'), findsOneWidget);
     expect(find.text('6 blocked'), findsOneWidget);
+    expect(find.text('Review Capacity'), findsOneWidget);
+    expect(find.text('Available'), findsOneWidget);
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 

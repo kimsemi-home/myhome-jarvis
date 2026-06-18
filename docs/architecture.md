@@ -28,7 +28,7 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /connectors/status`, `GET /agent-cluster/status`,
 `GET /learning/status`, `GET /evidence/status`,
 `GET /evidence-quality/status`, `GET /confidence/status`,
-`GET /authority/status`,
+`GET /review/status`, `GET /authority/status`,
 `GET /household/summary`,
 `GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`,
@@ -201,9 +201,16 @@ without turning reasoning into approval. Common Lisp SSOT owns
 `generated/authority.generated.json`, Go exposes `mhj authority status` and
 daemon `GET /authority/status`, and Flutter shows a read-only Authority Gate
 metric. It reads redacted confidence, evidence quality, incident,
-control-plane, translation, and public-safety status; disables self-authority;
-keeps reasoning tiers from granting approval; and blocks high-risk decisions in
-public repo mode.
+control-plane, translation, human review capacity, and public-safety status;
+disables self-authority; keeps reasoning tiers from granting approval; and
+blocks high-risk decisions in public repo mode.
+
+The first Human Review Capacity surface makes reviewer load explicit instead
+of assuming review is always available. Common Lisp SSOT owns
+`generated/review.generated.json`, Go exposes `mhj review status` and daemon
+`GET /review/status`, and Flutter shows a read-only Review Capacity metric.
+Private queue items stay under `data/private/review`; public status exposes
+only counts, buckets, thresholds, capacity state, active rule, and timestamps.
 
 The first Translation Manifest surface makes context movement explicit. Common
 Lisp SSOT owns `generated/translation.generated.json`, Go exposes
@@ -254,5 +261,7 @@ quarantine state remain visible without leaking raw incident contents. Evidence
 Quality reassessment debt is shown separately so stale or low-confidence
 evidence cannot silently support future authority decisions. Authority Gate
 outcome is shown as a separate read-only metric so blocked or review-required
-states remain visible before any high-risk automation is considered.
+states remain visible before any high-risk automation is considered. Review
+Capacity is shown separately so missing or overloaded human review blocks
+authority without publishing reviewer identities, notes, or evidence refs.
 Platform runner files are left out until device packaging is required.

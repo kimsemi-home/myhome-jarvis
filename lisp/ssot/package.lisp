@@ -27,6 +27,7 @@
    #:*control-plane-policy*
    #:*incident-policy*
    #:*evidence-quality-policy*
+   #:*review-policy*
    #:*authority-policy*
    #:*linear-policy*
    #:*planner-policy*

@@ -168,7 +168,17 @@
      :generated_targets #("generated/authority.generated.json"
                           "internal/authority/status.go"
                           "docs/authority-gate.md")
-     :related_concepts #("AgentClusterPolicy" "ConfidenceAssessor" "EvidenceQualityAssessor" "IncidentLifecycle" "ControlPlaneManifest" "TranslationManifest" "SecurityPolicy"))
+     :related_concepts #("AgentClusterPolicy" "ConfidenceAssessor" "EvidenceQualityAssessor" "IncidentLifecycle" "ControlPlaneManifest" "TranslationManifest" "HumanReviewCapacity" "SecurityPolicy"))
+    (:canonical_name "HumanReviewCapacity"
+     :bounded_context "AgentCluster"
+     :ddd_kind "Policy"
+     :description "A private human review queue and capacity status that treats review as finite, risk-prioritized, and public-safe."
+     :allowed_aliases #("human review capacity" "review capacity" "review queue" "backup steward" "review debt")
+     :owner "internal/review"
+     :generated_targets #("generated/review.generated.json"
+                          "internal/review/status.go"
+                          "docs/human-review-capacity.md")
+     :related_concepts #("AuthorityGate" "IncidentLifecycle" "EvidenceQualityAssessor" "ControlPlaneManifest" "AgentClusterPolicy" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -305,6 +315,7 @@
     (:name "control_plane" :path "generated/control_plane.generated.json" :owner "AgentOps")
     (:name "incidents" :path "generated/incidents.generated.json" :owner "AgentCluster")
     (:name "evidence_quality" :path "generated/evidence_quality.generated.json" :owner "AgentCluster")
+    (:name "review" :path "generated/review.generated.json" :owner "AgentCluster")
     (:name "authority" :path "generated/authority.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")

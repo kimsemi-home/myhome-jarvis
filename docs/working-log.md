@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 22:25 KST
+
+- Linear issue: KIM-27 created and moved to In Progress.
+- Mode: next-vision foundation, Human Review Capacity status only.
+- Task: Add a private review capacity queue so missing reviewer coverage, high-risk review pressure, and overload become explicit review debt before authority decisions proceed.
+- Files touched: `lisp/ssot/review.lisp`, `lisp/ssot/authority.lisp`, `lisp/ssot/evidence.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `internal/review/status.go`, `internal/authority/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Human Review Capacity docs.
+- Changes: added SSOT-owned Human Review Capacity policy; added redacted review queue status over a private append-only queue; wired review debt into Authority Gate; exposed `mhj review status` and daemon `GET /review/status`; added Flutter Review Capacity metric; included generated review metadata in Flutter CI cache keys and CI contract validation.
+- Validation after: full `mhj quality` with Go 1.26.2 passed, including security current/history checks, Go test/vet/gofmt, SSOT validation, codegen verify, DDD verify, Flutter test/analyze, and Rust checks; focused Go tests for review, authority, evidence, daemon, CLI, and KnowledgeIndex passed; `mhj review status` returned an available zero-debt redacted summary; `mhj authority status` included human review capacity as an input with zero authority debt; daemon `GET /review/status` smoke passed; `mhj knowledge search "human review capacity backup steward review debt"` returned `HumanReviewCapacity`; new review files, review SSOT, and Human Review docs are each within 75 lines; private identity narrow scan and `git diff --check` passed.
+- External-write note: created Linear issue KIM-27 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-27.
+
 ## 2026-06-18 22:01 KST
 
 - Linear issue: KIM-26 created and moved to In Progress.

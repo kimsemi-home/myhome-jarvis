@@ -13,6 +13,7 @@
                            "incident_lifecycle"
                            "control_plane"
                            "translation"
+                           "human_review"
                            "public_safety")
         :reasoning_tiers #((:key "r0_compiler"
                              :label "R0 Compiler"
@@ -95,6 +96,11 @@
                       :public_repo_allowed t
                       :requires_human_review nil
                       :allowed_when_blocked t)
+                     (:key "revalidation"
+                      :risk "low"
+                      :public_repo_allowed t
+                      :requires_human_review nil
+                      :allowed_when_blocked t)
                      (:key "low_risk_fixture_change"
                       :risk "medium"
                       :public_repo_allowed t
@@ -162,6 +168,8 @@
                                  "incident_debt_count"
                                  "control_plane_debt_count"
                                  "translation_debt_count"
+                                 "human_review_debt_count"
+                                 "human_review_capacity_state"
                                  "allowed_decisions"
                                  "blocked_decisions"
                                  "by_risk"

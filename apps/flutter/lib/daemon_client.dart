@@ -42,6 +42,7 @@ class DaemonSnapshotClient implements JarvisClient {
         client,
         '/evidence-quality/status',
       );
+      final review = await _getObject(client, '/review/status');
       final authority = await _getObject(client, '/authority/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
@@ -66,6 +67,7 @@ class DaemonSnapshotClient implements JarvisClient {
         controlPlane: controlPlane,
         incidents: incidents,
         evidenceQuality: evidenceQuality,
+        review: review,
         authority: authority,
         metrics: metrics,
         events: events,
@@ -182,6 +184,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> controlPlane,
   required Map<String, Object?> incidents,
   required Map<String, Object?> evidenceQuality,
+  required Map<String, Object?> review,
   required Map<String, Object?> authority,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
@@ -245,6 +248,9 @@ JarvisSnapshot buildSnapshot({
   final evidenceQualitySnapshots = _int(evidenceQuality['snapshot_count']) ?? 0;
   final evidenceQualityDebt =
       _int(evidenceQuality['reassessment_debt_count']) ?? 0;
+  final reviewCapacityState = _string(review['capacity_state']) ?? 'unknown';
+  final reviewDebt = _int(review['review_debt_count']) ?? 0;
+  final reviewOpen = _int(review['open_count']) ?? 0;
   final authorityOutcome = _string(authority['outcome']) ?? 'unknown';
   final authorityDebt = _int(authority['authority_debt_count']) ?? 0;
   final authorityBlockedDecisions =
@@ -369,6 +375,15 @@ JarvisSnapshot buildSnapshot({
         icon: Icons.admin_panel_settings_outlined,
       ),
       SystemMetric(
+        label: 'Review Capacity',
+        value: _reviewCapacityValue(
+          reviewCapacityState,
+          reviewDebt,
+          reviewOpen,
+        ),
+        icon: Icons.rate_review_outlined,
+      ),
+      SystemMetric(
         label: 'Learning',
         value: learningOpenCount == 0
             ? '$learningCount observed'
@@ -467,6 +482,22 @@ String _authorityGateValue(String outcome, int debt, int blockedDecisions) {
       return '$blockedDecisions blocked';
     default:
       return _titleWords(outcome);
+  }
+}
+
+String _reviewCapacityValue(String state, int debt, int openCount) {
+  switch (state) {
+    case 'available':
+      return 'Available';
+    case 'overloaded':
+      return debt > 0 ? '$debt debt' : 'Overloaded';
+    case 'constrained':
+      if (debt > 0) {
+        return '$debt debt';
+      }
+      return openCount > 0 ? '$openCount open' : 'Constrained';
+    default:
+      return _titleWords(state);
   }
 }
 

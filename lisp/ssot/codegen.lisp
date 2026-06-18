@@ -79,6 +79,7 @@
     (validate-control-plane-policy *control-plane-policy*)
     (validate-incident-policy *incident-policy*)
     (validate-evidence-quality-policy *evidence-quality-policy*)
+    (validate-review-policy *review-policy*)
     (validate-authority-policy *authority-policy*)
     (unless (getf *linear-policy* :pull_active_only)
       (error "Linear pull must stay scoped to active issues by default"))
@@ -532,10 +533,10 @@
         (error "Incident required field missing: ~A" field)))
     (dolist (field '("count"
                      "open_count"
-                     "incident_debt_count"
-                     "missing_owner_count"
-                     "missing_evidence_ref_count"
-                     "stale_quarantine_count"
+	                     "incident_debt_count"
+	                     "missing_owner_count"
+	                     "missing_evidence_ref_count"
+	                     "stale_quarantine_count"
                      "by_stage"
                      "by_owner_role"
                      "checked_at"))
@@ -613,6 +614,128 @@
       (error "Evidence quality status command must stay in SSOT"))
     t))
 
+(defun validate-review-policy (policy)
+  (let ((queue (getf policy :private_review_queue))
+        (risks (coerce (getf policy :allowed_risks) 'list))
+        (classes (coerce (getf policy :queue_classes) 'list))
+        (priority (coerce (getf policy :priority_order) 'list))
+        (statuses (coerce (getf policy :allowed_statuses) 'list))
+        (requesters (coerce (getf policy :requester_roles) 'list))
+        (reviewers (coerce (getf policy :reviewer_roles) 'list))
+        (overload (coerce (getf policy :overload_policy) 'list))
+        (required-fields (coerce (getf policy :required_fields) 'list))
+        (summary-fields (coerce (getf policy :public_summary_fields) 'list))
+        (max-open (getf policy :max_open_reviews))
+        (max-high (getf policy :max_high_risk_open_reviews))
+        (min-backup (getf policy :min_backup_reviewers)))
+    (unless (string= (getf policy :context) "AgentCluster")
+      (error "Review policy must belong to AgentCluster"))
+    (unless (and (stringp queue)
+                 (>= (length queue) 13)
+                 (string= "data/private/" (subseq queue 0 13))
+                 (>= (length queue) 6)
+                 (string= ".jsonl" (subseq queue (- (length queue) 6))))
+      (error "Review queue must stay under data/private as JSONL"))
+    (unless (and (getf policy :append_only)
+                 (getf policy :public_status_redacted))
+      (error "Review queue must be append-only and redacted"))
+    (when (getf policy :raw_review_public_allowed)
+      (error "Review status must not expose raw review notes"))
+    (unless (and (integerp max-open)
+                 (> max-open 0)
+                 (integerp max-high)
+	                 (>= max-high 0)
+	                 (integerp min-backup)
+	                 (> min-backup 0))
+	      (error "Review capacity thresholds must be valid"))
+    (dolist (risk '("low" "medium" "high"))
+      (unless (find risk risks :test #'string=)
+        (error "Review risk missing: ~A" risk)))
+    (dolist (class '("security_incident"
+                     "production_incident"
+                     "ssot_defect"
+                     "user_impact_regression"
+                     "authority_boundary_change"
+                     "release_blocking"
+                     "major_ontology_change"
+                     "spec_change"
+                     "documentation"))
+      (unless (find class classes :test #'string=)
+        (error "Review queue class missing: ~A" class))
+      (unless (find class priority :test #'string=)
+        (error "Review priority order missing: ~A" class)))
+    (unless (and (string= (first priority) "security_incident")
+                 (string= (second priority) "production_incident"))
+      (error "Review queue priority must start with security and production incidents"))
+    (dolist (status '("requested" "assigned" "in_review" "approved" "rejected" "deferred" "escalated"))
+      (unless (find status statuses :test #'string=)
+        (error "Review status missing: ~A" status)))
+    (dolist (role '("producer"
+                    "independent_reviewer"
+                    "adversarial_reviewer"
+                    "deterministic_verifier"
+                    "governance_steward"))
+      (unless (find role requesters :test #'string=)
+        (error "Review requester role missing: ~A" role)))
+    (dolist (role '("independent_reviewer"
+                    "adversarial_reviewer"
+                    "deterministic_verifier"
+                    "governance_steward"
+                    "backup_steward"))
+      (unless (find role reviewers :test #'string=)
+        (error "Review reviewer role missing: ~A" role)))
+    (dolist (key '("low_risk_only"
+                   "deterministic_verification"
+                   "evidence_collection"
+                   "incident_response"
+                   "revalidation"
+                   "high_risk_change"
+                   "major_ontology_change"
+                   "security_boundary_change"
+                   "production_change"))
+      (unless (find key overload :key (lambda (item) (getf item :key)) :test #'string=)
+        (error "Review overload policy missing: ~A" key)))
+    (dolist (key '("high_risk_change"
+                   "major_ontology_change"
+                   "security_boundary_change"
+                   "production_change"))
+      (let ((entry (find key overload :key (lambda (item) (getf item :key)) :test #'string=)))
+        (when (getf entry :allowed_when_overloaded)
+          (error "Review overload policy must freeze high-risk key: ~A" key))))
+    (dolist (field '("at"
+                     "item_key"
+                     "queue_class"
+                     "risk"
+                     "status"
+                     "requester_role"
+                     "reviewer_role"
+                     "backup_available"
+                     "evidence_refs"))
+      (unless (find field required-fields :test #'string=)
+        (error "Review required field missing: ~A" field)))
+    (dolist (field '("count"
+                     "open_count"
+                     "high_risk_open_count"
+                     "invalid_review_count"
+                     "missing_evidence_count"
+                     "missing_reviewer_count"
+                     "backup_available_count"
+                     "review_debt_count"
+                     "capacity_state"
+                     "active_rule"
+                     "by_risk"
+                     "by_status"
+                     "by_reviewer_role"
+                     "by_queue_class"
+                     "checked_at"))
+      (unless (find field summary-fields :test #'string=)
+        (error "Review summary missing field: ~A" field)))
+    (unless (find "mhj review status"
+                  (coerce (getf policy :commands) 'list)
+                  :test #'string=)
+      (error "Review status command must stay in SSOT"))
+    t))
+
 (defun validate-authority-policy (policy)
   (let ((inputs (coerce (getf policy :required_inputs) 'list))
         (tiers (coerce (getf policy :reasoning_tiers) 'list))
@@ -637,6 +760,7 @@
                      "incident_lifecycle"
                      "control_plane"
                      "translation"
+                     "human_review"
                      "public_safety"))
       (unless (find input inputs :test #'string=)
         (error "Authority input missing: ~A" input)))
@@ -708,6 +832,8 @@
                      "self_authority_allowed"
                      "public_safety_ok"
                      "confidence_cap"
+                     "human_review_debt_count"
+                     "human_review_capacity_state"
                      "allowed_decisions"
                      "blocked_decisions"
                      "checked_at"))
@@ -823,6 +949,8 @@
                    *incident-policy*)
   (write-json-file (merge-pathnames "generated/evidence_quality.generated.json" root)
                    *evidence-quality-policy*)
+  (write-json-file (merge-pathnames "generated/review.generated.json" root)
+                   *review-policy*)
   (write-json-file (merge-pathnames "generated/authority.generated.json" root)
                    *authority-policy*)
   (write-json-file (merge-pathnames "generated/linear.generated.json" root)

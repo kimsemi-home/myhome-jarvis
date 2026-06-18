@@ -35,6 +35,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/planner"
 	"github.com/kimsemi-home/myhome-jarvis/internal/qualitylog"
 	"github.com/kimsemi-home/myhome-jarvis/internal/repo"
+	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
 	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
@@ -155,6 +156,10 @@ func run(args []string) error {
 		if len(args) == 2 && args[1] == "status" {
 			return evidenceQualityStatus(root)
 		}
+	case "review":
+		if len(args) == 2 && args[1] == "status" {
+			return reviewStatus(root)
+		}
 	case "authority":
 		if len(args) == 2 && args[1] == "status" {
 			return authorityStatus(root)
@@ -256,7 +261,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|evidence status|confidence status|translation status|control-plane status|incidents status|evidence-quality status|authority status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|evidence status|confidence status|translation status|control-plane status|incidents status|evidence-quality status|review status|authority status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -480,6 +485,14 @@ func incidentsStatus(root string) error {
 
 func evidenceQualityStatus(root string) error {
 	status, err := evidencequality.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
+func reviewStatus(root string) error {
+	status, err := review.StatusForRoot(root)
 	if err != nil {
 		return err
 	}
@@ -890,6 +903,7 @@ func validateCIWorkflowContract(root string) error {
 		"'generated/control_plane.generated.json'",
 		"'generated/incidents.generated.json'",
 		"'generated/evidence_quality.generated.json'",
+		"'generated/review.generated.json'",
 		"'generated/authority.generated.json'",
 		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",
 	}

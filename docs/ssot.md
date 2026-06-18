@@ -22,6 +22,7 @@ Current SSOT boundaries are intentionally separated by domain:
 - `evidence`: private Evidence Graph source, node, edge, and redaction policy.
 - `evidence-quality`: private evidence quality snapshot and reassessment debt
   policy.
+- `review`: private human review capacity queue policy.
 - `confidence`: external confidence cap policy over local evidence signals.
 - `authority`: Reasoning RBAC and Domain ABAC status gate policy.
 - `translation`: context translation manifest and semantic loss ledger policy.
@@ -90,6 +91,14 @@ Flutter consumes the daemon status as a read-only Evidence Quality metric. The
 generated policy keeps quality snapshots private, counts stale, low, blocked,
 missing-ref, and mapping-drift cases as reassessment debt, and exposes only
 counts, buckets, booleans, thresholds, and timestamps.
+
+The Human Review Capacity SSOT emits `generated/review.generated.json`. Go
+reads that artifact for `mhj review status` and daemon
+`GET /review/status`; Flutter consumes the daemon status as a read-only Review
+Capacity metric. The generated policy keeps review queue items private, counts
+open and high-risk reviews, missing reviewers, missing evidence, missing backup
+coverage, and overload as review debt, and exposes only counts, buckets,
+thresholds, capacity state, active rule, and timestamps.
 
 The Confidence Assessor SSOT emits `generated/confidence.generated.json`. Go
 reads that artifact for `mhj confidence status` and daemon
