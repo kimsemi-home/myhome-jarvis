@@ -99,6 +99,16 @@
                           "internal/learning/ledger.go"
                           "docs/learning-ledger.md")
      :related_concepts #("AgentClusterPolicy" "ClosedLoopPlanner" "KnowledgeIndex" "SecurityPolicy"))
+    (:canonical_name "EvidenceGraph"
+     :bounded_context "AgentCluster"
+     :ddd_kind "Repository"
+     :description "A private local graph summary that connects observations to evidence artifacts so loop gaps can be traced without exposing raw private evidence."
+     :allowed_aliases #("evidence graph" "evidence board" "evidence links" "traceable evidence")
+     :owner "internal/evidence"
+     :generated_targets #("generated/evidence.generated.json"
+                          "internal/evidence/status.go"
+                          "docs/evidence-graph.md")
+     :related_concepts #("LearningLedger" "AgentClusterPolicy" "ClosedLoopPlanner" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -229,6 +239,7 @@
     (:name "connectors" :path "generated/connectors.generated.json" :owner "ConnectorReadiness")
     (:name "agent_cluster" :path "generated/agent_cluster.generated.json" :owner "AgentCluster")
     (:name "learning" :path "generated/learning.generated.json" :owner "AgentCluster")
+    (:name "evidence" :path "generated/evidence.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

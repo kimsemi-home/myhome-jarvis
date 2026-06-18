@@ -21,6 +21,7 @@
    #:*connector-policy*
    #:*agent-cluster-policy*
    #:*learning-policy*
+   #:*evidence-graph-policy*
    #:*linear-policy*
    #:*planner-policy*
    #:validate-ssot

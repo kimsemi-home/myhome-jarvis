@@ -338,6 +338,11 @@ class JarvisSnapshot {
         value: '0 observed',
         icon: Icons.psychology_alt_outlined,
       ),
+      SystemMetric(
+        label: 'Evidence Graph',
+        value: '0 nodes',
+        icon: Icons.device_hub_outlined,
+      ),
     ],
     commands: [
       HomeCommand(
@@ -677,6 +682,11 @@ class JarvisSnapshot {
           label: 'Learning',
           value: 'Local',
           icon: Icons.psychology_alt_outlined,
+        ),
+        SystemMetric(
+          label: 'Evidence Graph',
+          value: 'Local',
+          icon: Icons.device_hub_outlined,
         ),
       ],
       commands: sample.commands,

@@ -474,3 +474,10 @@
   - Linear: KIM-19
   - Acceptance: Common Lisp SSOT owns a private append-only learning ledger policy with allowed observation kinds, lifecycle stages, required evidence fields, allowed evidence refs, and redacted public summary fields; codegen emits `generated/learning.generated.json`; `mhj learning record` writes validated observations only to `data/private/learning/observations.jsonl`; `mhj learning status`, daemon `GET /learning/status`, and Flutter Status expose only repo-relative paths, counts, kinds, lifecycle stages, and timestamps without raw summaries, next actions, evidence contents, tokens, credentials, local absolute paths, prompts, transcripts, account IDs, or card numbers.
   - Validation: `go test ./internal/learning ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj learning status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P67
+
+- [x] Add local Evidence Graph status.
+  - Linear: KIM-20
+  - Acceptance: Common Lisp SSOT owns a private Evidence Graph policy with allowed private sources, node kinds, edge kinds, evidence ref prefixes, and public redaction fields; codegen emits `generated/evidence.generated.json`; `mhj evidence status`, daemon `GET /evidence/status`, and Flutter Status expose only source keys, counts, node kinds, edge kinds, dangling-ref counts, and timestamps without raw observation summaries, next actions, evidence ref strings, tokens, credentials, local absolute paths, prompts, transcripts, account IDs, card numbers, or private evidence contents.
+  - Validation: `go test ./internal/evidence ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj evidence status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

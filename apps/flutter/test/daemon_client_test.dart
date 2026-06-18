@@ -319,6 +319,33 @@ void main() {
             'last_observed_at': '2026-06-18T00:00:00Z',
           });
           return;
+        case '/evidence/status':
+          _writeJson(request, {
+            'policy_path': 'generated/evidence.generated.json',
+            'private_root': 'data/private',
+            'source_count': 5,
+            'present_source_count': 2,
+            'node_count': 4,
+            'edge_count': 2,
+            'dangling_evidence_ref_count': 0,
+            'open_learning_count': 1,
+            'by_node_kind': {
+              'learning_observation': 1,
+              'evidence_artifact': 2,
+              'quality_run': 1,
+            },
+            'by_edge_kind': {'supports': 2},
+            'sources': [
+              {
+                'key': 'learning',
+                'node_kind': 'learning_observation',
+                'format': 'jsonl',
+                'present': true,
+                'count': 1,
+              },
+            ],
+          });
+          return;
         case '/metrics':
           _writeJson(request, {
             'bind_host': '127.0.0.1',
@@ -497,6 +524,12 @@ void main() {
           .value,
       '1 open',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Evidence Graph')
+          .value,
+      '2 links',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
@@ -657,6 +690,7 @@ void main() {
       connectors: const <String, Object?>{},
       agentCluster: const <String, Object?>{},
       learning: const <String, Object?>{},
+      evidence: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,

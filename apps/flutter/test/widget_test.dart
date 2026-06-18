@@ -20,6 +20,8 @@ void main() {
     expect(find.text('5 roles gated'), findsOneWidget);
     expect(find.text('Learning'), findsOneWidget);
     expect(find.text('0 observed'), findsOneWidget);
+    expect(find.text('Evidence Graph'), findsOneWidget);
+    expect(find.text('0 nodes'), findsOneWidget);
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 

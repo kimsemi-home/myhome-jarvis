@@ -19,6 +19,7 @@ Current SSOT boundaries are intentionally separated by domain:
   cluster policy, Linear workflow rules, and planning metadata.
 - `learning`: private observation ledger policy for loop gaps and evidence
   debt.
+- `evidence`: private Evidence Graph source, node, edge, and redaction policy.
 
 The planner SSOT emits `generated/planner.generated.json`. Go reads that
 artifact for `mhj planner status` and daemon `GET /planner/status`; Flutter
@@ -67,6 +68,13 @@ that artifact for `mhj learning status`, `mhj learning record`, and daemon
 Learning metric. The generated policy keeps the journal under `data/private`,
 requires evidence refs, owner, and next action for every observation, and keeps
 public status redacted to counts, kinds, lifecycle stages, and timestamps.
+
+The Evidence Graph SSOT emits `generated/evidence.generated.json`. Go reads
+that artifact for `mhj evidence status` and daemon `GET /evidence/status`;
+Flutter consumes the daemon status as a read-only Evidence Graph metric. The
+generated policy keeps graph inputs under `data/private`, allows only
+repo-relative evidence refs, and exposes public status as source, node, edge,
+dangling-ref, and timestamp counts without raw evidence contents.
 
 Use `mhj codegen verify` before committing SSOT or generated artifact changes.
 It snapshots the current `generated` tree, regenerates artifacts from Lisp, and

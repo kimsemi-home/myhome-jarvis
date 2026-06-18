@@ -19,6 +19,7 @@
                   "../ssot/connectors.lisp"
                   "../ssot/agent-cluster.lisp"
                   "../ssot/learning.lisp"
+                  "../ssot/evidence.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"
                   "../ssot/codegen.lisp"))

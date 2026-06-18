@@ -62,12 +62,18 @@ records loop gaps and evidence debt under `data/private/learning` and exposes
 only redacted counts through `mhj learning status` and daemon
 `GET /learning/status`.
 
+The Evidence Graph is the next executable follow-through. It connects private
+learning observations to referenced evidence artifacts and exposes only redacted
+node, edge, source, dangling-ref, and timestamp counts through
+`mhj evidence status` and daemon `GET /evidence/status`.
+
 ## Validation
 
 Use these checks after changing the policy:
 
 ```sh
 go run ./cmd/mhj agent-cluster status
+go run ./cmd/mhj evidence status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
 go test ./internal/agentcluster ./internal/daemon ./cmd/mhj

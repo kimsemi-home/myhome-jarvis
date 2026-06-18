@@ -34,6 +34,7 @@ go run ./cmd/mhj command volume-set '{"level":30}'
 go run ./cmd/mhj connectors status
 go run ./cmd/mhj agent-cluster status
 go run ./cmd/mhj learning status
+go run ./cmd/mhj evidence status
 go run ./cmd/mhj harness home
 go run ./cmd/mhj harness finance
 go run ./cmd/mhj harness commerce
@@ -76,6 +77,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/connectors`: public-safe fixture-only connector readiness status.
 - `internal/agentcluster`: public-safe agent cluster learning-loop status.
 - `internal/learning`: private observation ledger and redacted learning status.
+- `internal/evidence`: private Evidence Graph summarization and redacted status.
 - `internal/daemon`: local API, auth enforcement, metrics, and bounded request events.
 - `internal/supervisor`: daemon process state and status checks.
 - `internal/security`: forbidden language, secret, and private-data checks.

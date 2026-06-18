@@ -33,6 +33,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final connectors = await _getObject(client, '/connectors/status');
       final agentCluster = await _getObject(client, '/agent-cluster/status');
       final learning = await _getObject(client, '/learning/status');
+      final evidence = await _getObject(client, '/evidence/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -50,6 +51,7 @@ class DaemonSnapshotClient implements JarvisClient {
         connectors: connectors,
         agentCluster: agentCluster,
         learning: learning,
+        evidence: evidence,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -159,6 +161,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> connectors,
   required Map<String, Object?> agentCluster,
   required Map<String, Object?> learning,
+  required Map<String, Object?> evidence,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -205,6 +208,10 @@ JarvisSnapshot buildSnapshot({
       _bool(agentCluster['authority_gate_required']) ?? false;
   final learningOpenCount = _int(learning['open_count']) ?? 0;
   final learningCount = _int(learning['count']) ?? 0;
+  final evidenceEdges = _int(evidence['edge_count']) ?? 0;
+  final evidenceNodes = _int(evidence['node_count']) ?? 0;
+  final danglingEvidenceRefs =
+      _int(evidence['dangling_evidence_ref_count']) ?? 0;
 
   return JarvisSnapshot(
     metrics: [
@@ -321,6 +328,15 @@ JarvisSnapshot buildSnapshot({
             ? '$learningCount observed'
             : '$learningOpenCount open',
         icon: Icons.psychology_alt_outlined,
+      ),
+      SystemMetric(
+        label: 'Evidence Graph',
+        value: danglingEvidenceRefs > 0
+            ? '$danglingEvidenceRefs dangling'
+            : (evidenceEdges == 0
+                  ? '$evidenceNodes nodes'
+                  : '$evidenceEdges links'),
+        icon: Icons.device_hub_outlined,
       ),
       SystemMetric(
         label: 'Repo',

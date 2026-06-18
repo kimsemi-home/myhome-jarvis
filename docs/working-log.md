@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 09:53 KST
+
+- Linear issue: KIM-20 created and moved to In Progress.
+- Mode: next-vision foundation, local private Evidence Graph status only.
+- Task: Add a local Evidence Graph summary so private observations are connected to evidence artifacts instead of staying as disconnected ledger rows.
+- Files touched: `lisp/ssot/evidence.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `generated/evidence.generated.json`, `generated/concepts.generated.json`, `internal/evidence/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Evidence Graph docs.
+- Changes: added SSOT-owned Evidence Graph policy; added redacted graph status over private learning observations, checkpoints, quality runs, Linear write evidence, and command audit sources; exposed `mhj evidence status` and daemon `GET /evidence/status`; added Flutter Evidence Graph metric; included generated evidence metadata in Flutter CI cache keys and CI contract validation.
+- Validation after: focused Go tests for evidence, daemon, CLI, and KnowledgeIndex passed; `mhj evidence status` returned a redacted graph summary over private evidence sources with 141 nodes, 3 support edges, and zero dangling refs before full quality; `mhj codegen verify` passed; `mhj ddd verify` passed with 9 contexts and 16 concepts; Flutter focused tests passed; full `mhj quality` with Go 1.26.2 passed; daemon `GET /evidence/status` smoke passed with 142 nodes, 3 support edges, and zero dangling refs after the new quality run; public safety current/history checks, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-20 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-20.
+
 ## 2026-06-18 09:36 KST
 
 - Linear issue: KIM-19 created and moved to In Progress.

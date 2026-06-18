@@ -19,7 +19,7 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if report.ContextCount != 9 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 15 {
+	if report.ConceptCount != 16 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
@@ -111,6 +111,22 @@ func TestSearchLearningLedgerReturnsObservationEvidence(t *testing.T) {
 	}
 	if !containsString(report.MustRead, "docs/learning-ledger.md") {
 		t.Fatalf("must read missing docs/learning-ledger.md: %#v", report.MustRead)
+	}
+}
+
+func TestSearchEvidenceGraphReturnsTraceabilityEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "evidence graph")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "EvidenceGraph") {
+		t.Fatalf("expected EvidenceGraph concept, got %#v", report.Concepts)
+	}
+	if !containsString(report.MustRead, "generated/evidence.generated.json") {
+		t.Fatalf("must read missing evidence artifact: %#v", report.MustRead)
+	}
+	if !containsString(report.MustRead, "docs/evidence-graph.md") {
+		t.Fatalf("must read missing docs/evidence-graph.md: %#v", report.MustRead)
 	}
 }
 

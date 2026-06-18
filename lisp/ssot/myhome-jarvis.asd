@@ -3,6 +3,7 @@
   :serial t
   :components ((:file "package")
                (:file "project")
+               (:file "ddd")
                (:file "commands")
                (:file "finance")
                (:file "commerce")
@@ -11,6 +12,10 @@
                (:file "recommendations")
                (:file "scheduler")
                (:file "security")
+               (:file "connectors")
+               (:file "agent-cluster")
+               (:file "learning")
+               (:file "evidence")
                (:file "linear")
                (:file "planner")
                (:file "codegen")))
