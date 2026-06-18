@@ -572,3 +572,10 @@
   - Linear: KIM-33
   - Acceptance: `cmd/mhj/main.go` sheds quality report, command-runner, benchmark-smoke, gofmt, and Go file collection helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 508-line debt value; `mhj quality`, `mhj benchmark smoke`, redacted quality JSON, and code-shape behavior remain unchanged.
   - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/qualitylog`; `go run ./cmd/mhj benchmark smoke`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P81
+
+- [x] Ratchet CLI command handler debt.
+  - Linear: KIM-34
+  - Acceptance: `cmd/mhj/main.go` sheds auth, daemon, harness, knowledge, learning, JSON, and env helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 375-line debt value; CLI routing, daemon flags, harness failure behavior, knowledge/learning output, and JSON indentation remain unchanged.
+  - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/auth ./internal/supervisor ./internal/knowledge ./internal/learning`; representative handler commands; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

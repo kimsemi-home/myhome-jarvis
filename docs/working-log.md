@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-18 23:53 KST
+
+- Linear issue: KIM-34 created and moved to In Progress.
+- Mode: code-shape burn-down, CLI command handler refactor.
+- Task: Reduce `cmd/mhj/main.go` legacy debt again by extracting small auth, daemon, harness, knowledge, learning, JSON, and env handlers while preserving CLI routing behavior.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/command_auth_daemon.go`, `cmd/mhj/command_fixture.go`, `cmd/mhj/command_knowledge.go`, `cmd/mhj/cli_json.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: extracted auth token/status handling, daemon flag parsing/status, harness dispatch, DDD/knowledge commands, learning commands, JSON encoding, and env default helper into focused package-local files; ratcheted `cmd/mhj/main.go` generated code-shape baseline from 375 to 241 lines; kept new command/helper files at 55, 32, 55, and 21 lines.
+- Validation after: focused Go tests for CLI, Code Shape, Auth, Supervisor, Knowledge, and Learning passed; representative `auth status`, `daemon status`, `harness home`, `knowledge verify`, and `learning status` commands passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions and `cmd/mhj/main.go` at the 241-line baseline; full `mhj quality` with Go 1.26.2 passed; new command/helper files are 55, 32, 55, and 21 lines; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-34 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-18 23:45 KST
 
 - Linear issue: KIM-33 created and moved to In Progress.

@@ -2,23 +2,16 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
-	"flag"
 	"fmt"
 	"net/http"
 	"os"
 	"strings"
 
 	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
-	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
-	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
-	"github.com/kimsemi-home/myhome-jarvis/internal/knowledge"
-	"github.com/kimsemi-home/myhome-jarvis/internal/learning"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
-	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
 )
 
 const version = "0.1.0-bootstrap"
@@ -245,131 +238,4 @@ func run(args []string) error {
 
 func usage() error {
 	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|code-shape status|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|evidence status|confidence status|translation status|control-plane status|incidents status|evidence-quality status|review status|authority status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
-}
-
-func runAuth(root string, args []string) error {
-	if len(args) == 1 && args[0] == "status" {
-		return writeJSON(auth.Status(root))
-	}
-	if len(args) == 2 && args[0] == "token" && args[1] == "create" {
-		result, err := auth.Create(root, false)
-		if err != nil {
-			return err
-		}
-		return writeJSON(result)
-	}
-	if len(args) == 2 && args[0] == "token" && args[1] == "rotate" {
-		result, err := auth.Create(root, true)
-		if err != nil {
-			return err
-		}
-		return writeJSON(result)
-	}
-	return errors.New("usage: mhj auth <status|token create|token rotate>")
-}
-
-func runDaemon(root string, args []string) error {
-	if len(args) == 1 && args[0] == "status" {
-		return writeJSON(supervisor.Status(root, nil))
-	}
-	config := daemon.DefaultConfig(root, version)
-	flags := flag.NewFlagSet("daemon", flag.ContinueOnError)
-	flags.SetOutput(os.Stderr)
-	flags.StringVar(&config.Host, "host", config.Host, "bind host")
-	flags.IntVar(&config.Port, "port", config.Port, "bind port")
-	flags.BoolVar(&config.AllowLANBind, "allow-lan", false, "allow non-localhost bind")
-	flags.BoolVar(&config.Execute, "execute", config.Execute, "allow explicit execute requests")
-	if err := flags.Parse(args); err != nil {
-		return err
-	}
-	server, err := daemon.New(config)
-	if err != nil {
-		return err
-	}
-	fmt.Fprintf(os.Stderr, "myhome-jarvis daemon listening on %s:%d\n", config.Host, config.Port)
-	return server.ListenAndServe()
-}
-
-func runHarness(root string, args []string) error {
-	if len(args) != 1 {
-		return errors.New("usage: mhj harness <home|finance|commerce>")
-	}
-	var report commands.HarnessReport
-	switch args[0] {
-	case "home":
-		report = commands.RunHomeHarness()
-	case "finance":
-		report = commands.RunFinanceHarness(root)
-	case "commerce":
-		report = commands.RunCommerceHarness(root)
-	default:
-		return errors.New("usage: mhj harness <home|finance|commerce>")
-	}
-	if err := writeJSON(report); err != nil {
-		return err
-	}
-	if !report.Passed {
-		return fmt.Errorf("%s harness failed", report.Name)
-	}
-	return nil
-}
-
-func runDDDVerify(root string) error {
-	report, err := knowledge.Verify(root)
-	if err != nil {
-		return err
-	}
-	if err := writeJSON(report); err != nil {
-		return err
-	}
-	if !report.OK {
-		return errors.New("ddd verify failed")
-	}
-	return nil
-}
-
-func runKnowledge(root string, args []string) error {
-	if len(args) == 1 && args[0] == "verify" {
-		return runDDDVerify(root)
-	}
-	if len(args) >= 2 && args[0] == "search" {
-		report, err := knowledge.Search(root, strings.Join(args[1:], " "))
-		if err != nil {
-			return err
-		}
-		return writeJSON(report)
-	}
-	return errors.New("usage: mhj knowledge <verify|search query>")
-}
-
-func runLearning(root string, args []string) error {
-	if len(args) == 1 && args[0] == "status" {
-		status, err := learning.StatusForRoot(root)
-		if err != nil {
-			return err
-		}
-		return writeJSON(status)
-	}
-	if len(args) == 2 && args[0] == "record" {
-		result, err := learning.Record(root, []byte(args[1]))
-		if err != nil {
-			return err
-		}
-		return writeJSON(result)
-	}
-	return errors.New("usage: mhj learning <status|record json-payload>")
-}
-
-func envWithDefault(name string, fallback string) string {
-	value := strings.TrimSpace(os.Getenv(name))
-	if value == "" {
-		return fallback
-	}
-	return value
-}
-
-func writeJSON(value any) error {
-	encoder := json.NewEncoder(os.Stdout)
-	encoder.SetIndent("", "  ")
-	return encoder.Encode(value)
 }
