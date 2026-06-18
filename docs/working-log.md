@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 08:27 KST
+
+- Linear issue: KIM-85 created and moved to In Progress.
+- Mode: code-shape burn-down, SSOT codegen refactor.
+- Task: Remove `lisp/ssot/codegen.lisp` from code-shape legacy debt by splitting SSOT validation, JSON writing, and generated-artifact orchestration into focused Lisp files.
+- Files touched: `lisp/ssot/codegen.lisp`, `lisp/ssot/codegen-*.lisp`, `lisp/ssot/myhome-jarvis.asd`, `lisp/scripts/load-ssot.lisp`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `validate-ssot` and `write-generated-artifacts` as the public facade; moved shared validation helpers, foundation/security/connector validators, Agent Cluster, Code Shape, Learning, Evidence, Confidence, DDD, Control Plane, Incident, Evidence Quality, Review, Authority, Translation, Linear, and Planner validators into focused files; moved JSON encoding and artifact writing into focused files; removed `lisp/ssot/codegen.lisp` from generated code-shape legacy debt; kept new and changed Lisp files below 75 lines.
+- Validation after: SSOT validation, deterministic codegen, codegen verify, focused Code Shape tests, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 34 legacy debt files.
+- External-write note: created Linear issue KIM-85 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 08:14 KST
 
 - Linear issue: KIM-84 created and moved to In Progress.

@@ -1,0 +1,57 @@
+(in-package #:myhome-jarvis.ssot)
+
+(defun validate-review-policy (policy)
+  (require-string-equal (getf policy :context) "AgentCluster"
+                        "Review policy must belong to AgentCluster")
+  (require-private-jsonl (getf policy :private_review_queue)
+                         "Review queue must stay private JSONL")
+  (require-true (and (getf policy :append_only)
+                     (getf policy :public_status_redacted))
+                "Review queue must be append-only and redacted")
+  (require-false (getf policy :raw_review_public_allowed)
+                 "Review status must not expose raw review notes")
+  (validate-review-capacity policy)
+  (validate-review-taxonomy policy)
+  (validate-review-overload policy)
+  (validate-review-fields policy)
+  (require-command policy "mhj review status"))
+
+(defun validate-review-capacity (policy)
+  (require-positive-integer (getf policy :max_open_reviews)
+                            "Review max open threshold must be positive")
+  (require-true (and (integerp (getf policy :max_high_risk_open_reviews))
+                     (>= (getf policy :max_high_risk_open_reviews) 0))
+                "Review high-risk threshold must be valid")
+  (require-positive-integer (getf policy :min_backup_reviewers)
+                            "Review backup reviewer threshold must be positive"))
+
+(defun validate-review-taxonomy (policy)
+  (let ((classes '("security_incident" "production_incident" "ssot_defect"
+                   "user_impact_regression" "authority_boundary_change"
+                   "release_blocking" "major_ontology_change" "spec_change"
+                   "documentation")))
+    (require-members '("low" "medium" "high") (policy-list policy :allowed_risks)
+                     "Review risk missing: ~A")
+    (require-members classes (policy-list policy :queue_classes)
+                     "Review queue class missing: ~A")
+    (require-members classes (policy-list policy :priority_order)
+                     "Review priority order missing: ~A")
+    (require-true (and (string= (first (policy-list policy :priority_order))
+                                "security_incident")
+                       (string= (second (policy-list policy :priority_order))
+                                "production_incident"))
+                  "Review queue priority must start with security incidents")
+    (require-members '("requested" "assigned" "in_review" "approved"
+                       "rejected" "deferred" "escalated")
+                     (policy-list policy :allowed_statuses)
+                     "Review status missing: ~A")
+    (validate-review-roles policy)))
+
+(defun validate-review-roles (policy)
+  (let ((core '("producer" "independent_reviewer" "adversarial_reviewer"
+                "deterministic_verifier" "governance_steward")))
+    (require-members core (policy-list policy :requester_roles)
+                     "Review requester role missing: ~A")
+    (require-members (append (rest core) '("backup_steward"))
+                     (policy-list policy :reviewer_roles)
+                     "Review reviewer role missing: ~A")))

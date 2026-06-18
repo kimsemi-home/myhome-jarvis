@@ -929,3 +929,10 @@
   - Linear: KIM-84
   - Acceptance: `crates/mhj-storage/src/lib.rs` keeps the public `mhj_storage` API under the normal 75-line budget by moving manifests, path rules, partitioning, raw JSONL writing, curated Parquet writing/reading, schemas, validation, records, reports, and column builders into focused modules; finance and commerce fixture Parquet behavior, Zstd metadata checks, raw-layer rejection, and repo-relative lake path safety remain unchanged; `crates/mhj-storage/src/lib.rs` is removed from Code Shape legacy debt.
   - Validation: `cargo test -p mhj-storage`; `go test ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P132
+
+- [x] Ratchet SSOT codegen under 75 lines.
+  - Linear: KIM-85
+  - Acceptance: `lisp/ssot/codegen.lisp` keeps only the public `validate-ssot` and `write-generated-artifacts` facade under the normal 75-line budget by moving shared validation helpers, policy validators, DDD registry checks, JSON encoding, and generated artifact writing into focused Lisp files; generated artifact bytes stay stable except for the intentional Code Shape debt-list update; `lisp/ssot/codegen.lisp` is removed from Code Shape legacy debt.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `sbcl --script lisp/scripts/codegen.lisp`; `go test ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
