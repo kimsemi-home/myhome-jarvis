@@ -551,3 +551,10 @@
   - Linear: KIM-30
   - Acceptance: `cmd/mhj/main.go` sheds toolchain pin parsing and comparison helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 893-line debt value; `mhj toolchain verify`, `mhj ci verify`, `mhj codegen verify`, and `mhj quality` behavior remains unchanged.
   - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/knowledge`; `go run ./cmd/mhj toolchain verify`; `go run ./cmd/mhj ci verify`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P78
+
+- [x] Ratchet CLI loop orchestration debt.
+  - Linear: KIM-31
+  - Acceptance: `cmd/mhj/main.go` sheds bounded loop orchestration, checkpoint, scheduler worker, and control-plane manifest append helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 791-line debt value; `mhj loop once`, `mhj loop status`, `mhj loop worker --cycles 1`, and `mhj quality` behavior remains unchanged.
+  - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/orchestrator ./internal/scheduler`; `go run ./cmd/mhj loop once`; `go run ./cmd/mhj loop status`; `go run ./cmd/mhj loop worker --cycles 1`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

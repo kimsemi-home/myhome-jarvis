@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-18 23:27 KST
+
+- Linear issue: KIM-31 created and moved to In Progress.
+- Mode: code-shape burn-down, CLI loop orchestration refactor.
+- Task: Reduce `cmd/mhj/main.go` legacy debt again by extracting bounded loop orchestration while preserving redacted checkpoints, scheduler behavior, control-plane manifests, and public safety.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/loop_once.go`, `cmd/mhj/loop_worker.go`, `cmd/mhj/loop_cycle.go`, `cmd/mhj/loop_manifest.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: extracted `mhj loop once`, `mhj loop status`, bounded worker orchestration, worker-cycle checkpoint writing, and control-plane manifest append helpers into focused package-local files; ratcheted `cmd/mhj/main.go` generated code-shape baseline from 791 to 647 lines; kept new loop files at 68, 36, 57, and 23 lines.
+- Validation after: focused Go tests for CLI, Code Shape, Orchestrator, and Scheduler passed; `mhj loop status`, `mhj loop once`, `mhj loop worker --cycles 1`, `mhj codegen verify`, and `mhj code-shape status` passed with zero budget regressions and `cmd/mhj/main.go` at the 647-line baseline; full `mhj quality` with Go 1.26.2 passed; new loop files are 68, 36, 57, and 23 lines; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-31 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-18 23:19 KST
 
 - Linear issue: KIM-30 created and moved to In Progress.

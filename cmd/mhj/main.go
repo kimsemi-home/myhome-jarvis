@@ -30,12 +30,10 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/knowledge"
 	"github.com/kimsemi-home/myhome-jarvis/internal/learning"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
-	"github.com/kimsemi-home/myhome-jarvis/internal/orchestrator"
 	"github.com/kimsemi-home/myhome-jarvis/internal/planner"
 	"github.com/kimsemi-home/myhome-jarvis/internal/qualitylog"
 	"github.com/kimsemi-home/myhome-jarvis/internal/repo"
 	"github.com/kimsemi-home/myhome-jarvis/internal/review"
-	"github.com/kimsemi-home/myhome-jarvis/internal/scheduler"
 	"github.com/kimsemi-home/myhome-jarvis/internal/security"
 	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
 	"github.com/kimsemi-home/myhome-jarvis/internal/translation"
@@ -334,70 +332,6 @@ func runHarness(root string, args []string) error {
 	return nil
 }
 
-func loopOnce(root string) error {
-	linearStatus := linear.CurrentStatus(root)
-	linearSummary := linear.SummarizeStatus(linearStatus)
-	linearNext := linear.NextIssue(context.Background(), root, http.DefaultClient)
-	linearNextSummary := linear.SummarizeOperation(linearNext)
-	securityStatus, err := security.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	plannerStatus, err := planner.StatusForRoot(root)
-	if err != nil {
-		return err
-	}
-	if linearStatus.Mode == "offline" {
-		if err := linear.AppendOfflineEvent(root, "loop_once", "Local loop ran without Linear sync; synced=false."); err != nil {
-			return err
-		}
-	}
-	if !linearNext.Synced {
-		if err := linear.AppendOfflineEvent(root, "linear_next", linearNext.Message); err != nil {
-			return err
-		}
-	}
-	result := "checkpoint recorded"
-	if !securityStatus.OK {
-		result = "checkpoint recorded with public-safety findings"
-	}
-	path, err := orchestrator.WriteCheckpoint(root, orchestrator.Checkpoint{
-		Task:           "loop once",
-		LinearStatus:   linearSummary,
-		LinearNext:     &linearNextSummary,
-		PlannerStatus:  plannerStatus,
-		SecurityStatus: securityStatus,
-		Result:         result,
-		Next:           "Continue local-first closed-loop hardening.",
-	})
-	if err != nil {
-		return err
-	}
-	checkpointPath, err := filepath.Rel(root, path)
-	if err != nil {
-		return err
-	}
-	if _, err := appendControlPlaneManifest(root, "loop_once", "loop_once", filepath.ToSlash(checkpointPath)); err != nil {
-		return err
-	}
-	return writeJSON(map[string]any{
-		"ok":              securityStatus.OK,
-		"checkpoint":      filepath.ToSlash(checkpointPath),
-		"linear":          linearSummary,
-		"linear_next":     linearNextSummary,
-		"planner_status":  plannerStatus,
-		"security_status": securityStatus,
-	})
-}
-
-func loopStatus(root string) error {
-	status, err := scheduler.Status(root, scheduler.ClosedLoopPolicy())
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
 func repoStatus(root string) error {
 	status, err := repo.Inspect(root)
 	if err != nil {
@@ -522,84 +456,6 @@ func authorityStatus(root string) error {
 		return err
 	}
 	return writeJSON(status)
-}
-
-func loopWorker(root string, args []string) error {
-	flags := flag.NewFlagSet("loop worker", flag.ContinueOnError)
-	flags.SetOutput(os.Stderr)
-	cycles := flags.Int("cycles", 1, "bounded scheduler cycles to run")
-	if err := flags.Parse(args); err != nil {
-		return err
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
-	defer cancel()
-	status, err := scheduler.RunCycles(ctx, root, scheduler.ClosedLoopPolicy(), *cycles, func(context.Context) (scheduler.JobResult, error) {
-		linearStatus := linear.CurrentStatus(root)
-		linearSummary := linear.SummarizeStatus(linearStatus)
-		linearNext := linear.NextIssue(ctx, root, http.DefaultClient)
-		linearNextSummary := linear.SummarizeOperation(linearNext)
-		securityStatus, err := security.StatusForRoot(root)
-		if err != nil {
-			return scheduler.JobResult{}, err
-		}
-		plannerStatus, err := planner.StatusForRoot(root)
-		if err != nil {
-			return scheduler.JobResult{}, err
-		}
-		if !linearNext.Synced {
-			if err := linear.AppendOfflineEvent(root, "linear_next", linearNext.Message); err != nil {
-				return scheduler.JobResult{}, err
-			}
-		}
-		result := "scheduler heartbeat checkpoint recorded"
-		if !securityStatus.OK {
-			result = "scheduler heartbeat checkpoint recorded with public-safety findings"
-		}
-		path, err := orchestrator.WriteCheckpoint(root, orchestrator.Checkpoint{
-			Task:           "loop worker",
-			LinearStatus:   linearSummary,
-			LinearNext:     &linearNextSummary,
-			PlannerStatus:  plannerStatus,
-			SecurityStatus: securityStatus,
-			Result:         result,
-			Next:           "Continue local-first fixture and daemon surface expansion.",
-		})
-		if err != nil {
-			return scheduler.JobResult{}, err
-		}
-		checkpointRef := path
-		if rel, err := filepath.Rel(root, path); err == nil {
-			checkpointRef = filepath.ToSlash(rel)
-		}
-		if _, err := appendControlPlaneManifest(root, "loop_worker_cycle", "loop_worker", checkpointRef); err != nil {
-			return scheduler.JobResult{}, err
-		}
-		return scheduler.JobResult{Checkpoint: path}, nil
-	})
-	if err != nil {
-		return err
-	}
-	return writeJSON(status)
-}
-
-func appendControlPlaneManifest(root string, decisionKind string, selectedRoute string, outputRef string) (controlplane.RecordResult, error) {
-	return controlplane.AppendManifest(root, controlplane.ManifestRequest{
-		DecisionKind:     decisionKind,
-		PolicyVersion:    "control-plane:v1",
-		OntologyVersion:  "concepts:v1",
-		AuthorityProfile: "local_readonly",
-		SelectedRoute:    selectedRoute,
-		ReviewerRole:     "go_review_gate",
-		VerifierRole:     "deterministic_verifier",
-		LeaseSeconds:     120,
-		LeaseStatus:      "finished",
-		EvidenceRefs: []string{
-			"generated/control_plane.generated.json",
-			"generated/planner.generated.json",
-			"generated/concepts.generated.json",
-		},
-		OutputRef: outputRef,
-	})
 }
 
 type qualityStep struct {
