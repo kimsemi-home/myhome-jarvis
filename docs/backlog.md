@@ -859,3 +859,10 @@
   - Linear: KIM-74
   - Acceptance: `internal/agentcluster/status.go` keeps the public Agent Cluster status API under the normal 75-line budget by moving status models, generated policy loading, policy validation, ordered-list helpers, and public-safe sanitization into focused files; public-safe Agent Cluster policy loading, validation, status counts, signals, generated path, and message behavior remain unchanged; `internal/agentcluster/status.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/agentcluster ./internal/codeshape`; `go run ./cmd/mhj agent-cluster status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P122
+
+- [x] Ratchet security test debt under 75 lines.
+  - Linear: KIM-75
+  - Acceptance: `internal/security/security_test.go` keeps current-content public-safety coverage under the normal 75-line budget by moving generated policy drift checks, current content marker checks, history rejection checks, history allowlist checks, status aggregation checks, and test helpers into focused files; current scan, history scan, redaction, generated policy, and status behavior remain unchanged; `internal/security/security_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/security ./internal/codeshape`; `go run ./cmd/mhj security check`; `go run ./cmd/mhj security history`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

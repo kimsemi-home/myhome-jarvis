@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 06:36 KST
+
+- Linear issue: KIM-75 created and moved to In Progress.
+- Mode: code-shape burn-down, public-safety test refactor.
+- Task: Remove `internal/security/security_test.go` from code-shape legacy debt by splitting current-content checks, generated policy drift coverage, history scan checks, status aggregation, and helpers into focused test files.
+- Files touched: `internal/security/security_test.go`, `internal/security/current_content_test.go`, `internal/security/generated_policy_test.go`, `internal/security/history_rejection_test.go`, `internal/security/history_allow_test.go`, `internal/security/status_test.go`, `internal/security/git_helpers_test.go`, `internal/security/repo_root_test.go`, `internal/security/report_helpers_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept the base current-content tests in the original file; moved generated security policy assertions, current private marker and secret literal checks, history rejection and allowlist cases, status aggregation, git helpers, repo-root lookup, and report-code helpers into focused files; removed `internal/security/security_test.go` from the generated code-shape legacy debt list; kept changed security test files below 75 lines.
+- Validation after: focused Security and Code Shape tests, `mhj security check`, `mhj security history`, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 44 legacy debt files.
+- External-write note: created Linear issue KIM-75 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 06:27 KST
 
 - Linear issue: KIM-74 created and moved to In Progress.
