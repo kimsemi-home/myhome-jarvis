@@ -901,3 +901,10 @@
   - Linear: KIM-80
   - Acceptance: `internal/controlplane/status.go` keeps the public Control Plane Manifest API under the normal 75-line budget by moving policy models, manifest models, status models, generated policy loading, append-only private ledger writing, status ledger scanning, manifest normalization, manifest ID generation, policy validation, manifest validation, ref validation, sensitive marker rejection, timestamp handling, and normalization into focused files; private append permissions, verifier separation, redacted status counts, manifest debt counting, and public safety boundaries remain unchanged; `internal/controlplane/status.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/controlplane ./internal/codeshape`; `go run ./cmd/mhj control-plane status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P128
+
+- [x] Ratchet security runtime under 75 lines.
+  - Linear: KIM-81
+  - Acceptance: `internal/security/security.go` keeps the public security API under the normal 75-line budget by moving public models, current tree walking, path rules, content scanning, history path scanning, history metadata checks, history content checks, git command helpers, parsing, sorting, and status aggregation into focused files; current public-safety checks, git-history checks, redacted reports, case-insensitive secret directory rejection, and status behavior remain unchanged; `internal/security/security.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/security ./internal/codeshape`; `go run ./cmd/mhj security check`; `go run ./cmd/mhj security history`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

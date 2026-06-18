@@ -19,7 +19,7 @@
                               (:path "internal/daemon/server.go" :max_lines 609) (:path "crates/mhj-finance/src/lib.rs" :max_lines 584)
                               (:path "internal/domain/summary.go" :max_lines 562) (:path "crates/mhj-harness/src/lib.rs" :max_lines 558)
                               (:path "crates/mhj-commerce/src/lib.rs" :max_lines 527) (:path "internal/linear/issues.go" :max_lines 526)
-                              (:path "internal/security/security.go" :max_lines 499) (:path "crates/mhj-command/src/lib.rs" :max_lines 403)
+                              (:path "crates/mhj-command/src/lib.rs" :max_lines 403)
                               (:path "internal/linear/replay.go" :max_lines 392)
                               (:path "internal/incidents/status.go" :max_lines 389) (:path "internal/evidence/status.go" :max_lines 380)
                               (:path "internal/knowledge/index_test.go" :max_lines 377) (:path "internal/learning/ledger.go" :max_lines 370)

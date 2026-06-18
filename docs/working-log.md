@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 07:36 KST
+
+- Linear issue: KIM-81 created and moved to In Progress.
+- Mode: code-shape burn-down, security runtime refactor.
+- Task: Remove `internal/security/security.go` from code-shape legacy debt by splitting current-tree public safety checks, git-history checks, report/status models, git helpers, parsing, sorting, and shared path helpers into focused files.
+- Files touched: `internal/security/security.go`, `internal/security/model.go`, `internal/security/status.go`, `internal/security/current.go`, `internal/security/current_path.go`, `internal/security/path_rules.go`, `internal/security/current_content.go`, `internal/security/current_text.go`, `internal/security/patterns.go`, `internal/security/report.go`, `internal/security/report_sort.go`, `internal/security/history.go`, `internal/security/history_paths.go`, `internal/security/history_path_env.go`, `internal/security/history_path_rules.go`, `internal/security/history_metadata.go`, `internal/security/history_content.go`, `internal/security/git.go`, `internal/security/parse.go`, `internal/security/util.go`, `lisp/ssot/code-shape.lisp`, `lisp/ssot/ddd.lisp`, `generated/code_shape.generated.json`, `generated/concepts.generated.json`, and backlog/working log.
+- Changes: kept `Finding`, `Report`, `HistoryFinding`, `HistoryReport`, `Status`, `Check`, `CheckHistory`, and `StatusForRoot` as the security public API; moved current tree walking, path policy checks, content pattern scanning, history path/metadata/content scans, git command execution, grep parsing, sorting, and status aggregation into focused files; updated DDD knowledge targets to the new security status surface; removed `internal/security/security.go` from the generated code-shape legacy debt list; kept changed security runtime files below 75 lines.
+- Validation after: focused Security and Code Shape tests, `mhj security check`, `mhj security history`, SSOT validation, codegen verify, DDD verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 38 legacy debt files.
+- External-write note: created Linear issue KIM-81 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 07:21 KST
 
 - Linear issue: KIM-80 created and moved to In Progress.

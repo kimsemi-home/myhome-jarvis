@@ -205,7 +205,7 @@
      :allowed_aliases #("security" "public safety" "secret scan" "allowed languages")
      :owner "lisp/ssot/security.lisp"
      :generated_targets #("generated/security.generated.json"
-                          "internal/security/security.go"
+                          "internal/security/status.go"
                           "docs/security.md")
      :related_concepts #("HomeCommand" "StorageLake" "LinearWorkQueue"))
     (:canonical_name "LinearWorkQueue"
