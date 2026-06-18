@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 04:16 KST
+
+- Linear issue: KIM-61 created and moved to In Progress.
+- Mode: code-shape burn-down, repo status runtime refactor.
+- Task: Remove `internal/repo/status.go` from code-shape legacy debt by splitting repository status models, git command execution, porcelain parsing, ignored private path parsing, and helper normalization into focused source files.
+- Files touched: `internal/repo/status.go`, `internal/repo/model.go`, `internal/repo/git.go`, `internal/repo/parse.go`, `internal/repo/helpers.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved repo status models, git command execution, porcelain and ignored-private parsers, and nil-list/SHA helpers out of the inspection orchestration file; removed `internal/repo/status.go` from the generated code-shape legacy debt list; kept changed repo files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Repo and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 57 legacy debt files.
+- External-write note: created Linear issue KIM-61 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 04:07 KST
 
 - Linear issue: KIM-60 created and moved to In Progress.

@@ -761,3 +761,10 @@
   - Linear: KIM-60
   - Acceptance: `internal/qualitylog/runs.go` keeps quality run construction under the normal 75-line budget by moving models, JSONL append writing, status reading, and path handling into focused files; run construction, append writing, private journal status reading, and redacted evidence behavior remain unchanged; `internal/qualitylog/runs.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/qualitylog ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P108
+
+- [x] Ratchet repo status runtime debt under 75 lines.
+  - Linear: KIM-61
+  - Acceptance: `internal/repo/status.go` keeps repository status inspection orchestration under the normal 75-line budget by moving models, git command execution, porcelain parsing, ignored-private parsing, and helper normalization into focused files; branch/head/upstream/origin capture, clean/dirty detection, tracked/untracked reporting, ignored private path reporting, and short SHA behavior remain unchanged; `internal/repo/status.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/repo ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
