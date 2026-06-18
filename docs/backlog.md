@@ -649,3 +649,10 @@
   - Linear: KIM-44
   - Acceptance: `internal/domain/summary_test.go` keeps the end-to-end fixture summary flow under 75 lines by moving finance, commerce, storage, recommendation, household, and repo-root assertions/helpers into focused test files; fixture summary behavior remains unchanged; `internal/domain/summary_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/domain ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P92
+
+- [x] Ratchet control-plane SSOT debt under 75 lines.
+  - Linear: KIM-45
+  - Acceptance: `lisp/ssot/control-plane.lisp` keeps the Control Plane Manifest policy values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/control-plane.lisp` is removed from Code Shape legacy debt.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

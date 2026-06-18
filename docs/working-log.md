@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 02:01 KST
+
+- Linear issue: KIM-45 created and moved to In Progress.
+- Mode: code-shape burn-down, Control Plane SSOT compaction.
+- Task: Remove `lisp/ssot/control-plane.lisp` from code-shape legacy debt by compacting policy vector formatting while preserving generated Control Plane Manifest semantics.
+- Files touched: `lisp/ssot/control-plane.lisp`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: compacted Control Plane Manifest policy vectors without changing policy values; removed `lisp/ssot/control-plane.lisp` from the generated code-shape legacy debt list; kept the SSOT file below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Control Plane and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 73 legacy debt files.
+- External-write note: created Linear issue KIM-45 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 01:51 KST
 
 - Linear issue: KIM-44 created and moved to In Progress.

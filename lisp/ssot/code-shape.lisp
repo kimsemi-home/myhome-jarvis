@@ -49,8 +49,7 @@
                               (:path "lisp/ssot/evidence.lisp" :max_lines 97)
                               (:path "lisp/ssot/connectors.lisp" :max_lines 96)
                               (:path "crates/mhj-core/src/benchmark.rs" :max_lines 96) (:path "lisp/ssot/incidents.lisp" :max_lines 93)
-                              (:path "lisp/ssot/commands.lisp" :max_lines 92) (:path "lisp/ssot/evidence-quality.lisp" :max_lines 90)
-                              (:path "lisp/ssot/control-plane.lisp" :max_lines 81))
+                              (:path "lisp/ssot/commands.lisp" :max_lines 92) (:path "lisp/ssot/evidence-quality.lisp" :max_lines 90))
         :public_summary_fields #("policy_path" "max_file_lines" "file_count"
                                  "over_budget_count" "legacy_debt_count"
                                  "budget_regression_count" "max_observed_path"

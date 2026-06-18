@@ -12,70 +12,27 @@
         :verifier_separation_required t
         :min_lease_seconds 1
         :max_lease_seconds 3600
-        :allowed_decision_kinds #("loop_once"
-                                  "loop_worker_cycle"
-                                  "linear_next_observation"
-                                  "checkpoint_write")
-        :allowed_authority_profiles #("local_readonly"
-                                       "external_write_gated"
-                                       "review_only")
-        :allowed_lease_statuses #("issued"
-                                  "active"
-                                  "expiring"
-                                  "expired"
-                                  "finished"
-                                  "aborted"
-                                  "escalated"
-                                  "quarantined")
-        :required_fields #("decision_kind"
-                           "policy_version"
-                           "ontology_version"
-                           "authority_profile"
-                           "selected_route"
-                           "reviewer_role"
-                           "verifier_role"
-                           "lease_seconds"
-                           "lease_status"
-                           "evidence_refs"
-                           "output_ref")
-        :allowed_evidence_prefixes #("data/private/"
-                                     "generated/"
-                                     "docs/"
-                                     "cmd/"
-                                     "internal/"
-                                     "apps/flutter/"
-                                     "lisp/"
-                                     "crates/"
-                                     "fixtures/"
-                                     "harness/"
-                                     ".github/")
-        :public_summary_fields #("policy_path"
-                                 "manifest_path"
-                                 "exists"
-                                 "count"
-                                 "invalid_manifest_count"
-                                 "manifest_debt_count"
-                                 "verifier_separation_required"
-                                 "verifier_violation_count"
-                                 "min_lease_seconds"
-                                 "max_lease_seconds"
-                                 "by_decision_kind"
-                                 "by_authority_profile"
-                                 "by_lease_status"
-                                 "last_observed_at"
-                                 "checked_at")
-        :forbidden_public_fields #("raw_rationale"
-                                   "selection_rationale"
-                                   "candidate_agents"
-                                   "raw_prompt"
-                                   "raw_transcript"
-                                   "token"
-                                   "secret"
-                                   "credential"
-                                   "cookie"
-                                   "account_id"
-                                   "card_number"
-                                   "local_absolute_path"
-                                   "linear_url"
-                                   "private_evidence")
+        :allowed_decision_kinds #("loop_once" "loop_worker_cycle"
+                                  "linear_next_observation" "checkpoint_write")
+        :allowed_authority_profiles #("local_readonly" "external_write_gated" "review_only")
+        :allowed_lease_statuses #("issued" "active" "expiring" "expired" "finished"
+                                  "aborted" "escalated" "quarantined")
+        :required_fields #("decision_kind" "policy_version" "ontology_version"
+                           "authority_profile" "selected_route" "reviewer_role"
+                           "verifier_role" "lease_seconds" "lease_status"
+                           "evidence_refs" "output_ref")
+        :allowed_evidence_prefixes #("data/private/" "generated/" "docs/" "cmd/"
+                                     "internal/" "apps/flutter/" "lisp/" "crates/"
+                                     "fixtures/" "harness/" ".github/")
+        :public_summary_fields #("policy_path" "manifest_path" "exists" "count"
+                                 "invalid_manifest_count" "manifest_debt_count"
+                                 "verifier_separation_required" "verifier_violation_count"
+                                 "min_lease_seconds" "max_lease_seconds"
+                                 "by_decision_kind" "by_authority_profile"
+                                 "by_lease_status" "last_observed_at" "checked_at")
+        :forbidden_public_fields #("raw_rationale" "selection_rationale"
+                                   "candidate_agents" "raw_prompt" "raw_transcript"
+                                   "token" "secret" "credential" "cookie"
+                                   "account_id" "card_number" "local_absolute_path"
+                                   "linear_url" "private_evidence")
         :commands #("mhj control-plane status")))
