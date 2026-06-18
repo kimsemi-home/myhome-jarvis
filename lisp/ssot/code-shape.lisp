@@ -45,9 +45,7 @@
                               (:path "internal/commands/executor.go" :max_lines 129) (:path "internal/evidence/status_test.go" :max_lines 126)
                               (:path "internal/orchestrator/checkpoint_test.go" :max_lines 125) (:path "internal/linear/evidence.go" :max_lines 114)
                               (:path "internal/supervisor/status_test.go" :max_lines 104) (:path "internal/daemon/events.go" :max_lines 102)
-                              (:path "lisp/ssot/translation.lisp" :max_lines 98)
-                              (:path "lisp/ssot/evidence.lisp" :max_lines 97)
-                              (:path "lisp/ssot/connectors.lisp" :max_lines 96)
+                              (:path "lisp/ssot/translation.lisp" :max_lines 98) (:path "lisp/ssot/evidence.lisp" :max_lines 97)
                               (:path "crates/mhj-core/src/benchmark.rs" :max_lines 96))
         :public_summary_fields #("policy_path" "max_file_lines" "file_count"
                                  "over_budget_count" "legacy_debt_count"

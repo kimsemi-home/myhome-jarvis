@@ -677,3 +677,10 @@
   - Linear: KIM-48
   - Acceptance: `lisp/ssot/incidents.lisp` keeps the Incident Lifecycle policy values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/incidents.lisp` is removed from Code Shape legacy debt.
   - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/incidents ./internal/codeshape`; `go run ./cmd/mhj incidents status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P96
+
+- [x] Ratchet connector SSOT debt under 75 lines.
+  - Linear: KIM-49
+  - Acceptance: `lisp/ssot/connectors.lisp` keeps the Connector Catalog policy and connector values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/connectors.lisp` is removed from Code Shape legacy debt.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/connectors ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

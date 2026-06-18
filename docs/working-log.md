@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 02:30 KST
+
+- Linear issue: KIM-49 created and moved to In Progress.
+- Mode: code-shape burn-down, Connector Catalog SSOT compaction.
+- Task: Remove `lisp/ssot/connectors.lisp` from code-shape legacy debt by compacting policy and connector vector formatting while preserving generated connector semantics.
+- Files touched: `lisp/ssot/connectors.lisp`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: compacted Connector Catalog policy and connector vectors without changing connector values; removed `lisp/ssot/connectors.lisp` from the generated code-shape legacy debt list; kept the SSOT file below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Connectors and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 69 legacy debt files.
+- External-write note: created Linear issue KIM-49 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 02:23 KST
 
 - Linear issue: KIM-48 created and moved to In Progress.
