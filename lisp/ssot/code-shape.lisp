@@ -34,8 +34,7 @@
                               (:path "internal/commands/registry_test.go" :max_lines 202) (:path "internal/commands/harness.go" :max_lines 197)
                               (:path "internal/controlplane/status_test.go" :max_lines 194) (:path "lisp/ssot/authority.lisp" :max_lines 192)
                               (:path "internal/linear/replay_test.go" :max_lines 185)
-                              (:path "crates/mhj-core/src/household.rs" :max_lines 178) (:path "crates/mhj-core/src/storage.rs" :max_lines 177)
-                              (:path "crates/mhj-core/src/recommendations.rs" :max_lines 162))
+                              (:path "crates/mhj-core/src/household.rs" :max_lines 178) (:path "crates/mhj-core/src/storage.rs" :max_lines 177))
         :public_summary_fields #("policy_path" "max_file_lines" "file_count"
                                  "over_budget_count" "legacy_debt_count"
                                  "budget_regression_count" "max_observed_path"

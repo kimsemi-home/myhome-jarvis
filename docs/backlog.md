@@ -845,3 +845,10 @@
   - Linear: KIM-72
   - Acceptance: `internal/translation/status_test.go` keeps manifest and missing/malformed debt coverage under the normal 75-line budget by moving forbidden-loss checks, public redaction checks, raw-public policy rejection, and translation policy/file helpers into focused files; private manifest/loss debt counting, forbidden loss counting, and public status redaction behavior remain unchanged; `internal/translation/status_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/translation ./internal/codeshape`; `go run ./cmd/mhj translation status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P120
+
+- [x] Ratchet Rust recommendations module under 75 lines.
+  - Linear: KIM-73
+  - Acceptance: `crates/mhj-core/src/recommendations.rs` keeps the public `mhj_core::recommendations` API under the normal 75-line budget by moving recommendation models, fixture loading, score orchestration, cash-buffer scoring, subscription scoring, card-usage scoring, recurring-purchase scoring, and tests into focused files; fixture-only review recommendation ranking, score clamping, and validation behavior remain unchanged; `crates/mhj-core/src/recommendations.rs` is removed from Code Shape legacy debt.
+  - Validation: `cargo test -p mhj-core recommendations`; `cargo test -p mhj-core`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

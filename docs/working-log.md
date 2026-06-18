@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 06:14 KST
+
+- Linear issue: KIM-73 created and moved to In Progress.
+- Mode: code-shape burn-down, Rust recommendation module refactor.
+- Task: Remove `crates/mhj-core/src/recommendations.rs` from code-shape legacy debt by splitting recommendation models, fixture loading, score orchestration, candidate-specific scoring, and tests into focused files.
+- Files touched: `crates/mhj-core/src/recommendations.rs`, `crates/mhj-core/src/recommendations/model.rs`, `crates/mhj-core/src/recommendations/fixture.rs`, `crates/mhj-core/src/recommendations/score.rs`, `crates/mhj-core/src/recommendations/cashflow.rs`, `crates/mhj-core/src/recommendations/subscription.rs`, `crates/mhj-core/src/recommendations/card.rs`, `crates/mhj-core/src/recommendations/recurring.rs`, `crates/mhj-core/src/recommendations/tests.rs`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept the public recommendation module as a compact re-export surface; moved recommendation types, fixture loading, validation/sort orchestration, cash-buffer scoring, subscription review scoring, card usage review scoring, recurring purchase review scoring, and ranking tests into focused files; removed `crates/mhj-core/src/recommendations.rs` from the generated code-shape legacy debt list; kept changed Rust recommendation files below 75 lines.
+- Validation after: focused Rust recommendation tests, full `mhj-core` tests, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 46 legacy debt files.
+- External-write note: created Linear issue KIM-73 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 06:07 KST
 
 - Linear issue: KIM-72 created and moved to In Progress.
