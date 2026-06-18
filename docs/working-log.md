@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 06:44 KST
+
+- Linear issue: KIM-76 created and moved to In Progress.
+- Mode: code-shape burn-down, planner status runtime refactor.
+- Task: Remove `internal/planner/status.go` from code-shape legacy debt by splitting planner models, generated policy loading, status construction, evidence attachment, task summarization, and validation into focused files.
+- Files touched: `internal/planner/status.go`, `internal/planner/model.go`, `internal/planner/policy.go`, `internal/planner/status_base.go`, `internal/planner/status_evidence.go`, `internal/planner/status_tasks.go`, `internal/planner/validate.go`, `internal/planner/validate_tasks.go`, `internal/planner/validate_path.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `StatusForRoot` as the planner orchestration surface; moved public models, generated JSON loading, base status construction, Linear write evidence, KnowledgeIndex evidence, task counting/next-task selection, policy validation, task graph validation, dependency validation, and private path validation into focused files; removed `internal/planner/status.go` from the generated code-shape legacy debt list; kept changed planner Go files below 75 lines.
+- Validation after: focused Planner and Code Shape tests, `mhj planner status`, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 43 legacy debt files.
+- External-write note: created Linear issue KIM-76 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 06:36 KST
 
 - Linear issue: KIM-75 created and moved to In Progress.
