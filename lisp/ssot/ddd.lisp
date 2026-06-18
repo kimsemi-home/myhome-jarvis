@@ -149,6 +149,16 @@
                           "internal/incidents/status.go"
                           "docs/incident-lifecycle.md")
      :related_concepts #("LearningLedger" "EvidenceGraph" "ConfidenceAssessor" "AgentClusterPolicy" "SecurityPolicy"))
+    (:canonical_name "EvidenceQualityAssessor"
+     :bounded_context "AgentCluster"
+     :ddd_kind "Policy"
+     :description "A private evidence quality snapshot assessor that tracks staleness, mapping confidence, and reassessment debt without exposing raw evidence."
+     :allowed_aliases #("evidence quality" "evidence quality assessor" "quality snapshot" "mapping confidence" "reassessment debt")
+     :owner "internal/evidencequality"
+     :generated_targets #("generated/evidence_quality.generated.json"
+                          "internal/evidencequality/status.go"
+                          "docs/evidence-quality.md")
+     :related_concepts #("EvidenceGraph" "ConfidenceAssessor" "IncidentLifecycle" "TranslationManifest" "AgentClusterPolicy" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -284,6 +294,7 @@
     (:name "translation" :path "generated/translation.generated.json" :owner "AgentCluster")
     (:name "control_plane" :path "generated/control_plane.generated.json" :owner "AgentOps")
     (:name "incidents" :path "generated/incidents.generated.json" :owner "AgentCluster")
+    (:name "evidence_quality" :path "generated/evidence_quality.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

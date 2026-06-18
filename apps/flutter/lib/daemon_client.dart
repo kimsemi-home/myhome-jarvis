@@ -38,6 +38,10 @@ class DaemonSnapshotClient implements JarvisClient {
       final translation = await _getObject(client, '/translation/status');
       final controlPlane = await _getObject(client, '/control-plane/status');
       final incidents = await _getObject(client, '/incidents/status');
+      final evidenceQuality = await _getObject(
+        client,
+        '/evidence-quality/status',
+      );
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -60,6 +64,7 @@ class DaemonSnapshotClient implements JarvisClient {
         translation: translation,
         controlPlane: controlPlane,
         incidents: incidents,
+        evidenceQuality: evidenceQuality,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -174,6 +179,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> translation,
   required Map<String, Object?> controlPlane,
   required Map<String, Object?> incidents,
+  required Map<String, Object?> evidenceQuality,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -233,6 +239,9 @@ JarvisSnapshot buildSnapshot({
   final controlPlaneDebt = _int(controlPlane['manifest_debt_count']) ?? 0;
   final incidentCount = _int(incidents['count']) ?? 0;
   final incidentDebt = _int(incidents['incident_debt_count']) ?? 0;
+  final evidenceQualitySnapshots = _int(evidenceQuality['snapshot_count']) ?? 0;
+  final evidenceQualityDebt =
+      _int(evidenceQuality['reassessment_debt_count']) ?? 0;
 
   return JarvisSnapshot(
     metrics: [
@@ -386,6 +395,13 @@ JarvisSnapshot buildSnapshot({
             ? '$incidentDebt incident debt'
             : '$incidentCount incidents',
         icon: Icons.crisis_alert_outlined,
+      ),
+      SystemMetric(
+        label: 'Evidence Quality',
+        value: evidenceQualityDebt > 0
+            ? '$evidenceQualityDebt reassess'
+            : '$evidenceQualitySnapshots snapshots',
+        icon: Icons.fact_check_outlined,
       ),
       SystemMetric(
         label: 'Repo',

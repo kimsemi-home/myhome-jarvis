@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 21:41 KST
+
+- Linear issue: KIM-25 created and moved to In Progress.
+- Mode: next-vision foundation, Evidence Quality Assessor status only.
+- Task: Add private evidence quality snapshot status so stale, low-confidence, blocked, or mapping-drifted evidence becomes reassessment debt instead of silently supporting future claims.
+- Files touched: `lisp/ssot/evidence-quality.lisp`, `lisp/ssot/evidence.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `generated/evidence_quality.generated.json`, `generated/concepts.generated.json`, `generated/evidence.generated.json`, `internal/evidencequality/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Evidence Quality docs.
+- Changes: added SSOT-owned Evidence Quality Assessor policy; added redacted evidence quality status over a private append-only snapshot ledger; counts malformed snapshots, missing evidence refs, stale snapshots, low or blocked quality, and low or unknown mapping confidence as reassessment debt; exposed `mhj evidence-quality status` and daemon `GET /evidence-quality/status`; added Flutter Evidence Quality metric; included generated evidence-quality metadata in Flutter CI cache keys and CI contract validation.
+- Validation after: full `mhj quality` with Go 1.26.2 passed, including security current/history checks, Go test/vet/gofmt, SSOT validation, codegen verify, DDD verify, Flutter test/analyze, and Rust checks; `mhj evidence-quality status` returned a missing-ledger zero-debt redacted summary; `mhj evidence status` counted the `evidence_quality_snapshot` node kind and private source; daemon `GET /evidence-quality/status` smoke passed; `mhj knowledge search "evidence quality mapping confidence"` returned `EvidenceQualityAssessor`; private identity narrow scan and `git diff --check` passed.
+- External-write note: created Linear issue KIM-25 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-25.
+
 ## 2026-06-18 21:17 KST
 
 - Linear issue: KIM-24 created and moved to In Progress.

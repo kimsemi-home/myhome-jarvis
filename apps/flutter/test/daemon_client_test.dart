@@ -323,7 +323,7 @@ void main() {
           _writeJson(request, {
             'policy_path': 'generated/evidence.generated.json',
             'private_root': 'data/private',
-            'source_count': 7,
+            'source_count': 8,
             'present_source_count': 2,
             'node_count': 4,
             'edge_count': 2,
@@ -411,7 +411,7 @@ void main() {
             'invalid_incident_count': 0,
             'incident_debt_count': 1,
             'missing_owner_count': 0,
-            'missing_evidence_ref_count': 0,
+            'missing_evidence_count': 0,
             'stale_quarantine_count': 1,
             'quarantine_stale_after_hours': 168,
             'by_kind': {'quarantine': 1, 'evidence_gap': 2},
@@ -419,6 +419,26 @@ void main() {
             'by_status': {'quarantined': 1, 'closed': 1, 'open': 1},
             'by_owner_role': {'governance_steward': 1, 'go': 2},
             'by_quarantine_state': {'quarantined': 1, 'released': 1},
+          });
+          return;
+        case '/evidence-quality/status':
+          _writeJson(request, {
+            'policy_path': 'generated/evidence_quality.generated.json',
+            'ledger_path': 'data/private/evidence-quality/snapshots.jsonl',
+            'exists': true,
+            'snapshot_count': 3,
+            'invalid_snapshot_count': 0,
+            'reassessment_debt_count': 2,
+            'missing_evidence_count': 0,
+            'stale_snapshot_count': 1,
+            'low_quality_count': 1,
+            'blocked_quality_count': 0,
+            'mapping_drift_count': 0,
+            'stale_after_hours': 720,
+            'by_quality_level': {'high': 2, 'low': 1},
+            'by_mapping_confidence': {'high': 2, 'medium': 1},
+            'by_purpose': {'confidence_assessment': 1, 'release_gate': 2},
+            'by_reassessment_reason': {'age': 1},
           });
           return;
         case '/metrics':
@@ -629,6 +649,12 @@ void main() {
           .value,
       '1 incident debt',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Evidence Quality')
+          .value,
+      '2 reassess',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
@@ -794,6 +820,7 @@ void main() {
       translation: const <String, Object?>{},
       controlPlane: const <String, Object?>{},
       incidents: const <String, Object?>{},
+      evidenceQuality: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,

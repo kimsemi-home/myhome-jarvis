@@ -20,6 +20,8 @@ Current SSOT boundaries are intentionally separated by domain:
 - `learning`: private observation ledger policy for loop gaps and evidence
   debt.
 - `evidence`: private Evidence Graph source, node, edge, and redaction policy.
+- `evidence-quality`: private evidence quality snapshot and reassessment debt
+  policy.
 - `confidence`: external confidence cap policy over local evidence signals.
 - `translation`: context translation manifest and semantic loss ledger policy.
 - `control-plane`: private orchestration decision manifest policy.
@@ -79,6 +81,14 @@ Flutter consumes the daemon status as a read-only Evidence Graph metric. The
 generated policy keeps graph inputs under `data/private`, allows only
 repo-relative evidence refs, and exposes public status as source, node, edge,
 dangling-ref, and timestamp counts without raw evidence contents.
+
+The Evidence Quality Assessor SSOT emits
+`generated/evidence_quality.generated.json`. Go reads that artifact for
+`mhj evidence-quality status` and daemon `GET /evidence-quality/status`;
+Flutter consumes the daemon status as a read-only Evidence Quality metric. The
+generated policy keeps quality snapshots private, counts stale, low, blocked,
+missing-ref, and mapping-drift cases as reassessment debt, and exposes only
+counts, buckets, booleans, thresholds, and timestamps.
 
 The Confidence Assessor SSOT emits `generated/confidence.generated.json`. Go
 reads that artifact for `mhj confidence status` and daemon

@@ -13,6 +13,7 @@
                       "checkpoint"
                       "control_plane_manifest"
                       "incident"
+                      "evidence_quality_snapshot"
                       "quality_run"
                       "linear_write"
                       "audit_event")
@@ -35,6 +36,10 @@
                             (:key "incidents"
                              :path "data/private/incidents/incidents.jsonl"
                              :node_kind "incident"
+                             :format "jsonl")
+                            (:key "evidence_quality"
+                             :path "data/private/evidence-quality/snapshots.jsonl"
+                             :node_kind "evidence_quality_snapshot"
                              :format "jsonl")
                             (:key "quality"
                              :path "data/private/quality/runs.jsonl"

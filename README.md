@@ -35,6 +35,7 @@ go run ./cmd/mhj connectors status
 go run ./cmd/mhj agent-cluster status
 go run ./cmd/mhj learning status
 go run ./cmd/mhj evidence status
+go run ./cmd/mhj evidence-quality status
 go run ./cmd/mhj confidence status
 go run ./cmd/mhj harness home
 go run ./cmd/mhj harness finance
@@ -79,6 +80,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/agentcluster`: public-safe agent cluster learning-loop status.
 - `internal/learning`: private observation ledger and redacted learning status.
 - `internal/evidence`: private Evidence Graph summarization and redacted status.
+- `internal/evidencequality`: private evidence quality snapshot assessor and redacted reassessment debt status.
 - `internal/confidence`: external confidence cap status over local evidence.
 - `internal/translation`: private Translation Manifest and Loss Ledger status.
 - `internal/controlplane`: private Control Plane Manifest status for local orchestration decisions.

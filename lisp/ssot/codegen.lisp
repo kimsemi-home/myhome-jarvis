@@ -78,6 +78,7 @@
     (validate-translation-policy *translation-policy*)
     (validate-control-plane-policy *control-plane-policy*)
     (validate-incident-policy *incident-policy*)
+    (validate-evidence-quality-policy *evidence-quality-policy*)
     (unless (getf *linear-policy* :pull_active_only)
       (error "Linear pull must stay scoped to active issues by default"))
     (unless (getf *linear-policy* :team_scope_private)
@@ -545,6 +546,72 @@
       (error "Incident status command must stay in SSOT"))
     t))
 
+(defun validate-evidence-quality-policy (policy)
+  (let ((ledger (getf policy :private_snapshot_ledger))
+        (levels (coerce (getf policy :quality_levels) 'list))
+        (mapping-levels (coerce (getf policy :mapping_confidence_levels) 'list))
+        (purposes (coerce (getf policy :allowed_purposes) 'list))
+        (reasons (coerce (getf policy :reassessment_reasons) 'list))
+        (required-fields (coerce (getf policy :required_fields) 'list))
+        (summary-fields (coerce (getf policy :public_summary_fields) 'list))
+        (stale-hours (getf policy :stale_after_hours)))
+    (unless (string= (getf policy :context) "AgentCluster")
+      (error "Evidence quality policy must belong to AgentCluster"))
+    (unless (and (stringp ledger)
+                 (>= (length ledger) 13)
+                 (string= "data/private/" (subseq ledger 0 13))
+                 (>= (length ledger) 6)
+                 (string= ".jsonl" (subseq ledger (- (length ledger) 6))))
+      (error "Evidence quality ledger must stay under data/private as JSONL"))
+    (unless (and (getf policy :append_only)
+                 (getf policy :public_status_redacted))
+      (error "Evidence quality snapshots must be append-only and redacted"))
+    (when (getf policy :raw_snapshot_public_allowed)
+      (error "Evidence quality status must not expose raw snapshots"))
+    (unless (and (integerp stale-hours) (> stale-hours 0))
+      (error "Evidence quality stale threshold must be positive"))
+    (dolist (level '("high" "medium" "low" "blocked"))
+      (unless (find level levels :test #'string=)
+        (error "Evidence quality level missing: ~A" level)))
+    (dolist (level '("high" "medium" "low" "unknown"))
+      (unless (find level mapping-levels :test #'string=)
+        (error "Evidence quality mapping confidence missing: ~A" level)))
+    (dolist (purpose '("root_cause" "confidence_assessment" "incident_review" "release_gate" "conformance" "revalidation"))
+      (unless (find purpose purposes :test #'string=)
+        (error "Evidence quality purpose missing: ~A" purpose)))
+    (dolist (reason '("age" "schema_version_change" "ontology_version_change" "counter_evidence" "security_incident" "quarantine" "translation_loss"))
+      (unless (find reason reasons :test #'string=)
+        (error "Evidence quality reassessment reason missing: ~A" reason)))
+    (dolist (field '("at"
+                     "evidence_ref"
+                     "purpose"
+                     "quality_level"
+                     "schema_version"
+                     "ontology_version"
+                     "mapping_confidence"
+                     "assessed_by"
+                     "reassessment_reasons"))
+      (unless (find field required-fields :test #'string=)
+        (error "Evidence quality required field missing: ~A" field)))
+    (dolist (field '("snapshot_count"
+                     "invalid_snapshot_count"
+                     "reassessment_debt_count"
+                     "missing_evidence_count"
+                     "stale_snapshot_count"
+                     "low_quality_count"
+                     "blocked_quality_count"
+                     "mapping_drift_count"
+                     "by_quality_level"
+                     "by_mapping_confidence"
+                     "checked_at"))
+      (unless (find field summary-fields :test #'string=)
+        (error "Evidence quality summary missing field: ~A" field)))
+    (unless (find "mhj evidence-quality status"
+                  (coerce (getf policy :commands) 'list)
+                  :test #'string=)
+      (error "Evidence quality status command must stay in SSOT"))
+    t))
+
 (defun validate-translation-policy (policy)
   (let ((ledger (getf policy :private_loss_ledger))
         (manifest-root (getf policy :private_manifest_root))
@@ -647,6 +714,8 @@
                    *control-plane-policy*)
   (write-json-file (merge-pathnames "generated/incidents.generated.json" root)
                    *incident-policy*)
+  (write-json-file (merge-pathnames "generated/evidence_quality.generated.json" root)
+                   *evidence-quality-policy*)
   (write-json-file (merge-pathnames "generated/linear.generated.json" root)
                    *linear-policy*)
   (write-json-file (merge-pathnames "generated/planner.generated.json" root)

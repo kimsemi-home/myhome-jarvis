@@ -363,6 +363,11 @@ class JarvisSnapshot {
         value: '0 incidents',
         icon: Icons.crisis_alert_outlined,
       ),
+      SystemMetric(
+        label: 'Evidence Quality',
+        value: '0 snapshots',
+        icon: Icons.fact_check_outlined,
+      ),
     ],
     commands: [
       HomeCommand(
@@ -727,6 +732,11 @@ class JarvisSnapshot {
           label: 'Incidents',
           value: 'Local',
           icon: Icons.crisis_alert_outlined,
+        ),
+        SystemMetric(
+          label: 'Evidence Quality',
+          value: 'Local',
+          icon: Icons.fact_check_outlined,
         ),
       ],
       commands: sample.commands,

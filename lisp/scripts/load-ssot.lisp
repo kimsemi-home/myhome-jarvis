@@ -24,6 +24,7 @@
                   "../ssot/translation.lisp"
                   "../ssot/control-plane.lisp"
                   "../ssot/incidents.lisp"
+                  "../ssot/evidence-quality.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"
                   "../ssot/codegen.lisp"))

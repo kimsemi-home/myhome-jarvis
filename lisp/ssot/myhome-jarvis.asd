@@ -20,6 +20,7 @@
                (:file "translation")
                (:file "control-plane")
                (:file "incidents")
+               (:file "evidence-quality")
                (:file "linear")
                (:file "planner")
                (:file "codegen")))

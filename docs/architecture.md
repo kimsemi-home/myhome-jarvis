@@ -27,7 +27,8 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /security/status`, `GET /loop/status`, `GET /domain/summary`,
 `GET /connectors/status`, `GET /agent-cluster/status`,
 `GET /learning/status`, `GET /evidence/status`,
-`GET /confidence/status`, `GET /household/summary`,
+`GET /evidence-quality/status`, `GET /confidence/status`,
+`GET /household/summary`,
 `GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`,
 `GET /quality/status`, `GET /planner/status`, and
@@ -177,6 +178,14 @@ timestamps can leave the private boundary; raw evidence refs, summaries, next
 actions, tokens, credentials, local absolute paths, and private evidence
 contents cannot.
 
+The first Evidence Quality Assessor surface makes evidence trust decay
+explicit. Common Lisp SSOT owns `generated/evidence_quality.generated.json`, Go
+exposes `mhj evidence-quality status` and daemon
+`GET /evidence-quality/status`, and Flutter shows a read-only Evidence Quality
+metric. Private quality snapshots stay under
+`data/private/evidence-quality`; public status exposes only counts, quality and
+mapping buckets, stale thresholds, debt totals, and timestamps.
+
 The first Confidence Assessor surface makes confidence an external cap instead
 of an agent self-report. Common Lisp SSOT owns
 `generated/confidence.generated.json`, Go exposes `mhj confidence status` and
@@ -231,5 +240,7 @@ recorded. It also shows the external Confidence cap instead of any agent
 self-reported certainty, the Translation manifest debt count for context
 movement, and the Control Plane manifest debt count for orchestration
 decisions. It also shows Incident Lifecycle debt so classified failures and
-quarantine state remain visible without leaking raw incident contents.
+quarantine state remain visible without leaking raw incident contents. Evidence
+Quality reassessment debt is shown separately so stale or low-confidence
+evidence cannot silently support future authority decisions.
 Platform runner files are left out until device packaging is required.
