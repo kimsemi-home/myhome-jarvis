@@ -810,3 +810,10 @@
   - Linear: KIM-67
   - Acceptance: `internal/evidencequality/status_test.go` keeps missing-ledger and stale/low/blocked/mapping status coverage under the normal 75-line budget by moving malformed/debt, redaction, policy rejection, and fixture helpers into focused test files; evidence-quality debt counts, redaction checks, and policy rejection behavior remain unchanged; `internal/evidencequality/status_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/evidencequality ./internal/codeshape`; `go run ./cmd/mhj evidence-quality status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P115
+
+- [x] Harden SSOT GitHub Actions Lisp setup.
+  - Linear: KIM-68
+  - Acceptance: SSOT CI keeps hash-scoped unit cache behavior and generated artifact verification on cache misses while replacing the direct `apt-get install sbcl` path with a Common Lisp setup action using `sbcl-bin`; CI contract verification requires the stable Lisp setup and Roswell-backed script invocations.
+  - Validation: `go test ./cmd/mhj`; `go run ./cmd/mhj ci verify`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 05:31 KST
+
+- Linear issue: KIM-68 created and moved to In Progress.
+- Mode: GitHub Actions hardening, SSOT setup reliability.
+- Task: Replace the SSOT job's direct `apt-get install sbcl` path after the evidence-quality ratchet run stalled in the runner-level SBCL install step.
+- Files touched: `.github/workflows/quality.yml`, `cmd/mhj/ci_verify.go`, `cmd/mhj/ci_fixture_test.go`, and backlog/working log.
+- Changes: added `LISP: "sbcl-bin"` to the workflow environment; replaced the raw SBCL apt install step with `40ants/setup-lisp@v4`; changed SSOT validation and generated artifact verification to run through `ros -Q run -- --script`; updated the CI contract fixture and verifier to require the stable Lisp setup path.
+- Validation after: CI contract verification, command package tests, codegen verify, code-shape status, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed before pushing the hardening commit.
+- External-write note: created Linear issue KIM-68 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 05:12 KST
 
 - Linear issue: KIM-67 created and moved to In Progress.

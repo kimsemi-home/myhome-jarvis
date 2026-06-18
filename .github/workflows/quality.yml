@@ -16,6 +16,7 @@ env:
   GO_VERSION: "1.26.2"
   FLUTTER_VERSION: "3.44.2"
   RUST_TOOLCHAIN: "1.96.0"
+  LISP: "sbcl-bin"
   UNIT_CACHE_VERSION: "v1"
 
 jobs:
@@ -62,20 +63,18 @@ jobs:
         if: steps.unit-cache.outputs.cache-hit == 'true'
         run: echo "SSOT and generated artifacts unchanged for this unit hash."
 
-      - name: Install SBCL
+      - name: Set up Common Lisp
         if: steps.unit-cache.outputs.cache-hit != 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y sbcl
+        uses: 40ants/setup-lisp@v4
 
       - name: Validate SSOT
         if: steps.unit-cache.outputs.cache-hit != 'true'
-        run: sbcl --script lisp/scripts/validate-ssot.lisp
+        run: ros -Q run -- --script lisp/scripts/validate-ssot.lisp
 
       - name: Verify generated artifacts
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |
-          sbcl --script lisp/scripts/codegen.lisp
+          ros -Q run -- --script lisp/scripts/codegen.lisp
           git diff --exit-code -- generated
 
       - name: Prepare SSOT unit cache marker

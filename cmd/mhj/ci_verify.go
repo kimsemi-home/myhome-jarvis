@@ -33,7 +33,9 @@ func validateCIWorkflowContract(root string) error {
 		"'generated/translation.generated.json'", "'generated/control_plane.generated.json'",
 		"'generated/incidents.generated.json'", "'generated/evidence_quality.generated.json'",
 		"'generated/review.generated.json'", "'generated/code_shape.generated.json'",
-		"'generated/authority.generated.json'",
+		"'generated/authority.generated.json'", "LISP: \"sbcl-bin\"",
+		"40ants/setup-lisp@v4", "ros -Q run -- --script lisp/scripts/validate-ssot.lisp",
+		"ros -Q run -- --script lisp/scripts/codegen.lisp",
 		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",
 	}
 	for _, token := range required {

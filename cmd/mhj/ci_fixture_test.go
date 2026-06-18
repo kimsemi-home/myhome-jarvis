@@ -9,7 +9,14 @@ concurrency:
   cancel-in-progress: true
 permissions:
   contents: read
+env:
+  LISP: "sbcl-bin"
 jobs:
+  ssot:
+    steps:
+      - uses: 40ants/setup-lisp@v4
+      - run: ros -Q run -- --script lisp/scripts/validate-ssot.lisp
+      - run: ros -Q run -- --script lisp/scripts/codegen.lisp
   public-safety:
     steps:
       - uses: actions/checkout@v6
