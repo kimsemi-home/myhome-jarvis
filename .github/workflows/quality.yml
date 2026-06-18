@@ -128,6 +128,10 @@ jobs:
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: go run ./cmd/mhj toolchain verify
 
+      - name: Verify code shape budget
+        if: steps.unit-cache.outputs.cache-hit != 'true'
+        run: go run ./cmd/mhj code-shape status
+
       - name: Run Go harness checks
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |
@@ -230,7 +234,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: .github/unit-cache/flutter
-          key: flutter-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', 'apps/flutter/**', 'generated/commands.generated.json', 'generated/connectors.generated.json', 'generated/agent_cluster.generated.json', 'generated/learning.generated.json', 'generated/evidence.generated.json', 'generated/confidence.generated.json', 'generated/translation.generated.json', 'generated/control_plane.generated.json', 'generated/incidents.generated.json', 'generated/evidence_quality.generated.json', 'generated/review.generated.json', 'generated/authority.generated.json') }}
+          key: flutter-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', 'apps/flutter/**', 'generated/commands.generated.json', 'generated/connectors.generated.json', 'generated/agent_cluster.generated.json', 'generated/learning.generated.json', 'generated/evidence.generated.json', 'generated/confidence.generated.json', 'generated/translation.generated.json', 'generated/control_plane.generated.json', 'generated/incidents.generated.json', 'generated/evidence_quality.generated.json', 'generated/review.generated.json', 'generated/code_shape.generated.json', 'generated/authority.generated.json') }}
 
       - name: Report Flutter cache hit
         if: steps.unit-cache.outputs.cache-hit == 'true'

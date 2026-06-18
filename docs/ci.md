@@ -56,6 +56,9 @@ toolchain check wired into the Go unit. It also keeps the workflow on
 when the Go version in `.go-version`, `go.mod`, generated project metadata, or
 workflow `GO_VERSION` drift, and when `rust-toolchain.toml` differs from
 workflow `RUST_TOOLCHAIN`.
+The Go unit also runs `mhj code-shape status` so generated policy and source
+line-budget regressions are checked before Go tests can publish a known-good
+cache marker.
 
 The Go unit runs `mhj ci verify`, `mhj toolchain verify`, then `home`,
 `finance`, and `commerce` harness smoke commands before package tests and vet.
@@ -71,14 +74,16 @@ The Flutter unit also keys on generated command and status artifacts such as
 `generated/commands.generated.json`, connector readiness, Agent Cluster,
 Learning Ledger, Evidence Graph, Evidence Quality Assessor, Confidence
 Assessor, Human Review Capacity, Authority Gate, and Translation Manifest
-artifacts, plus the Control Plane Manifest and Incident Lifecycle artifacts,
-because its daemon and fallback tests read those Lisp-owned catalogs directly.
+artifacts, plus the Code Shape Budget, Control Plane Manifest, and Incident
+Lifecycle artifacts, because its daemon and fallback tests read those
+Lisp-owned catalogs directly.
 
 Local equivalents:
 
 ```sh
 go run ./cmd/mhj ci verify
 go run ./cmd/mhj codegen verify
+go run ./cmd/mhj code-shape status
 go run ./cmd/mhj quality
 go run ./cmd/mhj quality status
 ```

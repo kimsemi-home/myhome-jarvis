@@ -19,6 +19,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
+	"github.com/kimsemi-home/myhome-jarvis/internal/codeshape"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/confidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/connectors"
@@ -168,6 +169,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("POST /linear/sync", server.wrap(server.handleLinearSync))
 	mux.HandleFunc("GET /repo/status", server.wrap(server.handleRepoStatus))
 	mux.HandleFunc("GET /security/status", server.wrap(server.handleSecurityStatus))
+	mux.HandleFunc("GET /code-shape/status", server.wrap(server.handleCodeShapeStatus))
 	mux.HandleFunc("GET /loop/status", server.wrap(server.handleLoopStatus))
 	mux.HandleFunc("GET /domain/summary", server.wrap(server.handleDomainSummary))
 	mux.HandleFunc("GET /connectors/status", server.wrap(server.handleConnectorsStatus))
@@ -358,6 +360,14 @@ func (server *Server) handleRepoStatus(writer http.ResponseWriter, request *http
 
 func (server *Server) handleSecurityStatus(writer http.ResponseWriter, request *http.Request) error {
 	status, err := security.StatusForRoot(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, status)
+}
+
+func (server *Server) handleCodeShapeStatus(writer http.ResponseWriter, request *http.Request) error {
+	status, err := codeshape.StatusForRoot(server.config.Root)
 	if err != nil {
 		return err
 	}

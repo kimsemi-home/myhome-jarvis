@@ -147,6 +147,44 @@ func TestConnectorsStatusReturnsPublicSafeCatalog(t *testing.T) {
 	}
 }
 
+func TestCodeShapeStatusReturnsRedactedBudgetSummary(t *testing.T) {
+	server, err := New(DefaultConfig(repoRoot(t), "test"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	request := httptest.NewRequest(http.MethodGet, "/code-shape/status", nil)
+	request.RemoteAddr = "127.0.0.1:1234"
+	recorder := httptest.NewRecorder()
+
+	server.Routes().ServeHTTP(recorder, request)
+
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status = %d body = %s", recorder.Code, recorder.Body.String())
+	}
+	body := recorder.Body.String()
+	for _, expected := range []string{
+		`"policy_path": "generated/code_shape.generated.json"`,
+		`"max_file_lines": 75`,
+		`"budget_regression_count": 0`,
+		`"ok": true`,
+	} {
+		if !bytes.Contains([]byte(body), []byte(expected)) {
+			t.Fatalf("expected %s in %s", expected, body)
+		}
+	}
+	for _, forbidden := range []string{
+		`private_identity_marker`,
+		`local_home_path_marker`,
+		`"local_absolute_path"`,
+		`"raw_source"`,
+		`"linear_url"`,
+	} {
+		if bytes.Contains([]byte(body), []byte(forbidden)) {
+			t.Fatalf("code shape status leaked %s in %s", forbidden, body)
+		}
+	}
+}
+
 func TestAgentClusterStatusReturnsPublicSafePolicy(t *testing.T) {
 	server, err := New(DefaultConfig(repoRoot(t), "test"))
 	if err != nil {

@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 23:01 KST
+
+- Linear issue: KIM-28 created and moved to In Progress.
+- Mode: next-vision foundation, Code Shape Budget guard.
+- Task: Add an SSOT-owned 75-line source budget that tracks existing oversized files as explicit legacy debt and fails new code-shape regressions.
+- Files touched: `lisp/ssot/code-shape.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `generated/code_shape.generated.json`, `generated/concepts.generated.json`, `internal/codeshape`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Code Shape docs.
+- Changes: added generated Code Shape Budget policy; added `mhj code-shape status`; added daemon `GET /code-shape/status`; added Flutter Code Shape metric; included generated code-shape metadata in Flutter CI cache keys and Go CI execution; documented the budget and backlog acceptance.
+- Validation after: full `mhj quality` with Go 1.26.2 passed, including security current/history checks, code shape, Go test/vet/gofmt, SSOT validation, codegen verify, DDD verify, Flutter test/analyze, and Rust checks; focused Go tests for codeshape, daemon, CLI, and KnowledgeIndex passed; focused Flutter daemon/widget tests passed; `mhj code-shape status` reported 83 legacy debt files and zero budget regressions; `mhj ddd verify` reported 24 concepts; private identity narrow scan and `git diff --check` passed.
+- External-write note: created Linear issue KIM-28 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-28.
+
 ## 2026-06-18 22:25 KST
 
 - Linear issue: KIM-27 created and moved to In Progress.

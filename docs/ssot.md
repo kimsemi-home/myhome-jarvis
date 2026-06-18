@@ -17,6 +17,8 @@ Current SSOT boundaries are intentionally separated by domain:
 - `security`, `connectors`, `agent-cluster`, `linear`, `planner`:
   public-safety rules, fixture-only connector readiness, evidence-first agent
   cluster policy, Linear workflow rules, and planning metadata.
+- `code-shape`: 75-line source budget, current legacy debt baseline, and
+  public-safe code-shape status fields.
 - `learning`: private observation ledger policy for loop gaps and evidence
   debt.
 - `evidence`: private Evidence Graph source, node, edge, and redaction policy.
@@ -113,6 +115,13 @@ Flutter consumes the daemon status as a read-only Authority Gate metric. The
 generated policy keeps reasoning tiers from granting approval, disables
 self-authority, blocks high-risk public-repo decisions, and exposes only
 outcomes, decision counts, debt counts, booleans, risk buckets, and timestamps.
+
+The Code Shape Budget SSOT emits `generated/code_shape.generated.json`. Go
+reads that artifact for `mhj code-shape status` and daemon
+`GET /code-shape/status`; Flutter consumes the daemon status as a read-only
+Code Shape metric. The generated policy keeps the ordinary source-file budget
+at 75 lines, records current oversized files as legacy debt, and treats any new
+oversized file or growth beyond its baseline as a budget regression.
 
 The Translation Manifest SSOT emits `generated/translation.generated.json`. Go
 reads that artifact for `mhj translation status` and daemon

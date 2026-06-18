@@ -27,6 +27,7 @@ go run ./cmd/mhj audit status
 go run ./cmd/mhj ci verify
 go run ./cmd/mhj security check
 go run ./cmd/mhj security history
+go run ./cmd/mhj code-shape status
 go run ./cmd/mhj toolchain verify
 go run ./cmd/mhj command open-youtube '{}'
 go run ./cmd/mhj command open-netflix '{}'
@@ -79,6 +80,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/auth`: local LAN bearer-token management.
 - `internal/commands`: dry-run command planning and validation.
 - `internal/connectors`: public-safe fixture-only connector readiness status.
+- `internal/codeshape`: SSOT-backed 75-line budget and legacy code debt status.
 - `internal/agentcluster`: public-safe agent cluster learning-loop status.
 - `internal/learning`: private observation ledger and redacted learning status.
 - `internal/evidence`: private Evidence Graph summarization and redacted status.

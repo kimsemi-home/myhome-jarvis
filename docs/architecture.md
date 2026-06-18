@@ -24,8 +24,8 @@ as `open_ott`.
 The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /auth/status`, `GET /commands`, `POST /intent`, `POST /harness/run`,
 `GET /linear/status`, `POST /linear/sync`, `GET /repo/status`,
-`GET /security/status`, `GET /loop/status`, `GET /domain/summary`,
-`GET /connectors/status`, `GET /agent-cluster/status`,
+`GET /security/status`, `GET /code-shape/status`, `GET /loop/status`,
+`GET /domain/summary`, `GET /connectors/status`, `GET /agent-cluster/status`,
 `GET /learning/status`, `GET /evidence/status`,
 `GET /evidence-quality/status`, `GET /confidence/status`,
 `GET /review/status`, `GET /authority/status`,
@@ -81,6 +81,9 @@ forbidden language artifacts, private/lake data paths except empty keep
 placeholders, and secret-looking literals without returning raw matched secret
 contents. Daemon `GET /security/status` exposes only aggregate current-tree and
 history booleans, finding counts, and a checked timestamp for local UI status.
+Daemon `GET /code-shape/status` exposes the SSOT-backed 75-line budget status
+with repo-relative paths only, separating existing legacy debt from new budget
+regressions.
 
 The first scheduler surface is bounded and local-only. `mhj loop worker
 --cycles N` records heartbeat/checkpoint state under `data/private` and uses

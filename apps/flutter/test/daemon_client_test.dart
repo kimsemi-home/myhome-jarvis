@@ -97,6 +97,16 @@ void main() {
             'checked_at': '2026-06-15T00:00:00Z',
           });
           return;
+        case '/code-shape/status':
+          _writeJson(request, {
+            'policy_path': 'generated/code_shape.generated.json',
+            'max_file_lines': 75,
+            'file_count': 120,
+            'legacy_debt_count': 81,
+            'budget_regression_count': 0,
+            'ok': true,
+          });
+          return;
         case '/domain/summary':
           _writeJson(request, {
             'finance': {
@@ -602,6 +612,12 @@ void main() {
       'Clear',
     );
     expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Code Shape')
+          .value,
+      '81 debt',
+    );
+    expect(
       snapshot.metrics.singleWhere((metric) => metric.label == 'Events').value,
       '2',
     );
@@ -857,6 +873,7 @@ void main() {
       linear: const <String, Object?>{},
       repo: const <String, Object?>{},
       security: const <String, Object?>{'ok': true},
+      codeShape: const <String, Object?>{},
       domain: const <String, Object?>{},
       connectors: const <String, Object?>{},
       agentCluster: const <String, Object?>{},

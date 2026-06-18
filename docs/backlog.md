@@ -530,3 +530,10 @@
   - Linear: KIM-27
   - Acceptance: Common Lisp SSOT owns a private Human Review Capacity policy for review queue priority, reviewer roles, backup reviewer availability, overload rules, capacity thresholds, and redacted public summary fields; codegen emits `generated/review.generated.json`; `mhj review status`, daemon `GET /review/status`, Authority Gate, and Flutter Status expose only capacity state, debt counts, thresholds, buckets, and timestamps. Missing queue is allowed before the first review item; high-risk open reviews, too many open reviews, missing reviewers, missing evidence, and missing backup reviewer coverage become review debt. Public surfaces must not expose raw review notes, reviewer identities, evidence refs, prompts, transcripts, tokens, credentials, local absolute paths, account IDs, card numbers, Linear private URLs, or private evidence contents.
   - Validation: `go test ./internal/review ./internal/authority ./internal/evidence ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj review status`; `go run ./cmd/mhj authority status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P75
+
+- [x] Add Code Shape Budget guard.
+  - Linear: KIM-28
+  - Acceptance: Common Lisp SSOT owns a 75-line source budget with generated legacy-debt baselines; `mhj code-shape status`, daemon `GET /code-shape/status`, GitHub Actions Go unit, and Flutter Status expose only redacted repo-relative budget status. Current oversized files are tracked as legacy debt, while new oversized files or growth beyond baseline fail the budget guard. Public surfaces must not expose source excerpts, local absolute paths, credentials, account IDs, Linear URLs, or private evidence.
+  - Validation: `go test ./internal/codeshape ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj code-shape status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

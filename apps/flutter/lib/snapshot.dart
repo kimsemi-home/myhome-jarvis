@@ -324,6 +324,11 @@ class JarvisSnapshot {
         icon: Icons.verified_user_outlined,
       ),
       SystemMetric(
+        label: 'Code Shape',
+        value: 'Tracked',
+        icon: Icons.format_line_spacing,
+      ),
+      SystemMetric(
         label: 'Linear',
         value: 'Online-ready',
         icon: Icons.hub_outlined,
@@ -702,6 +707,11 @@ class JarvisSnapshot {
           label: 'Quality',
           value: 'Local',
           icon: Icons.verified_outlined,
+        ),
+        SystemMetric(
+          label: 'Code Shape',
+          value: 'Local',
+          icon: Icons.format_line_spacing,
         ),
         SystemMetric(
           label: 'Linear',

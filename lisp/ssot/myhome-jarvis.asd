@@ -23,6 +23,7 @@
                (:file "evidence-quality")
                (:file "review")
                (:file "authority")
+               (:file "code-shape")
                (:file "linear")
                (:file "planner")
                (:file "codegen")))

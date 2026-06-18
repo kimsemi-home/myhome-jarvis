@@ -20,6 +20,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
+	"github.com/kimsemi-home/myhome-jarvis/internal/codeshape"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/confidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/connectors"
@@ -75,6 +76,10 @@ func run(args []string) error {
 	case "ci":
 		if len(args) == 2 && args[1] == "verify" {
 			return runCIVerify(root)
+		}
+	case "code-shape":
+		if len(args) == 2 && args[1] == "status" {
+			return codeShapeStatus(root)
 		}
 	case "security":
 		if len(args) == 2 && args[1] == "check" {
@@ -261,7 +266,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|evidence status|confidence status|translation status|control-plane status|incidents status|evidence-quality status|review status|authority status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|code-shape status|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|evidence status|confidence status|translation status|control-plane status|incidents status|evidence-quality status|review status|authority status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -441,6 +446,20 @@ func qualityStatus(root string) error {
 		return err
 	}
 	return writeJSON(status)
+}
+
+func codeShapeStatus(root string) error {
+	status, err := codeshape.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
+	if err := writeJSON(status); err != nil {
+		return err
+	}
+	if !status.OK {
+		return errors.New("code shape budget regression")
+	}
+	return nil
 }
 
 func evidenceStatus(root string) error {
@@ -625,6 +644,7 @@ func runQuality(root string) error {
 	}
 	report.addCheck("toolchain pins", validateToolchainPins(root))
 	report.addCheck("ci workflow", validateCIWorkflowContract(root))
+	report.addCommand(root, "code shape", []string{goTool, "run", "./cmd/mhj", "code-shape", "status"})
 
 	report.addHarness("home harness", commands.RunHomeHarness())
 	report.addHarness("finance harness", commands.RunFinanceHarness(root))
@@ -889,6 +909,7 @@ func validateCIWorkflowContract(root string) error {
 		"go run ./cmd/mhj security check",
 		"go run ./cmd/mhj security history",
 		"go run ./cmd/mhj ci verify",
+		"go run ./cmd/mhj code-shape status",
 		"go run ./cmd/mhj toolchain verify",
 		"'.go-version'",
 		"'rust-toolchain.toml'",
@@ -904,6 +925,7 @@ func validateCIWorkflowContract(root string) error {
 		"'generated/incidents.generated.json'",
 		"'generated/evidence_quality.generated.json'",
 		"'generated/review.generated.json'",
+		"'generated/code_shape.generated.json'",
 		"'generated/authority.generated.json'",
 		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",
 	}

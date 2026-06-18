@@ -27,6 +27,7 @@
                   "../ssot/evidence-quality.lisp"
                   "../ssot/review.lisp"
                   "../ssot/authority.lisp"
+                  "../ssot/code-shape.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"
                   "../ssot/codegen.lisp"))

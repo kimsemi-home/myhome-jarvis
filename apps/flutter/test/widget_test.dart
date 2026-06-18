@@ -16,14 +16,16 @@ void main() {
     expect(find.text('Dry-run'), findsOneWidget);
     expect(find.text('Public Safety'), findsOneWidget);
     expect(find.text('Clear'), findsOneWidget);
+    expect(find.text('Code Shape'), findsOneWidget);
+    expect(find.text('Tracked'), findsOneWidget);
     expect(find.text('Agent Cluster'), findsOneWidget);
     expect(find.text('5 roles gated'), findsOneWidget);
     expect(find.text('Learning'), findsOneWidget);
     expect(find.text('0 observed'), findsOneWidget);
+    await tester.drag(find.byType(GridView).first, const Offset(0, -260));
+    await tester.pumpAndSettle();
     expect(find.text('Evidence Graph'), findsOneWidget);
     expect(find.text('0 nodes'), findsOneWidget);
-    await tester.drag(find.byType(GridView).first, const Offset(0, -220));
-    await tester.pumpAndSettle();
     expect(find.text('Confidence'), findsOneWidget);
     expect(find.text('Local'), findsWidgets);
     expect(find.text('Authority Gate'), findsOneWidget);

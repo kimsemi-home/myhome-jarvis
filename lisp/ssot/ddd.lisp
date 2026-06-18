@@ -179,6 +179,16 @@
                           "internal/review/status.go"
                           "docs/human-review-capacity.md")
      :related_concepts #("AuthorityGate" "IncidentLifecycle" "EvidenceQualityAssessor" "ControlPlaneManifest" "AgentClusterPolicy" "SecurityPolicy"))
+    (:canonical_name "CodeShapeBudget"
+     :bounded_context "AgentCluster"
+     :ddd_kind "Policy"
+     :description "A generated public-safe line budget that blocks new oversized files while tracking existing legacy refactor debt."
+     :allowed_aliases #("code shape budget" "line budget" "75 line budget" "legacy code debt" "file size guard")
+     :owner "internal/codeshape"
+     :generated_targets #("generated/code_shape.generated.json"
+                          "internal/codeshape/status.go"
+                          "docs/code-shape-budget.md")
+     :related_concepts #("AgentClusterPolicy" "HumanReviewCapacity" "KnowledgeIndex" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -317,6 +327,7 @@
     (:name "evidence_quality" :path "generated/evidence_quality.generated.json" :owner "AgentCluster")
     (:name "review" :path "generated/review.generated.json" :owner "AgentCluster")
     (:name "authority" :path "generated/authority.generated.json" :owner "AgentCluster")
+    (:name "code_shape" :path "generated/code_shape.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

@@ -29,6 +29,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final linear = await _getObject(client, '/linear/status');
       final repo = await _getObject(client, '/repo/status');
       final security = await _getObject(client, '/security/status');
+      final codeShape = await _getObject(client, '/code-shape/status');
       final domain = await _getObject(client, '/domain/summary');
       final connectors = await _getObject(client, '/connectors/status');
       final agentCluster = await _getObject(client, '/agent-cluster/status');
@@ -57,6 +58,7 @@ class DaemonSnapshotClient implements JarvisClient {
         linear: linear,
         repo: repo,
         security: security,
+        codeShape: codeShape,
         domain: domain,
         connectors: connectors,
         agentCluster: agentCluster,
@@ -174,6 +176,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> linear,
   required Map<String, Object?> repo,
   required Map<String, Object?> security,
+  required Map<String, Object?> codeShape,
   required Map<String, Object?> domain,
   required Map<String, Object?> connectors,
   required Map<String, Object?> agentCluster,
@@ -225,6 +228,9 @@ JarvisSnapshot buildSnapshot({
   final securityFindings =
       (_int(security['current_finding_count']) ?? 0) +
       (_int(security['history_finding_count']) ?? 0);
+  final codeShapeRegressions = _int(codeShape['budget_regression_count']) ?? 0;
+  final codeShapeDebt = _int(codeShape['legacy_debt_count']) ?? 0;
+  final codeShapeMaxLines = _int(codeShape['max_file_lines']) ?? 75;
   final connectorCount = _int(connectors['connector_count']) ?? 0;
   final fixtureConnectorCount = _int(connectors['fixture_mode_count']) ?? 0;
   final agentRoleCount = _int(agentCluster['role_count']) ?? 0;
@@ -295,6 +301,15 @@ JarvisSnapshot buildSnapshot({
         icon: publicSafetyOK == false
             ? Icons.report_problem_outlined
             : Icons.verified_user_outlined,
+      ),
+      SystemMetric(
+        label: 'Code Shape',
+        value: _codeShapeValue(
+          codeShapeRegressions,
+          codeShapeDebt,
+          codeShapeMaxLines,
+        ),
+        icon: Icons.format_line_spacing,
       ),
       SystemMetric(
         label: 'Requests',
@@ -499,6 +514,16 @@ String _reviewCapacityValue(String state, int debt, int openCount) {
     default:
       return _titleWords(state);
   }
+}
+
+String _codeShapeValue(int regressions, int legacyDebt, int maxLines) {
+  if (regressions > 0) {
+    return regressions == 1 ? '1 regression' : '$regressions regressions';
+  }
+  if (legacyDebt > 0) {
+    return '$legacyDebt debt';
+  }
+  return '<= $maxLines lines';
 }
 
 String? _plannerGate(Object? tasks) {
