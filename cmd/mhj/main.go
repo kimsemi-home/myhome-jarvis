@@ -1,17 +1,11 @@
 package main
 
 import (
-	"context"
 	"errors"
 	"fmt"
-	"net/http"
 	"os"
-	"strings"
 
-	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
-	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
-	"github.com/kimsemi-home/myhome-jarvis/internal/security"
 )
 
 const version = "0.1.0-bootstrap"
@@ -53,51 +47,9 @@ func run(args []string) error {
 			return codeShapeStatus(root)
 		}
 	case "security":
-		if len(args) == 2 && args[1] == "check" {
-			report, err := security.Check(root)
-			if err != nil {
-				return err
-			}
-			if err := writeJSON(report); err != nil {
-				return err
-			}
-			if !report.OK {
-				return errors.New("security check failed")
-			}
-			return nil
-		}
-		if len(args) == 2 && args[1] == "history" {
-			report, err := security.CheckHistory(root)
-			if err != nil {
-				return err
-			}
-			if err := writeJSON(report); err != nil {
-				return err
-			}
-			if !report.OK {
-				return errors.New("security history check failed")
-			}
-			return nil
-		}
+		return runSecurity(root, args[1:])
 	case "command":
-		if len(args) != 3 {
-			return errors.New("usage: mhj command <name> '<json-payload>'")
-		}
-		executeRequested := os.Getenv("MYHOME_EXECUTE") == "true"
-		plan, err := commands.Build(args[1], []byte(args[2]))
-		if err == nil {
-			plan = commands.WithExecuteAllowed(plan, executeRequested)
-		}
-		if plan.ExecuteAllowed {
-			plan, err = commands.Execute(context.Background(), plan, commands.ExecuteOptions{})
-		}
-		if auditErr := audit.AppendCommandIntent(root, audit.CommandIntentFromPlan("cli", args[1], executeRequested, plan, err)); err == nil && auditErr != nil {
-			return auditErr
-		}
-		if err != nil {
-			return err
-		}
-		return writeJSON(plan)
+		return runCommand(root, args[1:])
 	case "connectors":
 		if len(args) == 2 && args[1] == "status" {
 			return connectorsStatus(root)
@@ -147,51 +99,7 @@ func run(args []string) error {
 			return runToolchainVerify(root)
 		}
 	case "linear":
-		if len(args) == 2 && args[1] == "status" {
-			return writeJSON(linear.SummarizeStatus(linear.CurrentStatus(root)))
-		}
-		if len(args) == 2 && args[1] == "sync" {
-			result := linear.PullIssues(context.Background(), root, http.DefaultClient)
-			if !result.Synced {
-				if err := linear.AppendOfflineEvent(root, "linear_sync", result.Message); err != nil {
-					return err
-				}
-			}
-			return writeJSON(linear.SummarizeOperation(result))
-		}
-		if len(args) == 2 && args[1] == "pull" {
-			result := linear.PullIssues(context.Background(), root, http.DefaultClient)
-			if !result.Synced {
-				if err := linear.AppendOfflineEvent(root, "linear_pull", result.Message); err != nil {
-					return err
-				}
-			}
-			return writeJSON(linear.SummarizeOperation(result))
-		}
-		if len(args) == 2 && args[1] == "next" {
-			result := linear.NextIssue(context.Background(), root, http.DefaultClient)
-			if !result.Synced {
-				if err := linear.AppendOfflineEvent(root, "linear_next", result.Message); err != nil {
-					return err
-				}
-			}
-			return writeJSON(linear.SummarizeOperation(result))
-		}
-		if len(args) >= 4 && args[1] == "comment" {
-			result := linear.AddComment(context.Background(), root, http.DefaultClient, args[2], strings.Join(args[3:], " "))
-			return writeJSON(linear.SummarizeOperation(result))
-		}
-		if len(args) >= 4 && args[1] == "transition" {
-			result := linear.TransitionIssue(context.Background(), root, http.DefaultClient, args[2], strings.Join(args[3:], " "))
-			return writeJSON(linear.SummarizeOperation(result))
-		}
-		if len(args) == 2 && args[1] == "create-from-backlog" {
-			result := linear.CreateFromBacklog(context.Background(), root, http.DefaultClient)
-			return writeJSON(linear.SummarizeOperation(result))
-		}
-		if len(args) == 2 && args[1] == "replay-offline" {
-			return writeJSON(linear.ReplayOffline(context.Background(), root, http.DefaultClient))
-		}
+		return runLinear(root, args[1:])
 	case "daemon":
 		return runDaemon(root, args[1:])
 	case "ddd":

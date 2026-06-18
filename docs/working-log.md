@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 00:06 KST
+
+- Linear issue: KIM-35 created and moved to In Progress.
+- Mode: code-shape burn-down, CLI integration handler refactor.
+- Task: Reduce `cmd/mhj/main.go` legacy debt again by extracting security, command execution/audit, and Linear CLI routing while preserving public-safe behavior.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/command_security.go`, `cmd/mhj/command_runner.go`, `cmd/mhj/command_linear.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: extracted security current/history checks, command planning/execution audit logging, and Linear status/sync/pull/next/comment/transition/create-from-backlog/replay-offline dispatch into focused package-local files; ratcheted `cmd/mhj/main.go` generated code-shape baseline from 241 to 149 lines; kept new integration files at 41, 32, and 56 lines.
+- Validation after: focused Go tests for CLI, Code Shape, Security, Linear, and Commands passed; representative `security check`, `security history`, `command open_youtube_search`, and `linear status` commands passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions and `cmd/mhj/main.go` at the 149-line baseline; full `mhj quality` with Go 1.26.2 passed; new integration files are 41, 32, and 56 lines; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-35 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-18 23:53 KST
 
 - Linear issue: KIM-34 created and moved to In Progress.

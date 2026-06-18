@@ -579,3 +579,10 @@
   - Linear: KIM-34
   - Acceptance: `cmd/mhj/main.go` sheds auth, daemon, harness, knowledge, learning, JSON, and env helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 375-line debt value; CLI routing, daemon flags, harness failure behavior, knowledge/learning output, and JSON indentation remain unchanged.
   - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/auth ./internal/supervisor ./internal/knowledge ./internal/learning`; representative handler commands; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P82
+
+- [x] Ratchet CLI integration handler debt.
+  - Linear: KIM-35
+  - Acceptance: `cmd/mhj/main.go` sheds security, command execution/audit, and Linear CLI routing into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 241-line debt value; `mhj security check/history`, `mhj command`, and Linear CLI behavior remain unchanged.
+  - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/security ./internal/linear ./internal/commands`; representative security, command, and Linear commands; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
