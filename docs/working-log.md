@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 03:59 KST
+
+- Linear issue: KIM-59 created and moved to In Progress.
+- Mode: code-shape burn-down, learning ledger test refactor.
+- Task: Remove `internal/learning/ledger_test.go` from code-shape legacy debt by splitting missing-journal status coverage, successful private observation recording, redacted public status assertions, journal assertions, record rejection tests, and policy fixture helpers into focused test files.
+- Files touched: `internal/learning/ledger_test.go`, `internal/learning/ledger_record_test.go`, `internal/learning/ledger_rejection_test.go`, `internal/learning/ledger_fixture_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved learning ledger record success, redaction/journal assertions, record rejection coverage, and fixture helpers out of the missing-journal status test file; removed `internal/learning/ledger_test.go` from the generated code-shape legacy debt list; kept changed learning test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Learning and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 59 legacy debt files.
+- External-write note: created Linear issue KIM-59 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 03:50 KST
 
 - Linear issue: KIM-58 created and moved to In Progress.

@@ -747,3 +747,10 @@
   - Linear: KIM-58
   - Acceptance: `internal/commands/executor.go` keeps command execution orchestration under the normal 75-line budget by moving execution models, invocation validation, default runner behavior, skipped-execution construction, and output limiting into focused files; execution gating, platform skip, executable allow-listing, NUL-byte rejection, runner metadata, and output limiting behavior remain unchanged; `internal/commands/executor.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/commands ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P106
+
+- [x] Ratchet learning ledger test debt under 75 lines.
+  - Linear: KIM-59
+  - Acceptance: `internal/learning/ledger_test.go` keeps missing-journal status coverage under the normal 75-line budget by moving successful private observation recording, redacted status assertions, journal assertions, rejection tests, and policy fixture helpers into focused files; missing-journal status, successful record redaction/journal behavior, and record rejection behavior remain unchanged; `internal/learning/ledger_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/learning ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
