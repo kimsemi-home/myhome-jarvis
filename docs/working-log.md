@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 07:02 KST
+
+- Linear issue: KIM-78 created and moved to In Progress.
+- Mode: code-shape burn-down, authority status runtime refactor.
+- Task: Remove `internal/authority/status.go` from code-shape legacy debt by splitting authority policy models, status models, generated policy loading, status assessment, outcome rules, decision normalization, and policy validation into focused files.
+- Files touched: `internal/authority/status.go`, `internal/authority/policy_model.go`, `internal/authority/status_model.go`, `internal/authority/policy.go`, `internal/authority/assess.go`, `internal/authority/outcome.go`, `internal/authority/normalize.go`, `internal/authority/contains.go`, `internal/authority/validate.go`, `internal/authority/validate_roles.go`, `internal/authority/validate_decisions.go`, `internal/authority/validate_summary.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `StatusForRoot`, `Assess`, and `ReadPolicy` as the authority public API; moved public models, generated JSON loading, external input collection, debt calculation, outcome selection, decision allow/block rules, list/token normalization, role and decision validation, and public summary validation into focused files; removed `internal/authority/status.go` from the generated code-shape legacy debt list; kept changed authority runtime files below 75 lines.
+- Validation after: focused Authority and Code Shape tests, `mhj authority status`, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 41 legacy debt files.
+- External-write note: created Linear issue KIM-78 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 06:52 KST
 
 - Linear issue: KIM-77 created and moved to In Progress.

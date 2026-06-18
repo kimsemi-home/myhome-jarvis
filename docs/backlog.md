@@ -880,3 +880,10 @@
   - Linear: KIM-77
   - Acceptance: `internal/confidence/status.go` keeps the public confidence status API under the normal 75-line budget by moving confidence models, generated policy loading, confidence assessment, cap rule evaluation, cap level ranking, normalization, policy validation, and policy surface validation into focused files; evidence-based confidence cap behavior, self-reporting rejection, public redaction, and command validation remain unchanged; `internal/confidence/status.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/confidence ./internal/codeshape`; `go run ./cmd/mhj confidence status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P125
+
+- [x] Ratchet authority status runtime under 75 lines.
+  - Linear: KIM-78
+  - Acceptance: `internal/authority/status.go` keeps the public authority status API under the normal 75-line budget by moving authority policy models, status models, generated policy loading, authority assessment, outcome/decision rules, normalization, role/input/decision validation, and public summary validation into focused files; public-repo authority gate behavior, high-risk decision blocking, self-authority rejection, reasoning-tier approval rejection, debt-based review routing, and public redaction remain unchanged; `internal/authority/status.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/authority ./internal/codeshape`; `go run ./cmd/mhj authority status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
