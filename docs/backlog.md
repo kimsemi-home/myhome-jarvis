@@ -887,3 +887,10 @@
   - Linear: KIM-78
   - Acceptance: `internal/authority/status.go` keeps the public authority status API under the normal 75-line budget by moving authority policy models, status models, generated policy loading, authority assessment, outcome/decision rules, normalization, role/input/decision validation, and public summary validation into focused files; public-repo authority gate behavior, high-risk decision blocking, self-authority rejection, reasoning-tier approval rejection, debt-based review routing, and public redaction remain unchanged; `internal/authority/status.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/authority ./internal/codeshape`; `go run ./cmd/mhj authority status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P126
+
+- [x] Ratchet translation status runtime under 75 lines.
+  - Linear: KIM-79
+  - Acceptance: `internal/translation/status.go` keeps the public translation status API under the normal 75-line budget by moving translation models, generated policy loading, private ledger scanning, private manifest scanning, loss recording, manifest/ref validation, policy validation, timestamp handling, and normalization into focused files; private translation ledger/manifest debt counting, forbidden loss counting, context counters, last observed timestamps, public redaction, and private path boundaries remain unchanged; `internal/translation/status.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/translation ./internal/codeshape`; `go run ./cmd/mhj translation status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

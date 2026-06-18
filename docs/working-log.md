@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 07:12 KST
+
+- Linear issue: KIM-79 created and moved to In Progress.
+- Mode: code-shape burn-down, translation status runtime refactor.
+- Task: Remove `internal/translation/status.go` from code-shape legacy debt by splitting translation models, generated policy loading, private ledger scanning, private manifest scanning, loss recording, manifest/ref validation, policy validation, timestamp handling, and normalization into focused files.
+- Files touched: `internal/translation/status.go`, `internal/translation/model_policy.go`, `internal/translation/model_status.go`, `internal/translation/model_records.go`, `internal/translation/policy.go`, `internal/translation/ledger.go`, `internal/translation/manifests.go`, `internal/translation/manifest_file.go`, `internal/translation/loss.go`, `internal/translation/validate_policy.go`, `internal/translation/validate_policy_values.go`, `internal/translation/validate_summary.go`, `internal/translation/validate_manifest.go`, `internal/translation/validate_refs.go`, `internal/translation/time.go`, `internal/translation/normalize.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `StatusForRoot` and `ReadPolicy` as the translation public API; moved public models, generated JSON loading, private loss-ledger scanning, private manifest-root scanning, manifest loss expansion, loss/context counters, policy validation, manifest and evidence-ref validation, RFC3339 timestamp comparison, and list/token helpers into focused files; removed `internal/translation/status.go` from the generated code-shape legacy debt list; kept changed translation runtime files below 75 lines.
+- Validation after: focused Translation and Code Shape tests, `mhj translation status`, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 40 legacy debt files.
+- External-write note: created Linear issue KIM-79 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 07:02 KST
 
 - Linear issue: KIM-78 created and moved to In Progress.
