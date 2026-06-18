@@ -600,3 +600,10 @@
   - Linear: KIM-37
   - Acceptance: `cmd/mhj/main_test.go` is split into focused generated-diff, quality redaction, toolchain pin, CI workflow, fixture, and helper test files that each stay within 75 lines; no `cmd/mhj/*.go` file exceeds the normal 75-line budget; existing test assertions and behavior remain unchanged.
   - Validation: `go test ./cmd/mhj ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P85
+
+- [x] Ratchet Linear status test debt under 75 lines.
+  - Linear: KIM-38
+  - Acceptance: `internal/linear/status_test.go` is split into focused client and summary test files that each stay within 75 lines; fake-token GraphQL endpoint checks and public-safe summary redaction assertions remain unchanged; `internal/linear/status_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/linear ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
