@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 03:31 KST
+
+- Linear issue: KIM-56 created and moved to In Progress.
+- Mode: code-shape burn-down, orchestrator checkpoint test refactor.
+- Task: Remove `internal/orchestrator/checkpoint_test.go` from code-shape legacy debt by splitting checkpoint fixture construction and collision-resistant filename coverage into focused test files.
+- Files touched: `internal/orchestrator/checkpoint_test.go`, `internal/orchestrator/checkpoint_collision_test.go`, `internal/orchestrator/checkpoint_fixture_test.go`, `internal/orchestrator/checkpoint_fixture_more_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved checkpoint fixture construction and collision-resistant filename coverage out of the redacted checkpoint evidence assertion file; removed `internal/orchestrator/checkpoint_test.go` from the generated code-shape legacy debt list; kept changed orchestrator test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Orchestrator and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 62 legacy debt files.
+- External-write note: created Linear issue KIM-56 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 03:21 KST
 
 - Linear issue: KIM-55 created and moved to In Progress.

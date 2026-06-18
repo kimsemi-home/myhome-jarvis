@@ -726,3 +726,10 @@
   - Linear: KIM-55
   - Acceptance: `internal/linear/evidence.go` keeps Linear write evidence models under the normal 75-line budget by moving append writing, status reading, and public issue-key redaction into focused files; append/status/redaction behavior remains unchanged; `internal/linear/evidence.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/linear ./internal/planner ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P103
+
+- [x] Ratchet orchestrator checkpoint test debt under 75 lines.
+  - Linear: KIM-56
+  - Acceptance: `internal/orchestrator/checkpoint_test.go` keeps redacted checkpoint evidence assertions under the normal 75-line budget by moving fixture construction and collision-resistant filename coverage into focused files; checkpoint aggregate evidence, redaction, and filename behavior remains unchanged; `internal/orchestrator/checkpoint_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/orchestrator ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
