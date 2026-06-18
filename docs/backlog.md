@@ -768,3 +768,10 @@
   - Linear: KIM-61
   - Acceptance: `internal/repo/status.go` keeps repository status inspection orchestration under the normal 75-line budget by moving models, git command execution, porcelain parsing, ignored-private parsing, and helper normalization into focused files; branch/head/upstream/origin capture, clean/dirty detection, tracked/untracked reporting, ignored private path reporting, and short SHA behavior remain unchanged; `internal/repo/status.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/repo ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P109
+
+- [x] Ratchet confidence status test debt under 75 lines.
+  - Linear: KIM-62
+  - Acceptance: `internal/confidence/status_test.go` keeps confidence assessment, public JSON redaction, and self-reporting policy rejection coverage under the normal 75-line budget by splitting assessment, redaction, policy, and fixture helpers into focused test files; confidence cap behavior, redaction checks, and policy rejection behavior remain unchanged; `internal/confidence/status_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/confidence ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

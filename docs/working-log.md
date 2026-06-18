@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 04:25 KST
+
+- Linear issue: KIM-62 created and moved to In Progress.
+- Mode: code-shape burn-down, confidence status test refactor.
+- Task: Remove `internal/confidence/status_test.go` from code-shape legacy debt by splitting confidence assessment coverage, public JSON redaction checks, self-reporting policy rejection, and policy fixture helpers into focused test files.
+- Files touched: `internal/confidence/status_test.go`, `internal/confidence/assess_test.go`, `internal/confidence/redaction_test.go`, `internal/confidence/policy_test.go`, `internal/confidence/policy_fixture_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved confidence assessment cases, redaction assertions, self-reporting policy rejection, and policy fixture construction out of the single oversized status test file; removed `internal/confidence/status_test.go` from the generated code-shape legacy debt list; kept changed confidence test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Confidence and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 56 legacy debt files.
+- External-write note: created Linear issue KIM-62 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 04:16 KST
 
 - Linear issue: KIM-61 created and moved to In Progress.
