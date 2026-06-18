@@ -775,3 +775,10 @@
   - Linear: KIM-62
   - Acceptance: `internal/confidence/status_test.go` keeps confidence assessment, public JSON redaction, and self-reporting policy rejection coverage under the normal 75-line budget by splitting assessment, redaction, policy, and fixture helpers into focused test files; confidence cap behavior, redaction checks, and policy rejection behavior remain unchanged; `internal/confidence/status_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/confidence ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P110
+
+- [x] Ratchet Rust core commerce module under 75 lines.
+  - Linear: KIM-63
+  - Acceptance: `crates/mhj-core/src/commerce.rs` keeps the public `mhj_core::commerce` API while moving purchase IR modeling, validation, recurring-candidate grouping, and tests into focused files under the normal 75-line budget; fixture parsing, purchase validation, recurring-candidate behavior, and commerce tests remain unchanged; `crates/mhj-core/src/commerce.rs` is removed from Code Shape legacy debt.
+  - Validation: `cargo test -p mhj-core commerce`; `cargo test -p mhj-core`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

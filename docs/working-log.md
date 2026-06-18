@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 04:36 KST
+
+- Linear issue: KIM-63 created and moved to In Progress.
+- Mode: code-shape burn-down, Rust core commerce module refactor.
+- Task: Remove `crates/mhj-core/src/commerce.rs` from code-shape legacy debt by splitting purchase IR modeling, validation, recurring-candidate grouping, fixture parsing, and tests into focused Rust files while preserving the public `mhj_core::commerce` API.
+- Files touched: `crates/mhj-core/src/commerce.rs`, `crates/mhj-core/src/commerce/model.rs`, `crates/mhj-core/src/commerce/validate.rs`, `crates/mhj-core/src/commerce/recurring.rs`, `crates/mhj-core/src/commerce/tests.rs`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept fixture parsing and re-exports in the top-level commerce module; moved `PurchaseIr` into a model file, validation helpers into a validation file, recurring candidate grouping into a recurring file, and tests into a focused test module; removed `crates/mhj-core/src/commerce.rs` from the generated code-shape legacy debt list; kept changed Rust commerce files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Rust commerce tests, full `mhj-core` tests, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 55 legacy debt files.
+- External-write note: created Linear issue KIM-63 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 04:25 KST
 
 - Linear issue: KIM-62 created and moved to In Progress.
