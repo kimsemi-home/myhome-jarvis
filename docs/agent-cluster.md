@@ -92,6 +92,14 @@ It reads private evidence quality snapshots, checks staleness, quality level,
 mapping confidence, and reassessment reasons, then exposes only redacted counts
 and reassessment debt so evidence does not stay trusted forever by accident.
 
+The Authority Gate is the first executable Reasoning RBAC and Domain ABAC
+surface. It reads redacted confidence, evidence quality, incident,
+control-plane, translation, and public-safety status, then exposes only the
+current outcome, active rule, decision counts, blocked/allowed decision keys,
+and authority debt counts. Reasoning tiers never grant approval by themselves,
+self-authority stays disabled, and high-risk decisions remain blocked in public
+repo mode.
+
 ## Validation
 
 Use these checks after changing the policy:
@@ -104,8 +112,9 @@ go run ./cmd/mhj translation status
 go run ./cmd/mhj control-plane status
 go run ./cmd/mhj incidents status
 go run ./cmd/mhj evidence-quality status
+go run ./cmd/mhj authority status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
-go test ./internal/agentcluster ./internal/translation ./internal/controlplane ./internal/incidents ./internal/evidencequality ./internal/daemon ./cmd/mhj
+go test ./internal/agentcluster ./internal/translation ./internal/controlplane ./internal/incidents ./internal/evidencequality ./internal/authority ./internal/daemon ./cmd/mhj
 cd apps/flutter && flutter test test/daemon_client_test.dart test/snapshot_test.dart test/widget_test.dart
 ```

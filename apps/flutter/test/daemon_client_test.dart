@@ -441,6 +441,17 @@ void main() {
             'by_reassessment_reason': {'age': 1},
           });
           return;
+        case '/authority/status':
+          _writeJson(request, {
+            'policy_path': 'generated/authority.generated.json',
+            'outcome': 'review_required',
+            'active_rule': 'evidence_quality_debt',
+            'authority_debt_count': 3,
+            'blocked_decision_count': 8,
+            'reasoning_tier_grants_approval': false,
+            'self_authority_allowed': false,
+          });
+          return;
         case '/metrics':
           _writeJson(request, {
             'bind_host': '127.0.0.1',
@@ -612,6 +623,12 @@ void main() {
           .singleWhere((metric) => metric.label == 'Agent Cluster')
           .value,
       '5 roles gated',
+    );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Authority Gate')
+          .value,
+      '3 debt',
     );
     expect(
       snapshot.metrics
@@ -821,6 +838,7 @@ void main() {
       controlPlane: const <String, Object?>{},
       incidents: const <String, Object?>{},
       evidenceQuality: const <String, Object?>{},
+      authority: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,

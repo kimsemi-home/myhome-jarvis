@@ -21,6 +21,7 @@
                (:file "control-plane")
                (:file "incidents")
                (:file "evidence-quality")
+               (:file "authority")
                (:file "linear")
                (:file "planner")
                (:file "codegen")))

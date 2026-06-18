@@ -42,6 +42,7 @@ class DaemonSnapshotClient implements JarvisClient {
         client,
         '/evidence-quality/status',
       );
+      final authority = await _getObject(client, '/authority/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -65,6 +66,7 @@ class DaemonSnapshotClient implements JarvisClient {
         controlPlane: controlPlane,
         incidents: incidents,
         evidenceQuality: evidenceQuality,
+        authority: authority,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -180,6 +182,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> controlPlane,
   required Map<String, Object?> incidents,
   required Map<String, Object?> evidenceQuality,
+  required Map<String, Object?> authority,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -242,6 +245,10 @@ JarvisSnapshot buildSnapshot({
   final evidenceQualitySnapshots = _int(evidenceQuality['snapshot_count']) ?? 0;
   final evidenceQualityDebt =
       _int(evidenceQuality['reassessment_debt_count']) ?? 0;
+  final authorityOutcome = _string(authority['outcome']) ?? 'unknown';
+  final authorityDebt = _int(authority['authority_debt_count']) ?? 0;
+  final authorityBlockedDecisions =
+      _int(authority['blocked_decision_count']) ?? 0;
 
   return JarvisSnapshot(
     metrics: [
@@ -353,6 +360,15 @@ JarvisSnapshot buildSnapshot({
         icon: Icons.account_tree_outlined,
       ),
       SystemMetric(
+        label: 'Authority Gate',
+        value: _authorityGateValue(
+          authorityOutcome,
+          authorityDebt,
+          authorityBlockedDecisions,
+        ),
+        icon: Icons.admin_panel_settings_outlined,
+      ),
+      SystemMetric(
         label: 'Learning',
         value: learningOpenCount == 0
             ? '$learningCount observed'
@@ -439,6 +455,19 @@ String _plannerProgress(
     return '$completed/$tasks done';
   }
   return '$ready/$tasks ready';
+}
+
+String _authorityGateValue(String outcome, int debt, int blockedDecisions) {
+  switch (outcome) {
+    case 'blocked':
+      return 'Blocked';
+    case 'review_required':
+      return debt > 0 ? '$debt debt' : 'Review required';
+    case 'limited':
+      return '$blockedDecisions blocked';
+    default:
+      return _titleWords(outcome);
+  }
 }
 
 String? _plannerGate(Object? tasks) {

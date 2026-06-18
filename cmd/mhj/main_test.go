@@ -171,7 +171,7 @@ jobs:
     steps:
       - uses: actions/cache/restore@v5
         with:
-          key: flutter-${{ hashFiles('generated/commands.generated.json', 'generated/connectors.generated.json', 'generated/agent_cluster.generated.json', 'generated/learning.generated.json', 'generated/evidence.generated.json', 'generated/confidence.generated.json', 'generated/translation.generated.json', 'generated/control_plane.generated.json', 'generated/incidents.generated.json', 'generated/evidence_quality.generated.json') }}
+          key: flutter-${{ hashFiles('generated/commands.generated.json', 'generated/connectors.generated.json', 'generated/agent_cluster.generated.json', 'generated/learning.generated.json', 'generated/evidence.generated.json', 'generated/confidence.generated.json', 'generated/translation.generated.json', 'generated/control_plane.generated.json', 'generated/incidents.generated.json', 'generated/evidence_quality.generated.json', 'generated/authority.generated.json') }}
 `
 }
 

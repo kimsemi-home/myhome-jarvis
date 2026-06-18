@@ -334,6 +334,11 @@ class JarvisSnapshot {
         icon: Icons.account_tree_outlined,
       ),
       SystemMetric(
+        label: 'Authority Gate',
+        value: '6 blocked',
+        icon: Icons.admin_panel_settings_outlined,
+      ),
+      SystemMetric(
         label: 'Learning',
         value: '0 observed',
         icon: Icons.psychology_alt_outlined,
@@ -702,6 +707,11 @@ class JarvisSnapshot {
           label: 'Agent Cluster',
           value: 'Local',
           icon: Icons.account_tree_outlined,
+        ),
+        SystemMetric(
+          label: 'Authority Gate',
+          value: 'Local',
+          icon: Icons.admin_panel_settings_outlined,
         ),
         SystemMetric(
           label: 'Learning',

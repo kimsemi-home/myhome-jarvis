@@ -28,6 +28,7 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /connectors/status`, `GET /agent-cluster/status`,
 `GET /learning/status`, `GET /evidence/status`,
 `GET /evidence-quality/status`, `GET /confidence/status`,
+`GET /authority/status`,
 `GET /household/summary`,
 `GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`,
@@ -195,6 +196,15 @@ missing evidence links and dangling refs cap confidence at low; open learning
 debt or missing quality evidence cap confidence at medium. The assessor exposes
 only counts, booleans, active rule, and the cap.
 
+The first Authority Gate surface makes Reasoning RBAC and Domain ABAC visible
+without turning reasoning into approval. Common Lisp SSOT owns
+`generated/authority.generated.json`, Go exposes `mhj authority status` and
+daemon `GET /authority/status`, and Flutter shows a read-only Authority Gate
+metric. It reads redacted confidence, evidence quality, incident,
+control-plane, translation, and public-safety status; disables self-authority;
+keeps reasoning tiers from granting approval; and blocks high-risk decisions in
+public repo mode.
+
 The first Translation Manifest surface makes context movement explicit. Common
 Lisp SSOT owns `generated/translation.generated.json`, Go exposes
 `mhj translation status` and daemon `GET /translation/status`, and Flutter
@@ -242,5 +252,7 @@ movement, and the Control Plane manifest debt count for orchestration
 decisions. It also shows Incident Lifecycle debt so classified failures and
 quarantine state remain visible without leaking raw incident contents. Evidence
 Quality reassessment debt is shown separately so stale or low-confidence
-evidence cannot silently support future authority decisions.
+evidence cannot silently support future authority decisions. Authority Gate
+outcome is shown as a separate read-only metric so blocked or review-required
+states remain visible before any high-risk automation is considered.
 Platform runner files are left out until device packaging is required.

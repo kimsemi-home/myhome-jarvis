@@ -70,9 +70,9 @@ fixtures, or Rust harness inputs change.
 The Flutter unit also keys on generated command and status artifacts such as
 `generated/commands.generated.json`, connector readiness, Agent Cluster,
 Learning Ledger, Evidence Graph, Evidence Quality Assessor, Confidence
-Assessor, and Translation Manifest artifacts, plus the Control Plane Manifest
-and Incident Lifecycle artifacts, because its daemon and fallback tests read
-those Lisp-owned catalogs directly.
+Assessor, Authority Gate, and Translation Manifest artifacts, plus the Control
+Plane Manifest and Incident Lifecycle artifacts, because its daemon and
+fallback tests read those Lisp-owned catalogs directly.
 
 Local equivalents:
 

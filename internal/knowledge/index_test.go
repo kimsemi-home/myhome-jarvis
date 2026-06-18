@@ -19,7 +19,7 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if report.ContextCount != 9 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 21 {
+	if report.ConceptCount != 22 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
@@ -175,6 +175,22 @@ func TestSearchControlPlaneManifestReturnsRoutingEvidence(t *testing.T) {
 	}
 	if !containsString(report.MustRead, "docs/control-plane-manifest.md") {
 		t.Fatalf("must read missing docs/control-plane-manifest.md: %#v", report.MustRead)
+	}
+}
+
+func TestSearchAuthorityGateReturnsRBACEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "authority gate reasoning rbac domain abac")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "AuthorityGate") {
+		t.Fatalf("expected AuthorityGate concept, got %#v", report.Concepts)
+	}
+	if !containsString(report.MustRead, "generated/authority.generated.json") {
+		t.Fatalf("must read missing authority artifact: %#v", report.MustRead)
+	}
+	if !containsString(report.MustRead, "docs/authority-gate.md") {
+		t.Fatalf("must read missing docs/authority-gate.md: %#v", report.MustRead)
 	}
 }
 

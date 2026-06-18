@@ -83,7 +83,7 @@
      :bounded_context "AgentCluster"
      :ddd_kind "Policy"
      :description "A public-safe evidence-first learning loop policy for agent roles, sidecars, confidence gates, leases, quarantine, and knowledge updates."
-     :allowed_aliases #("agent cluster" "learning loop" "evidence-first workflow" "governed compiler farm" "authority gate")
+     :allowed_aliases #("agent cluster" "learning loop" "evidence-first workflow" "governed compiler farm" "agent governance")
      :owner "lisp/ssot/agent-cluster.lisp"
      :generated_targets #("generated/agent_cluster.generated.json"
                           "internal/agentcluster/status.go"
@@ -159,6 +159,16 @@
                           "internal/evidencequality/status.go"
                           "docs/evidence-quality.md")
      :related_concepts #("EvidenceGraph" "ConfidenceAssessor" "IncidentLifecycle" "TranslationManifest" "AgentClusterPolicy" "SecurityPolicy"))
+    (:canonical_name "AuthorityGate"
+     :bounded_context "AgentCluster"
+     :ddd_kind "Policy"
+     :description "A public-safe Reasoning RBAC and Domain ABAC gate that limits authority based on evidence, confidence, quality, incidents, control-plane state, translation debt, and public safety."
+     :allowed_aliases #("authority gate" "authority status gate" "reasoning rbac" "domain abac" "permission gate" "automation authority")
+     :owner "internal/authority"
+     :generated_targets #("generated/authority.generated.json"
+                          "internal/authority/status.go"
+                          "docs/authority-gate.md")
+     :related_concepts #("AgentClusterPolicy" "ConfidenceAssessor" "EvidenceQualityAssessor" "IncidentLifecycle" "ControlPlaneManifest" "TranslationManifest" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -295,6 +305,7 @@
     (:name "control_plane" :path "generated/control_plane.generated.json" :owner "AgentOps")
     (:name "incidents" :path "generated/incidents.generated.json" :owner "AgentCluster")
     (:name "evidence_quality" :path "generated/evidence_quality.generated.json" :owner "AgentCluster")
+    (:name "authority" :path "generated/authority.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

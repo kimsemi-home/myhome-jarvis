@@ -27,6 +27,7 @@
    #:*control-plane-policy*
    #:*incident-policy*
    #:*evidence-quality-policy*
+   #:*authority-policy*
    #:*linear-policy*
    #:*planner-policy*
    #:validate-ssot

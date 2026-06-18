@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 22:01 KST
+
+- Linear issue: KIM-26 created and moved to In Progress.
+- Mode: next-vision foundation, Authority Gate status only.
+- Task: Add a public-safe Reasoning RBAC and Domain ABAC gate so reasoning tiers, roles, domain attributes, confidence, quality, incidents, control-plane state, translation debt, and public safety produce a redacted authority outcome instead of implicit approval.
+- Files touched: `lisp/ssot/authority.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `generated/authority.generated.json`, `generated/concepts.generated.json`, `internal/authority/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Authority Gate docs.
+- Changes: added SSOT-owned Authority Gate policy; added redacted status over confidence, evidence quality, incident, control-plane, translation, and public-safety inputs; kept reasoning-tier approval and self-authority disabled; kept high-risk public-repo decisions blocked; exposed `mhj authority status` and daemon `GET /authority/status`; added Flutter Authority Gate metric; included generated authority metadata in Flutter CI cache keys and CI contract validation.
+- Validation after: full `mhj quality` with Go 1.26.2 passed, including security current/history checks, Go test/vet/gofmt, SSOT validation, codegen verify, DDD verify, Flutter test/analyze, and Rust checks; `mhj authority status` returned `limited` with zero authority debt and six high-risk public-repo decisions blocked; daemon `GET /authority/status` smoke passed; `mhj knowledge search "authority gate reasoning rbac domain abac"` returned `AuthorityGate` without duplicate suspicions; private identity narrow scan and `git diff --check` passed.
+- External-write note: created Linear issue KIM-26 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: complete local validation, public-safety scans, commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-26.
+
 ## 2026-06-18 21:41 KST
 
 - Linear issue: KIM-25 created and moved to In Progress.

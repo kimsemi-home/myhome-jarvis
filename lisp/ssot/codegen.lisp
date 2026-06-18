@@ -79,6 +79,7 @@
     (validate-control-plane-policy *control-plane-policy*)
     (validate-incident-policy *incident-policy*)
     (validate-evidence-quality-policy *evidence-quality-policy*)
+    (validate-authority-policy *authority-policy*)
     (unless (getf *linear-policy* :pull_active_only)
       (error "Linear pull must stay scoped to active issues by default"))
     (unless (getf *linear-policy* :team_scope_private)
@@ -612,6 +613,112 @@
       (error "Evidence quality status command must stay in SSOT"))
     t))
 
+(defun validate-authority-policy (policy)
+  (let ((inputs (coerce (getf policy :required_inputs) 'list))
+        (tiers (coerce (getf policy :reasoning_tiers) 'list))
+        (roles (coerce (getf policy :role_permissions) 'list))
+        (attributes (coerce (getf policy :domain_attributes) 'list))
+        (decisions (coerce (getf policy :decisions) 'list))
+        (outcomes (coerce (getf policy :outcomes) 'list))
+        (debt-classes (coerce (getf policy :authority_debt_classes) 'list))
+        (summary-fields (coerce (getf policy :public_summary_fields) 'list)))
+    (unless (string= (getf policy :context) "AgentCluster")
+      (error "Authority policy must belong to AgentCluster"))
+    (unless (getf policy :public_status_redacted)
+      (error "Authority public status must stay redacted"))
+    (when (getf policy :self_authority_allowed)
+      (error "Authority policy must not allow self-authority"))
+    (when (getf policy :reasoning_tier_grants_approval)
+      (error "Reasoning tier alone must not grant approval"))
+    (unless (getf policy :public_repo_high_risk_blocked)
+      (error "Public repo mode must block high-risk authority decisions"))
+    (dolist (input '("confidence_assessor"
+                     "evidence_quality"
+                     "incident_lifecycle"
+                     "control_plane"
+                     "translation"
+                     "public_safety"))
+      (unless (find input inputs :test #'string=)
+        (error "Authority input missing: ~A" input)))
+    (dolist (tier '("r0_compiler" "r1_low" "r2_medium" "r3_high" "r4_governance"))
+      (unless (find tier tiers :key (lambda (item) (getf item :key)) :test #'string=)
+        (error "Authority reasoning tier missing: ~A" tier)))
+    (dolist (role '("producer"
+                    "independent_reviewer"
+                    "adversarial_reviewer"
+                    "deterministic_verifier"
+                    "governance_steward"))
+      (unless (find role roles :key (lambda (item) (getf item :role)) :test #'string=)
+        (error "Authority role permission missing: ~A" role)))
+    (dolist (attribute '("agent_reliability"
+                         "reasoning_tier"
+                         "ontology_maturity"
+                         "evidence_quality"
+                         "security_impact"
+                         "data_sensitivity"
+                         "change_risk"
+                         "verification_scope"
+                         "lease_status"
+                         "quarantine_state"
+                         "human_review_capacity"))
+      (unless (find attribute attributes :test #'string=)
+        (error "Authority domain attribute missing: ~A" attribute)))
+    (unless (> (length decisions) 0)
+      (error "Authority decisions are required"))
+    (dolist (decision decisions)
+      (let ((key (getf decision :key))
+            (risk (getf decision :risk))
+            (public-allowed (getf decision :public_repo_allowed)))
+        (when (or (null key) (string= key ""))
+          (error "Authority decision key is required"))
+        (unless (find risk '("low" "medium" "high") :test #'string=)
+          (error "Authority decision ~A has invalid risk ~A" key risk))
+        (when (and (string= risk "high") public-allowed)
+          (error "Authority high-risk decision ~A must not be public-repo allowed" key))))
+    (dolist (decision '("major_ontology_change"
+                        "security_boundary_change"
+                        "production_change"
+                        "evidence_pruning"
+                        "quarantine_release"
+                        "high_risk_automation"))
+      (let ((entry (find decision decisions :key (lambda (item) (getf item :key)) :test #'string=)))
+        (unless entry
+          (error "Authority high-risk decision missing: ~A" decision))
+        (when (getf entry :public_repo_allowed)
+          (error "Authority high-risk decision must stay blocked: ~A" decision))))
+    (dolist (outcome '("limited" "review_required" "blocked"))
+      (unless (find outcome outcomes :test #'string=)
+        (error "Authority outcome missing: ~A" outcome)))
+    (dolist (class '("public_safety"
+                     "confidence_cap"
+                     "evidence_quality"
+                     "incident"
+                     "control_plane"
+                     "translation"
+                     "human_review"))
+      (unless (find class debt-classes :test #'string=)
+        (error "Authority debt class missing: ~A" class)))
+    (dolist (field '("outcome"
+                     "active_rule"
+                     "allowed_decision_count"
+                     "blocked_decision_count"
+                     "authority_debt_count"
+                     "public_repo_mode"
+                     "reasoning_tier_grants_approval"
+                     "self_authority_allowed"
+                     "public_safety_ok"
+                     "confidence_cap"
+                     "allowed_decisions"
+                     "blocked_decisions"
+                     "checked_at"))
+      (unless (find field summary-fields :test #'string=)
+        (error "Authority summary missing field: ~A" field)))
+    (unless (find "mhj authority status"
+                  (coerce (getf policy :commands) 'list)
+                  :test #'string=)
+      (error "Authority status command must stay in SSOT"))
+    t))
+
 (defun validate-translation-policy (policy)
   (let ((ledger (getf policy :private_loss_ledger))
         (manifest-root (getf policy :private_manifest_root))
@@ -716,6 +823,8 @@
                    *incident-policy*)
   (write-json-file (merge-pathnames "generated/evidence_quality.generated.json" root)
                    *evidence-quality-policy*)
+  (write-json-file (merge-pathnames "generated/authority.generated.json" root)
+                   *authority-policy*)
   (write-json-file (merge-pathnames "generated/linear.generated.json" root)
                    *linear-policy*)
   (write-json-file (merge-pathnames "generated/planner.generated.json" root)

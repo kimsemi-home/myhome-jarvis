@@ -37,6 +37,7 @@ go run ./cmd/mhj learning status
 go run ./cmd/mhj evidence status
 go run ./cmd/mhj evidence-quality status
 go run ./cmd/mhj confidence status
+go run ./cmd/mhj authority status
 go run ./cmd/mhj harness home
 go run ./cmd/mhj harness finance
 go run ./cmd/mhj harness commerce
@@ -82,6 +83,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/evidence`: private Evidence Graph summarization and redacted status.
 - `internal/evidencequality`: private evidence quality snapshot assessor and redacted reassessment debt status.
 - `internal/confidence`: external confidence cap status over local evidence.
+- `internal/authority`: public-safe Reasoning RBAC and Domain ABAC status gate.
 - `internal/translation`: private Translation Manifest and Loss Ledger status.
 - `internal/controlplane`: private Control Plane Manifest status for local orchestration decisions.
 - `internal/incidents`: private Incident Lifecycle status for classified failures, owner roles, and quarantine debt.

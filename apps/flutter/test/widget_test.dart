@@ -24,7 +24,8 @@ void main() {
     expect(find.text('0 nodes'), findsOneWidget);
     expect(find.text('Confidence'), findsOneWidget);
     expect(find.text('Local'), findsWidgets);
-    expect(find.text('Translation'), findsOneWidget);
+    expect(find.text('Authority Gate'), findsOneWidget);
+    expect(find.text('6 blocked'), findsOneWidget);
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 

@@ -23,6 +23,7 @@ Current SSOT boundaries are intentionally separated by domain:
 - `evidence-quality`: private evidence quality snapshot and reassessment debt
   policy.
 - `confidence`: external confidence cap policy over local evidence signals.
+- `authority`: Reasoning RBAC and Domain ABAC status gate policy.
 - `translation`: context translation manifest and semantic loss ledger policy.
 - `control-plane`: private orchestration decision manifest policy.
 - `incidents`: private incident lifecycle and quarantine debt policy.
@@ -96,6 +97,13 @@ reads that artifact for `mhj confidence status` and daemon
 Confidence metric. The generated policy keeps confidence as an externally
 computed cap, forbids agent self-reporting, and exposes only redacted counts,
 booleans, active rule, and the current cap.
+
+The Authority Gate SSOT emits `generated/authority.generated.json`. Go reads
+that artifact for `mhj authority status` and daemon `GET /authority/status`;
+Flutter consumes the daemon status as a read-only Authority Gate metric. The
+generated policy keeps reasoning tiers from granting approval, disables
+self-authority, blocks high-risk public-repo decisions, and exposes only
+outcomes, decision counts, debt counts, booleans, risk buckets, and timestamps.
 
 The Translation Manifest SSOT emits `generated/translation.generated.json`. Go
 reads that artifact for `mhj translation status` and daemon
