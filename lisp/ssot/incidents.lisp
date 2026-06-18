@@ -9,85 +9,29 @@
         :public_status_redacted t
         :raw_incident_public_allowed nil
         :quarantine_stale_after_hours 168
-        :allowed_kinds #("quality_regression"
-                         "public_safety"
-                         "evidence_gap"
-                         "authority_violation"
-                         "quarantine"
-                         "translation_loss"
-                         "control_plane"
-                         "feedback_loop_gap")
-        :lifecycle #("observed"
-                     "evidence_recorded"
-                     "classified"
-                     "owner_assigned"
-                     "fix_planned"
-                     "verified"
-                     "knowledge_updated")
-        :allowed_statuses #("open"
-                            "mitigating"
-                            "verified"
-                            "closed"
-                            "quarantined")
-        :owner_roles #("producer"
-                       "independent_reviewer"
-                       "adversarial_reviewer"
-                       "deterministic_verifier"
-                       "governance_steward"
-                       "go")
-        :quarantine_states #("none"
-                             "quarantined"
-                             "release_requested"
-                             "released")
-        :required_fields #("at"
-                           "kind"
-                           "stage"
-                           "status"
-                           "owner_role"
-                           "evidence_refs")
-        :allowed_evidence_prefixes #("data/private/"
-                                     "generated/"
-                                     "docs/"
-                                     "cmd/"
-                                     "internal/"
-                                     "apps/flutter/"
-                                     "lisp/"
-                                     "crates/"
-                                     "fixtures/"
-                                     "harness/"
-                                     ".github/")
-        :public_summary_fields #("policy_path"
-                                 "ledger_path"
-                                 "exists"
-                                 "count"
-                                 "open_count"
-                                 "closed_count"
-                                 "invalid_incident_count"
-                                 "incident_debt_count"
-                                 "missing_owner_count"
-                                 "missing_evidence_ref_count"
-                                 "stale_quarantine_count"
-                                 "quarantine_stale_after_hours"
-                                 "by_kind"
-                                 "by_stage"
-                                 "by_status"
-                                 "by_owner_role"
-                                 "by_quarantine_state"
-                                 "last_observed_at"
-                                 "checked_at")
-        :forbidden_public_fields #("summary"
-                                   "root_cause"
-                                   "root_cause_notes"
-                                   "raw_prompt"
-                                   "raw_transcript"
-                                   "evidence_refs"
-                                   "token"
-                                   "secret"
-                                   "credential"
-                                   "cookie"
-                                   "account_id"
-                                   "card_number"
-                                   "local_absolute_path"
-                                   "linear_url"
-                                   "private_evidence")
+        :allowed_kinds #("quality_regression" "public_safety" "evidence_gap"
+                         "authority_violation" "quarantine" "translation_loss"
+                         "control_plane" "feedback_loop_gap")
+        :lifecycle #("observed" "evidence_recorded" "classified" "owner_assigned"
+                     "fix_planned" "verified" "knowledge_updated")
+        :allowed_statuses #("open" "mitigating" "verified" "closed" "quarantined")
+        :owner_roles #("producer" "independent_reviewer" "adversarial_reviewer"
+                       "deterministic_verifier" "governance_steward" "go")
+        :quarantine_states #("none" "quarantined" "release_requested" "released")
+        :required_fields #("at" "kind" "stage" "status" "owner_role" "evidence_refs")
+        :allowed_evidence_prefixes #("data/private/" "generated/" "docs/" "cmd/"
+                                     "internal/" "apps/flutter/" "lisp/" "crates/"
+                                     "fixtures/" "harness/" ".github/")
+        :public_summary_fields #("policy_path" "ledger_path" "exists" "count"
+                                 "open_count" "closed_count" "invalid_incident_count"
+                                 "incident_debt_count" "missing_owner_count"
+                                 "missing_evidence_ref_count" "stale_quarantine_count"
+                                 "quarantine_stale_after_hours" "by_kind" "by_stage"
+                                 "by_status" "by_owner_role" "by_quarantine_state"
+                                 "last_observed_at" "checked_at")
+        :forbidden_public_fields #("summary" "root_cause" "root_cause_notes"
+                                   "raw_prompt" "raw_transcript" "evidence_refs"
+                                   "token" "secret" "credential" "cookie"
+                                   "account_id" "card_number" "local_absolute_path"
+                                   "linear_url" "private_evidence")
         :commands #("mhj incidents status")))

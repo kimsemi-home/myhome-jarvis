@@ -670,3 +670,10 @@
   - Linear: KIM-47
   - Acceptance: `lisp/ssot/commands.lisp` keeps the HomeCommand catalog values unchanged while compacting command list formatting under the normal 75-line budget; `lisp/ssot/commands.lisp` is removed from Code Shape legacy debt.
   - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/commands ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P95
+
+- [x] Ratchet incident SSOT debt under 75 lines.
+  - Linear: KIM-48
+  - Acceptance: `lisp/ssot/incidents.lisp` keeps the Incident Lifecycle policy values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/incidents.lisp` is removed from Code Shape legacy debt.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/incidents ./internal/codeshape`; `go run ./cmd/mhj incidents status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
