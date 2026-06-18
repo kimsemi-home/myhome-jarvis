@@ -663,3 +663,10 @@
   - Linear: KIM-46
   - Acceptance: `lisp/ssot/evidence-quality.lisp` keeps the Evidence Quality Assessor policy values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/evidence-quality.lisp` is removed from Code Shape legacy debt.
   - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P94
+
+- [x] Ratchet command SSOT debt under 75 lines.
+  - Linear: KIM-47
+  - Acceptance: `lisp/ssot/commands.lisp` keeps the HomeCommand catalog values unchanged while compacting command list formatting under the normal 75-line budget; `lisp/ssot/commands.lisp` is removed from Code Shape legacy debt.
+  - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/commands ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

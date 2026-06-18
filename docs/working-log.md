@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 02:16 KST
+
+- Linear issue: KIM-47 created and moved to In Progress.
+- Mode: code-shape burn-down, HomeCommand SSOT compaction.
+- Task: Remove `lisp/ssot/commands.lisp` from code-shape legacy debt by compacting command catalog formatting while preserving generated command semantics.
+- Files touched: `lisp/ssot/commands.lisp`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: compacted HomeCommand catalog list entries without changing command values; removed `lisp/ssot/commands.lisp` from the generated code-shape legacy debt list; kept the SSOT file below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Commands and Code Shape, `mhj harness home`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 71 legacy debt files.
+- External-write note: created Linear issue KIM-47 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 02:08 KST
 
 - Linear issue: KIM-46 created and moved to In Progress.
