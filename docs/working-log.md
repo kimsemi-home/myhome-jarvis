@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 04:07 KST
+
+- Linear issue: KIM-60 created and moved to In Progress.
+- Mode: code-shape burn-down, quality log runtime refactor.
+- Task: Remove `internal/qualitylog/runs.go` from code-shape legacy debt by splitting quality log models, quality run construction, JSONL append writing, status reading, path handling, and status normalization into focused source files.
+- Files touched: `internal/qualitylog/runs.go`, `internal/qualitylog/model.go`, `internal/qualitylog/append.go`, `internal/qualitylog/status.go`, `internal/qualitylog/path.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved quality log models, append writer, status reader, and path helper out of the run construction file; removed `internal/qualitylog/runs.go` from the generated code-shape legacy debt list; kept changed qualitylog files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for QualityLog and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 58 legacy debt files.
+- External-write note: created Linear issue KIM-60 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 03:59 KST
 
 - Linear issue: KIM-59 created and moved to In Progress.

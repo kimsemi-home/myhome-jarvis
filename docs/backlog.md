@@ -754,3 +754,10 @@
   - Linear: KIM-59
   - Acceptance: `internal/learning/ledger_test.go` keeps missing-journal status coverage under the normal 75-line budget by moving successful private observation recording, redacted status assertions, journal assertions, rejection tests, and policy fixture helpers into focused files; missing-journal status, successful record redaction/journal behavior, and record rejection behavior remain unchanged; `internal/learning/ledger_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/learning ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P107
+
+- [x] Ratchet quality log runtime debt under 75 lines.
+  - Linear: KIM-60
+  - Acceptance: `internal/qualitylog/runs.go` keeps quality run construction under the normal 75-line budget by moving models, JSONL append writing, status reading, and path handling into focused files; run construction, append writing, private journal status reading, and redacted evidence behavior remain unchanged; `internal/qualitylog/runs.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/qualitylog ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
