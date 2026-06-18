@@ -586,3 +586,10 @@
   - Linear: KIM-35
   - Acceptance: `cmd/mhj/main.go` sheds security, command execution/audit, and Linear CLI routing into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 241-line debt value; `mhj security check/history`, `mhj command`, and Linear CLI behavior remain unchanged.
   - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/security ./internal/linear ./internal/commands`; representative security, command, and Linear commands; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P83
+
+- [x] Ratchet CLI router debt under 75 lines.
+  - Linear: KIM-36
+  - Acceptance: `cmd/mhj/main.go` keeps only the process entrypoint and drops under the normal 75-line budget; remaining CLI dispatch moves into small basic/status/operation route files that each stay within 75 lines; version, commands, status, quality, codegen, loop, daemon, Linear, security, command, and knowledge routing behavior remain unchanged.
+  - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/commands ./internal/linear`; representative basic, status, operation, loop, codegen, and quality commands; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

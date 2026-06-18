@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 00:21 KST
+
+- Linear issue: KIM-36 created and moved to In Progress.
+- Mode: code-shape burn-down, CLI router refactor.
+- Task: Reduce `cmd/mhj/main.go` below the normal 75-line budget by extracting the remaining route table while preserving CLI behavior.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/cli_run.go`, `cmd/mhj/cli_routes.go`, `cmd/mhj/cli_routes_basic.go`, `cmd/mhj/cli_routes_status.go`, `cmd/mhj/cli_routes_operations.go`, `cmd/mhj/cli_usage.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved run/root resolution, route dispatch, basic delegates, read-only status routes, operational subcommands, loop/codegen routing, and usage text into focused package-local files; removed `cmd/mhj/main.go` from the generated code-shape legacy debt list; kept `cmd/mhj/main.go` at 15 lines and new route files at 14, 12, 35, 41, 49, and 7 lines.
+- Validation after: focused Go tests for CLI, Code Shape, Commands, and Linear passed; representative basic, status, delegate, operation, loop, codegen, and quality commands passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions, 82 legacy debt files, and `cmd/mhj/main.go` removed from legacy debt at 15 lines; full `mhj quality` with Go 1.26.2 passed; all new route files are 14, 12, 35, 41, 49, and 7 lines; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-36 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 00:06 KST
 
 - Linear issue: KIM-35 created and moved to In Progress.

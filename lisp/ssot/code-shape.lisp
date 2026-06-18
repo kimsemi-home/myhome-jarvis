@@ -12,8 +12,8 @@
         :excluded_prefixes #("data/private/" "generated/" ".git/" "target/"
                              "build/" ".dart_tool/" "node_modules/")
         :legacy_debt_files #((:path "internal/daemon/server_test.go" :max_lines 1488) (:path "apps/flutter/lib/main.dart" :max_lines 1209)
-                              (:path "crates/mhj-storage/src/lib.rs" :max_lines 1143) (:path "cmd/mhj/main.go" :max_lines 149)
-                              (:path "lisp/ssot/codegen.lisp" :max_lines 1062) (:path "apps/flutter/lib/daemon_client.dart" :max_lines 1018)
+                              (:path "crates/mhj-storage/src/lib.rs" :max_lines 1143) (:path "lisp/ssot/codegen.lisp" :max_lines 1062)
+                              (:path "apps/flutter/lib/daemon_client.dart" :max_lines 1018)
                               (:path "apps/flutter/test/daemon_client_test.dart" :max_lines 913) (:path "apps/flutter/lib/snapshot.dart" :max_lines 809)
                               (:path "internal/knowledge/index.go" :max_lines 763) (:path "internal/linear/issues_test.go" :max_lines 707)
                               (:path "internal/daemon/server.go" :max_lines 609) (:path "crates/mhj-finance/src/lib.rs" :max_lines 584)
