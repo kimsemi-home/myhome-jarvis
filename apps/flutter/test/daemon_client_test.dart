@@ -346,6 +346,22 @@ void main() {
             ],
           });
           return;
+        case '/confidence/status':
+          _writeJson(request, {
+            'policy_path': 'generated/confidence.generated.json',
+            'assessor_key': 'confidence_assessor',
+            'level_cap': 'medium',
+            'blocked': false,
+            'self_report_allowed': false,
+            'evidence_link_count': 2,
+            'dangling_evidence_ref_count': 0,
+            'open_learning_count': 1,
+            'quality_recorded': true,
+            'quality_ok': true,
+            'public_safety_ok': true,
+            'active_rule': 'open_learning_debt',
+          });
+          return;
         case '/metrics':
           _writeJson(request, {
             'bind_host': '127.0.0.1',
@@ -530,6 +546,12 @@ void main() {
           .value,
       '2 links',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Confidence')
+          .value,
+      'Medium',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
@@ -691,6 +713,7 @@ void main() {
       agentCluster: const <String, Object?>{},
       learning: const <String, Object?>{},
       evidence: const <String, Object?>{},
+      confidence: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,

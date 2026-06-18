@@ -19,7 +19,7 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if report.ContextCount != 9 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 16 {
+	if report.ConceptCount != 17 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
@@ -127,6 +127,22 @@ func TestSearchEvidenceGraphReturnsTraceabilityEvidence(t *testing.T) {
 	}
 	if !containsString(report.MustRead, "docs/evidence-graph.md") {
 		t.Fatalf("must read missing docs/evidence-graph.md: %#v", report.MustRead)
+	}
+}
+
+func TestSearchConfidenceAssessorReturnsGateEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "confidence assessor")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "ConfidenceAssessor") {
+		t.Fatalf("expected ConfidenceAssessor concept, got %#v", report.Concepts)
+	}
+	if !containsString(report.MustRead, "generated/confidence.generated.json") {
+		t.Fatalf("must read missing confidence artifact: %#v", report.MustRead)
+	}
+	if !containsString(report.MustRead, "docs/confidence-assessor.md") {
+		t.Fatalf("must read missing docs/confidence-assessor.md: %#v", report.MustRead)
 	}
 }
 

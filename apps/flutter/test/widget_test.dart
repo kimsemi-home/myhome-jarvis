@@ -22,6 +22,8 @@ void main() {
     expect(find.text('0 observed'), findsOneWidget);
     expect(find.text('Evidence Graph'), findsOneWidget);
     expect(find.text('0 nodes'), findsOneWidget);
+    expect(find.text('Confidence'), findsOneWidget);
+    expect(find.text('Local'), findsOneWidget);
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 

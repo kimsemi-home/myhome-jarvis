@@ -20,6 +20,7 @@ Current SSOT boundaries are intentionally separated by domain:
 - `learning`: private observation ledger policy for loop gaps and evidence
   debt.
 - `evidence`: private Evidence Graph source, node, edge, and redaction policy.
+- `confidence`: external confidence cap policy over local evidence signals.
 
 The planner SSOT emits `generated/planner.generated.json`. Go reads that
 artifact for `mhj planner status` and daemon `GET /planner/status`; Flutter
@@ -75,6 +76,13 @@ Flutter consumes the daemon status as a read-only Evidence Graph metric. The
 generated policy keeps graph inputs under `data/private`, allows only
 repo-relative evidence refs, and exposes public status as source, node, edge,
 dangling-ref, and timestamp counts without raw evidence contents.
+
+The Confidence Assessor SSOT emits `generated/confidence.generated.json`. Go
+reads that artifact for `mhj confidence status` and daemon
+`GET /confidence/status`; Flutter consumes the daemon status as a read-only
+Confidence metric. The generated policy keeps confidence as an externally
+computed cap, forbids agent self-reporting, and exposes only redacted counts,
+booleans, active rule, and the current cap.
 
 Use `mhj codegen verify` before committing SSOT or generated artifact changes.
 It snapshots the current `generated` tree, regenerates artifacts from Lisp, and

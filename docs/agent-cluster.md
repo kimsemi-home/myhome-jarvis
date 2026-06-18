@@ -67,6 +67,11 @@ learning observations to referenced evidence artifacts and exposes only redacted
 node, edge, source, dangling-ref, and timestamp counts through
 `mhj evidence status` and daemon `GET /evidence/status`.
 
+The Confidence Assessor is the first executable confidence gate. It reads the
+redacted Evidence Graph, quality evidence, public-safety status, and open
+learning debt, then returns a confidence cap. Agent self-reported confidence is
+not accepted.
+
 ## Validation
 
 Use these checks after changing the policy:
@@ -74,6 +79,7 @@ Use these checks after changing the policy:
 ```sh
 go run ./cmd/mhj agent-cluster status
 go run ./cmd/mhj evidence status
+go run ./cmd/mhj confidence status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
 go test ./internal/agentcluster ./internal/daemon ./cmd/mhj

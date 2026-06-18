@@ -481,3 +481,10 @@
   - Linear: KIM-20
   - Acceptance: Common Lisp SSOT owns a private Evidence Graph policy with allowed private sources, node kinds, edge kinds, evidence ref prefixes, and public redaction fields; codegen emits `generated/evidence.generated.json`; `mhj evidence status`, daemon `GET /evidence/status`, and Flutter Status expose only source keys, counts, node kinds, edge kinds, dangling-ref counts, and timestamps without raw observation summaries, next actions, evidence ref strings, tokens, credentials, local absolute paths, prompts, transcripts, account IDs, card numbers, or private evidence contents.
   - Validation: `go test ./internal/evidence ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj evidence status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P68
+
+- [x] Add external Confidence Assessor status.
+  - Linear: KIM-21
+  - Acceptance: Common Lisp SSOT owns an external confidence-cap policy that forbids agent self-reporting, treats confidence as a cap, reads Evidence Graph, Learning Ledger, quality gate, and public-safety signals, and lowers or blocks the cap for missing evidence links, dangling evidence refs, open learning debt, missing/failing quality, or public-safety findings; codegen emits `generated/confidence.generated.json`; `mhj confidence status`, daemon `GET /confidence/status`, and Flutter Status expose only redacted counts, booleans, active rule, and confidence cap without raw evidence, summaries, next actions, evidence refs, tokens, credentials, local absolute paths, prompts, transcripts, account IDs, card numbers, or private evidence contents.
+  - Validation: `go test ./internal/confidence ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj confidence status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

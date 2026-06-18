@@ -20,6 +20,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/audit"
 	"github.com/kimsemi-home/myhome-jarvis/internal/auth"
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
+	"github.com/kimsemi-home/myhome-jarvis/internal/confidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/connectors"
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidence"
@@ -129,6 +130,10 @@ func run(args []string) error {
 		if len(args) == 2 && args[1] == "status" {
 			return evidenceStatus(root)
 		}
+	case "confidence":
+		if len(args) == 2 && args[1] == "status" {
+			return confidenceStatus(root)
+		}
 	case "harness":
 		return runHarness(root, args[1:])
 	case "toolchain":
@@ -226,7 +231,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|evidence status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|evidence status|confidence status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -407,6 +412,14 @@ func qualityStatus(root string) error {
 
 func evidenceStatus(root string) error {
 	status, err := evidence.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
+func confidenceStatus(root string) error {
+	status, err := confidence.StatusForRoot(root)
 	if err != nil {
 		return err
 	}
@@ -777,6 +790,7 @@ func validateCIWorkflowContract(root string) error {
 		"'generated/agent_cluster.generated.json'",
 		"'generated/learning.generated.json'",
 		"'generated/evidence.generated.json'",
+		"'generated/confidence.generated.json'",
 		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",
 	}
 	for _, token := range required {

@@ -22,6 +22,7 @@
    #:*agent-cluster-policy*
    #:*learning-policy*
    #:*evidence-graph-policy*
+   #:*confidence-policy*
    #:*linear-policy*
    #:*planner-policy*
    #:validate-ssot

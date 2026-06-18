@@ -109,6 +109,16 @@
                           "internal/evidence/status.go"
                           "docs/evidence-graph.md")
      :related_concepts #("LearningLedger" "AgentClusterPolicy" "ClosedLoopPlanner" "SecurityPolicy"))
+    (:canonical_name "ConfidenceAssessor"
+     :bounded_context "AgentCluster"
+     :ddd_kind "Policy"
+     :description "An external evidence-based assessor that returns a confidence cap instead of accepting agent self-reported confidence."
+     :allowed_aliases #("confidence assessor" "confidence cap" "external confidence" "confidence gate")
+     :owner "internal/confidence"
+     :generated_targets #("generated/confidence.generated.json"
+                          "internal/confidence/status.go"
+                          "docs/confidence-assessor.md")
+     :related_concepts #("EvidenceGraph" "LearningLedger" "AgentClusterPolicy" "SecurityPolicy"))
     (:canonical_name "StorageLake"
      :bounded_context "StorageLake"
      :ddd_kind "Aggregate"
@@ -240,6 +250,7 @@
     (:name "agent_cluster" :path "generated/agent_cluster.generated.json" :owner "AgentCluster")
     (:name "learning" :path "generated/learning.generated.json" :owner "AgentCluster")
     (:name "evidence" :path "generated/evidence.generated.json" :owner "AgentCluster")
+    (:name "confidence" :path "generated/confidence.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")
     (:name "household" :path "generated/household.generated.json" :owner "HouseholdFinance")
     (:name "recommendations" :path "generated/recommendations.generated.json" :owner "CommerceIntelligence")

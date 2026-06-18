@@ -34,6 +34,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final agentCluster = await _getObject(client, '/agent-cluster/status');
       final learning = await _getObject(client, '/learning/status');
       final evidence = await _getObject(client, '/evidence/status');
+      final confidence = await _getObject(client, '/confidence/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -52,6 +53,7 @@ class DaemonSnapshotClient implements JarvisClient {
         agentCluster: agentCluster,
         learning: learning,
         evidence: evidence,
+        confidence: confidence,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -162,6 +164,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> agentCluster,
   required Map<String, Object?> learning,
   required Map<String, Object?> evidence,
+  required Map<String, Object?> confidence,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -212,6 +215,8 @@ JarvisSnapshot buildSnapshot({
   final evidenceNodes = _int(evidence['node_count']) ?? 0;
   final danglingEvidenceRefs =
       _int(evidence['dangling_evidence_ref_count']) ?? 0;
+  final confidenceCap = _string(confidence['level_cap']) ?? 'unknown';
+  final confidenceBlocked = _bool(confidence['blocked']) ?? false;
 
   return JarvisSnapshot(
     metrics: [
@@ -337,6 +342,11 @@ JarvisSnapshot buildSnapshot({
                   ? '$evidenceNodes nodes'
                   : '$evidenceEdges links'),
         icon: Icons.device_hub_outlined,
+      ),
+      SystemMetric(
+        label: 'Confidence',
+        value: confidenceBlocked ? 'Blocked' : _title(confidenceCap),
+        icon: Icons.rule_folder_outlined,
       ),
       SystemMetric(
         label: 'Repo',

@@ -26,7 +26,8 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /linear/status`, `POST /linear/sync`, `GET /repo/status`,
 `GET /security/status`, `GET /loop/status`, `GET /domain/summary`,
 `GET /connectors/status`, `GET /agent-cluster/status`,
-`GET /learning/status`, `GET /evidence/status`, `GET /household/summary`,
+`GET /learning/status`, `GET /evidence/status`,
+`GET /confidence/status`, `GET /household/summary`,
 `GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`,
 `GET /quality/status`, and `GET /planner/status`.
@@ -175,6 +176,15 @@ timestamps can leave the private boundary; raw evidence refs, summaries, next
 actions, tokens, credentials, local absolute paths, and private evidence
 contents cannot.
 
+The first Confidence Assessor surface makes confidence an external cap instead
+of an agent self-report. Common Lisp SSOT owns
+`generated/confidence.generated.json`, Go exposes `mhj confidence status` and
+daemon `GET /confidence/status`, and Flutter shows a redacted Confidence
+metric. Public-safety findings or failing quality evidence block confidence;
+missing evidence links and dangling refs cap confidence at low; open learning
+debt or missing quality evidence cap confidence at medium. The assessor exposes
+only counts, booleans, active rule, and the cap.
+
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
 client with status, command, finance, purchases, Linear, storage, connector
 readiness, Agent Cluster, household, and optimization tabs.
@@ -192,5 +202,6 @@ auth configured/missing state without token contents, whether the repository is
 clean or dirty, aggregate public-safety status without raw findings, whether
 the recorded daemon supervisor state is reachable, and how many command audit
 quality gate, open learning observations, and Evidence Graph links are
-recorded.
+recorded. It also shows the external Confidence cap instead of any agent
+self-reported certainty.
 Platform runner files are left out until device packaging is required.

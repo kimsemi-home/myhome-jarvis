@@ -343,6 +343,11 @@ class JarvisSnapshot {
         value: '0 nodes',
         icon: Icons.device_hub_outlined,
       ),
+      SystemMetric(
+        label: 'Confidence',
+        value: 'Local',
+        icon: Icons.rule_folder_outlined,
+      ),
     ],
     commands: [
       HomeCommand(
@@ -687,6 +692,11 @@ class JarvisSnapshot {
           label: 'Evidence Graph',
           value: 'Local',
           icon: Icons.device_hub_outlined,
+        ),
+        SystemMetric(
+          label: 'Confidence',
+          value: 'Local',
+          icon: Icons.rule_folder_outlined,
         ),
       ],
       commands: sample.commands,

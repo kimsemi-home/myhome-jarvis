@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 10:09 KST
+
+- Linear issue: KIM-21 created and moved to In Progress.
+- Mode: next-vision foundation, external confidence cap status only.
+- Task: Add a Confidence Assessor so Agent Cluster confidence is computed from evidence instead of self-reported by an agent.
+- Files touched: `lisp/ssot/confidence.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `generated/confidence.generated.json`, `generated/concepts.generated.json`, `internal/confidence/status.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Confidence Assessor docs.
+- Changes: added SSOT-owned confidence policy; added external confidence cap calculation over Evidence Graph, Learning Ledger, quality evidence, and public-safety status; exposed `mhj confidence status` and daemon `GET /confidence/status`; added Flutter Confidence metric; included generated confidence metadata in Flutter CI cache keys and CI contract validation.
+- Validation after: focused Go tests for confidence, daemon, CLI, and KnowledgeIndex passed after catching and fixing a public rule-key leak that exposed the forbidden `evidence_refs` marker through `active_rule`; `mhj confidence status` returned `level_cap=high`, `self_report_allowed=false`, `evidence_link_count=3`, zero dangling refs, zero open learning debt, passing quality, and public safety OK; `mhj codegen verify` passed; `mhj ddd verify` passed with 9 contexts and 17 concepts; `mhj knowledge search "confidence assessor"` returned the ConfidenceAssessor concept and generated/docs targets; Flutter focused tests passed; full `mhj quality` with Go 1.26.2 passed; daemon `GET /confidence/status` smoke passed; public safety current/history checks, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-21 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-21.
+
 ## 2026-06-18 09:53 KST
 
 - Linear issue: KIM-20 created and moved to In Progress.

@@ -16,6 +16,7 @@
                (:file "agent-cluster")
                (:file "learning")
                (:file "evidence")
+               (:file "confidence")
                (:file "linear")
                (:file "planner")
                (:file "codegen")))
