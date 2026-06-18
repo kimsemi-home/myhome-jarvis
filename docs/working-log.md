@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 05:04 KST
+
+- Linear issue: KIM-66 created and moved to In Progress.
+- Mode: code-shape burn-down, audit command intent runtime refactor.
+- Task: Remove `internal/audit/command_intent.go` from code-shape legacy debt by splitting command intent event construction, models, append-only JSONL writing, status reading, path handling, and normalization/error categorization into focused source files.
+- Files touched: `internal/audit/command_intent.go`, `internal/audit/model.go`, `internal/audit/append.go`, `internal/audit/status.go`, `internal/audit/path.go`, `internal/audit/normalize.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept command intent event construction in the original file; moved command intent data models, private append writer, redacted status reader, path helper, and normalization/error classification helpers into focused files; removed `internal/audit/command_intent.go` from the generated code-shape legacy debt list; kept changed audit source files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Audit and Code Shape, `mhj audit status`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 52 legacy debt files.
+- External-write note: created Linear issue KIM-66 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 04:56 KST
 
 - Linear issue: KIM-65 created and moved to In Progress.

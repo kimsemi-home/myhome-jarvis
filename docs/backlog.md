@@ -796,3 +796,10 @@
   - Linear: KIM-65
   - Acceptance: `internal/incidents/status_test.go` keeps missing-ledger and stale-quarantine status coverage under the normal 75-line budget by moving malformed/debt, redaction, policy rejection, and fixture helpers into focused test files; incident status counts, incident debt, redaction checks, and policy rejection behavior remain unchanged; `internal/incidents/status_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/incidents ./internal/codeshape`; `go run ./cmd/mhj incidents status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P113
+
+- [x] Ratchet audit command intent runtime under 75 lines.
+  - Linear: KIM-66
+  - Acceptance: `internal/audit/command_intent.go` keeps command intent event construction under the normal 75-line budget by moving command intent models, append-only JSONL writing, status reading, path handling, and normalization/error categorization into focused files; CLI/daemon audit event construction, private append behavior, redacted status reading, and error category behavior remain unchanged; `internal/audit/command_intent.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/audit ./internal/codeshape`; `go run ./cmd/mhj audit status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
