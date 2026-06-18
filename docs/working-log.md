@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 03:39 KST
+
+- Linear issue: KIM-57 created and moved to In Progress.
+- Mode: code-shape burn-down, Evidence Graph status test refactor.
+- Task: Remove `internal/evidence/status_test.go` from code-shape legacy debt by splitting graph-count assertions, dangling-ref redaction, raw-public-evidence policy rejection, and policy fixture helpers into focused test files.
+- Files touched: `internal/evidence/status_test.go`, `internal/evidence/status_redaction_test.go`, `internal/evidence/policy_test.go`, `internal/evidence/test_helpers_test.go`, `internal/evidence/policy_fixture_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved Evidence Graph redaction, policy rejection, and fixture helper coverage out of the graph-count test file; removed `internal/evidence/status_test.go` from the generated code-shape legacy debt list; kept changed evidence test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Evidence and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 61 legacy debt files.
+- External-write note: created Linear issue KIM-57 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 03:31 KST
 
 - Linear issue: KIM-56 created and moved to In Progress.
