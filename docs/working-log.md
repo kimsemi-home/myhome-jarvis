@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 07:21 KST
+
+- Linear issue: KIM-80 created and moved to In Progress.
+- Mode: code-shape burn-down, control-plane status runtime refactor.
+- Task: Remove `internal/controlplane/status.go` from code-shape legacy debt by splitting policy models, manifest models, status models, generated policy loading, append-only private ledger writing, status ledger scanning, manifest normalization, manifest ID generation, policy validation, manifest validation, ref validation, sensitive marker rejection, timestamp handling, and normalization into focused files.
+- Files touched: `internal/controlplane/status.go`, `internal/controlplane/model_policy.go`, `internal/controlplane/model_manifest.go`, `internal/controlplane/model_status.go`, `internal/controlplane/policy.go`, `internal/controlplane/append.go`, `internal/controlplane/status_scan.go`, `internal/controlplane/status_parse.go`, `internal/controlplane/manifest_normalize.go`, `internal/controlplane/manifest_id.go`, `internal/controlplane/validate_policy.go`, `internal/controlplane/validate_policy_lists.go`, `internal/controlplane/validate_policy_summary.go`, `internal/controlplane/validate_manifest.go`, `internal/controlplane/validate_manifest_roles.go`, `internal/controlplane/validate_manifest_refs.go`, `internal/controlplane/refs.go`, `internal/controlplane/sensitive.go`, `internal/controlplane/forbidden.go`, `internal/controlplane/errors.go`, `internal/controlplane/normalize.go`, `internal/controlplane/normalize_refs.go`, `internal/controlplane/time.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `AppendManifest`, `StatusForRoot`, and `ReadPolicy` as the control-plane public API; moved generated JSON loading, private append-only writes, manifest ledger status scanning, manifest normalization and IDs, policy/list validation, manifest/ref validation, forbidden marker rejection, timestamp comparison, and helpers into focused files; removed `internal/controlplane/status.go` from the generated code-shape legacy debt list; kept changed control-plane runtime files below 75 lines.
+- Validation after: focused Control Plane and Code Shape tests, `mhj control-plane status`, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 39 legacy debt files.
+- External-write note: created Linear issue KIM-80 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 07:12 KST
 
 - Linear issue: KIM-79 created and moved to In Progress.
