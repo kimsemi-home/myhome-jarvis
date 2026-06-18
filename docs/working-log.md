@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 06:52 KST
+
+- Linear issue: KIM-77 created and moved to In Progress.
+- Mode: code-shape burn-down, confidence status runtime refactor.
+- Task: Remove `internal/confidence/status.go` from code-shape legacy debt by splitting confidence models, generated policy loading, assessment, rule evaluation, level ranking, normalization, and validation into focused files.
+- Files touched: `internal/confidence/status.go`, `internal/confidence/model.go`, `internal/confidence/policy.go`, `internal/confidence/assess.go`, `internal/confidence/rules.go`, `internal/confidence/levels.go`, `internal/confidence/normalize.go`, `internal/confidence/validate.go`, `internal/confidence/validate_rules.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `StatusForRoot` as the confidence orchestration surface; moved public models, generated policy loading, evidence-based status construction, cap rule evaluation, level ordering, list/token normalization, policy validation, cap-rule validation, and public surface validation into focused files; removed `internal/confidence/status.go` from the generated code-shape legacy debt list; kept changed confidence Go files below 75 lines.
+- Validation after: focused Confidence and Code Shape tests, `mhj confidence status`, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 42 legacy debt files.
+- External-write note: created Linear issue KIM-77 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 06:44 KST
 
 - Linear issue: KIM-76 created and moved to In Progress.

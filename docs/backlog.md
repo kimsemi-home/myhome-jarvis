@@ -873,3 +873,10 @@
   - Linear: KIM-76
   - Acceptance: `internal/planner/status.go` keeps the public planner status API under the normal 75-line budget by moving planner models, generated policy loading, base status construction, Linear write evidence, KnowledgeIndex evidence, task summarization, policy validation, task graph validation, and private path validation into focused files; generated closed-loop status, external-write gate separation, next-task selection, and validation behavior remain unchanged; `internal/planner/status.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/planner ./internal/codeshape`; `go run ./cmd/mhj planner status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P124
+
+- [x] Ratchet confidence status runtime under 75 lines.
+  - Linear: KIM-77
+  - Acceptance: `internal/confidence/status.go` keeps the public confidence status API under the normal 75-line budget by moving confidence models, generated policy loading, confidence assessment, cap rule evaluation, cap level ranking, normalization, policy validation, and policy surface validation into focused files; evidence-based confidence cap behavior, self-reporting rejection, public redaction, and command validation remain unchanged; `internal/confidence/status.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/confidence ./internal/codeshape`; `go run ./cmd/mhj confidence status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
