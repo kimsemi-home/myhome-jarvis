@@ -544,3 +544,10 @@
   - Linear: KIM-29
   - Acceptance: `cmd/mhj/main.go` sheds codegen, CI workflow contract, and quality orchestration helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 1093-line debt value; `mhj quality`, `mhj ci verify`, and `mhj codegen verify` behavior remains unchanged.
   - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/knowledge`; `go run ./cmd/mhj ci verify`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P77
+
+- [x] Ratchet CLI toolchain verify debt.
+  - Linear: KIM-30
+  - Acceptance: `cmd/mhj/main.go` sheds toolchain pin parsing and comparison helpers into small package-local files that each stay within 75 lines; generated Code Shape Budget baseline for `cmd/mhj/main.go` drops below the prior 893-line debt value; `mhj toolchain verify`, `mhj ci verify`, `mhj codegen verify`, and `mhj quality` behavior remains unchanged.
+  - Validation: `go test ./cmd/mhj ./internal/codeshape ./internal/knowledge`; `go run ./cmd/mhj toolchain verify`; `go run ./cmd/mhj ci verify`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

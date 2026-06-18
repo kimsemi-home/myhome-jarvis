@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 23:19 KST
+
+- Linear issue: KIM-30 created and moved to In Progress.
+- Mode: code-shape burn-down, CLI toolchain refactor.
+- Task: Reduce `cmd/mhj/main.go` legacy debt again by extracting toolchain pin verification while preserving CLI behavior and public safety.
+- Files touched: `cmd/mhj/main.go`, `cmd/mhj/toolchain_verify.go`, `cmd/mhj/toolchain_files.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: extracted `mhj toolchain verify` pin parsing, generated project version reading, workflow env parsing, and equality checks into focused package-local files; ratcheted `cmd/mhj/main.go` generated code-shape baseline from 893 to 791 lines; kept new files at 60 and 52 lines.
+- Validation after: focused Go tests for CLI, Code Shape, and KnowledgeIndex passed; `mhj toolchain verify`, `mhj ci verify`, `mhj codegen verify`, and `mhj code-shape status` passed with zero budget regressions and `cmd/mhj/main.go` at the 791-line baseline; full `mhj quality` with Go 1.26.2 passed; new toolchain files are 60 and 52 lines; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-30 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, and update Linear issue KIM-30.
+
 ## 2026-06-18 23:10 KST
 
 - Linear issue: KIM-29 created and moved to In Progress.

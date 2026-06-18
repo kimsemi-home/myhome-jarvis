@@ -11,7 +11,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"time"
 
@@ -632,13 +631,6 @@ func (report *qualityReport) addHarness(name string, harness commands.HarnessRep
 	report.Steps = append(report.Steps, qualityStep{Name: name, Status: "fail"})
 }
 
-func runToolchainVerify(root string) error {
-	if err := validateToolchainPins(root); err != nil {
-		return err
-	}
-	return writeJSON(map[string]any{"ok": true})
-}
-
 func runDDDVerify(root string) error {
 	report, err := knowledge.Verify(root)
 	if err != nil {
@@ -790,100 +782,6 @@ func envWithDefault(name string, fallback string) string {
 		return fallback
 	}
 	return value
-}
-
-func validateToolchainPins(root string) error {
-	goVersion, err := readTrimmedFile(root, ".go-version")
-	if err != nil {
-		return err
-	}
-	goModVersion, err := parseFirstMatchFile(root, "go.mod", `(?m)^go\s+([0-9]+\.[0-9]+\.[0-9]+)\s*$`)
-	if err := requireEqual("go.mod go directive", goVersion, goModVersion, err); err != nil {
-		return err
-	}
-	generatedGo, err := generatedProjectGoVersion(root)
-	if err != nil {
-		return err
-	}
-	if err := requireEqualValue("generated project go_version", goVersion, generatedGo); err != nil {
-		return err
-	}
-	workflowGoVersion, err := parseWorkflowEnv(root, "GO_VERSION")
-	if err := requireEqual("workflow GO_VERSION", goVersion, workflowGoVersion, err); err != nil {
-		return err
-	}
-	rustVersion, err := parseFirstMatchFile(root, "rust-toolchain.toml", `(?m)^channel\s*=\s*"([^"]+)"\s*$`)
-	if err != nil {
-		return err
-	}
-	workflowRustVersion, err := parseWorkflowEnv(root, "RUST_TOOLCHAIN")
-	if err := requireEqual("workflow RUST_TOOLCHAIN", rustVersion, workflowRustVersion, err); err != nil {
-		return err
-	}
-	return nil
-}
-
-func readTrimmedFile(root string, rel string) (string, error) {
-	body, err := os.ReadFile(filepath.Join(root, filepath.FromSlash(rel)))
-	if err != nil {
-		return "", err
-	}
-	value := strings.TrimSpace(string(body))
-	if value == "" {
-		return "", fmt.Errorf("%s is empty", rel)
-	}
-	return value, nil
-}
-
-func parseFirstMatchFile(root string, rel string, pattern string) (string, error) {
-	body, err := os.ReadFile(filepath.Join(root, filepath.FromSlash(rel)))
-	if err != nil {
-		return "", err
-	}
-	re := regexp.MustCompile(pattern)
-	matches := re.FindStringSubmatch(string(body))
-	if len(matches) < 2 {
-		return "", fmt.Errorf("%s does not match expected toolchain pattern", rel)
-	}
-	return strings.TrimSpace(matches[1]), nil
-}
-
-func parseWorkflowEnv(root string, name string) (string, error) {
-	pattern := fmt.Sprintf(`(?m)^\s+%s:\s*"([^"]+)"\s*$`, regexp.QuoteMeta(name))
-	return parseFirstMatchFile(root, ".github/workflows/quality.yml", pattern)
-}
-
-func generatedProjectGoVersion(root string) (string, error) {
-	body, err := os.ReadFile(filepath.Join(root, "generated", "commands.generated.json"))
-	if err != nil {
-		return "", err
-	}
-	var catalog struct {
-		Project struct {
-			GoVersion string `json:"go_version"`
-		} `json:"project"`
-	}
-	if err := json.Unmarshal(body, &catalog); err != nil {
-		return "", err
-	}
-	if strings.TrimSpace(catalog.Project.GoVersion) == "" {
-		return "", errors.New("generated project go_version is empty")
-	}
-	return strings.TrimSpace(catalog.Project.GoVersion), nil
-}
-
-func requireEqual(label string, expected string, actual string, err error) error {
-	if err != nil {
-		return err
-	}
-	return requireEqualValue(label, expected, actual)
-}
-
-func requireEqualValue(label string, expected string, actual string) error {
-	if actual != expected {
-		return fmt.Errorf("%s = %q, expected %q", label, actual, expected)
-	}
-	return nil
 }
 
 func writeJSON(value any) error {
