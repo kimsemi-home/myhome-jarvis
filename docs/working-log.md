@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 04:56 KST
+
+- Linear issue: KIM-65 created and moved to In Progress.
+- Mode: code-shape burn-down, Incident Lifecycle status test refactor.
+- Task: Remove `internal/incidents/status_test.go` from code-shape legacy debt by splitting missing-ledger status, stale quarantine counts, malformed/debt counts, public JSON redaction, raw-public policy rejection, and fixture helpers into focused test files.
+- Files touched: `internal/incidents/status_test.go`, `internal/incidents/debt_test.go`, `internal/incidents/redaction_test.go`, `internal/incidents/policy_test.go`, `internal/incidents/fixture_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved incident malformed/debt coverage, public redaction assertions, policy rejection, and fixture helpers out of the single oversized status test file; removed `internal/incidents/status_test.go` from the generated code-shape legacy debt list; kept changed incident test files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Incidents and Code Shape, `mhj incidents status`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 53 legacy debt files.
+- External-write note: created Linear issue KIM-65 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 04:45 KST
 
 - Linear issue: KIM-64 created and moved to In Progress.

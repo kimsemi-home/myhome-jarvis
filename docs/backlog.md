@@ -789,3 +789,10 @@
   - Linear: KIM-64
   - Acceptance: `lisp/ssot/agent-cluster.lisp` keeps Agent Cluster policy values unchanged while compacting SSOT vector and role formatting under the normal 75-line budget; generated `agent_cluster` policy remains semantically unchanged; `lisp/ssot/agent-cluster.lisp` is removed from Code Shape legacy debt.
   - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/agentcluster ./internal/codeshape`; `go run ./cmd/mhj agent-cluster status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P112
+
+- [x] Ratchet incident status test debt under 75 lines.
+  - Linear: KIM-65
+  - Acceptance: `internal/incidents/status_test.go` keeps missing-ledger and stale-quarantine status coverage under the normal 75-line budget by moving malformed/debt, redaction, policy rejection, and fixture helpers into focused test files; incident status counts, incident debt, redaction checks, and policy rejection behavior remain unchanged; `internal/incidents/status_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/incidents ./internal/codeshape`; `go run ./cmd/mhj incidents status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
