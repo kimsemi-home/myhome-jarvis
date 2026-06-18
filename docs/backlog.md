@@ -705,3 +705,10 @@
   - Linear: KIM-52
   - Acceptance: `crates/mhj-core/src/benchmark.rs` keeps benchmark smoke behavior unchanged while moving inline smoke assertions into a focused integration test; the benchmark source file and new test file stay under the normal 75-line budget; `crates/mhj-core/src/benchmark.rs` is removed from Code Shape legacy debt.
   - Validation: `cargo test -p mhj-core benchmark_smoke`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P100
+
+- [x] Ratchet daemon request event debt under 75 lines.
+  - Linear: KIM-53
+  - Acceptance: `internal/daemon/events.go` keeps request event construction and redacted error labels under the normal 75-line budget by moving bounded event log storage and HTTP status recording into focused files; `/events` and `/metrics` behavior remains unchanged; `internal/daemon/events.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/daemon ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

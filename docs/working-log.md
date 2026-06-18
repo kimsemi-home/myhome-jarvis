@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 03:05 KST
+
+- Linear issue: KIM-53 created and moved to In Progress.
+- Mode: code-shape burn-down, daemon request event refactor.
+- Task: Remove `internal/daemon/events.go` from code-shape legacy debt by splitting bounded event log storage and HTTP status recording into focused files while preserving `/events`, `/metrics`, and request error-label behavior.
+- Files touched: `internal/daemon/events.go`, `internal/daemon/event_log.go`, `internal/daemon/status_recorder.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved event log storage and response status recorder code out of request event construction; removed `internal/daemon/events.go` from the generated code-shape legacy debt list; kept changed daemon files below 75 lines.
+- Validation after: codegen verify, focused Go tests for Daemon and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 65 legacy debt files.
+- External-write note: created Linear issue KIM-53 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 02:54 KST
 
 - Linear issue: KIM-52 created and moved to In Progress.

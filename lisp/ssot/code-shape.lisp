@@ -44,7 +44,7 @@
                               (:path "internal/qualitylog/runs.go" :max_lines 138) (:path "internal/learning/ledger_test.go" :max_lines 130)
                               (:path "internal/commands/executor.go" :max_lines 129) (:path "internal/evidence/status_test.go" :max_lines 126)
                               (:path "internal/orchestrator/checkpoint_test.go" :max_lines 125) (:path "internal/linear/evidence.go" :max_lines 114)
-                              (:path "internal/supervisor/status_test.go" :max_lines 104) (:path "internal/daemon/events.go" :max_lines 102))
+                              (:path "internal/supervisor/status_test.go" :max_lines 104))
         :public_summary_fields #("policy_path" "max_file_lines" "file_count"
                                  "over_budget_count" "legacy_debt_count"
                                  "budget_regression_count" "max_observed_path"
