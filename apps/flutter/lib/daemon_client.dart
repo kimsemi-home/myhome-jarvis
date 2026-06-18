@@ -32,6 +32,7 @@ class DaemonSnapshotClient implements JarvisClient {
       final domain = await _getObject(client, '/domain/summary');
       final connectors = await _getObject(client, '/connectors/status');
       final agentCluster = await _getObject(client, '/agent-cluster/status');
+      final learning = await _getObject(client, '/learning/status');
       final metrics = await _getObject(client, '/metrics');
       final events = await _getObject(client, '/events');
       final supervisor = await _getObject(client, '/supervisor/status');
@@ -48,6 +49,7 @@ class DaemonSnapshotClient implements JarvisClient {
         domain: domain,
         connectors: connectors,
         agentCluster: agentCluster,
+        learning: learning,
         metrics: metrics,
         events: events,
         supervisor: supervisor,
@@ -156,6 +158,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> domain,
   required Map<String, Object?> connectors,
   required Map<String, Object?> agentCluster,
+  required Map<String, Object?> learning,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -200,6 +203,8 @@ JarvisSnapshot buildSnapshot({
   final agentRoleCount = _int(agentCluster['role_count']) ?? 0;
   final authorityGateRequired =
       _bool(agentCluster['authority_gate_required']) ?? false;
+  final learningOpenCount = _int(learning['open_count']) ?? 0;
+  final learningCount = _int(learning['count']) ?? 0;
 
   return JarvisSnapshot(
     metrics: [
@@ -309,6 +314,13 @@ JarvisSnapshot buildSnapshot({
             ? (agentRoleCount == 0 ? 'Governed' : '$agentRoleCount roles gated')
             : 'Ungated',
         icon: Icons.account_tree_outlined,
+      ),
+      SystemMetric(
+        label: 'Learning',
+        value: learningOpenCount == 0
+            ? '$learningCount observed'
+            : '$learningOpenCount open',
+        icon: Icons.psychology_alt_outlined,
       ),
       SystemMetric(
         label: 'Repo',

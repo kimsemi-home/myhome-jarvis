@@ -57,6 +57,11 @@ conditions, debt classes, and read-only status signals.
 Private operational evidence belongs under `data/private` and is exposed only
 through redacted counts or repo-relative paths.
 
+The Learning Ledger is the first executable follow-through for this policy. It
+records loop gaps and evidence debt under `data/private/learning` and exposes
+only redacted counts through `mhj learning status` and daemon
+`GET /learning/status`.
+
 ## Validation
 
 Use these checks after changing the policy:

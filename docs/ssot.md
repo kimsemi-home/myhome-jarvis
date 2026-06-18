@@ -17,6 +17,8 @@ Current SSOT boundaries are intentionally separated by domain:
 - `security`, `connectors`, `agent-cluster`, `linear`, `planner`:
   public-safety rules, fixture-only connector readiness, evidence-first agent
   cluster policy, Linear workflow rules, and planning metadata.
+- `learning`: private observation ledger policy for loop gaps and evidence
+  debt.
 
 The planner SSOT emits `generated/planner.generated.json`. Go reads that
 artifact for `mhj planner status` and daemon `GET /planner/status`; Flutter
@@ -58,6 +60,13 @@ classes, quarantine triggers, failure conditions, and public-safe status
 signals. It forbids external agent execution, raw transcript storage, private
 data in public evidence, self-approval, and self-reported final confidence in
 this phase.
+
+The Learning Ledger SSOT emits `generated/learning.generated.json`. Go reads
+that artifact for `mhj learning status`, `mhj learning record`, and daemon
+`GET /learning/status`; Flutter consumes the daemon status as a read-only
+Learning metric. The generated policy keeps the journal under `data/private`,
+requires evidence refs, owner, and next action for every observation, and keeps
+public status redacted to counts, kinds, lifecycle stages, and timestamps.
 
 Use `mhj codegen verify` before committing SSOT or generated artifact changes.
 It snapshots the current `generated` tree, regenerates artifacts from Lisp, and

@@ -303,6 +303,22 @@ void main() {
             ],
           });
           return;
+        case '/learning/status':
+          _writeJson(request, {
+            'path': 'data/private/learning/observations.jsonl',
+            'policy_path': 'generated/learning.generated.json',
+            'exists': true,
+            'count': 3,
+            'open_count': 1,
+            'closed_count': 2,
+            'by_kind': {'loop_gap': 1, 'evidence_debt': 2},
+            'by_stage': {'evidence_recorded': 1, 'knowledge_updated': 2},
+            'last_kind': 'loop_gap',
+            'last_stage': 'evidence_recorded',
+            'last_status': 'open',
+            'last_observed_at': '2026-06-18T00:00:00Z',
+          });
+          return;
         case '/metrics':
           _writeJson(request, {
             'bind_host': '127.0.0.1',
@@ -475,6 +491,12 @@ void main() {
           .value,
       '5 roles gated',
     );
+    expect(
+      snapshot.metrics
+          .singleWhere((metric) => metric.label == 'Learning')
+          .value,
+      '1 open',
+    );
     expect(snapshot.metrics.map((metric) => metric.value), contains('Dirty'));
     expect(
       snapshot.commands.map((command) => command.name),
@@ -634,6 +656,7 @@ void main() {
       domain: const <String, Object?>{},
       connectors: const <String, Object?>{},
       agentCluster: const <String, Object?>{},
+      learning: const <String, Object?>{},
       metrics: <String, Object?>{
         'bind_host': '192.168.1.10',
         'dry_run_default': true,

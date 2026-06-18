@@ -23,6 +23,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/connectors"
 	"github.com/kimsemi-home/myhome-jarvis/internal/daemon"
 	"github.com/kimsemi-home/myhome-jarvis/internal/knowledge"
+	"github.com/kimsemi-home/myhome-jarvis/internal/learning"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/orchestrator"
 	"github.com/kimsemi-home/myhome-jarvis/internal/planner"
@@ -121,6 +122,8 @@ func run(args []string) error {
 		if len(args) == 2 && args[1] == "status" {
 			return agentClusterStatus(root)
 		}
+	case "learning":
+		return runLearning(root, args[1:])
 	case "harness":
 		return runHarness(root, args[1:])
 	case "toolchain":
@@ -218,7 +221,7 @@ func run(args []string) error {
 }
 
 func usage() error {
-	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
+	return errors.New("usage: mhj <version|commands|auth status|auth token create|auth token rotate|audit status|ci verify|security check|security history|command|connectors status|agent-cluster status|learning status|learning record|harness home|harness finance|harness commerce|toolchain verify|linear status|linear sync|linear pull|linear next|linear comment|linear transition|linear create-from-backlog|linear replay-offline|daemon|daemon status|ddd verify|knowledge verify|knowledge search|repo status|planner status|loop once|loop status|loop worker|benchmark smoke|quality|quality status|codegen|codegen verify>")
 }
 
 func runAuth(root string, args []string) error {
@@ -582,6 +585,24 @@ func runKnowledge(root string, args []string) error {
 	return errors.New("usage: mhj knowledge <verify|search query>")
 }
 
+func runLearning(root string, args []string) error {
+	if len(args) == 1 && args[0] == "status" {
+		status, err := learning.StatusForRoot(root)
+		if err != nil {
+			return err
+		}
+		return writeJSON(status)
+	}
+	if len(args) == 2 && args[0] == "record" {
+		result, err := learning.Record(root, []byte(args[1]))
+		if err != nil {
+			return err
+		}
+		return writeJSON(result)
+	}
+	return errors.New("usage: mhj learning <status|record json-payload>")
+}
+
 func (report *qualityReport) addCheck(name string, err error) {
 	if err == nil {
 		report.Steps = append(report.Steps, qualityStep{Name: name, Status: "pass"})
@@ -741,6 +762,7 @@ func validateCIWorkflowContract(root string) error {
 		"'generated/commands.generated.json'",
 		"'generated/connectors.generated.json'",
 		"'generated/agent_cluster.generated.json'",
+		"'generated/learning.generated.json'",
 		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",
 	}
 	for _, token := range required {

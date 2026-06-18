@@ -19,7 +19,7 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if report.ContextCount != 9 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 14 {
+	if report.ConceptCount != 15 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
@@ -95,6 +95,22 @@ func TestSearchAgentClusterReturnsPolicyEvidence(t *testing.T) {
 	}
 	if !containsString(report.MustRead, "docs/agent-cluster.md") {
 		t.Fatalf("must read missing docs/agent-cluster.md: %#v", report.MustRead)
+	}
+}
+
+func TestSearchLearningLedgerReturnsObservationEvidence(t *testing.T) {
+	report, err := Search(repoRoot(t), "learning ledger")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasConcept(report.Concepts, "LearningLedger") {
+		t.Fatalf("expected LearningLedger concept, got %#v", report.Concepts)
+	}
+	if !containsString(report.MustRead, "generated/learning.generated.json") {
+		t.Fatalf("must read missing learning artifact: %#v", report.MustRead)
+	}
+	if !containsString(report.MustRead, "docs/learning-ledger.md") {
+		t.Fatalf("must read missing docs/learning-ledger.md: %#v", report.MustRead)
 	}
 }
 

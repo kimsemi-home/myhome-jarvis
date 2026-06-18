@@ -26,7 +26,7 @@ The first Go daemon surface exposes `GET /health`, `GET /version`,
 `GET /linear/status`, `POST /linear/sync`, `GET /repo/status`,
 `GET /security/status`, `GET /loop/status`, `GET /domain/summary`,
 `GET /connectors/status`, `GET /agent-cluster/status`,
-`GET /household/summary`,
+`GET /learning/status`, `GET /household/summary`,
 `GET /recommendations/summary`, `GET /metrics`,
 `GET /events`, `GET /supervisor/status`, `GET /audit/status`,
 `GET /quality/status`, and `GET /planner/status`.
@@ -156,6 +156,15 @@ triggers, and failure conditions. It does not execute external agents, store raw
 transcripts, allow private data in public evidence, allow self-approval, or
 accept self-reported final confidence.
 
+The first Learning Ledger surface turns observation-based self-improvement into
+private evidence. Common Lisp SSOT owns `generated/learning.generated.json`, Go
+records validated observations with `mhj learning record`, and daemon
+`GET /learning/status` exposes only repo-relative path, total/open/closed
+counts, kind counts, lifecycle-stage counts, and last coarse classification.
+Raw observation summaries, next actions, evidence refs, prompts, transcripts,
+tokens, local absolute paths, and private journal contents never leave
+`data/private/learning/observations.jsonl`.
+
 The first Flutter surface lives in `apps/flutter`. It is a Dart-only local
 client with status, command, finance, purchases, Linear, storage, connector
 readiness, Agent Cluster, household, and optimization tabs.
@@ -172,5 +181,5 @@ The Status tab also surfaces local-only or token-gated LAN network mode, LAN
 auth configured/missing state without token contents, whether the repository is
 clean or dirty, aggregate public-safety status without raw findings, whether
 the recorded daemon supervisor state is reachable, and how many command audit
-and quality gate events are recorded.
+quality gate, and open learning observations are recorded.
 Platform runner files are left out until device packaging is required.

@@ -467,3 +467,10 @@
   - Linear: KIM-18
   - Acceptance: Common Lisp SSOT owns an evidence-first Agent Cluster policy with ontology/context rules, separated agent roles, verification sidecars, incident lifecycle, debt classes, quarantine triggers, failure conditions, and read-only status signals; codegen emits `generated/agent_cluster.generated.json`; `mhj agent-cluster status`, daemon `GET /agent-cluster/status`, and Flutter Cluster cards expose no external agent execution, raw transcript storage, private public evidence, self-approval, self-reported final confidence, credentials, tokens, local absolute paths, or raw private data.
   - Validation: `go test ./internal/agentcluster ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj agent-cluster status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P66
+
+- [x] Add local Learning Ledger for loop gaps.
+  - Linear: KIM-19
+  - Acceptance: Common Lisp SSOT owns a private append-only learning ledger policy with allowed observation kinds, lifecycle stages, required evidence fields, allowed evidence refs, and redacted public summary fields; codegen emits `generated/learning.generated.json`; `mhj learning record` writes validated observations only to `data/private/learning/observations.jsonl`; `mhj learning status`, daemon `GET /learning/status`, and Flutter Status expose only repo-relative paths, counts, kinds, lifecycle stages, and timestamps without raw summaries, next actions, evidence contents, tokens, credentials, local absolute paths, prompts, transcripts, account IDs, or card numbers.
+  - Validation: `go test ./internal/learning ./internal/daemon ./cmd/mhj ./internal/knowledge`; `go run ./cmd/mhj learning status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj ddd verify`; Flutter focused tests; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

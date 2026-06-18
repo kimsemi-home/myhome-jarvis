@@ -18,6 +18,7 @@
                   "../ssot/security.lisp"
                   "../ssot/connectors.lisp"
                   "../ssot/agent-cluster.lisp"
+                  "../ssot/learning.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"
                   "../ssot/codegen.lisp"))

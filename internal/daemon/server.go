@@ -21,6 +21,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/commands"
 	"github.com/kimsemi-home/myhome-jarvis/internal/connectors"
 	"github.com/kimsemi-home/myhome-jarvis/internal/domain"
+	"github.com/kimsemi-home/myhome-jarvis/internal/learning"
 	"github.com/kimsemi-home/myhome-jarvis/internal/linear"
 	"github.com/kimsemi-home/myhome-jarvis/internal/planner"
 	"github.com/kimsemi-home/myhome-jarvis/internal/qualitylog"
@@ -163,6 +164,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /domain/summary", server.wrap(server.handleDomainSummary))
 	mux.HandleFunc("GET /connectors/status", server.wrap(server.handleConnectorsStatus))
 	mux.HandleFunc("GET /agent-cluster/status", server.wrap(server.handleAgentClusterStatus))
+	mux.HandleFunc("GET /learning/status", server.wrap(server.handleLearningStatus))
 	mux.HandleFunc("GET /household/summary", server.wrap(server.handleHouseholdSummary))
 	mux.HandleFunc("GET /recommendations/summary", server.wrap(server.handleRecommendationsSummary))
 	mux.HandleFunc("GET /metrics", server.wrap(server.handleMetrics))
@@ -372,6 +374,14 @@ func (server *Server) handleConnectorsStatus(writer http.ResponseWriter, request
 
 func (server *Server) handleAgentClusterStatus(writer http.ResponseWriter, request *http.Request) error {
 	status, err := agentcluster.StatusForRoot(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, status)
+}
+
+func (server *Server) handleLearningStatus(writer http.ResponseWriter, request *http.Request) error {
+	status, err := learning.StatusForRoot(server.config.Root)
 	if err != nil {
 		return err
 	}

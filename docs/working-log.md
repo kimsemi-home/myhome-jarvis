@@ -1,5 +1,16 @@
 # Working Log
 
+## 2026-06-18 09:36 KST
+
+- Linear issue: KIM-19 created and moved to In Progress.
+- Mode: next-vision foundation, local private Learning Ledger only.
+- Task: Add a local observation ledger so loop gaps and evidence debt become tracked self-improvement evidence.
+- Files touched: `lisp/ssot/learning.lisp`, `lisp/ssot/ddd.lisp`, `lisp/ssot/codegen.lisp`, `generated/learning.generated.json`, `generated/concepts.generated.json`, `internal/learning/ledger.go`, `internal/daemon/server.go`, `cmd/mhj/main.go`, `.github/workflows/quality.yml`, `apps/flutter/lib/daemon_client.dart`, `apps/flutter/lib/snapshot.dart`, related tests, and Learning Ledger docs.
+- Changes: added SSOT-owned learning ledger policy; added private append-only observation recording with required evidence refs, owner, and next action; exposed redacted `mhj learning status` and daemon `GET /learning/status`; added Flutter Learning metric; included generated learning metadata in Flutter CI cache keys and CI contract validation.
+- Validation after: `go1.26.2 test ./internal/learning ./internal/daemon ./cmd/mhj ./internal/knowledge` passed; `go1.26.2 run ./cmd/mhj learning record ...` wrote one ignored private closed observation and `go1.26.2 run ./cmd/mhj learning status` exposed only redacted counts/kind/stage/timestamps; daemon `GET /learning/status` passed on localhost; `go1.26.2 run ./cmd/mhj codegen verify` passed; `go1.26.2 run ./cmd/mhj ddd verify` passed with 9 contexts and 15 concepts; Flutter focused tests passed; full `mhj quality` with Go 1.26.2 passed; public safety current/history checks, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-19 with the user's approval; no local macOS command, purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+- Next: commit, push, verify GitHub Actions with `gh`, rerun same SHA for cache behavior, then update Linear issue KIM-19.
+
 ## 2026-06-18 09:00 KST
 
 - Linear issue: KIM-18 created and moved to In Progress.

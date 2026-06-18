@@ -20,6 +20,7 @@
    #:*security-policy*
    #:*connector-policy*
    #:*agent-cluster-policy*
+   #:*learning-policy*
    #:*linear-policy*
    #:*planner-policy*
    #:validate-ssot

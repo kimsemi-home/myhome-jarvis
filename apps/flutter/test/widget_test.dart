@@ -18,6 +18,8 @@ void main() {
     expect(find.text('Clear'), findsOneWidget);
     expect(find.text('Agent Cluster'), findsOneWidget);
     expect(find.text('5 roles gated'), findsOneWidget);
+    expect(find.text('Learning'), findsOneWidget);
+    expect(find.text('0 observed'), findsOneWidget);
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 

@@ -333,6 +333,11 @@ class JarvisSnapshot {
         value: '5 roles gated',
         icon: Icons.account_tree_outlined,
       ),
+      SystemMetric(
+        label: 'Learning',
+        value: '0 observed',
+        icon: Icons.psychology_alt_outlined,
+      ),
     ],
     commands: [
       HomeCommand(
@@ -667,6 +672,11 @@ class JarvisSnapshot {
           label: 'Agent Cluster',
           value: 'Local',
           icon: Icons.account_tree_outlined,
+        ),
+        SystemMetric(
+          label: 'Learning',
+          value: 'Local',
+          icon: Icons.psychology_alt_outlined,
         ),
       ],
       commands: sample.commands,
