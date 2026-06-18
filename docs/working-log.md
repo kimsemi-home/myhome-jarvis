@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 02:54 KST
+
+- Linear issue: KIM-52 created and moved to In Progress.
+- Mode: code-shape burn-down, Rust benchmark smoke test refactor.
+- Task: Remove `crates/mhj-core/src/benchmark.rs` from code-shape legacy debt by moving inline benchmark smoke assertions into a focused integration test while preserving benchmark behavior.
+- Files touched: `crates/mhj-core/src/benchmark.rs`, `crates/mhj-core/tests/benchmark_smoke.rs`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved benchmark smoke test coverage out of the production benchmark module; compacted storage plan calls without changing planned dataset behavior; removed `crates/mhj-core/src/benchmark.rs` from the generated code-shape legacy debt list; kept the changed Rust files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused `cargo test -p mhj-core benchmark_smoke`, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 66 legacy debt files.
+- External-write note: created Linear issue KIM-52 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 02:46 KST
 
 - Linear issue: KIM-51 created and moved to In Progress.

@@ -698,3 +698,10 @@
   - Linear: KIM-51
   - Acceptance: `lisp/ssot/evidence.lisp` keeps the Evidence Graph policy values unchanged while compacting vector formatting under the normal 75-line budget; `lisp/ssot/evidence.lisp` is removed from Code Shape legacy debt.
   - Validation: `sbcl --script lisp/scripts/validate-ssot.lisp`; `go test ./internal/evidence ./internal/codeshape`; `go run ./cmd/mhj evidence status`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P99
+
+- [x] Ratchet Rust benchmark smoke debt under 75 lines.
+  - Linear: KIM-52
+  - Acceptance: `crates/mhj-core/src/benchmark.rs` keeps benchmark smoke behavior unchanged while moving inline smoke assertions into a focused integration test; the benchmark source file and new test file stay under the normal 75-line budget; `crates/mhj-core/src/benchmark.rs` is removed from Code Shape legacy debt.
+  - Validation: `cargo test -p mhj-core benchmark_smoke`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

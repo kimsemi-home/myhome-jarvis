@@ -19,9 +19,7 @@ impl BenchmarkSmokeReport {
     pub fn assert_reasonable(&self, ceiling: Duration) {
         assert!(
             self.elapsed <= ceiling,
-            "benchmark smoke exceeded {:?}: {:?}",
-            ceiling,
-            self
+            "benchmark smoke exceeded {ceiling:?}: {self:?}"
         );
     }
 }
@@ -48,22 +46,15 @@ pub fn run_benchmark_smoke(iterations: usize) -> Result<BenchmarkSmokeReport, Fi
         commerce_records += purchases.len();
         recurring_candidate_count += candidates.len();
 
+        let lake_root = Path::new("data/lake");
         for layer in [
             LakeLayer::Raw,
             LakeLayer::Bronze,
             LakeLayer::Silver,
             LakeLayer::Gold,
         ] {
-            let _finance_plan = plan_dataset(
-                Path::new("data/lake"),
-                layer,
-                DatasetKind::FinanceTransactions,
-            );
-            let _commerce_plan = plan_dataset(
-                Path::new("data/lake"),
-                layer,
-                DatasetKind::CommercePurchases,
-            );
+            let _finance_plan = plan_dataset(lake_root, layer, DatasetKind::FinanceTransactions);
+            let _commerce_plan = plan_dataset(lake_root, layer, DatasetKind::CommercePurchases);
             storage_plans += 2;
         }
     }
@@ -76,21 +67,4 @@ pub fn run_benchmark_smoke(iterations: usize) -> Result<BenchmarkSmokeReport, Fi
         storage_plans,
         elapsed: started.elapsed(),
     })
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    const SMOKE_ITERATIONS: usize = 1_000;
-
-    #[test]
-    fn benchmark_smoke_runs_core_fixture_pipeline() {
-        let report = run_benchmark_smoke(SMOKE_ITERATIONS).expect("benchmark smoke runs");
-        assert_eq!(report.finance_records, SMOKE_ITERATIONS * 3);
-        assert_eq!(report.commerce_records, SMOKE_ITERATIONS * 3);
-        assert_eq!(report.recurring_candidates, SMOKE_ITERATIONS);
-        assert_eq!(report.storage_plans, SMOKE_ITERATIONS * 8);
-        report.assert_reasonable(Duration::from_secs(2));
-    }
 }
