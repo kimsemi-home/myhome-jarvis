@@ -635,3 +635,10 @@
   - Linear: KIM-42
   - Acceptance: `internal/agentcluster/status_test.go` keeps public-safe learning-loop policy assertions under 75 lines by moving self-approval rejection and repo-root fixture discovery into focused test/helper files; Agent Cluster status behavior remains unchanged; `internal/agentcluster/status_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/agentcluster ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P90
+
+- [x] Ratchet auth local token debt under 75 lines.
+  - Linear: KIM-43
+  - Acceptance: `internal/auth/local.go` keeps only the shared local-token model and relative path helper under 75 lines by moving status, create/rotate, read, and token generation behavior into focused files; local LAN token behavior remains unchanged; `internal/auth/local.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/auth ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

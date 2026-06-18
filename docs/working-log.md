@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 01:38 KST
+
+- Linear issue: KIM-43 created and moved to In Progress.
+- Mode: code-shape burn-down, auth local token refactor.
+- Task: Remove `internal/auth/local.go` from code-shape legacy debt by splitting local LAN token status, create/rotate, read, and generation behavior into focused files.
+- Files touched: `internal/auth/local.go`, `internal/auth/status.go`, `internal/auth/create.go`, `internal/auth/read.go`, `internal/auth/generator.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved local token status, create/rotate, read, and token generation behavior out of the shared auth model/path file; removed `internal/auth/local.go` from the generated code-shape legacy debt list; kept the auth implementation files below 75 lines.
+- Validation after: focused Go tests for Auth, Code Shape, and Daemon passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions, 75 legacy debt files, and `internal/auth/local.go` removed from legacy debt; full `mhj quality` with Go 1.26.2 passed; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-43 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 01:30 KST
 
 - Linear issue: KIM-42 created and moved to In Progress.
