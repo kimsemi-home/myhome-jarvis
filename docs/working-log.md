@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 01:09 KST
+
+- Linear issue: KIM-40 created and moved to In Progress.
+- Mode: code-shape burn-down, command executor test refactor.
+- Task: Remove `internal/commands/executor_test.go` from code-shape legacy debt by splitting unsafe executable rejection into a focused safety test file.
+- Files touched: `internal/commands/executor_test.go`, `internal/commands/executor_safety_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved unsafe executable rejection coverage out of the executor behavior test file; removed `internal/commands/executor_test.go` from the generated code-shape legacy debt list; kept the executor behavior and safety test files below 75 lines.
+- Validation after: focused Go tests for Commands and Code Shape passed; `mhj codegen verify` and `mhj code-shape status` passed with zero budget regressions, 78 legacy debt files, and `internal/commands/executor_test.go` removed from legacy debt; full `mhj quality` with Go 1.26.2 passed; current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed.
+- External-write note: created Linear issue KIM-40 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 01:02 KST
 
 - Linear issue: KIM-39 created and moved to In Progress.

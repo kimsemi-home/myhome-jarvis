@@ -614,3 +614,10 @@
   - Linear: KIM-39
   - Acceptance: `internal/connectors/status_test.go` keeps connector catalog and unsafe-operation assertions under 75 lines by moving shared repo-root fixture discovery into a focused helper file; connector public-safety assertions remain unchanged; `internal/connectors/status_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/connectors ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P87
+
+- [x] Ratchet command executor test debt under 75 lines.
+  - Linear: KIM-40
+  - Acceptance: `internal/commands/executor_test.go` keeps allowed execution, dry-run skip, and platform skip assertions under 75 lines by moving unsafe executable rejection into a focused safety test file; command execution behavior remains unchanged; `internal/commands/executor_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/commands ./internal/codeshape`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
