@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 03:21 KST
+
+- Linear issue: KIM-55 created and moved to In Progress.
+- Mode: code-shape burn-down, Linear write evidence refactor.
+- Task: Remove `internal/linear/evidence.go` from code-shape legacy debt by splitting Linear write evidence models, append writing, status reading, and public issue-key redaction into focused files.
+- Files touched: `internal/linear/evidence.go`, `internal/linear/evidence_append.go`, `internal/linear/evidence_status.go`, `internal/linear/evidence_issue_key.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved Linear write evidence append, status reading, and public issue-key redaction out of the model file; removed `internal/linear/evidence.go` from the generated code-shape legacy debt list; kept changed Linear evidence files below 75 lines.
+- Validation after: SSOT validation, codegen verify, focused Go tests for Linear, Planner, and Code Shape, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, current-tree security check, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 63 legacy debt files.
+- External-write note: created Linear issue KIM-55 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 03:13 KST
 
 - Linear issue: KIM-54 created and moved to In Progress.

@@ -719,3 +719,10 @@
   - Linear: KIM-54
   - Acceptance: `internal/supervisor/status_test.go` keeps missing-state and private state write/read coverage under the normal 75-line budget by moving recorded daemon health-probe coverage into a focused test file; supervisor status behavior remains unchanged; `internal/supervisor/status_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/supervisor ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P102
+
+- [x] Ratchet Linear write evidence debt under 75 lines.
+  - Linear: KIM-55
+  - Acceptance: `internal/linear/evidence.go` keeps Linear write evidence models under the normal 75-line budget by moving append writing, status reading, and public issue-key redaction into focused files; append/status/redaction behavior remains unchanged; `internal/linear/evidence.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/linear ./internal/planner ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
