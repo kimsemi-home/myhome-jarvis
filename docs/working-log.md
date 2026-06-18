@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 07:44 KST
+
+- Linear issue: KIM-82 created and moved to In Progress.
+- Mode: code-shape burn-down, daemon server test refactor.
+- Task: Remove `internal/daemon/server_test.go` from code-shape legacy debt by splitting daemon endpoint coverage and shared helpers into focused test files.
+- Files touched: `internal/daemon/server_test.go`, `internal/daemon/server_*_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: moved intent, Linear, generated status endpoint, auth, event, metrics, supervisor, audit, quality, domain, harness, loop, planner, repo, security, household, recommendation, file helper, git helper, and repo-root tests into focused files; renamed LAN auth test filenames to avoid public-safety sensitive path markers; removed `internal/daemon/server_test.go` from the generated code-shape legacy debt list; kept changed daemon test files below 75 lines.
+- Validation after: focused Daemon and Code Shape tests, current-tree security check, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, Git-history security check, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 37 legacy debt files.
+- External-write note: created Linear issue KIM-82 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 07:36 KST
 
 - Linear issue: KIM-81 created and moved to In Progress.
