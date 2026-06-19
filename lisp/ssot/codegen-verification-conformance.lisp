@@ -18,6 +18,7 @@
         "generated/control_plane_verification.generated.json"
         :verification_evidence_artifact
         "generated/verification_evidence.generated.json"
+        :pdca_artifact "generated/pdca.generated.json"
         :tests_artifact "generated/verification_tests.generated.json"
         :release_artifact "generated/release_pipeline.generated.json"))
 
@@ -34,6 +35,8 @@
      :evidence "generated/control_plane_verification.generated.json")
     (:id "verification-evidence-present"
      :evidence "generated/verification_evidence.generated.json")
+    (:id "pdca-present"
+     :evidence "generated/pdca.generated.json")
     (:id "tests-present"
      :evidence "generated/verification_tests.generated.json")
     (:id "drift-protected"

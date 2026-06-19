@@ -26,5 +26,6 @@ type verificationConformanceFile struct {
 	ReleaseArtifact              string                `json:"release_artifact"`
 	ControlPlaneVerifierArtifact string                `json:"control_plane_verifier_artifact"`
 	VerificationEvidenceArtifact string                `json:"verification_evidence_artifact"`
+	PDCAArtifact                 string                `json:"pdca_artifact"`
 	BackendArtifacts             []verificationBackend `json:"backend_artifacts"`
 }

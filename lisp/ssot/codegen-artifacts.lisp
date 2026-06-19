@@ -51,6 +51,7 @@
     ("evidence_quality" ,*evidence-quality-policy*)
     ("review" ,*review-policy*)
     ("authority" ,*authority-policy*)
+    ("pdca" ,*pdca-policy*)
     ("code_shape" ,*code-shape-policy*)
     ("verification_graph" ,*verification-graph*)
     ("linear" ,*linear-policy*)

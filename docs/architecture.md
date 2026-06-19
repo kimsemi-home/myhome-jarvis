@@ -267,4 +267,7 @@ outcome is shown as a separate read-only metric so blocked or review-required
 states remain visible before any high-risk automation is considered. Review
 Capacity is shown separately so missing or overloaded human review blocks
 authority without publishing reviewer identities, notes, or evidence refs.
+The PDCA Cycle Manifest turns planner, control-plane, verification evidence,
+and learning-ledger surfaces into a generated Plan/Do/Check/Act contract while
+publishing only counts, readiness, and timestamps.
 Platform runner files are left out until device packaging is required.

@@ -106,6 +106,10 @@ blocked/allowed decision keys, and authority debt counts. Reasoning tiers never
 grant approval by themselves, self-authority stays disabled, and high-risk
 decisions remain blocked in public repo mode.
 
+The PDCA Cycle Manifest makes the learning loop itself executable. It connects
+Plan, Do, Check, and Act steps to planner, control-plane, verification evidence,
+and learning-ledger artifacts while publishing only counts and readiness state.
+
 ## Validation
 
 Use these checks after changing the policy:
@@ -120,6 +124,7 @@ go run ./cmd/mhj incidents status
 go run ./cmd/mhj evidence-quality status
 go run ./cmd/mhj review status
 go run ./cmd/mhj authority status
+go run ./cmd/mhj pdca status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
 go test ./internal/agentcluster ./internal/translation ./internal/controlplane ./internal/incidents ./internal/evidencequality ./internal/review ./internal/authority ./internal/daemon ./cmd/mhj

@@ -29,6 +29,7 @@
    #:*evidence-quality-policy*
    #:*review-policy*
    #:*authority-policy*
+   #:*pdca-policy*
    #:*code-shape-policy*
    #:*linear-policy*
    #:*planner-policy*

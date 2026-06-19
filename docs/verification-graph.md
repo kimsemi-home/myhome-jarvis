@@ -13,6 +13,7 @@ Generated artifacts:
 - `generated/bazel_quality.generated.bzl`
 - `generated/control_plane_verification.generated.json`
 - `generated/verification_evidence.generated.json`
+- `generated/pdca.generated.json`
 - `generated/verification_graph.schema.generated.json`
 - `generated/verification_conformance.generated.json`
 - `generated/verification_tests.generated.json`

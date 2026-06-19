@@ -18,6 +18,7 @@
                  "test -s generated/bazel_quality.generated.bzl"
                  "test -s generated/control_plane_verification.generated.json"
                  "test -s generated/verification_evidence.generated.json"
+                 "test -s generated/pdca.generated.json"
                  "test -s generated/verification_graph.schema.generated.json"
                  "test -s generated/verification_conformance.generated.json"
                  "test -s generated/verification_tests.generated.json"
@@ -32,6 +33,7 @@
      :commands #("go run ./cmd/mhj ci verify"
                  "go run ./cmd/mhj verification verify"
                  "go run ./cmd/mhj verification evidence"
+                 "go run ./cmd/mhj pdca status"
                  "go run ./cmd/mhj control-plane verify"
                  "go run ./cmd/mhj toolchain verify"
                  "go run ./cmd/mhj code-shape status"
@@ -54,8 +56,7 @@
                  "cargo fmt --check"
                  "cargo clippy --workspace -- -D warnings"))
     (:id "flutter" :name "Flutter local client" :kind "lint"
-     :timeout 10 :setup "flutter" :cache "flutter"
-     :working_directory "apps/flutter"
+     :timeout 10 :setup "flutter" :cache "flutter" :working_directory "apps/flutter"
      :hash_inputs #(".github/workflows/quality.yml" "apps/flutter/**"
                     "generated/commands.generated.json"
                     "generated/connectors.generated.json"
@@ -68,6 +69,7 @@
                     "generated/incidents.generated.json"
                     "generated/evidence_quality.generated.json"
                     "generated/review.generated.json"
+                    "generated/pdca.generated.json"
                     "generated/code_shape.generated.json"
                     "generated/authority.generated.json")
      :commands #("flutter test" "flutter analyze"))))

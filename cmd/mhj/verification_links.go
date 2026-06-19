@@ -21,6 +21,9 @@ func verifyConformanceLinks(graph verificationGraphFile, conformance verificatio
 	if conformance.VerificationEvidenceArtifact != "generated/verification_evidence.generated.json" {
 		return fmt.Errorf("conformance verification evidence artifact mismatch")
 	}
+	if conformance.PDCAArtifact != "generated/pdca.generated.json" {
+		return fmt.Errorf("conformance PDCA artifact mismatch")
+	}
 	if len(conformance.BackendArtifacts) != len(graph.Backends) {
 		return fmt.Errorf("conformance backend count mismatch")
 	}

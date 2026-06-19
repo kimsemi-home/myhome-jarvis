@@ -10,6 +10,7 @@ func requiredVerificationArtifacts() []string {
 		"generated/bazel_quality.generated.bzl",
 		"generated/control_plane_verification.generated.json",
 		"generated/verification_evidence.generated.json",
+		"generated/pdca.generated.json",
 		"generated/verification_graph.schema.generated.json",
 		"generated/verification_conformance.generated.json",
 		"generated/verification_tests.generated.json",
@@ -27,6 +28,7 @@ func requiredVerificationTests() []string {
 		"release-gates-cover-units",
 		"control-plane-verifier-linked",
 		"verification-evidence-linked",
+		"pdca-linked",
 		"local-makefile-ssot-drift-check",
 	}
 }
@@ -35,8 +37,10 @@ func requiredVerificationCommands() []string {
 	return []string{
 		"go run ./cmd/mhj control-plane verify",
 		"go run ./cmd/mhj verification evidence",
+		"go run ./cmd/mhj pdca status",
 		"test -s generated/control_plane_verification.generated.json",
 		"test -s generated/verification_evidence.generated.json",
+		"test -s generated/pdca.generated.json",
 	}
 }
 

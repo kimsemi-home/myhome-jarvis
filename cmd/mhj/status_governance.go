@@ -4,6 +4,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidencequality"
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
+	"github.com/kimsemi-home/myhome-jarvis/internal/pdca"
 	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 )
 
@@ -33,6 +34,14 @@ func reviewStatus(root string) error {
 
 func authorityStatus(root string) error {
 	status, err := authority.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
+func pdcaStatus(root string) error {
+	status, err := pdca.StatusForRoot(root)
 	if err != nil {
 		return err
 	}

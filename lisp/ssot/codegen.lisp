@@ -16,6 +16,7 @@
   (validate-evidence-quality-policy *evidence-quality-policy*)
   (validate-review-policy *review-policy*)
   (validate-authority-policy *authority-policy*)
+  (validate-pdca-policy *pdca-policy*)
   (validate-linear-policy *linear-policy*)
   (validate-ddd-registry)
   (validate-planner-policy *planner-policy*)

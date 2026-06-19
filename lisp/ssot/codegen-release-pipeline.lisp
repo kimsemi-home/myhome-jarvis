@@ -18,7 +18,8 @@
                     "generated verification conformance manifest"
                     "generated verification test manifest"
                     "generated control-plane verifier manifest"
-                    "generated verification evidence manifest")))
+                    "generated verification evidence manifest"
+                    "generated PDCA manifest")))
 
 (defun release-gates ()
   (map 'vector

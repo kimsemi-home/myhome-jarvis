@@ -34,6 +34,9 @@
     (:id "verification-evidence-linked"
      :kind "evidence"
      :evidence "verification evidence artifact and command are in graph")
+    (:id "pdca-linked"
+     :kind "learning-loop"
+     :evidence "PDCA artifact and status command are in graph")
     (:id "local-makefile-ssot-drift-check"
      :kind "local"
      :evidence "generated Makefile verify-ssot command")))
