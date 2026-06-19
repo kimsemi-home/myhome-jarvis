@@ -3,6 +3,8 @@ package main
 import (
 	"strings"
 	"testing"
+
+	"github.com/kimsemi-home/myhome-jarvis/internal/qualitylog"
 )
 
 func TestVerifyTestManifestRequiresCoverage(t *testing.T) {
@@ -36,4 +38,22 @@ func TestVerifyGraphCommandsRequireControlPlaneVerifier(t *testing.T) {
 	if err == nil || !strings.Contains(err.Error(), "control-plane verify") {
 		t.Fatalf("expected missing control-plane verifier command, got %v", err)
 	}
+}
+
+func TestVerifyEvidenceSourcesRequireQualityLedger(t *testing.T) {
+	manifest := verificationEvidenceFile{Sources: []verificationEvidenceSource{
+		{ID: "github-job-logs", Kind: "remote", Evidence: "logs"},
+		{ID: "unit-cache-keys", Kind: "cache", Evidence: "cache"},
+		{ID: "generated-backend-specs", Kind: "artifact", Evidence: "backend"},
+		{ID: "verification-manifests", Kind: "artifact", Evidence: "manifest"},
+	}}
+	graph := verificationGraphFile{Evidence: []string{"redacted local quality run ledger"}}
+	err := verifyEvidenceSources(manifest, graph, emptyQualityStatus())
+	if err == nil || !strings.Contains(err.Error(), "local-quality-run-ledger") {
+		t.Fatalf("expected missing quality ledger evidence, got %v", err)
+	}
+}
+
+func emptyQualityStatus() qualitylog.Status {
+	return qualitylog.Status{Path: qualitylog.RelativePath}
 }

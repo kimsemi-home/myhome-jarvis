@@ -1,0 +1,35 @@
+(in-package #:myhome-jarvis.ssot)
+
+(defun write-verification-evidence (root)
+  (write-json-file
+   (artifact-path root "verification_evidence")
+   (verification-evidence)))
+
+(defun verification-evidence ()
+  (list :schema_version "verification.evidence/v1"
+        :source "lisp/ssot/verification-graph.lisp"
+        :graph_artifact "generated/verification_graph.generated.json"
+        :command "mhj verification evidence"
+        :quality_journal "data/private/quality/runs.jsonl"
+        :quality_status_command "mhj quality status"
+        :evidence_status_command "mhj evidence status"
+        :sources (verification-evidence-sources)
+        :public_summary_fields #("ok" "source_count" "quality_recorded"
+                                 "quality_run_count" "graph_evidence_count")))
+
+(defun verification-evidence-sources ()
+  #((:id "github-job-logs"
+     :kind "remote"
+     :evidence "GitHub quality job logs")
+    (:id "unit-cache-keys"
+     :kind "cache"
+     :evidence ".github/unit-cache/<unit>/key")
+    (:id "generated-backend-specs"
+     :kind "artifact"
+     :evidence "generated CI/backend files")
+    (:id "verification-manifests"
+     :kind "artifact"
+     :evidence "generated verification schema, tests, conformance, and release")
+    (:id "local-quality-run-ledger"
+     :kind "private-ledger"
+     :evidence "data/private/quality/runs.jsonl redacted summary")))

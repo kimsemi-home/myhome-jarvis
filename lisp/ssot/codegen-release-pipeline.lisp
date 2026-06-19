@@ -17,7 +17,8 @@
         :evidence #("GitHub quality run" "same-SHA cache-hit rerun"
                     "generated verification conformance manifest"
                     "generated verification test manifest"
-                    "generated control-plane verifier manifest")))
+                    "generated control-plane verifier manifest"
+                    "generated verification evidence manifest")))
 
 (defun release-gates ()
   (map 'vector

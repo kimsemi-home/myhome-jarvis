@@ -18,6 +18,9 @@ func verifyConformanceLinks(graph verificationGraphFile, conformance verificatio
 	if conformance.ControlPlaneVerifierArtifact != "generated/control_plane_verification.generated.json" {
 		return fmt.Errorf("conformance control-plane verifier artifact mismatch")
 	}
+	if conformance.VerificationEvidenceArtifact != "generated/verification_evidence.generated.json" {
+		return fmt.Errorf("conformance verification evidence artifact mismatch")
+	}
 	if len(conformance.BackendArtifacts) != len(graph.Backends) {
 		return fmt.Errorf("conformance backend count mismatch")
 	}

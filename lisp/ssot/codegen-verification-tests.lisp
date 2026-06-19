@@ -31,6 +31,9 @@
     (:id "control-plane-verifier-linked"
      :kind "sidecar"
      :evidence "control-plane verifier artifact and command are in graph")
+    (:id "verification-evidence-linked"
+     :kind "evidence"
+     :evidence "verification evidence artifact and command are in graph")
     (:id "local-makefile-ssot-drift-check"
      :kind "local"
      :evidence "generated Makefile verify-ssot command")))

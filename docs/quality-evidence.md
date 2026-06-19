@@ -39,15 +39,20 @@ guard; it does not record workflow contents.
 ## Status Surfaces
 
 - `mhj quality status`
+- `mhj verification evidence`
 - daemon `GET /quality/status`
 - Flutter Status `Quality` card
 
 These surfaces return the repo-relative journal path, whether it exists, the
 total run count, and the last redacted run summary.
+`mhj verification evidence` checks the generated Verification EvidenceOps
+manifest, Evidence Graph quality source wiring, unit cache evidence, and the
+redacted quality run shape without exposing private journal contents.
 
 ## Validation
 
 ```sh
 go test ./internal/qualitylog ./internal/daemon
 go run ./cmd/mhj quality status
+go run ./cmd/mhj verification evidence
 ```

@@ -5,7 +5,7 @@ func routeOperations(root string, args []string) (bool, error) {
 	case "ci":
 		return true, requireSubcommand(args, "verify", func() error { return runCIVerify(root) })
 	case "verification":
-		return true, requireSubcommand(args, "verify", func() error { return runVerificationVerify(root) })
+		return true, routeVerification(root, args[1:])
 	case "control-plane":
 		return true, requireSubcommand(args, "verify", func() error { return controlPlaneVerify(root) })
 	case "toolchain":
@@ -34,6 +34,16 @@ func routeLoop(root string, args []string) error {
 	}
 	if len(args) >= 1 && args[0] == "worker" {
 		return loopWorker(root, args[1:])
+	}
+	return usage()
+}
+
+func routeVerification(root string, args []string) error {
+	if len(args) == 1 && args[0] == "verify" {
+		return runVerificationVerify(root)
+	}
+	if len(args) == 1 && args[0] == "evidence" {
+		return runVerificationEvidence(root)
 	}
 	return usage()
 }

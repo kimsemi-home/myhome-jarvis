@@ -4,6 +4,7 @@ type verificationGraphFile struct {
 	SchemaVersion      string                `json:"schema_version"`
 	GeneratedArtifacts []string              `json:"generated_artifacts"`
 	Backends           []verificationBackend `json:"backends"`
+	Evidence           []string              `json:"evidence"`
 	Units              []verificationUnit    `json:"units"`
 }
 
@@ -24,5 +25,6 @@ type verificationConformanceFile struct {
 	TestsArtifact                string                `json:"tests_artifact"`
 	ReleaseArtifact              string                `json:"release_artifact"`
 	ControlPlaneVerifierArtifact string                `json:"control_plane_verifier_artifact"`
+	VerificationEvidenceArtifact string                `json:"verification_evidence_artifact"`
 	BackendArtifacts             []verificationBackend `json:"backend_artifacts"`
 }

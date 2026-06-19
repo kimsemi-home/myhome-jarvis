@@ -24,6 +24,7 @@ jobs:
           test -s generated/local_quality.generated.mk
           test -s generated/bazel_quality.generated.bzl
           test -s generated/control_plane_verification.generated.json
+          test -s generated/verification_evidence.generated.json
           test -s generated/verification_graph.schema.generated.json
           test -s generated/verification_conformance.generated.json
           test -s generated/verification_tests.generated.json
@@ -44,6 +45,7 @@ jobs:
           key: go-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'generated/*.json', 'generated/github_quality_workflow.generated.yml') }}
       - run: go run ./cmd/mhj ci verify
       - run: go run ./cmd/mhj verification verify
+      - run: go run ./cmd/mhj verification evidence
       - run: go run ./cmd/mhj control-plane verify
       - run: go run ./cmd/mhj code-shape status
       - run: go run ./cmd/mhj toolchain verify

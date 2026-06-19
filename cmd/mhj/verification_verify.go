@@ -45,5 +45,8 @@ func validateVerificationGenerated(root string) (map[string]any, error) {
 	if err := verifyTestManifest(tests); err != nil {
 		return nil, err
 	}
+	if _, err := validateVerificationEvidence(root); err != nil {
+		return nil, err
+	}
 	return map[string]any{"ok": true, "artifact_count": len(graph.GeneratedArtifacts), "test_count": len(tests.Tests)}, nil
 }

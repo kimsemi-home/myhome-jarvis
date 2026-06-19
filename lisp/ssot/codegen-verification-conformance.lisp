@@ -16,6 +16,8 @@
         :backend_artifacts (backend-artifact-list)
         :control_plane_verifier_artifact
         "generated/control_plane_verification.generated.json"
+        :verification_evidence_artifact
+        "generated/verification_evidence.generated.json"
         :tests_artifact "generated/verification_tests.generated.json"
         :release_artifact "generated/release_pipeline.generated.json"))
 
@@ -30,6 +32,8 @@
      :evidence "generated/release_pipeline.generated.json")
     (:id "control-plane-verifier-present"
      :evidence "generated/control_plane_verification.generated.json")
+    (:id "verification-evidence-present"
+     :evidence "generated/verification_evidence.generated.json")
     (:id "tests-present"
      :evidence "generated/verification_tests.generated.json")
     (:id "drift-protected"
