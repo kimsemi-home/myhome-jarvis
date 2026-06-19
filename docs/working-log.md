@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 17:49 KST
+
+- Linear issue: KIM-90 created and moved to In Progress.
+- Mode: code-shape burn-down, Linear issues test refactor.
+- Task: Remove `internal/linear/issues_test.go` from code-shape legacy debt by splitting Linear issue client test coverage into focused files under 75 lines.
+- Files touched: `internal/linear/issues_test.go`, `internal/linear/issues_*_test.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept pull, team filtering, next-issue selection, generated policy drift, backlog seed dedupe/create, operation summary redaction, comment, transition, offline queue, and write-evidence redaction coverage intact while moving GraphQL fixture helpers and assertions into small files; reduced `internal/linear/issues_test.go` to a 1-line package facade; removed it from generated code-shape legacy debt.
+- Validation after: focused Linear and Code Shape tests, SSOT validation, deterministic codegen, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 29 legacy debt files.
+- External-write note: created Linear issue KIM-90 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 17:33 KST
 
 - Linear issue: KIM-89 created and moved to In Progress.

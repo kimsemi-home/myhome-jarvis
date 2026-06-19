@@ -964,3 +964,10 @@
   - Linear: KIM-89
   - Acceptance: `internal/knowledge/index.go` keeps the public KnowledgeIndex runtime API under the normal 75-line budget by moving registry models, evidence reports, generated registry loading, validation passes, duplicate checks, search matching, repository file indexing, and helpers into focused Go files; DDD verification, knowledge search results, schema validation, and public-safe repo-relative evidence behavior remain unchanged; `internal/knowledge/index.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/knowledge ./internal/codeshape`; `go run ./cmd/mhj ddd verify`; `go run ./cmd/mhj knowledge search KnowledgeIndex`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P137
+
+- [x] Ratchet Linear issues test under 75 lines.
+  - Linear: KIM-90
+  - Acceptance: `internal/linear/issues_test.go` keeps the original test path under the normal 75-line budget by moving Linear issue pull, filtering, next-issue selection, generated policy, backlog creation, summary redaction, comment, transition, write-evidence redaction, GraphQL fixture, and assertion coverage into focused test files; fake-token behavior, local GraphQL request assertions, fixture-only responses, public-safe summaries, and write-evidence behavior remain unchanged; `internal/linear/issues_test.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/linear ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
