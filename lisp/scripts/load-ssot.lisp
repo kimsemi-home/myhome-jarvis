@@ -16,8 +16,9 @@
             "../ssot/scheduler.lisp" "../ssot/security.lisp" "../ssot/connectors.lisp"
             "../ssot/agent-cluster.lisp" "../ssot/learning.lisp" "../ssot/evidence.lisp"
             "../ssot/confidence.lisp" "../ssot/translation.lisp" "../ssot/control-plane.lisp"
-            "../ssot/incidents.lisp" "../ssot/evidence-quality.lisp" "../ssot/review.lisp"
-            "../ssot/authority.lisp" "../ssot/pdca.lisp" "../ssot/code-shape.lisp"
+            "../ssot/incidents.lisp" "../ssot/evidence-quality.lisp" "../ssot/review.lisp")
+          (mhj-authority-files)
+          '("../ssot/pdca.lisp" "../ssot/code-shape.lisp"
             "../ssot/linear.lisp" "../ssot/planner.lisp" "../ssot/verification-units.lisp"
             "../ssot/verification-graph.lisp" "../ssot/codegen-validate-helpers.lisp"
             "../ssot/codegen-validate-basics.lisp" "../ssot/codegen-validate-agent.lisp"
@@ -46,3 +47,8 @@
     "../ssot/ddd-concepts-ops-adapters.lisp" "../ssot/ddd.lisp"
     "../ssot/ddd-events.lisp" "../ssot/ddd-artifacts.lisp"
     "../ssot/ddd-planning.lisp"))
+
+(defun mhj-authority-files ()
+  '("../ssot/authority-core.lisp" "../ssot/authority-reasoning.lisp"
+    "../ssot/authority-roles.lisp" "../ssot/authority-decisions.lisp"
+    "../ssot/authority-boundary.lisp" "../ssot/authority.lisp"))
