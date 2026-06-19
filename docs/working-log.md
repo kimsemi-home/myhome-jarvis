@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 17:33 KST
+
+- Linear issue: KIM-89 created and moved to In Progress.
+- Mode: code-shape burn-down, KnowledgeIndex runtime refactor.
+- Task: Remove `internal/knowledge/index.go` from code-shape legacy debt by splitting generated registry loading, validation, duplicate checks, search, repository file indexing, evidence reports, and helpers into focused Go files.
+- Files touched: `internal/knowledge/index.go`, `internal/knowledge/*.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `RegistryRelativePath`, `ReadRegistry`, `Verify`, `Search`, `ValidateRegistry`, `registryFailures`, and repository file indexing behavior intact while moving registry/report models, schema checks, concept/link/event/harness/artifact validation, term matching, duplicate detection, and file scan helpers into files below 75 lines; removed `internal/knowledge/index.go` from generated code-shape legacy debt.
+- Validation after: focused KnowledgeIndex and Code Shape tests, DDD verification, KnowledgeIndex search smoke, SSOT validation, deterministic codegen, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 30 legacy debt files.
+- External-write note: created Linear issue KIM-89 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 17:20 KST
 
 - Linear issue: KIM-88 created and moved to In Progress.

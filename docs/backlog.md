@@ -957,3 +957,10 @@
   - Linear: KIM-88
   - Acceptance: `apps/flutter/lib/snapshot.dart` keeps the public snapshot library API under the normal 75-line budget by moving model classes, command previews, finance and purchase dashboards, recommendation and connector models, sample data, offline fallback metrics, and static client interfaces into focused Dart part files; `JarvisSnapshot.sample`, `JarvisSnapshot.offlineFallback()`, `StaticSnapshotClient`, command preview behavior, and public-safe sample display text remain unchanged; `apps/flutter/lib/snapshot.dart` is removed from Code Shape legacy debt.
   - Validation: `cd apps/flutter && flutter test && flutter analyze`; `go test ./internal/codeshape`; `go run ./cmd/mhj security check`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P136
+
+- [x] Ratchet KnowledgeIndex runtime under 75 lines.
+  - Linear: KIM-89
+  - Acceptance: `internal/knowledge/index.go` keeps the public KnowledgeIndex runtime API under the normal 75-line budget by moving registry models, evidence reports, generated registry loading, validation passes, duplicate checks, search matching, repository file indexing, and helpers into focused Go files; DDD verification, knowledge search results, schema validation, and public-safe repo-relative evidence behavior remain unchanged; `internal/knowledge/index.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/knowledge ./internal/codeshape`; `go run ./cmd/mhj ddd verify`; `go run ./cmd/mhj knowledge search KnowledgeIndex`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
