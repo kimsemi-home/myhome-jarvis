@@ -18,7 +18,7 @@
                               (:path "internal/linear/replay.go" :max_lines 392)
                               (:path "internal/incidents/status.go" :max_lines 389) (:path "internal/evidence/status.go" :max_lines 380)
                               (:path "internal/knowledge/index_test.go" :max_lines 377) (:path "internal/learning/ledger.go" :max_lines 370)
-                              (:path "internal/evidencequality/status.go" :max_lines 369) (:path "lisp/ssot/ddd.lisp" :max_lines 378)
+                              (:path "internal/evidencequality/status.go" :max_lines 369)
                               (:path "internal/linear/status.go" :max_lines 320) (:path "internal/commands/registry.go" :max_lines 265)
                               (:path "apps/flutter/test/widget_test.dart" :max_lines 245) (:path "internal/authority/status_test.go" :max_lines 236)
                               (:path "crates/mhj-core/src/finance.rs" :max_lines 231) (:path "internal/scheduler/scheduler.go" :max_lines 218)

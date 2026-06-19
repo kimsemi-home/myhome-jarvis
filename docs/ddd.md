@@ -17,8 +17,8 @@ Bounded contexts:
 The project uses DDD terms as vocabulary, not as mandatory class names:
 Entity, ValueObject, Aggregate, DomainEvent, Repository, Policy, Port, Adapter,
 and AntiCorruptionLayer. New semantic terms should be registered in
-`lisp/ssot/ddd.lisp` before implementation and regenerated into
-`generated/concepts.generated.json`.
+the split `lisp/ssot/ddd*.lisp` registry before implementation and regenerated
+into `generated/concepts.generated.json`.
 
 Each canonical concept declares a `ddd_kind`, and the registry must use every
 approved DDD kind at least once. The same executable SSOT also defines domain
