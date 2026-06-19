@@ -28,7 +28,16 @@
 (defun wf-setup-lisp (stream condition)
   (wf stream "      - name: Set up Common Lisp")
   (wf-if stream condition)
-  (wf stream "        uses: ~A" (github-action-ref "setup-lisp")))
+  (wf stream "        uses: ~A" (github-action-ref "setup-lisp"))
+  (wf-action-inputs stream (github-action-inputs "setup-lisp")))
+
+(defun wf-action-inputs (stream inputs)
+  (when inputs
+    (wf stream "        with:")
+    (dolist (input (coerce inputs 'list))
+      (wf stream "          ~A: ~A"
+          (getf input :key)
+          (getf input :value)))))
 
 (defun wf-setup-rust (stream condition)
   (wf stream "      - name: Set up Rust")

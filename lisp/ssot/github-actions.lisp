@@ -20,16 +20,23 @@
     (:key "setup-lisp"
      :uses "40ants/setup-lisp@v4"
      :runtime "managed"
-     :evidence "maintained Lisp setup action")
+     :inputs #((:key "cache" :value "false"))
+     :evidence "disable transitive actions/cache@v4")
     (:key "setup-flutter"
      :uses "subosito/flutter-action@v2"
      :runtime "managed"
      :evidence "maintained Flutter setup action")))
 
-(defun github-action-ref (key)
+(defun github-action-entry (key)
   (let ((entry (find key *github-action-refs*
                      :key (lambda (item) (getf item :key))
                      :test #'string=)))
     (unless entry
       (error "Missing GitHub action ref for ~A" key))
-    (getf entry :uses)))
+    entry))
+
+(defun github-action-ref (key)
+  (getf (github-action-entry key) :uses))
+
+(defun github-action-inputs (key)
+  (getf (github-action-entry key) :inputs))

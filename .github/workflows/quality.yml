@@ -62,6 +62,8 @@ jobs:
       - name: Set up Common Lisp
         if: steps.unit-cache.outputs.cache-hit != 'true'
         uses: 40ants/setup-lisp@v4
+        with:
+          cache: false
       - name: Run SSOT and generated artifacts verification
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |

@@ -33,6 +33,9 @@ Workflow-maintained action refs use Node 24-capable releases:
 `actions/checkout@v7`, `actions/setup-go@v6`, and `actions/cache@v5`.
 The exact refs are SSOT-owned in the Verification Graph and emitted into
 `generated/verification_graph.generated.json` plus the generated workflow.
+`40ants/setup-lisp@v4` runs with its internal cache disabled because its
+latest major tag still calls `actions/cache@v4`; repository-owned cache steps
+use `actions/cache@v5` instead.
 Because `.github/workflows/quality.yml` is part of every unit cache key, action
 ref changes intentionally invalidate the SSOT, Go, Rust, and Flutter unit
 caches once so the new runner surface is verified before future cache hits.
