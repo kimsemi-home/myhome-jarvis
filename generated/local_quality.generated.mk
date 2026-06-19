@@ -18,6 +18,7 @@ verify-ssot:
 	test -s generated/gitlab_quality.generated.yml
 	test -s generated/local_quality.generated.mk
 	test -s generated/bazel_quality.generated.bzl
+	test -s generated/control_plane_verification.generated.json
 	test -s generated/verification_graph.schema.generated.json
 	test -s generated/verification_conformance.generated.json
 	test -s generated/verification_tests.generated.json
@@ -27,6 +28,7 @@ verify-ssot:
 verify-go:
 	go run ./cmd/mhj ci verify
 	go run ./cmd/mhj verification verify
+	go run ./cmd/mhj control-plane verify
 	go run ./cmd/mhj toolchain verify
 	go run ./cmd/mhj code-shape status
 	go run ./cmd/mhj harness home

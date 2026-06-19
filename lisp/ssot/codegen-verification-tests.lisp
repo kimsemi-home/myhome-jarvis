@@ -28,6 +28,9 @@
     (:id "release-gates-cover-units"
      :kind "release"
      :evidence "release gates cover every verification unit")
+    (:id "control-plane-verifier-linked"
+     :kind "sidecar"
+     :evidence "control-plane verifier artifact and command are in graph")
     (:id "local-makefile-ssot-drift-check"
      :kind "local"
      :evidence "generated Makefile verify-ssot command")))

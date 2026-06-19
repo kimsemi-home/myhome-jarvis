@@ -38,3 +38,11 @@ func controlPlaneStatus(root string) error {
 	}
 	return writeJSON(status)
 }
+
+func controlPlaneVerify(root string) error {
+	status, err := controlplane.VerifyForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}

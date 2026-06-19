@@ -169,7 +169,7 @@ func testPolicy() Policy {
 		RequiredFields:             []string{"decision_kind", "policy_version", "ontology_version", "authority_profile", "selected_route", "reviewer_role", "verifier_role", "lease_seconds", "lease_status", "evidence_refs", "output_ref"},
 		AllowedEvidencePrefixes:    []string{"data/private/", "generated/", "docs/", "cmd/", "internal/", "apps/flutter/", "lisp/", "crates/", "fixtures/", "harness/", ".github/"},
 		PublicSummaryFields:        []string{"policy_path", "manifest_path", "exists", "count", "invalid_manifest_count", "manifest_debt_count", "verifier_separation_required", "verifier_violation_count", "min_lease_seconds", "max_lease_seconds", "by_decision_kind", "by_authority_profile", "by_lease_status", "last_observed_at", "checked_at"},
-		Commands:                   []string{"mhj control-plane status"},
+		Commands:                   []string{"mhj control-plane status", "mhj control-plane verify"},
 	}
 }
 

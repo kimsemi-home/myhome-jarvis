@@ -26,3 +26,14 @@ func TestVerifyReleaseGatesRequireEveryUnit(t *testing.T) {
 		t.Fatalf("expected missing go gate, got %v", err)
 	}
 }
+
+func TestVerifyGraphCommandsRequireControlPlaneVerifier(t *testing.T) {
+	graph := verificationGraphFile{Units: []verificationUnit{{ID: "go", Commands: []string{
+		"go run ./cmd/mhj verification verify",
+		"test -s generated/control_plane_verification.generated.json",
+	}}}}
+	err := verifyGraphCommands(graph)
+	if err == nil || !strings.Contains(err.Error(), "control-plane verify") {
+		t.Fatalf("expected missing control-plane verifier command, got %v", err)
+	}
+}

@@ -59,6 +59,7 @@
                   "../ssot/codegen-makefile.lisp"
                   "../ssot/codegen-bazel.lisp"
                   "../ssot/codegen-backends.lisp"
+                  "../ssot/codegen-control-plane-verification.lisp"
                   "../ssot/codegen-verification-schema.lisp"
                   "../ssot/codegen-verification-conformance.lisp"
                   "../ssot/codegen-verification-tests.lisp"

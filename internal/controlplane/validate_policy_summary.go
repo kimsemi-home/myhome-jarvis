@@ -13,6 +13,9 @@ func validatePolicySummary(policy Policy) error {
 	if !contains(policy.Commands, "mhj control-plane status") {
 		return fmt.Errorf("control-plane status command is missing")
 	}
+	if !contains(policy.Commands, "mhj control-plane verify") {
+		return fmt.Errorf("control-plane verify command is missing")
+	}
 	return nil
 }
 

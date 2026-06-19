@@ -4,12 +4,17 @@
   (list :context "AgentOps"
         :version "v1"
         :generated_artifact "generated/control_plane.generated.json"
+        :verifier_generated_artifact "generated/control_plane_verification.generated.json"
         :private_manifest_ledger "data/private/control-plane/manifests.jsonl"
         :manifest_required t
         :append_only t
         :public_status_redacted t
         :raw_rationale_public_allowed nil
         :verifier_separation_required t
+        :verification_command "mhj control-plane verify"
+        :verifier_checks #("policy-json-valid" "status-public-redacted"
+                           "lease-bounds-valid" "verifier-separation-required"
+                           "manifest-debt-evaluated")
         :min_lease_seconds 1
         :max_lease_seconds 3600
         :allowed_decision_kinds #("loop_once" "loop_worker_cycle"
@@ -35,4 +40,4 @@
                                    "token" "secret" "credential" "cookie"
                                    "account_id" "card_number" "local_absolute_path"
                                    "linear_url" "private_evidence")
-        :commands #("mhj control-plane status")))
+        :commands #("mhj control-plane status" "mhj control-plane verify")))

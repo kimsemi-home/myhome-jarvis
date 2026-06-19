@@ -6,6 +6,8 @@ func routeOperations(root string, args []string) (bool, error) {
 		return true, requireSubcommand(args, "verify", func() error { return runCIVerify(root) })
 	case "verification":
 		return true, requireSubcommand(args, "verify", func() error { return runVerificationVerify(root) })
+	case "control-plane":
+		return true, requireSubcommand(args, "verify", func() error { return controlPlaneVerify(root) })
 	case "toolchain":
 		return true, requireSubcommand(args, "verify", func() error { return runToolchainVerify(root) })
 	case "ddd":

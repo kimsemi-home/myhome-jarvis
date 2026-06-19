@@ -13,6 +13,12 @@
                  "Control-plane status must not expose raw rationale")
   (require-true (getf policy :verifier_separation_required)
                 "Control-plane verifier separation must be required")
+  (require-string-equal (getf policy :verifier_generated_artifact)
+                        "generated/control_plane_verification.generated.json"
+                        "Control-plane verifier artifact must be generated")
+  (require-string-equal (getf policy :verification_command)
+                        "mhj control-plane verify"
+                        "Control-plane verifier command must stay executable")
   (let ((min-lease (getf policy :min_lease_seconds))
         (max-lease (getf policy :max_lease_seconds)))
     (require-true (and (integerp min-lease)
@@ -29,7 +35,16 @@
                    (policy-list policy :allowed_lease_statuses)
                    "Control-plane lease status missing: ~A")
   (validate-control-plane-fields policy)
-  (require-command policy "mhj control-plane status"))
+  (require-control-plane-verifier policy)
+  (require-command policy "mhj control-plane status")
+  (require-command policy "mhj control-plane verify"))
+
+(defun require-control-plane-verifier (policy)
+  (require-members '("policy-json-valid" "status-public-redacted"
+                     "lease-bounds-valid" "verifier-separation-required"
+                     "manifest-debt-evaluated")
+                   (policy-list policy :verifier_checks)
+                   "Control-plane verifier check missing: ~A"))
 
 (defun validate-control-plane-fields (policy)
   (require-members '("decision_kind" "policy_version" "ontology_version"

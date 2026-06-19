@@ -11,7 +11,8 @@ lease, verifier roles, evidence inputs, and output reference were used.
 ## SSOT
 
 Common Lisp owns the policy in `lisp/ssot/control-plane.lisp` and emits
-`generated/control_plane.generated.json`.
+`generated/control_plane.generated.json` plus
+`generated/control_plane_verification.generated.json`.
 
 The generated policy defines:
 
@@ -27,10 +28,13 @@ The generated policy defines:
 
 ```sh
 go run ./cmd/mhj control-plane status
+go run ./cmd/mhj control-plane verify
 ```
 
 `mhj loop once` and bounded `mhj loop worker --cycles <n>` append a private
 manifest after writing their private checkpoint evidence.
+`mhj control-plane verify` is the deterministic sidecar check for the generated
+policy, public redaction, lease bounds, verifier separation, and manifest debt.
 
 The public status includes only:
 
@@ -61,6 +65,7 @@ Use these checks after changing the manifest policy:
 ```sh
 go test ./internal/controlplane ./internal/daemon ./cmd/mhj ./internal/knowledge ./internal/evidence
 go run ./cmd/mhj control-plane status
+go run ./cmd/mhj control-plane verify
 go run ./cmd/mhj loop once
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify

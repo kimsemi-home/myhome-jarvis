@@ -21,6 +21,9 @@ func validateVerificationGenerated(root string) (map[string]any, error) {
 	if err := verifyGraphArtifacts(root, graph); err != nil {
 		return nil, err
 	}
+	if err := verifyGraphCommands(graph); err != nil {
+		return nil, err
+	}
 	conformance, err := readVerificationJSON[verificationConformanceFile](root, "generated/verification_conformance.generated.json")
 	if err != nil {
 		return nil, err
