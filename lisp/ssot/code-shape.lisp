@@ -11,7 +11,7 @@
         :extensions #(".go" ".dart" ".lisp" ".rs")
         :excluded_prefixes #("data/private/" "generated/" ".git/" "target/"
                              "build/" ".dart_tool/" "node_modules/")
-        :legacy_debt_files #((:path "apps/flutter/test/daemon_client_test.dart" :max_lines 913) (:path "apps/flutter/lib/snapshot.dart" :max_lines 809)
+        :legacy_debt_files #((:path "apps/flutter/lib/snapshot.dart" :max_lines 809)
                               (:path "internal/knowledge/index.go" :max_lines 763) (:path "internal/linear/issues_test.go" :max_lines 707)
                               (:path "internal/daemon/server.go" :max_lines 609) (:path "crates/mhj-finance/src/lib.rs" :max_lines 584)
                               (:path "internal/domain/summary.go" :max_lines 562) (:path "crates/mhj-harness/src/lib.rs" :max_lines 558)

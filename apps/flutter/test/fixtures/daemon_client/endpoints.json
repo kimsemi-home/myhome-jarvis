@@ -1,0 +1,453 @@
+{
+  "/health": {
+    "ok": true,
+    "dry_run": true,
+    "host": "127.0.0.1"
+  },
+  "/auth/status": {
+    "configured": true,
+    "path": "data/private/local-token.txt",
+    "mode": "-rw-------",
+    "message": "local LAN token is configured"
+  },
+  "/commands": [
+    {"name": "open_youtube", "summary": "Open YouTube", "payload_fields": []},
+    {"name": "open_netflix", "summary": "Open Netflix", "payload_fields": []},
+    {"name": "open_disney_plus", "summary": "Open Disney+", "payload_fields": []},
+    {"name": "open_tving", "summary": "Open TVING", "payload_fields": []},
+    {"name": "open_wavve", "summary": "Open Wavve", "payload_fields": []},
+    {"name": "open_coupang_play", "summary": "Open Coupang Play", "payload_fields": []},
+    {"name": "volume_set", "summary": "Set output volume", "payload_fields": ["level"]}
+  ],
+  "/linear/status": {
+    "mode": "online",
+    "synced": true,
+    "queue_path": "data/private/linear-offline-queue.jsonl",
+    "viewer_configured": true,
+    "team_count": 1
+  },
+  "/repo/status": {
+    "branch": "main",
+    "short_sha": "abc123",
+    "worktree_clean": false,
+    "tracked_changes": [{"code": " M", "path": "README.md"}],
+    "untracked_files": ["docs/new.md"]
+  },
+  "/security/status": {
+    "ok": true,
+    "current_ok": true,
+    "current_finding_count": 0,
+    "history_ok": true,
+    "history_finding_count": 0,
+    "checked_at": "2026-06-15T00:00:00Z"
+  },
+  "/code-shape/status": {
+    "policy_path": "generated/code_shape.generated.json",
+    "max_file_lines": 75,
+    "file_count": 120,
+    "legacy_debt_count": 81,
+    "budget_regression_count": 0,
+    "ok": true
+  },
+  "/domain/summary": {
+    "finance": {
+      "records": 3,
+      "currency": "KRW",
+      "credit_minor_units": 4500000,
+      "debit_minor_units": 153200,
+      "net_minor_units": 4346800,
+      "subscription_minor_units": 65900,
+      "subscription_count": 1,
+      "card_debit_minor_units": 153200,
+      "card_debit_count": 2,
+      "categories": ["income", "subscription", "utilities"],
+      "owner_breakdown": [
+        {
+          "owner": "household",
+          "records": 2,
+          "currency": "KRW",
+          "credit_minor_units": 4500000,
+          "debit_minor_units": 65900,
+          "net_minor_units": 4434100
+        },
+        {
+          "owner": "user",
+          "records": 1,
+          "currency": "KRW",
+          "credit_minor_units": 0,
+          "debit_minor_units": 87300,
+          "net_minor_units": -87300
+        }
+      ]
+    },
+    "commerce": {
+      "records": 3,
+      "currency": "KRW",
+      "total_spend_minor_units": 26800,
+      "recurring_candidate_count": 1,
+      "recurring_candidates": [
+        {
+          "merchant_name": "Coupang",
+          "item_name": "Bottled water 2L x 6",
+          "currency": "KRW",
+          "purchase_count": 2,
+          "latest_total_minor_units": 11800,
+          "latest_purchased_at": "2026-06-10"
+        }
+      ],
+      "categories": ["grocery", "household"],
+      "owner_breakdown": [
+        {
+          "owner": "household",
+          "records": 2,
+          "currency": "KRW",
+          "purchase_spend_minor_units": 23600
+        },
+        {
+          "owner": "user",
+          "records": 1,
+          "currency": "KRW",
+          "purchase_spend_minor_units": 3200
+        }
+      ]
+    },
+    "household": {
+      "scopes": [
+        {
+          "scope": "user",
+          "label": "User",
+          "currency": "KRW",
+          "finance_records": 1,
+          "finance_net_minor_units": -87300,
+          "purchase_records": 1,
+          "purchase_spend_minor_units": 3200
+        },
+        {
+          "scope": "spouse",
+          "label": "Spouse",
+          "currency": "KRW",
+          "finance_records": 0,
+          "finance_net_minor_units": 0,
+          "purchase_records": 0,
+          "purchase_spend_minor_units": 0
+        },
+        {
+          "scope": "household",
+          "label": "Household",
+          "currency": "KRW",
+          "finance_records": 3,
+          "finance_net_minor_units": 4346800,
+          "purchase_records": 3,
+          "purchase_spend_minor_units": 26800
+        }
+      ]
+    },
+    "recommendations": {
+      "count": 3,
+      "items": [
+        {
+          "kind": "recurring_purchase_review",
+          "title": "Compare recurring purchase: Bottled water",
+          "rationale": "Coupang appears repeatedly.",
+          "score": 81,
+          "currency": "KRW",
+          "estimated_monthly_minor_units": 11800,
+          "evidence_count": 2
+        },
+        {
+          "kind": "card_usage_review",
+          "title": "Review card-linked household spend",
+          "rationale": "Card-linked debit fixtures exist.",
+          "score": 67,
+          "currency": "KRW",
+          "estimated_monthly_minor_units": 153200,
+          "evidence_count": 2
+        },
+        {
+          "kind": "subscription_review",
+          "title": "Review household subscriptions",
+          "rationale": "Subscription-like debit fixtures exist.",
+          "score": 61,
+          "currency": "KRW",
+          "estimated_monthly_minor_units": 65900,
+          "evidence_count": 1
+        }
+      ]
+    },
+    "storage": {
+      "datasets": ["finance_transactions", "commerce_purchases"],
+      "lake_layers": ["raw", "bronze", "silver", "gold"],
+      "long_term_format": "parquet",
+      "compression": "zstd"
+    }
+  },
+  "/connectors/status": {
+    "fixture_only": true,
+    "real_credentials_allowed": false,
+    "external_api_calls_allowed": false,
+    "connector_count": 2,
+    "planned_count": 2,
+    "fixture_mode_count": 2,
+    "generated_path": "generated/connectors.generated.json",
+    "connectors": [
+      {
+        "key": "mydata",
+        "label": "MyData aggregator",
+        "category": "finance_aggregation",
+        "status": "planned",
+        "fixture_mode": true,
+        "data_classes": ["accounts", "cards", "transactions"],
+        "allowed_operations": ["read_fixture", "summarize"],
+        "forbidden_operations": ["credential_request", "external_api_call", "transfer"],
+        "next_step": "Define consent and local vault boundaries."
+      },
+      {
+        "key": "commerce",
+        "label": "Commerce purchases",
+        "category": "commerce",
+        "status": "planned",
+        "fixture_mode": true,
+        "data_classes": ["orders", "items"],
+        "allowed_operations": ["read_fixture", "recommend_review", "summarize"],
+        "forbidden_operations": ["scraping", "purchase"],
+        "next_step": "Extend local purchase fixtures."
+      }
+    ]
+  },
+  "/agent-cluster/status": {
+    "context": "AgentCluster",
+    "version": "v1",
+    "public_safe": true,
+    "external_agent_execution_allowed": false,
+    "self_approval_allowed": false,
+    "authority_gate_required": true,
+    "evidence_stage_count": 10,
+    "role_count": 5,
+    "sidecar_count": 6,
+    "generated_path": "generated/agent_cluster.generated.json",
+    "signals": [
+      {
+        "key": "evidence_first",
+        "label": "Evidence first",
+        "status": "active",
+        "evidence": "observation and evidence precede code"
+      },
+      {
+        "key": "authority_gated",
+        "label": "Authority gated",
+        "status": "gated",
+        "evidence": "producer, reviewer, verifier, and steward roles are separated"
+      }
+    ]
+  },
+  "/learning/status": {
+    "path": "data/private/learning/observations.jsonl",
+    "policy_path": "generated/learning.generated.json",
+    "exists": true,
+    "count": 3,
+    "open_count": 1,
+    "closed_count": 2,
+    "by_kind": {"loop_gap": 1, "evidence_debt": 2},
+    "by_stage": {"evidence_recorded": 1, "knowledge_updated": 2},
+    "last_kind": "loop_gap",
+    "last_stage": "evidence_recorded",
+    "last_status": "open",
+    "last_observed_at": "2026-06-18T00:00:00Z"
+  },
+  "/evidence/status": {
+    "policy_path": "generated/evidence.generated.json",
+    "private_root": "data/private",
+    "source_count": 9,
+    "present_source_count": 2,
+    "node_count": 4,
+    "edge_count": 2,
+    "dangling_evidence_ref_count": 0,
+    "open_learning_count": 1,
+    "by_node_kind": {"learning_observation": 1, "evidence_artifact": 2, "quality_run": 1},
+    "by_edge_kind": {"supports": 2},
+    "sources": [
+      {
+        "key": "learning",
+        "node_kind": "learning_observation",
+        "format": "jsonl",
+        "present": true,
+        "count": 1
+      }
+    ]
+  },
+  "/confidence/status": {
+    "policy_path": "generated/confidence.generated.json",
+    "assessor_key": "confidence_assessor",
+    "level_cap": "medium",
+    "blocked": false,
+    "self_report_allowed": false,
+    "evidence_link_count": 2,
+    "dangling_evidence_ref_count": 0,
+    "open_learning_count": 1,
+    "quality_recorded": true,
+    "quality_ok": true,
+    "public_safety_ok": true,
+    "active_rule": "open_learning_debt"
+  },
+  "/translation/status": {
+    "policy_path": "generated/translation.generated.json",
+    "ledger_path": "data/private/translation/losses.jsonl",
+    "manifest_root": "data/private/translation/manifests",
+    "ledger_exists": true,
+    "manifest_root_exists": true,
+    "manifest_count": 2,
+    "invalid_manifest_count": 0,
+    "missing_manifest_count": 0,
+    "loss_count": 1,
+    "open_loss_count": 1,
+    "closed_loss_count": 0,
+    "invalid_loss_count": 0,
+    "open_debt_count": 1,
+    "forbidden_loss_count": 0,
+    "by_level": {"l2_degraded": 1},
+    "by_source_context": {"AgentCluster": 1},
+    "by_target_context": {"KnowledgeIndex": 1}
+  },
+  "/control-plane/status": {
+    "policy_path": "generated/control_plane.generated.json",
+    "manifest_path": "data/private/control-plane/manifests.jsonl",
+    "exists": true,
+    "count": 2,
+    "invalid_manifest_count": 0,
+    "manifest_debt_count": 0,
+    "verifier_separation_required": true,
+    "verifier_violation_count": 0,
+    "min_lease_seconds": 1,
+    "max_lease_seconds": 3600,
+    "by_decision_kind": {"loop_once": 1, "loop_worker_cycle": 1},
+    "by_authority_profile": {"local_readonly": 2},
+    "by_lease_status": {"finished": 2}
+  },
+  "/incidents/status": {
+    "policy_path": "generated/incidents.generated.json",
+    "ledger_path": "data/private/incidents/incidents.jsonl",
+    "exists": true,
+    "count": 3,
+    "open_count": 2,
+    "closed_count": 1,
+    "invalid_incident_count": 0,
+    "incident_debt_count": 1,
+    "missing_owner_count": 0,
+    "missing_evidence_count": 0,
+    "stale_quarantine_count": 1,
+    "quarantine_stale_after_hours": 168,
+    "by_kind": {"quarantine": 1, "evidence_gap": 2},
+    "by_stage": {"owner_assigned": 1, "knowledge_updated": 2},
+    "by_status": {"quarantined": 1, "closed": 1, "open": 1},
+    "by_owner_role": {"governance_steward": 1, "go": 2},
+    "by_quarantine_state": {"quarantined": 1, "released": 1}
+  },
+  "/evidence-quality/status": {
+    "policy_path": "generated/evidence_quality.generated.json",
+    "ledger_path": "data/private/evidence-quality/snapshots.jsonl",
+    "exists": true,
+    "snapshot_count": 3,
+    "invalid_snapshot_count": 0,
+    "reassessment_debt_count": 2,
+    "missing_evidence_count": 0,
+    "stale_snapshot_count": 1,
+    "low_quality_count": 1,
+    "blocked_quality_count": 0,
+    "mapping_drift_count": 0,
+    "stale_after_hours": 720,
+    "by_quality_level": {"high": 2, "low": 1},
+    "by_mapping_confidence": {"high": 2, "medium": 1},
+    "by_purpose": {"confidence_assessment": 1, "release_gate": 2},
+    "by_reassessment_reason": {"age": 1}
+  },
+  "/review/status": {
+    "policy_path": "generated/review.generated.json",
+    "queue_path": "data/private/review/queue.jsonl",
+    "exists": true,
+    "count": 2,
+    "open_count": 2,
+    "high_risk_open_count": 0,
+    "invalid_review_count": 0,
+    "missing_evidence_count": 0,
+    "missing_reviewer_count": 1,
+    "backup_available_count": 0,
+    "review_debt_count": 1,
+    "capacity_state": "constrained",
+    "active_rule": "missing_reviewer",
+    "max_open_reviews": 5,
+    "max_high_risk_open_reviews": 0,
+    "by_risk": {"medium": 2},
+    "by_status": {"requested": 1, "assigned": 1},
+    "by_reviewer_role": {"independent_reviewer": 1},
+    "by_queue_class": {"ssot_defect": 2}
+  },
+  "/authority/status": {
+    "policy_path": "generated/authority.generated.json",
+    "outcome": "review_required",
+    "active_rule": "evidence_quality_debt",
+    "authority_debt_count": 3,
+    "blocked_decision_count": 8,
+    "reasoning_tier_grants_approval": false,
+    "self_authority_allowed": false
+  },
+  "/metrics": {
+    "bind_host": "127.0.0.1",
+    "requests": 7,
+    "event_count": 2,
+    "goroutine_count": 9,
+    "heap_alloc_bytes": 1048576,
+    "heap_sys_bytes": 2097152,
+    "stack_inuse_bytes": 32768,
+    "gc_count": 1,
+    "dry_run_default": true,
+    "execute_enabled": false,
+    "lan_bind_allowed": false
+  },
+  "/events": {
+    "count": 2,
+    "events": []
+  },
+  "/supervisor/status": {
+    "recorded": true,
+    "stale": false,
+    "message": "daemon is reachable",
+    "state_path": "data/private/supervisor/daemon-state.json"
+  },
+  "/audit/status": {
+    "path": "data/private/audit/command-intents.jsonl",
+    "exists": true,
+    "count": 4
+  },
+  "/quality/status": {
+    "path": "data/private/quality/runs.jsonl",
+    "exists": true,
+    "count": 3,
+    "last": {
+      "ok": true,
+      "step_count": 12,
+      "pass_count": 12,
+      "fail_count": 0,
+      "skip_count": 0
+    }
+  },
+  "/planner/status": {
+    "loop_mode": "closed-loop",
+    "task_count": 6,
+    "ready_count": 0,
+    "completed_count": 5,
+    "blocked_external_write_count": 1,
+    "blocked_external_write_tasks": [
+      {
+        "id": "linear_sync",
+        "title": "Sync Linear only after explicit external-write approval",
+        "owner": "go",
+        "status": "blocked_external_write",
+        "depends_on": ["quality_gate"]
+      }
+    ],
+    "linear_template_count": 2,
+    "quality_required": true,
+    "linear_offline_fallback": true,
+    "checkpoint_root": "data/private/checkpoints"
+  }
+}

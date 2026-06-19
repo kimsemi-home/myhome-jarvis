@@ -943,3 +943,10 @@
   - Linear: KIM-86
   - Acceptance: `apps/flutter/lib/daemon_client.dart` keeps the public daemon client API under the normal 75-line budget by moving client transport, endpoint loading, command conversion, snapshot assembly, metric groups, domain parsers, connector/signal parsers, and JSON helpers into focused Dart part files; daemon snapshot behavior, bearer-token dry runs, dashboard parsing, generated fallback behavior, and public-safe display text remain unchanged; `apps/flutter/lib/daemon_client.dart` is removed from Code Shape legacy debt.
   - Validation: `cd apps/flutter && flutter test && flutter analyze`; `go test ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P134
+
+- [x] Ratchet Flutter daemon client test under 75 lines.
+  - Linear: KIM-87
+  - Acceptance: `apps/flutter/test/daemon_client_test.dart` keeps daemon client coverage under the normal 75-line budget by moving endpoint fixtures into JSON and splitting load, auth-header, LAN-mode, server, intent, metric, command, dashboard, recommendation, storage, and cluster assertions into focused helpers; daemon snapshot loading, dry-run planning, authorization header handling, LAN network labeling, dashboard parsing, generated policy display, and public-safe fixture behavior remain unchanged; `apps/flutter/test/daemon_client_test.dart` is removed from Code Shape legacy debt.
+  - Validation: `cd apps/flutter && flutter test && flutter analyze`; `go test ./internal/daemon ./internal/security ./internal/codeshape`; `go run ./cmd/mhj security check`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 17:10 KST
+
+- Linear issue: KIM-87 created and moved to In Progress.
+- Mode: code-shape burn-down, Flutter daemon client test refactor.
+- Task: Remove `apps/flutter/test/daemon_client_test.dart` from code-shape legacy debt by splitting daemon fixture serving, endpoint payloads, dry-run intent checks, auth-header checks, LAN-mode checks, and snapshot assertions into focused test helpers.
+- Files touched: `apps/flutter/test/daemon_client_test.dart`, `apps/flutter/test/daemon_client_cases/*.dart`, `apps/flutter/test/daemon_client_support/*.dart`, `apps/flutter/test/fixtures/daemon_client/endpoints.json`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept the daemon client behavior coverage intact while moving large endpoint payloads to a JSON fixture and reducing the test entrypoint to small case runners; split runtime, governance, command, storage, dashboard, recommendation, connector, Agent Cluster, HTTP fixture server, and LAN snapshot helpers into files below 75 lines; removed `apps/flutter/test/daemon_client_test.dart` from generated code-shape legacy debt.
+- Validation after: Flutter tests, Flutter analyze, focused Daemon/Security/Code Shape tests, current-tree security check, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 32 legacy debt files.
+- External-write note: created Linear issue KIM-87 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 08:39 KST
 
 - Linear issue: KIM-86 created and moved to In Progress.
