@@ -950,3 +950,10 @@
   - Linear: KIM-87
   - Acceptance: `apps/flutter/test/daemon_client_test.dart` keeps daemon client coverage under the normal 75-line budget by moving endpoint fixtures into JSON and splitting load, auth-header, LAN-mode, server, intent, metric, command, dashboard, recommendation, storage, and cluster assertions into focused helpers; daemon snapshot loading, dry-run planning, authorization header handling, LAN network labeling, dashboard parsing, generated policy display, and public-safe fixture behavior remain unchanged; `apps/flutter/test/daemon_client_test.dart` is removed from Code Shape legacy debt.
   - Validation: `cd apps/flutter && flutter test && flutter analyze`; `go test ./internal/daemon ./internal/security ./internal/codeshape`; `go run ./cmd/mhj security check`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P135
+
+- [x] Ratchet Flutter snapshot model under 75 lines.
+  - Linear: KIM-88
+  - Acceptance: `apps/flutter/lib/snapshot.dart` keeps the public snapshot library API under the normal 75-line budget by moving model classes, command previews, finance and purchase dashboards, recommendation and connector models, sample data, offline fallback metrics, and static client interfaces into focused Dart part files; `JarvisSnapshot.sample`, `JarvisSnapshot.offlineFallback()`, `StaticSnapshotClient`, command preview behavior, and public-safe sample display text remain unchanged; `apps/flutter/lib/snapshot.dart` is removed from Code Shape legacy debt.
+  - Validation: `cd apps/flutter && flutter test && flutter analyze`; `go test ./internal/codeshape`; `go run ./cmd/mhj security check`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

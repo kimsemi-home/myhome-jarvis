@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 17:20 KST
+
+- Linear issue: KIM-88 created and moved to In Progress.
+- Mode: code-shape burn-down, Flutter snapshot model refactor.
+- Task: Remove `apps/flutter/lib/snapshot.dart` from code-shape legacy debt by splitting snapshot models, sample data, offline fallback metrics, and static clients into focused Dart part files.
+- Files touched: `apps/flutter/lib/snapshot.dart`, `apps/flutter/lib/snapshot/*.dart`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept the public `package:myhome_jarvis_app/snapshot.dart` surface intact while moving metrics, commands, finance, purchase, recommendations, connectors, Agent Cluster signals, `JarvisSnapshot`, clients, sample snapshot lists, and offline fallback metrics into files below 75 lines; removed `apps/flutter/lib/snapshot.dart` from generated code-shape legacy debt.
+- Validation after: Flutter tests, Flutter analyze, focused Code Shape tests, current-tree security check, SSOT validation, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 31 legacy debt files.
+- External-write note: created Linear issue KIM-88 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 17:10 KST
 
 - Linear issue: KIM-87 created and moved to In Progress.
