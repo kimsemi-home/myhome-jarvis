@@ -1,0 +1,91 @@
+# Generated from lisp/ssot/verification-graph.lisp.
+stages:
+  - release-check
+  - conformance
+  - unit-test
+  - integration-test
+  - lint
+
+public-safety:
+  stage: release-check
+  timeout: 10m
+  script:
+    - go run ./cmd/mhj security check
+    - go run ./cmd/mhj security history
+  artifacts:
+    when: always
+    paths:
+      - generated/
+  rules:
+    - when: on_success
+
+ssot:
+  stage: conformance
+  timeout: 10m
+  script:
+    - ros -Q run -- --script lisp/scripts/validate-ssot.lisp
+    - ros -Q run -- --script lisp/scripts/codegen.lisp
+    - test -s generated/verification_graph.generated.json
+    - test -s generated/github_quality_workflow.generated.yml
+    - test -s generated/gitlab_quality.generated.yml
+    - test -s generated/local_quality.generated.mk
+    - test -s generated/bazel_quality.generated.bzl
+    - git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md
+  artifacts:
+    when: always
+    paths:
+      - generated/
+  rules:
+    - when: on_success
+
+go:
+  stage: unit-test
+  timeout: 10m
+  script:
+    - go run ./cmd/mhj ci verify
+    - go run ./cmd/mhj toolchain verify
+    - go run ./cmd/mhj code-shape status
+    - go run ./cmd/mhj harness home
+    - go run ./cmd/mhj harness finance
+    - go run ./cmd/mhj harness commerce
+    - go test ./...
+    - go vet ./...
+    - unformatted="$(gofmt -l cmd internal)"
+    - if [ -n "$unformatted" ]; then
+    -   echo "$unformatted"
+    -   exit 1
+    - fi
+  artifacts:
+    when: always
+    paths:
+      - generated/
+  rules:
+    - when: on_success
+
+rust:
+  stage: integration-test
+  timeout: 10m
+  script:
+    - cargo test --workspace
+    - cargo test -p mhj-core benchmark_smoke -- --nocapture
+    - cargo fmt --check
+    - cargo clippy --workspace -- -D warnings
+  artifacts:
+    when: always
+    paths:
+      - generated/
+  rules:
+    - when: on_success
+
+flutter:
+  stage: lint
+  timeout: 10m
+  script:
+    - flutter test
+    - flutter analyze
+  artifacts:
+    when: always
+    paths:
+      - generated/
+  rules:
+    - when: on_success

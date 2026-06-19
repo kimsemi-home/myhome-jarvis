@@ -30,6 +30,7 @@
                   "../ssot/code-shape.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"
+                  "../ssot/verification-units.lisp"
                   "../ssot/verification-graph.lisp"
                   "../ssot/codegen-validate-helpers.lisp"
                   "../ssot/codegen-validate-basics.lisp"
@@ -54,6 +55,10 @@
                   "../ssot/codegen-workflow-steps.lisp"
                   "../ssot/codegen-workflow-unit.lisp"
                   "../ssot/codegen-workflow.lisp"
+                  "../ssot/codegen-gitlab.lisp"
+                  "../ssot/codegen-makefile.lisp"
+                  "../ssot/codegen-bazel.lisp"
+                  "../ssot/codegen-backends.lisp"
                   "../ssot/codegen-verification-doc.lisp"
                   "../ssot/codegen-artifacts.lisp"
                   "../ssot/codegen.lisp"))

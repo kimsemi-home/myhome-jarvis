@@ -8,7 +8,16 @@ Generated artifacts:
 - `generated/verification_graph.generated.json`
 - `generated/github_quality_workflow.generated.yml`
 - `.github/workflows/quality.yml`
+- `generated/gitlab_quality.generated.yml`
+- `generated/local_quality.generated.mk`
+- `generated/bazel_quality.generated.bzl`
 - `docs/verification-graph.md`
+
+Backends:
+- `github-actions` -> `generated/github_quality_workflow.generated.yml`
+- `gitlab-ci` -> `generated/gitlab_quality.generated.yml`
+- `local-makefile` -> `generated/local_quality.generated.mk`
+- `bazel` -> `generated/bazel_quality.generated.bzl`
 
 | Unit | Kind | Cache | Evidence |
 | --- | --- | --- | --- |

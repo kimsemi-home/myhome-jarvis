@@ -16,6 +16,11 @@
   (format stream "Generated artifacts:~%")
   (dolist (artifact (policy-list *verification-graph* :generated_artifacts))
     (format stream "- `~A`~%" artifact))
+  (format stream "~%Backends:~%")
+  (dolist (backend (policy-list *verification-graph* :backends))
+    (format stream "- `~A` -> `~A`~%"
+            (getf backend :id)
+            (getf backend :path)))
   (format stream "~%| Unit | Kind | Cache | Evidence |~%")
   (format stream "| --- | --- | --- | --- |~%")
   (dolist (unit (policy-list *verification-graph* :units))

@@ -20,6 +20,9 @@ jobs:
           ros -Q run -- --script lisp/scripts/codegen.lisp
           test -s generated/verification_graph.generated.json
           test -s generated/github_quality_workflow.generated.yml
+          test -s generated/gitlab_quality.generated.yml
+          test -s generated/local_quality.generated.mk
+          test -s generated/bazel_quality.generated.bzl
           git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md
   public-safety:
     steps:

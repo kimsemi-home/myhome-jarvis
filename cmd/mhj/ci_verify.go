@@ -30,6 +30,8 @@ func validateCIWorkflowContract(root string) error {
 		"'.go-version'", "'rust-toolchain.toml'", "'generated/*.json'",
 		"generated/verification_graph.generated.json",
 		"generated/github_quality_workflow.generated.yml", "docs/verification-graph.md",
+		"generated/gitlab_quality.generated.yml", "generated/local_quality.generated.mk",
+		"generated/bazel_quality.generated.bzl",
 		"git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md",
 		"'generated/commands.generated.json'", "'generated/connectors.generated.json'",
 		"'generated/agent_cluster.generated.json'", "'generated/learning.generated.json'",
