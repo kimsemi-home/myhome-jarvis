@@ -24,6 +24,7 @@
   (format stream "~%Conformance:~%")
   (format stream "- schema: `generated/verification_graph.schema.generated.json`~%")
   (format stream "- manifest: `generated/verification_conformance.generated.json`~%")
+  (format stream "- tests: `generated/verification_tests.generated.json`~%")
   (format stream "- release: `generated/release_pipeline.generated.json`~%")
   (format stream "~%| Unit | Kind | Cache | Evidence |~%")
   (format stream "| --- | --- | --- | --- |~%")

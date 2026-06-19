@@ -12,6 +12,7 @@
                      "generated/bazel_quality.generated.bzl"
                      "generated/verification_graph.schema.generated.json"
                      "generated/verification_conformance.generated.json"
+                     "generated/verification_tests.generated.json"
                      "generated/release_pipeline.generated.json"
                      "docs/verification-graph.md")
                    (policy-list graph :generated_artifacts)

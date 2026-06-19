@@ -25,6 +25,7 @@
   (write-verification-backends root)
   (write-verification-schema root)
   (write-verification-conformance root)
+  (write-verification-tests root)
   (write-release-pipeline root)
   (write-verification-doc root))
 

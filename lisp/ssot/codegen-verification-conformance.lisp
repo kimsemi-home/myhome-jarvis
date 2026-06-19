@@ -14,6 +14,7 @@
         :schema_artifact "generated/verification_graph.schema.generated.json"
         :checks (verification-conformance-checks)
         :backend_artifacts (backend-artifact-list)
+        :tests_artifact "generated/verification_tests.generated.json"
         :release_artifact "generated/release_pipeline.generated.json"))
 
 (defun verification-conformance-checks ()
@@ -25,8 +26,10 @@
      :evidence "generated/{github,gitlab,local,bazel}_quality")
     (:id "release-pipeline-present"
      :evidence "generated/release_pipeline.generated.json")
+    (:id "tests-present"
+     :evidence "generated/verification_tests.generated.json")
     (:id "drift-protected"
-     :evidence "mhj codegen verify and SSOT CI unit")))
+     :evidence "mhj codegen verify, mhj verification verify, and SSOT CI unit")))
 
 (defun backend-artifact-list ()
   (map 'vector

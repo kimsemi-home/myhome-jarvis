@@ -21,6 +21,7 @@ def mhj_verification_graph():
             "test -s generated/bazel_quality.generated.bzl",
             "test -s generated/verification_graph.schema.generated.json",
             "test -s generated/verification_conformance.generated.json",
+            "test -s generated/verification_tests.generated.json",
             "test -s generated/release_pipeline.generated.json",
             "git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md",
         ],
@@ -30,6 +31,7 @@ def mhj_verification_graph():
         srcs = [":run_shell"],
         args = [
             "go run ./cmd/mhj ci verify",
+            "go run ./cmd/mhj verification verify",
             "go run ./cmd/mhj toolchain verify",
             "go run ./cmd/mhj code-shape status",
             "go run ./cmd/mhj harness home",
@@ -64,11 +66,5 @@ def mhj_verification_graph():
     )
     native.test_suite(
         name = "quality",
-        tests = [
-            ":verify_public-safety",
-            ":verify_ssot",
-            ":verify_go",
-            ":verify_rust",
-            ":verify_flutter",
-        ],
+        tests = [":verify_public-safety", ":verify_ssot", ":verify_go", ":verify_rust", ":verify_flutter"],
     )

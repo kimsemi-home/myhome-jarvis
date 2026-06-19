@@ -25,6 +25,7 @@ jobs:
           test -s generated/bazel_quality.generated.bzl
           test -s generated/verification_graph.schema.generated.json
           test -s generated/verification_conformance.generated.json
+          test -s generated/verification_tests.generated.json
           test -s generated/release_pipeline.generated.json
           git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md
   public-safety:
@@ -41,6 +42,7 @@ jobs:
         with:
           key: go-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'generated/*.json', 'generated/github_quality_workflow.generated.yml') }}
       - run: go run ./cmd/mhj ci verify
+      - run: go run ./cmd/mhj verification verify
       - run: go run ./cmd/mhj code-shape status
       - run: go run ./cmd/mhj toolchain verify
       - uses: actions/cache/save@v5

@@ -21,11 +21,12 @@
                                "generated/bazel_quality.generated.bzl"
                                "generated/verification_graph.schema.generated.json"
                                "generated/verification_conformance.generated.json"
+                               "generated/verification_tests.generated.json"
                                "generated/release_pipeline.generated.json"
                                "docs/verification-graph.md")
         :backends *verification-backends*
         :evidence #("GitHub job logs" ".github/unit-cache/<unit>/key"
                     "generated backend specs"
-                    "generated schema and conformance specs"
+                    "generated schema, conformance, and test specs"
                     "redacted local quality run ledger")
         :units *verification-units*))

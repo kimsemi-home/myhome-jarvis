@@ -61,6 +61,7 @@
                   "../ssot/codegen-backends.lisp"
                   "../ssot/codegen-verification-schema.lisp"
                   "../ssot/codegen-verification-conformance.lisp"
+                  "../ssot/codegen-verification-tests.lisp"
                   "../ssot/codegen-release-pipeline.lisp"
                   "../ssot/codegen-verification-doc.lisp"
                   "../ssot/codegen-artifacts.lisp"

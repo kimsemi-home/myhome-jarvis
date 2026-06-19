@@ -16,10 +16,8 @@
     (emit-bazel-unit stream unit))
   (wf stream "    native.test_suite(")
   (wf stream "        name = \"quality\",")
-  (wf stream "        tests = [")
-  (dolist (id (unit-ids))
-    (wf stream "            \":verify_~A\"," id))
-  (wf stream "        ],")
+  (wf stream "        tests = [~{\":verify_~A\"~^, ~}],"
+      (unit-ids))
   (wf stream "    )"))
 
 (defun emit-bazel-unit (stream unit)

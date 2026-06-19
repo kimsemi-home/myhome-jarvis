@@ -35,6 +35,9 @@ func runCodegenVerify(root string) error {
 	if len(changed) > 0 {
 		return fmt.Errorf("generated artifacts are out of date: %s", strings.Join(changed, ", "))
 	}
+	if _, err := validateVerificationGenerated(root); err != nil {
+		return err
+	}
 	fmt.Fprintln(os.Stdout, "Generated artifacts verified")
 	return nil
 }

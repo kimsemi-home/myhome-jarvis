@@ -15,7 +15,8 @@
         :private_data_allowed nil
         :gates (release-gates)
         :evidence #("GitHub quality run" "same-SHA cache-hit rerun"
-                    "generated verification conformance manifest")))
+                    "generated verification conformance manifest"
+                    "generated verification test manifest")))
 
 (defun release-gates ()
   (map 'vector

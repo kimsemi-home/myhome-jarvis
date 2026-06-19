@@ -13,6 +13,7 @@ Generated artifacts:
 - `generated/bazel_quality.generated.bzl`
 - `generated/verification_graph.schema.generated.json`
 - `generated/verification_conformance.generated.json`
+- `generated/verification_tests.generated.json`
 - `generated/release_pipeline.generated.json`
 - `docs/verification-graph.md`
 
@@ -25,6 +26,7 @@ Backends:
 Conformance:
 - schema: `generated/verification_graph.schema.generated.json`
 - manifest: `generated/verification_conformance.generated.json`
+- tests: `generated/verification_tests.generated.json`
 - release: `generated/release_pipeline.generated.json`
 
 | Unit | Kind | Cache | Evidence |

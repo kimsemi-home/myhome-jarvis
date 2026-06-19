@@ -4,6 +4,8 @@ func routeOperations(root string, args []string) (bool, error) {
 	switch args[0] {
 	case "ci":
 		return true, requireSubcommand(args, "verify", func() error { return runCIVerify(root) })
+	case "verification":
+		return true, requireSubcommand(args, "verify", func() error { return runVerificationVerify(root) })
 	case "toolchain":
 		return true, requireSubcommand(args, "verify", func() error { return runToolchainVerify(root) })
 	case "ddd":
