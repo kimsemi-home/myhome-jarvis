@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Set up Go
@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Restore SSOT and generated artifacts unit cache
         id: unit-cache
         uses: actions/cache/restore@v5
@@ -100,7 +100,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Restore Go daemon and CLI unit cache
         id: unit-cache
         uses: actions/cache/restore@v5
@@ -157,7 +157,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Restore Rust core and harness unit cache
         id: unit-cache
         uses: actions/cache/restore@v5
@@ -199,7 +199,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Restore Flutter local client unit cache
         id: unit-cache
         uses: actions/cache/restore@v5

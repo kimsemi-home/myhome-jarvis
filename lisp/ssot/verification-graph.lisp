@@ -28,6 +28,7 @@
                                "generated/release_pipeline.generated.json"
                                "docs/verification-graph.md")
         :backends *verification-backends*
+        :github_action_refs *github-action-refs*
         :evidence #("GitHub job logs" ".github/unit-cache/<unit>/key"
                     "generated backend specs"
                     "generated schema, conformance, and test specs"

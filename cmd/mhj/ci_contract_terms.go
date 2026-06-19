@@ -23,6 +23,8 @@ func baseCIWorkflowTokens() []string {
 		"'generated/review.generated.json'", "'generated/pdca.generated.json'",
 		"'generated/code_shape.generated.json'",
 		"'generated/authority.generated.json'", "LISP: \"sbcl-bin\"",
+		"actions/checkout@v7", "actions/setup-go@v6",
+		"actions/cache/restore@v5", "actions/cache/save@v5",
 		"40ants/setup-lisp@v4", "ros -Q run -- --script lisp/scripts/validate-ssot.lisp",
 		"ros -Q run -- --script lisp/scripts/codegen.lisp",
 		"github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'",

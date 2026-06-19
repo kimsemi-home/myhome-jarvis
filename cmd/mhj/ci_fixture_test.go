@@ -33,7 +33,7 @@ jobs:
           git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md
   public-safety:
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - run: |
@@ -41,6 +41,7 @@ jobs:
           go run ./cmd/mhj security history
   go:
     steps:
+      - uses: actions/setup-go@v6
       - uses: actions/cache/restore@v5
         with:
           key: go-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'generated/*.json', 'generated/github_quality_workflow.generated.yml') }}

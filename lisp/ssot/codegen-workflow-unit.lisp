@@ -20,7 +20,7 @@
   (when (getf unit :cache)
     (wf stream "      - name: Restore ~A unit cache" (getf unit :name))
     (wf stream "        id: unit-cache")
-    (wf stream "        uses: actions/cache/restore@v5")
+    (wf stream "        uses: ~A" (github-action-ref "cache-restore"))
     (wf stream "        with:")
     (wf stream "          path: .github/unit-cache/~A" (getf unit :cache))
     (wf stream "          key: ~A-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-~A"
@@ -46,7 +46,7 @@
   (when (getf unit :cache)
     (wf stream "      - name: Save ~A unit cache" (getf unit :name))
     (wf stream "        if: steps.unit-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.repository == 'kimsemi-home/myhome-jarvis'")
-    (wf stream "        uses: actions/cache/save@v5")
+    (wf stream "        uses: ~A" (github-action-ref "cache-save"))
     (wf stream "        continue-on-error: true")
     (wf stream "        with:")
     (wf stream "          path: .github/unit-cache/~A" (getf unit :cache))

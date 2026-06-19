@@ -20,7 +20,8 @@
           (mhj-authority-files)
           '("../ssot/pdca.lisp" "../ssot/code-shape.lisp"
             "../ssot/linear.lisp" "../ssot/planner.lisp" "../ssot/verification-units.lisp"
-            "../ssot/verification-graph.lisp" "../ssot/codegen-validate-helpers.lisp"
+            "../ssot/github-actions.lisp" "../ssot/verification-graph.lisp"
+            "../ssot/codegen-validate-helpers.lisp"
             "../ssot/codegen-validate-basics.lisp" "../ssot/codegen-validate-agent.lisp"
             "../ssot/codegen-validate-shape-learning.lisp" "../ssot/codegen-validate-evidence.lisp"
             "../ssot/codegen-validate-confidence.lisp" "../ssot/codegen-validate-ddd-core.lisp"

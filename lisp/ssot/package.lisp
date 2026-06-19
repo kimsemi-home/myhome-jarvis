@@ -33,6 +33,7 @@
    #:*code-shape-policy*
    #:*linear-policy*
    #:*planner-policy*
+   #:*github-action-refs*
    #:*verification-graph*
    #:validate-ssot
    #:write-generated-artifacts))

@@ -26,6 +26,7 @@
                (:file "code-shape")
                (:file "linear")
                (:file "planner")
+               (:file "github-actions")
                (:file "codegen-validate-helpers")
                (:file "codegen-validate-basics")
                (:file "codegen-validate-agent")

@@ -30,7 +30,9 @@ repository. Pull requests still verify cache misses, but they cannot publish
 new known-good markers for later runs.
 
 Workflow-maintained action refs use Node 24-capable releases:
-`actions/checkout@v6`, `actions/setup-go@v6`, and `actions/cache@v5`.
+`actions/checkout@v7`, `actions/setup-go@v6`, and `actions/cache@v5`.
+The exact refs are SSOT-owned in the Verification Graph and emitted into
+`generated/verification_graph.generated.json` plus the generated workflow.
 Because `.github/workflows/quality.yml` is part of every unit cache key, action
 ref changes intentionally invalidate the SSOT, Go, Rust, and Flutter unit
 caches once so the new runner surface is verified before future cache hits.

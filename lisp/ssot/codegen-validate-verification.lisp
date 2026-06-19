@@ -18,6 +18,7 @@
                    (policy-list graph :generated_artifacts)
                    "Verification generated artifact missing: ~A")
   (validate-verification-backends graph)
+  (validate-github-action-refs (policy-list graph :github_action_refs))
   (require-string-value (getf graph :expression)
                         "Verification graph expression is required")
   (dolist (unit (policy-list graph :units))
@@ -49,3 +50,14 @@
                           "Verification backend id is required")
     (require-string-value (getf backend :path)
                           "Verification backend path is required")))
+
+(defun validate-github-action-refs (refs)
+  (require-members '("checkout" "setup-go" "cache-restore" "cache-save"
+                     "setup-lisp" "setup-flutter")
+                   (mapcar (lambda (ref) (getf ref :key)) refs)
+                   "GitHub action ref missing: ~A")
+  (dolist (ref refs)
+    (require-string-value (getf ref :uses)
+                          "GitHub action uses ref is required")
+    (require-true (search "@" (getf ref :uses))
+                  "GitHub action uses ref must include a version")))
