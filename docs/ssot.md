@@ -17,6 +17,8 @@ Current SSOT boundaries are intentionally separated by domain:
 - `security`, `connectors`, `agent-cluster`, `linear`, `planner`:
   public-safety rules, fixture-only connector readiness, evidence-first agent
   cluster policy, Linear workflow rules, and planning metadata.
+- `assistant-vision`: universal language, capability pillars, Linear epics, and
+  guardrails for the long-running assistant roadmap.
 - `code-shape`: 75-line source budget, current legacy debt baseline, and
   public-safe code-shape status fields.
 - `learning`: private observation ledger policy for loop gaps and evidence
@@ -71,6 +73,13 @@ classes, quarantine triggers, failure conditions, and public-safe status
 signals. It forbids external agent execution, raw transcript storage, private
 data in public evidence, self-approval, and self-reported final confidence in
 this phase.
+
+The Assistant Vision SSOT emits `generated/assistant_vision.generated.json`.
+It defines the public-safe universal language for future assistant work:
+intents, capabilities, evidence, decisions, cost units, monetization loops,
+repo factories, and household scopes. It also records the roadmap epics for
+local media, household finance, Shorts Factory repo governance, monetization,
+Codex cost governance, self-improvement, and security hardening.
 
 The Learning Ledger SSOT emits `generated/learning.generated.json`. Go reads
 that artifact for `mhj learning status`, `mhj learning record`, and daemon

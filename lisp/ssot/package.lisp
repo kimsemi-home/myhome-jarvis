@@ -28,6 +28,7 @@
    #:*incident-policy*
    #:*evidence-quality-policy*
    #:*review-policy*
+   #:*assistant-vision-policy*
    #:*authority-policy*
    #:*pdca-policy*
    #:*code-shape-policy*

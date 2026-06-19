@@ -15,6 +15,7 @@ func requiredVerificationArtifacts() []string {
 		"generated/verification_conformance.generated.json",
 		"generated/verification_tests.generated.json",
 		"generated/release_pipeline.generated.json",
+		"generated/assistant_vision.generated.json",
 		"docs/verification-graph.md",
 	}
 }

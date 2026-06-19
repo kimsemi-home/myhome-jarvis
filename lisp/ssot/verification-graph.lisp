@@ -24,9 +24,10 @@
                                "generated/pdca.generated.json"
                                "generated/verification_graph.schema.generated.json"
                                "generated/verification_conformance.generated.json"
-                               "generated/verification_tests.generated.json"
-                               "generated/release_pipeline.generated.json"
-                               "docs/verification-graph.md")
+	                               "generated/verification_tests.generated.json"
+	                               "generated/release_pipeline.generated.json"
+	                               "generated/assistant_vision.generated.json"
+	                               "docs/verification-graph.md")
         :backends *verification-backends*
         :github_action_refs *github-action-refs*
         :evidence #("GitHub job logs" ".github/unit-cache/<unit>/key"
