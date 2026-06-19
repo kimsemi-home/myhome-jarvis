@@ -10,6 +10,9 @@
                      "generated/gitlab_quality.generated.yml"
                      "generated/local_quality.generated.mk"
                      "generated/bazel_quality.generated.bzl"
+                     "generated/verification_graph.schema.generated.json"
+                     "generated/verification_conformance.generated.json"
+                     "generated/release_pipeline.generated.json"
                      "docs/verification-graph.md")
                    (policy-list graph :generated_artifacts)
                    "Verification generated artifact missing: ~A")

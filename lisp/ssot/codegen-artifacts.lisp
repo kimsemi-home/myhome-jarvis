@@ -23,6 +23,9 @@
     (write-json-file (artifact-path root (first artifact)) (second artifact)))
   (write-quality-workflows root)
   (write-verification-backends root)
+  (write-verification-schema root)
+  (write-verification-conformance root)
+  (write-release-pipeline root)
   (write-verification-doc root))
 
 (defun artifact-path (root name)

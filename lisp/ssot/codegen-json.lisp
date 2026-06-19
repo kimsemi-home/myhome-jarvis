@@ -58,4 +58,11 @@
              always (keywordp (first tail)))))
 
 (defun json-key (key)
-  (string-downcase (symbol-name key)))
+  (let ((name (symbol-name key)))
+    (if (mixed-case-symbol-name-p name)
+        name
+        (string-downcase name))))
+
+(defun mixed-case-symbol-name-p (name)
+  (loop for char across name
+        thereis (lower-case-p char)))

@@ -19,6 +19,9 @@ def mhj_verification_graph():
             "test -s generated/gitlab_quality.generated.yml",
             "test -s generated/local_quality.generated.mk",
             "test -s generated/bazel_quality.generated.bzl",
+            "test -s generated/verification_graph.schema.generated.json",
+            "test -s generated/verification_conformance.generated.json",
+            "test -s generated/release_pipeline.generated.json",
             "git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md",
         ],
     )

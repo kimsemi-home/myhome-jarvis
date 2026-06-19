@@ -11,6 +11,9 @@ Generated artifacts:
 - `generated/gitlab_quality.generated.yml`
 - `generated/local_quality.generated.mk`
 - `generated/bazel_quality.generated.bzl`
+- `generated/verification_graph.schema.generated.json`
+- `generated/verification_conformance.generated.json`
+- `generated/release_pipeline.generated.json`
 - `docs/verification-graph.md`
 
 Backends:
@@ -18,6 +21,11 @@ Backends:
 - `gitlab-ci` -> `generated/gitlab_quality.generated.yml`
 - `local-makefile` -> `generated/local_quality.generated.mk`
 - `bazel` -> `generated/bazel_quality.generated.bzl`
+
+Conformance:
+- schema: `generated/verification_graph.schema.generated.json`
+- manifest: `generated/verification_conformance.generated.json`
+- release: `generated/release_pipeline.generated.json`
 
 | Unit | Kind | Cache | Evidence |
 | --- | --- | --- | --- |

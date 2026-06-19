@@ -21,6 +21,10 @@
     (format stream "- `~A` -> `~A`~%"
             (getf backend :id)
             (getf backend :path)))
+  (format stream "~%Conformance:~%")
+  (format stream "- schema: `generated/verification_graph.schema.generated.json`~%")
+  (format stream "- manifest: `generated/verification_conformance.generated.json`~%")
+  (format stream "- release: `generated/release_pipeline.generated.json`~%")
   (format stream "~%| Unit | Kind | Cache | Evidence |~%")
   (format stream "| --- | --- | --- | --- |~%")
   (dolist (unit (policy-list *verification-graph* :units))
