@@ -11,7 +11,7 @@
         :extensions #(".go" ".dart" ".lisp" ".rs")
         :excluded_prefixes #("data/private/" "generated/" ".git/" "target/"
                              "build/" ".dart_tool/" "node_modules/")
-        :legacy_debt_files #((:path "internal/incidents/status.go" :max_lines 389) (:path "internal/evidence/status.go" :max_lines 380)
+        :legacy_debt_files #((:path "internal/evidence/status.go" :max_lines 380)
                               (:path "internal/knowledge/index_test.go" :max_lines 377) (:path "internal/learning/ledger.go" :max_lines 370)
                               (:path "internal/evidencequality/status.go" :max_lines 369)
                               (:path "internal/linear/status.go" :max_lines 320) (:path "internal/commands/registry.go" :max_lines 265)
