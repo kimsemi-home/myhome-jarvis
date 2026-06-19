@@ -1,0 +1,29 @@
+import 'package:flutter_test/flutter_test.dart';
+
+import 'widget_helpers.dart';
+
+void main() {
+  testWidgets('shows finance and purchase tabs', (tester) async {
+    await pumpJarvis(tester);
+
+    await openTab(tester, 'Finance');
+    expect(find.text('Net'), findsOneWidget);
+    expect(find.text('4346800 KRW'), findsOneWidget);
+    expect(find.text('Subscriptions'), findsOneWidget);
+    expect(find.text('1 / 65900 KRW'), findsOneWidget);
+    expect(find.text('Card-linked'), findsOneWidget);
+    expect(find.text('2 / 153200 KRW'), findsOneWidget);
+    expect(find.text('Owner Breakdown'), findsOneWidget);
+    expect(find.text('Household net'), findsOneWidget);
+    expect(find.text('Categories'), findsOneWidget);
+
+    await openTab(tester, 'Purchases');
+    expect(find.text('Spend'), findsOneWidget);
+    expect(find.text('26800 KRW'), findsOneWidget);
+    expect(find.text('Recurring Candidates'), findsOneWidget);
+    expect(find.text('Bottled water 2L x 6'), findsOneWidget);
+    expect(find.text('Coupang / 2 purchases / 2026-06-10'), findsOneWidget);
+    expect(find.text('Owner Spend'), findsOneWidget);
+    expect(find.text('Household spend'), findsOneWidget);
+  });
+}
