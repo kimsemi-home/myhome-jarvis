@@ -11,8 +11,7 @@
         :extensions #(".go" ".dart" ".lisp" ".rs")
         :excluded_prefixes #("data/private/" "generated/" ".git/" "target/"
                              "build/" ".dart_tool/" "node_modules/")
-        :legacy_debt_files #((:path "crates/mhj-harness/src/lib.rs" :max_lines 558)
-                              (:path "crates/mhj-commerce/src/lib.rs" :max_lines 527) (:path "internal/linear/issues.go" :max_lines 526)
+        :legacy_debt_files #((:path "crates/mhj-commerce/src/lib.rs" :max_lines 527) (:path "internal/linear/issues.go" :max_lines 526)
                               (:path "crates/mhj-command/src/lib.rs" :max_lines 403)
                               (:path "internal/linear/replay.go" :max_lines 392)
                               (:path "internal/incidents/status.go" :max_lines 389) (:path "internal/evidence/status.go" :max_lines 380)
