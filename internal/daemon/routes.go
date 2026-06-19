@@ -1,0 +1,40 @@
+package daemon
+
+import "net/http"
+
+func (server *Server) Routes() http.Handler {
+	mux := http.NewServeMux()
+	mux.HandleFunc("GET /health", server.wrap(server.handleHealth))
+	mux.HandleFunc("GET /version", server.wrap(server.handleVersion))
+	mux.HandleFunc("GET /auth/status", server.wrap(server.handleAuthStatus))
+	mux.HandleFunc("GET /commands", server.wrap(server.handleCommands))
+	mux.HandleFunc("POST /intent", server.wrap(server.handleIntent))
+	mux.HandleFunc("POST /harness/run", server.wrap(server.handleHarnessRun))
+	mux.HandleFunc("GET /linear/status", server.wrap(server.handleLinearStatus))
+	mux.HandleFunc("POST /linear/sync", server.wrap(server.handleLinearSync))
+	mux.HandleFunc("GET /repo/status", server.wrap(server.handleRepoStatus))
+	mux.HandleFunc("GET /security/status", server.wrap(server.handleSecurityStatus))
+	mux.HandleFunc("GET /code-shape/status", server.wrap(server.handleCodeShapeStatus))
+	mux.HandleFunc("GET /loop/status", server.wrap(server.handleLoopStatus))
+	mux.HandleFunc("GET /domain/summary", server.wrap(server.handleDomainSummary))
+	mux.HandleFunc("GET /connectors/status", server.wrap(server.handleConnectorsStatus))
+	mux.HandleFunc("GET /agent-cluster/status", server.wrap(server.handleAgentClusterStatus))
+	mux.HandleFunc("GET /learning/status", server.wrap(server.handleLearningStatus))
+	mux.HandleFunc("GET /evidence/status", server.wrap(server.handleEvidenceStatus))
+	mux.HandleFunc("GET /confidence/status", server.wrap(server.handleConfidenceStatus))
+	mux.HandleFunc("GET /translation/status", server.wrap(server.handleTranslationStatus))
+	mux.HandleFunc("GET /control-plane/status", server.wrap(server.handleControlPlaneStatus))
+	mux.HandleFunc("GET /incidents/status", server.wrap(server.handleIncidentsStatus))
+	mux.HandleFunc("GET /evidence-quality/status", server.wrap(server.handleEvidenceQualityStatus))
+	mux.HandleFunc("GET /review/status", server.wrap(server.handleReviewStatus))
+	mux.HandleFunc("GET /authority/status", server.wrap(server.handleAuthorityStatus))
+	mux.HandleFunc("GET /household/summary", server.wrap(server.handleHouseholdSummary))
+	mux.HandleFunc("GET /recommendations/summary", server.wrap(server.handleRecommendationsSummary))
+	mux.HandleFunc("GET /metrics", server.wrap(server.handleMetrics))
+	mux.HandleFunc("GET /events", server.wrap(server.handleEvents))
+	mux.HandleFunc("GET /supervisor/status", server.wrap(server.handleSupervisorStatus))
+	mux.HandleFunc("GET /audit/status", server.wrap(server.handleAuditStatus))
+	mux.HandleFunc("GET /quality/status", server.wrap(server.handleQualityStatus))
+	mux.HandleFunc("GET /planner/status", server.wrap(server.handlePlannerStatus))
+	return mux
+}

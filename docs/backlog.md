@@ -971,3 +971,10 @@
   - Linear: KIM-90
   - Acceptance: `internal/linear/issues_test.go` keeps the original test path under the normal 75-line budget by moving Linear issue pull, filtering, next-issue selection, generated policy, backlog creation, summary redaction, comment, transition, write-evidence redaction, GraphQL fixture, and assertion coverage into focused test files; fake-token behavior, local GraphQL request assertions, fixture-only responses, public-safe summaries, and write-evidence behavior remain unchanged; `internal/linear/issues_test.go` is removed from Code Shape legacy debt.
   - Validation: `go test ./internal/linear ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.
+
+## P138
+
+- [x] Ratchet daemon server runtime under 75 lines.
+  - Linear: KIM-91
+  - Acceptance: `internal/daemon/server.go` keeps the public daemon `Config`/`Server` model under the normal 75-line budget by moving config defaults, server construction/listen lifecycle, route registration, request wrapper/auth, intent handling, harness handling, status endpoints, metrics/events, JSON helpers, and env/LAN helpers into focused runtime files; daemon HTTP behavior, LAN auth, supervisor state writes, audit recording, bounded request events, metrics, and public-safe response boundaries remain unchanged; `internal/daemon/server.go` is removed from Code Shape legacy debt.
+  - Validation: `go test ./internal/daemon ./internal/codeshape`; `go run ./cmd/mhj codegen verify`; `go run ./cmd/mhj code-shape status`; full quality gate; public safety scans; GitHub Actions run and same-SHA cache-hit rerun.

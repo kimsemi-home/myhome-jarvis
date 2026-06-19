@@ -1,5 +1,15 @@
 # Working Log
 
+## 2026-06-19 18:00 KST
+
+- Linear issue: KIM-91 created and moved to In Progress.
+- Mode: code-shape burn-down, daemon server runtime refactor.
+- Task: Remove `internal/daemon/server.go` from code-shape legacy debt by splitting daemon server config, lifecycle, routing, middleware, handlers, JSON helpers, and env/LAN helpers into focused Go files under 75 lines.
+- Files touched: `internal/daemon/server.go`, `internal/daemon/config.go`, `internal/daemon/server_new.go`, `internal/daemon/server_lifecycle.go`, `internal/daemon/routes.go`, `internal/daemon/middleware.go`, `internal/daemon/json.go`, `internal/daemon/handler*.go`, `internal/daemon/handlers*.go`, `lisp/ssot/code-shape.lisp`, `generated/code_shape.generated.json`, and backlog/working log.
+- Changes: kept `Config`, `Server`, `DefaultConfig`, `New`, `ListenAndServe`, `Routes`, route coverage, LAN bearer auth, supervisor state writes, audit append behavior, harness/status endpoints, metrics/events, and JSON response behavior intact while moving each responsibility into files below 75 lines; removed `internal/daemon/server.go` from generated code-shape legacy debt.
+- Validation after: focused Daemon and Code Shape tests, SSOT validation, deterministic codegen, codegen verify, `mhj code-shape status`, full `mhj quality` with Go 1.26.2, private identity narrow scan, and `git diff --check` passed with zero budget regressions and 28 legacy debt files.
+- External-write note: created Linear issue KIM-91 with the user's approval; no purchase, finance transfer, card action, investment trade, subscription mutation, scraping, credential request, external agent execution, or autonomous external write was performed.
+
 ## 2026-06-19 17:49 KST
 
 - Linear issue: KIM-90 created and moved to In Progress.
