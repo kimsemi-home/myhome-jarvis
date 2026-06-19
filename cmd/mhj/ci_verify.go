@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -27,6 +28,9 @@ func validateCIWorkflowContract(root string) error {
 		"go run ./cmd/mhj security history", "go run ./cmd/mhj ci verify",
 		"go run ./cmd/mhj code-shape status", "go run ./cmd/mhj toolchain verify",
 		"'.go-version'", "'rust-toolchain.toml'", "'generated/*.json'",
+		"generated/verification_graph.generated.json",
+		"generated/github_quality_workflow.generated.yml", "docs/verification-graph.md",
+		"git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md",
 		"'generated/commands.generated.json'", "'generated/connectors.generated.json'",
 		"'generated/agent_cluster.generated.json'", "'generated/learning.generated.json'",
 		"'generated/evidence.generated.json'", "'generated/confidence.generated.json'",
@@ -51,6 +55,17 @@ func validateCIWorkflowContract(root string) error {
 	writePermissionPattern := regexp.MustCompile(`(?m)^\s*[A-Za-z0-9_-]+:\s*write\s*$`)
 	if match := writePermissionPattern.FindString(workflow); match != "" {
 		return fmt.Errorf("quality workflow contains forbidden write permission %q", strings.TrimSpace(match))
+	}
+	return validateGeneratedWorkflow(root, body)
+}
+
+func validateGeneratedWorkflow(root string, workflow []byte) error {
+	generated, err := os.ReadFile(filepath.Join(root, "generated", "github_quality_workflow.generated.yml"))
+	if err != nil {
+		return err
+	}
+	if !bytes.Equal(workflow, generated) {
+		return fmt.Errorf("quality workflow is out of date with generated/github_quality_workflow.generated.yml")
 	}
 	return nil
 }

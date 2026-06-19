@@ -28,7 +28,24 @@ func generatedSnapshot(root string) (map[string][]byte, error) {
 		files[filepath.ToSlash(rel)] = body
 		return nil
 	})
+	if err != nil {
+		return files, err
+	}
+	for _, rel := range extraGeneratedPaths() {
+		body, err := os.ReadFile(filepath.Join(root, filepath.FromSlash(rel)))
+		if err != nil {
+			return files, err
+		}
+		files[rel] = body
+	}
 	return files, err
+}
+
+func extraGeneratedPaths() []string {
+	return []string{
+		".github/workflows/quality.yml",
+		"docs/verification-graph.md",
+	}
 }
 
 func changedGeneratedFiles(before map[string][]byte, after map[string][]byte) []string {

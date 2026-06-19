@@ -32,6 +32,7 @@
    #:*code-shape-policy*
    #:*linear-policy*
    #:*planner-policy*
+   #:*verification-graph*
    #:validate-ssot
    #:write-generated-artifacts))
 

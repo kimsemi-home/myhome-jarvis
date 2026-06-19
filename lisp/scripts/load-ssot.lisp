@@ -30,6 +30,7 @@
                   "../ssot/code-shape.lisp"
                   "../ssot/linear.lisp"
                   "../ssot/planner.lisp"
+                  "../ssot/verification-graph.lisp"
                   "../ssot/codegen-validate-helpers.lisp"
                   "../ssot/codegen-validate-basics.lisp"
                   "../ssot/codegen-validate-agent.lisp"
@@ -47,7 +48,13 @@
                   "../ssot/codegen-validate-authority-details.lisp"
                   "../ssot/codegen-validate-translation.lisp"
                   "../ssot/codegen-validate-linear-planner.lisp"
+                  "../ssot/codegen-validate-verification.lisp"
                   "../ssot/codegen-json.lisp"
+                  "../ssot/codegen-workflow-helpers.lisp"
+                  "../ssot/codegen-workflow-steps.lisp"
+                  "../ssot/codegen-workflow-unit.lisp"
+                  "../ssot/codegen-workflow.lisp"
+                  "../ssot/codegen-verification-doc.lisp"
                   "../ssot/codegen-artifacts.lisp"
                   "../ssot/codegen.lisp"))
     (load (merge-pathnames file (mhj-script-root)))))

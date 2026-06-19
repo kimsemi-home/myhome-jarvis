@@ -16,7 +16,11 @@ jobs:
     steps:
       - uses: 40ants/setup-lisp@v4
       - run: ros -Q run -- --script lisp/scripts/validate-ssot.lisp
-      - run: ros -Q run -- --script lisp/scripts/codegen.lisp
+      - run: |
+          ros -Q run -- --script lisp/scripts/codegen.lisp
+          test -s generated/verification_graph.generated.json
+          test -s generated/github_quality_workflow.generated.yml
+          git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md
   public-safety:
     steps:
       - uses: actions/checkout@v6
@@ -29,7 +33,7 @@ jobs:
     steps:
       - uses: actions/cache/restore@v5
         with:
-          key: go-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'generated/*.json') }}
+          key: go-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'generated/*.json', 'generated/github_quality_workflow.generated.yml') }}
       - run: go run ./cmd/mhj ci verify
       - run: go run ./cmd/mhj code-shape status
       - run: go run ./cmd/mhj toolchain verify

@@ -20,7 +20,9 @@
                    (list :entities *commerce-entities*
                          :purchase_ir *purchase-ir*))
   (dolist (artifact (policy-artifacts))
-    (write-json-file (artifact-path root (first artifact)) (second artifact))))
+    (write-json-file (artifact-path root (first artifact)) (second artifact)))
+  (write-quality-workflows root)
+  (write-verification-doc root))
 
 (defun artifact-path (root name)
   (merge-pathnames (format nil "generated/~A.generated.json" name) root))
@@ -43,5 +45,6 @@
     ("review" ,*review-policy*)
     ("authority" ,*authority-policy*)
     ("code_shape" ,*code-shape-policy*)
+    ("verification_graph" ,*verification-graph*)
     ("linear" ,*linear-policy*)
     ("planner" ,*planner-policy*)))

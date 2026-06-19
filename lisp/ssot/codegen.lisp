@@ -19,6 +19,7 @@
   (validate-linear-policy *linear-policy*)
   (validate-ddd-registry)
   (validate-planner-policy *planner-policy*)
+  (validate-verification-graph *verification-graph*)
   t)
 
 (defun write-generated-artifacts (root)

@@ -7,7 +7,7 @@ import (
 
 func TestValidateCIWorkflowContractAcceptsRequiredTokens(t *testing.T) {
 	root := t.TempDir()
-	writeTestFile(t, root, ".github/workflows/quality.yml", ciWorkflowFixture())
+	writeCIWorkflowFixture(t, root, ciWorkflowFixture())
 
 	if err := validateCIWorkflowContract(root); err != nil {
 		t.Fatalf("validateCIWorkflowContract() error = %v", err)
@@ -17,7 +17,7 @@ func TestValidateCIWorkflowContractAcceptsRequiredTokens(t *testing.T) {
 func TestValidateCIWorkflowContractRejectsMissingCacheInput(t *testing.T) {
 	root := t.TempDir()
 	workflow := strings.ReplaceAll(ciWorkflowFixture(), "'rust-toolchain.toml', ", "")
-	writeTestFile(t, root, ".github/workflows/quality.yml", workflow)
+	writeCIWorkflowFixture(t, root, workflow)
 
 	err := validateCIWorkflowContract(root)
 	if err == nil {
@@ -31,7 +31,7 @@ func TestValidateCIWorkflowContractRejectsMissingCacheInput(t *testing.T) {
 func TestValidateCIWorkflowContractRejectsPrivilegedTrigger(t *testing.T) {
 	root := t.TempDir()
 	workflow := strings.Replace(ciWorkflowFixture(), "  pull_request:\n", "  pull_request:\n  pull_request_target:\n", 1)
-	writeTestFile(t, root, ".github/workflows/quality.yml", workflow)
+	writeCIWorkflowFixture(t, root, workflow)
 
 	err := validateCIWorkflowContract(root)
 	if err == nil {
@@ -45,7 +45,7 @@ func TestValidateCIWorkflowContractRejectsPrivilegedTrigger(t *testing.T) {
 func TestValidateCIWorkflowContractRejectsAnyWritePermission(t *testing.T) {
 	root := t.TempDir()
 	workflow := strings.Replace(ciWorkflowFixture(), "  contents: read\n", "  contents: read\n  id-token: write\n", 1)
-	writeTestFile(t, root, ".github/workflows/quality.yml", workflow)
+	writeCIWorkflowFixture(t, root, workflow)
 
 	err := validateCIWorkflowContract(root)
 	if err == nil {
