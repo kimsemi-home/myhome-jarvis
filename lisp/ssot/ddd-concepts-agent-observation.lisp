@@ -6,7 +6,8 @@
                 "A private append-only observation ledger that turns loop gaps, evidence debt, and verification misses into tracked self-improvement evidence."
                 #("learning ledger" "loop gap ledger" "observation ledger" "evidence debt journal")
                 "internal/learning"
-                #("generated/learning.generated.json" "internal/learning/ledger.go" "docs/learning-ledger.md")
+                #("generated/learning.generated.json" "internal/learning/ledger_record.go"
+                  "internal/learning/ledger_status.go" "docs/learning-ledger.md")
                 #("AgentClusterPolicy" "ClosedLoopPlanner" "KnowledgeIndex" "SecurityPolicy"))
    (ddd-concept "EvidenceGraph" "AgentCluster" "Repository"
                 "A private local graph summary that connects observations to evidence artifacts so loop gaps can be traced without exposing raw private evidence."
