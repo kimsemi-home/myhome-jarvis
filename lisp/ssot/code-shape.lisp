@@ -11,10 +11,10 @@
         :extensions #(".go" ".dart" ".lisp" ".rs")
         :excluded_prefixes #("data/private/" "generated/" ".git/" "target/"
                              "build/" ".dart_tool/" "node_modules/")
-        :legacy_debt_files #((:path "internal/supervisor/status.go" :max_lines 215)
-                              (:path "crates/mhj-core/src/lib.rs" :max_lines 204)
+        :legacy_debt_files #((:path "crates/mhj-core/src/lib.rs" :max_lines 204)
                               (:path "internal/linear/replay_test.go" :max_lines 185)
-                              (:path "crates/mhj-core/src/household.rs" :max_lines 178) (:path "crates/mhj-core/src/storage.rs" :max_lines 177))
+                              (:path "crates/mhj-core/src/household.rs" :max_lines 178)
+                              (:path "crates/mhj-core/src/storage.rs" :max_lines 177))
         :public_summary_fields #("policy_path" "max_file_lines" "file_count"
                                  "over_budget_count" "legacy_debt_count"
                                  "budget_regression_count" "max_observed_path"
