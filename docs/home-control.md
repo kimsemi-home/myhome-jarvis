@@ -37,6 +37,10 @@ The Flutter client calls daemon `POST /intent` with `execute=false` to preview
 plans. This keeps the UI on the dry-run side of the boundary while showing the
 argv plan.
 
+`mhj media-readiness status` measures YouTube and OTT command-planning latency
+and availability without launching a browser or persisting search payloads,
+browsing history, cookies, credentials, or account identifiers.
+
 CLI and daemon command intents append a private redacted audit event under
 `data/private/audit/command-intents.jsonl`. The audit records command/source,
 dry-run and execute-gate metadata, counts, success, and coarse error category

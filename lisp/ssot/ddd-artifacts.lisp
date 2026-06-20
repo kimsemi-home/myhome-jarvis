@@ -20,6 +20,7 @@
 	    (:name "codex_cost" :path "generated/codex_cost.generated.json" :owner "AgentOps")
 	    (:name "codex_sustainability" :path "generated/codex_sustainability.generated.json" :owner "AgentOps")
 	    (:name "context_pack" :path "generated/context_pack.generated.json" :owner "AgentOps")
+	    (:name "media_readiness" :path "generated/media_readiness.generated.json" :owner "HomeControl")
 	    (:name "monetization" :path "generated/monetization.generated.json" :owner "CommerceIntelligence")
 	    (:name "repo_factory" :path "generated/repo_factory.generated.json" :owner "AgentOps")
 	    (:name "authority" :path "generated/authority.generated.json" :owner "AgentCluster")

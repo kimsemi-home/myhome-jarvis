@@ -33,6 +33,7 @@
    #:*codex-cost-policy*
    #:*codex-sustainability-policy*
    #:*context-pack-policy*
+   #:*media-readiness-policy*
    #:*monetization-policy*
    #:*repo-factory-policy*
    #:*authority-policy*

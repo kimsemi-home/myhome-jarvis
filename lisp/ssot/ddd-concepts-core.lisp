@@ -44,6 +44,12 @@
                 "internal/contextpack"
                 #("generated/context_pack.generated.json" "internal/contextpack/status.go" "docs/context-pack.md")
                 #("PublicSafeRepoFactory" "ConceptRegistry" "AuthorityGate" "SecurityPolicy"))
+   (ddd-concept "MediaReadinessBenchmark" "HomeControl" "Policy"
+                "A public-safe benchmark for YouTube and OTT command planning latency, availability, and local launcher readiness."
+                #("media readiness" "youtube benchmark" "ott readiness" "planning latency")
+                "internal/mediareadiness"
+                #("generated/media_readiness.generated.json" "internal/mediareadiness/status.go" "docs/media-readiness.md")
+                #("HomeCommand" "EvidenceGraph" "SecurityPolicy"))
    (ddd-concept "ConnectorCatalog" "ConnectorReadiness" "Policy"
                 "A public-safe catalog of planned read-only connectors that stays fixture-only until explicit connector work begins."
                 #("connector" "connector catalog" "connector readiness" "connector status")

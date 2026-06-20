@@ -35,6 +35,8 @@ func routeStatuses(root string, args []string) (bool, error) {
 		return true, codexCostStatus(root)
 	case "codex-sustainability":
 		return true, codexSustainabilityStatus(root)
+	case "media-readiness":
+		return true, mediaReadinessStatus(root)
 	case "monetization":
 		return true, monetizationStatus(root)
 	case "review":

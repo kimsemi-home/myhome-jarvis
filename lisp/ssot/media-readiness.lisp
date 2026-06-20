@@ -1,0 +1,36 @@
+(in-package #:myhome-jarvis.ssot)
+
+(defparameter *media-readiness-cases*
+  #((:id "youtube_launch" :capability "youtube_launch"
+     :command "open_youtube" :payload_kind "empty"
+     :expected_host "www.youtube.com")
+    (:id "youtube_search" :capability "youtube_search"
+     :command "open_youtube_search" :payload_kind "fixture_query"
+     :expected_host "www.youtube.com")
+    (:id "ott_netflix" :capability "ott_launch"
+     :command "open_ott" :payload_kind "fixture_service_netflix"
+     :expected_host "www.netflix.com")))
+
+(defparameter *media-readiness-policy*
+  (list :context "MediaReadinessBenchmark"
+        :version "v1"
+        :generated_artifact "generated/media_readiness.generated.json"
+        :benchmark_kind "command_planning"
+        :public_status_redacted t
+        :execute_commands nil
+        :persist_payloads nil
+        :persist_urls nil
+        :target_planning_latency_ms 250
+        :cases *media-readiness-cases*
+        :public_summary_fields #("context" "version" "policy_path"
+                                 "benchmark_kind" "case_count"
+                                 "available_count" "degraded_count"
+                                 "max_planning_latency_ms"
+                                 "target_planning_latency_ms"
+                                 "local_launcher_available" "cases"
+                                 "checked_at")
+        :forbidden_public_fields #("payload" "query" "browsing_history"
+                                   "cookie" "credential" "account_id"
+                                   "profile_id" "session" "raw_url"
+                                   "local_absolute_path")
+        :commands #("mhj media-readiness status")))
