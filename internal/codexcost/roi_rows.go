@@ -8,19 +8,23 @@ import (
 func roiRows(
 	policy Policy,
 	cost Status,
+	attribution AttributionStatus,
 	sustainability codexsustainability.Status,
 	storage storagearchive.Status,
 	valueProxy int64,
 ) []ROIRow {
 	rows := make([]ROIRow, 0, len(policy.LoopScopes))
 	for _, scope := range policy.LoopScopes {
-		costUnits := cost.ByScope[scope]
+		attributedUnits := attribution.ByScope[scope]
+		costUnits := rowCostUnits(cost.ByScope[scope], attributedUnits)
 		rowValue := allocateValueProxy(valueProxy, costUnits, cost.TotalUnits)
 		rows = append(rows, ROIRow{
 			Scope:                    scope,
 			CostUnits:                costUnits,
+			AttributedCostUnits:      attributedUnits,
+			AttributionSubjectCount:  attribution.SubjectCountByScope[scope],
 			CostSharePercent:         costSharePercent(costUnits, cost.TotalUnits),
-			Status:                   roiScopeStatus(costUnits),
+			Status:                   roiScopeStatus(cost.ByScope[scope], attributedUnits),
 			ValueProxyUnits:          rowValue,
 			CostPerAcceptedChange:    roiCostPerChange(costUnits, sustainability),
 			BudgetState:              cost.BudgetState,
@@ -39,6 +43,13 @@ func roiRows(
 		})
 	}
 	return rows
+}
+
+func rowCostUnits(directUnits int64, attributedUnits int64) int64 {
+	if attributedUnits > 0 {
+		return attributedUnits
+	}
+	return directUnits
 }
 
 func countTrackedROIRows(rows []ROIRow) int {

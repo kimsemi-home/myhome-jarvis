@@ -26,9 +26,12 @@ func roiCostPerChange(
 	return sustainability.CostPerAcceptedChange
 }
 
-func roiScopeStatus(costUnits int64) string {
-	if costUnits <= 0 {
-		return "no_usage_yet"
+func roiScopeStatus(directUnits int64, attributedUnits int64) string {
+	if attributedUnits > 0 {
+		return "attributed"
 	}
-	return "tracked"
+	if directUnits > 0 {
+		return "tracked"
+	}
+	return "no_usage_yet"
 }

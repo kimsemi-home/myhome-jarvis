@@ -13,6 +13,10 @@ func validatePolicy(policy Policy) error {
 		!strings.HasSuffix(policy.PrivateUsageLedger, ".jsonl") {
 		return fmt.Errorf("codex cost ledger must stay in data/private JSONL")
 	}
+	if !strings.HasPrefix(policy.PrivateAttributionLedger, "data/private/") ||
+		!strings.HasSuffix(policy.PrivateAttributionLedger, ".jsonl") {
+		return fmt.Errorf("codex cost attribution ledger must stay private JSONL")
+	}
 	if !policy.AppendOnly || !policy.PublicStatusRedacted ||
 		policy.RawUsagePublicAllowed {
 		return fmt.Errorf("codex cost policy must be private append-only and redacted")
@@ -30,6 +34,13 @@ func validatePolicy(policy Policy) error {
 	if err := requireAll("required field", policy.RequiredFields, requiredRecordFields); err != nil {
 		return err
 	}
+	if err := requireAll("attribution field", policy.AttributionRequiredFields, requiredAttributionFields); err != nil {
+		return err
+	}
+	if policy.AttributionSubjectMaxLength <= 0 ||
+		policy.AttributionSubjectMaxLength > 200 {
+		return fmt.Errorf("codex cost attribution subject length is invalid")
+	}
 	if err := requireAll("semantic hash input", policy.SemanticHashInputs, requiredSemanticHashInputs); err != nil {
 		return err
 	}
@@ -40,6 +51,7 @@ func validatePolicy(policy Policy) error {
 		"mhj codex-cost status",
 		"mhj codex-cost record <json-payload>",
 		"mhj codex-cost guard <json-payload>",
+		"mhj codex-cost attribute <json-payload>",
 		"mhj codex-cost roi",
 	} {
 		if !contains(policy.Commands, command) {

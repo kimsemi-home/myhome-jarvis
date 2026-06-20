@@ -5,6 +5,7 @@
         :version "v1"
         :generated_artifact "generated/codex_cost.generated.json"
         :private_usage_ledger "data/private/codex-cost/usage.jsonl"
+        :private_attribution_ledger "data/private/codex-cost/attribution.jsonl"
         :append_only t
         :public_status_redacted t
         :raw_usage_public_allowed nil
@@ -18,6 +19,10 @@
         :review_unit_threshold 500000
         :required_fields #("at" "scope" "unit_kind" "amount" "status"
                            "evidence_refs")
+        :attribution_required_fields #("at" "scope" "subject_key"
+                                        "unit_kind" "amount" "basis"
+                                        "evidence_refs")
+        :attribution_subject_max_length 160
         :allowed_evidence_prefixes #("generated/" "docs/" "cmd/" "internal/"
                                      "apps/flutter/" "lisp/" "crates/"
                                      "fixtures/" "harness/" ".github/"
@@ -38,4 +43,5 @@
         :commands #("mhj codex-cost status"
                     "mhj codex-cost record <json-payload>"
                     "mhj codex-cost guard <json-payload>"
+                    "mhj codex-cost attribute <json-payload>"
                     "mhj codex-cost roi")))

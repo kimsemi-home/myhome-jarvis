@@ -11,12 +11,24 @@ Usage records belong in the private append-only ledger:
 data/private/codex-cost/usage.jsonl
 ```
 
+Scope attribution records belong in a separate private append-only ledger:
+
+```text
+data/private/codex-cost/attribution.jsonl
+```
+
 Use `mhj codex-cost record <json-payload>` to append a usage sample locally.
 The command accepts loop scope, unit kind, amount, optional status, and
 repo-relative evidence refs; it fills the recorded timestamp when omitted and
 stores a semantic hash for cache/de-duplication evidence. Public command output
 only exposes scope, unit kind, amount, status, evidence ref count, budget state,
 and timestamp.
+
+Use `mhj codex-cost attribute <json-payload>` to attach already-recorded cost
+to an interpretation scope such as a Linear project, repository, or
+monetization experiment without increasing total budget usage. The private
+record stores a safe subject key and evidence refs; public output returns only
+the scope, amount, basis, subject hash, evidence ref count, and timestamp.
 
 Use `mhj codex-cost guard <json-payload>` before long-running or expensive
 assistant loops. The guard reads current cost and sustainability status, then
@@ -29,9 +41,9 @@ Use `mhj codex-cost roi` to review public-safe cost ROI by loop scope. The
 summary keeps one row for every governed scope, including Linear projects,
 repositories, and monetization experiments, even when a scope has no usage yet.
 It combines private cost ledger totals, Codex sustainability posture, value
-proxy units, cache-savings evidence, and the storage archive/noise-budget
-configuration. The value proxy is explicitly allocated by cost share until
-more precise per-scope monetization evidence exists.
+proxy units, attribution coverage, cache-savings evidence, and the storage
+archive/noise-budget configuration. The value proxy is explicitly allocated by
+cost share until more precise per-scope monetization evidence exists.
 
 Each stored record must include time, loop scope, unit kind, amount, status,
 semantic hash, and repo-relative evidence refs. Public status surfaces only
@@ -65,6 +77,8 @@ enforcing the configured evidence noise budget.
 The ROI summary reports the same archive pattern and noise-budget evidence
 field so cost decisions can see whether local logs are being collected,
 compressed, and governed below the configured noise threshold.
+The attribution ledger is in the same private archive lane, so scope coverage
+evidence is compacted and governed with the cost and sustainability ledgers.
 
 ## Public Boundary
 
