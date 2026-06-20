@@ -1,12 +1,21 @@
 package codexsustainability
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+	"time"
+)
 
 func normalizeRecord(policy Policy, record Record) (Record, error) {
+	record.At = strings.TrimSpace(record.At)
 	record.RecordKind = normalizeToken(record.RecordKind)
 	record.Metric = normalizeToken(record.Metric)
+	record.EvidenceRefs = normalizeRefs(record.EvidenceRefs)
 	if record.At == "" {
 		return Record{}, fmt.Errorf("codex sustainability time is required")
+	}
+	if _, err := time.Parse(time.RFC3339, record.At); err != nil {
+		return Record{}, fmt.Errorf("codex sustainability time must be RFC3339")
 	}
 	if !contains(normalizeList(policy.RecordKinds), record.RecordKind) {
 		return Record{}, fmt.Errorf("codex sustainability kind %q is not allowed", record.RecordKind)

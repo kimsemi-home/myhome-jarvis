@@ -29,6 +29,7 @@ func validatePolicy(policy Policy) error {
 	for _, command := range []string{
 		"mhj codex-sustainability status",
 		"mhj codex-sustainability record-quality",
+		"mhj codex-sustainability record-proposal <json-payload>",
 	} {
 		if !contains(policy.Commands, command) {
 			return fmt.Errorf("codex sustainability command is missing: %s", command)

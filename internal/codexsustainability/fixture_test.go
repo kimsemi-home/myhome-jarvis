@@ -28,6 +28,7 @@ func testPolicy() Policy {
 		Commands: []string{
 			"mhj codex-sustainability status",
 			"mhj codex-sustainability record-quality",
+			"mhj codex-sustainability record-proposal <json-payload>",
 		},
 	}
 }
