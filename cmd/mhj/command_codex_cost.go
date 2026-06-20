@@ -3,6 +3,9 @@ package main
 import "github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 
 func routeCodexCost(root string, args []string) error {
+	if len(args) == 1 && args[0] == "scaling-packet" {
+		return codexCostScalingPacket(root)
+	}
 	if len(args) == 1 && args[0] == "brief" {
 		return codexCostBrief(root)
 	}
@@ -19,6 +22,14 @@ func routeCodexCost(root string, args []string) error {
 		return codexCostGuard(root, []byte(args[1]))
 	}
 	return usage()
+}
+
+func codexCostScalingPacket(root string) error {
+	packet, err := codexcost.ScalingPacketForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(packet)
 }
 
 func codexCostBrief(root string) error {

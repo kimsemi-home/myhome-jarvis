@@ -107,10 +107,20 @@ top-level command center can supervise cost, cache-savings value, accepted
 change evidence, archive readiness, noise-budget posture, and the next safe
 action without publishing private ledger rows or raw evidence refs.
 
+Use `mhj codex-cost scaling-packet` when deciding whether heavier Codex use is
+safe enough to attempt. The packet is a read-only public handoff: it summarizes
+budget threshold headroom, trend and sustainability posture, cache value,
+accepted-change evidence, attribution coverage, and the same
+compress-then-archive/noise-budget evidence used by the command center. It also
+lists non-granting scaling options. The packet cannot approve paid expansion,
+external tools, workflow changes, or self-approval; separate guard and record
+commands remain required before any larger loop.
+
 ## Public Boundary
 
 The CLI commands `mhj codex-cost status`, `mhj codex-cost record`,
-`mhj codex-cost guard`, `mhj codex-cost roi`, `mhj codex-cost brief`, and
-daemon endpoint `GET /codex-cost/status` must not expose prompts, transcripts,
-private notes, raw evidence refs, credentials, tokens, local absolute paths,
-account IDs, card numbers, Linear private URLs, or private evidence contents.
+`mhj codex-cost guard`, `mhj codex-cost roi`, `mhj codex-cost brief`,
+`mhj codex-cost scaling-packet`, and daemon endpoint `GET /codex-cost/status`
+must not expose prompts, transcripts, private notes, raw evidence refs,
+credentials, tokens, local absolute paths, account IDs, card numbers, Linear
+private URLs, or private evidence contents.
