@@ -25,6 +25,8 @@ func TestAssistantStatusReturnsRedactedCommandCenter(t *testing.T) {
 	for _, expected := range []string{
 		`"context": "AssistantCommandCenter"`,
 		`"policy_path": "generated/assistant_vision.generated.json"`,
+		`"ready_pillar_count":`,
+		`"gated_pillar_keys":`,
 		`"blocked_gate_count":`,
 		`"work_item":`,
 		`"next_safe_action":`,

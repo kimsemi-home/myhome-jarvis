@@ -13,6 +13,7 @@ func summarizeVision(policy visionPolicy) VisionSummary {
 		OperatingMode:   policy.OperatingMode,
 		CapabilityCount: len(policy.CapabilityPillars),
 		GuardrailCount:  len(policy.Guardrails),
+		PillarKeys:      visionPillarKeys(policy.CapabilityPillars),
 	}
 }
 
