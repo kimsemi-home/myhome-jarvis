@@ -49,6 +49,21 @@ func authorityReviewBriefStatus(policy visionPolicy) Status {
 		MissingEvidenceKeys:            []string{"authority_review"},
 		NextSafeAction:                 "await_human_authority_review",
 	}
+	status.LocalRuntime = authorityReviewHealthyRuntimeFixture()
 	status.WorkItem = summarizeWorkItem(status)
 	return status
+}
+
+func authorityReviewHealthyRuntimeFixture() LocalRuntimeSummary {
+	return LocalRuntimeSummary{
+		PublicSafe:      true,
+		EvidenceRef:     "local_runtime:supervisor",
+		State:           "healthy",
+		Recorded:        true,
+		ProcessRunning:  true,
+		ProbeOK:         true,
+		NextSafeAction:  "none",
+		Message:         "daemon is reachable",
+		HealthDebtCount: 0,
+	}
 }

@@ -138,6 +138,7 @@ Public status may expose:
 - counts by risk
 - assistant profile counts and gated profile keys
 - review request age, stale threshold, stale boolean, and escalation action
+- local runtime readiness for the authority review brief and decision packet
 - timestamp
 
 It does not expose raw rationale, raw evidence contents, evidence refs,

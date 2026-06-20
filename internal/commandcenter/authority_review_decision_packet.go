@@ -46,6 +46,7 @@ func authorityReviewDecisionPacketFromStatus(
 		RepoFactoryPreflight:         brief.RepoFactoryPreflight,
 		PublicSafetyPosture:          authorityReviewPublicSafety(status),
 		StorageEvidence:              status.StorageArchive,
+		LocalRuntime:                 brief.LocalRuntime,
 		DecisionPacketState:          "review_only",
 		CanApplyDecision:             false,
 		DecisionOptions:              authorityReviewDecisionOptions(),

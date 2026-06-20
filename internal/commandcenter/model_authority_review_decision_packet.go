@@ -25,6 +25,7 @@ type AuthorityReviewDecisionPacket struct {
 	RepoFactoryPreflight         RepoFactoryPreflightSummary     `json:"repo_factory_preflight"`
 	PublicSafetyPosture          AuthorityReviewPublicSafety     `json:"public_safety_posture"`
 	StorageEvidence              StorageArchiveSummary           `json:"storage_evidence"`
+	LocalRuntime                 LocalRuntimeSummary             `json:"local_runtime"`
 	DecisionPacketState          string                          `json:"decision_packet_state"`
 	CanApplyDecision             bool                            `json:"can_apply_decision"`
 	DecisionOptions              []AuthorityReviewDecisionOption `json:"decision_options"`
