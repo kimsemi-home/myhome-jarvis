@@ -8,20 +8,21 @@ func StatusForRoot(root string) (Status, error) {
 		return Status{}, err
 	}
 	status := Status{
-		Context:      "AssistantCommandCenter",
-		Version:      "v1",
-		PublicSafe:   publicSafe(in),
-		Redaction:    "public-summary-only",
-		Vision:       summarizeVision(in.Vision),
-		PDCA:         summarizePDCA(in.PDCA),
-		Evidence:     summarizeEvidence(in.Evidence),
-		Incidents:    summarizeIncidents(in.Incidents),
-		Authority:    summarizeAuthority(in.Authority),
-		Review:       summarizeReview(in.Review),
-		Cost:         summarizeCost(in.Cost),
-		Monetization: summarizeMonetization(in.Monetization),
-		RepoFactory:  summarizeRepoFactory(in.RepoFactory),
-		CheckedAt:    time.Now().UTC().Format(time.RFC3339),
+		Context:        "AssistantCommandCenter",
+		Version:        "v1",
+		PublicSafe:     publicSafe(in),
+		Redaction:      "public-summary-only",
+		Vision:         summarizeVision(in.Vision),
+		PDCA:           summarizePDCA(in.PDCA),
+		Evidence:       summarizeEvidence(in.Evidence),
+		Incidents:      summarizeIncidents(in.Incidents),
+		Authority:      summarizeAuthority(in.Authority),
+		Review:         summarizeReview(in.Review),
+		FinanceConsent: summarizeFinanceConsent(in.FinanceConsent),
+		Cost:           summarizeCost(in.Cost),
+		Monetization:   summarizeMonetization(in.Monetization),
+		RepoFactory:    summarizeRepoFactory(in.RepoFactory),
+		CheckedAt:      time.Now().UTC().Format(time.RFC3339),
 	}
 	status.BlockedGates = blockedGates(in)
 	status.BlockedGateCount = len(status.BlockedGates)

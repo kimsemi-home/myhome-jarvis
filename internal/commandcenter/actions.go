@@ -10,6 +10,8 @@ func nextSafeAction(status Status) string {
 			return "resolve_authority_gate"
 		case "review":
 			return "assign_or_reduce_human_review"
+		case "finance_consent":
+			return "record_finance_consent"
 		case "cost":
 			return "review_codex_cost_budget"
 		case "monetization":

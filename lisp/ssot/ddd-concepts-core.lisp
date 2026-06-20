@@ -14,6 +14,12 @@
                 "lisp/ssot/finance.lisp"
                 #("generated/finance.generated.json" "fixtures/finance_transactions.jsonl")
                 #("StorageLake" "SecurityPolicy"))
+   (ddd-concept "HouseholdFinanceConsent" "HouseholdFinance" "Policy"
+                "A private consent ledger and public-safe readiness gate for real finance connectors and shared household scopes."
+                #("finance consent" "spouse consent" "household consent" "consent ledger")
+                "internal/financeconsent"
+                #("generated/finance_consent.generated.json" "internal/financeconsent/status.go" "docs/finance-consent.md")
+                #("HouseholdTransaction" "AuthorityGate" "SecurityPolicy"))
    (ddd-concept "CommercePurchase" "CommerceIntelligence" "Entity"
                 "A fixture-backed purchase IR item used for commerce intelligence and recurring candidates."
                 #("purchase" "commerce purchase" "purchase ir")
