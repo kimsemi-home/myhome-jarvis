@@ -35,6 +35,24 @@ func validateSubjectKey(policy Policy, subject string) error {
 	return nil
 }
 
+func validateCostRef(policy Policy, costRef string) error {
+	if costRef == "" || len(costRef) > policy.AttributionCostRefMaxLength {
+		return fmt.Errorf("codex cost attribution cost ref is invalid")
+	}
+	for _, char := range costRef {
+		if !safeCostRefChar(char) {
+			return fmt.Errorf("codex cost attribution cost ref must be a safe token")
+		}
+	}
+	return nil
+}
+
+func safeCostRefChar(char rune) bool {
+	return char >= 'a' && char <= 'z' ||
+		char >= '0' && char <= '9' ||
+		char == '_' || char == '-' || char == ':'
+}
+
 func validateAttributionRefs(policy Policy, refs []string) error {
 	if len(refs) == 0 {
 		return errMissingEvidenceRef

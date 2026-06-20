@@ -25,6 +25,9 @@ func TestAttributeCostWritesPrivateRedactedAttribution(t *testing.T) {
 	if result.Scope != "repo" || result.SubjectHash == "" {
 		t.Fatalf("result = %#v", result)
 	}
+	if result.CostRef == "" {
+		t.Fatalf("missing cost ref: %#v", result)
+	}
 	body := mustJSON(t, result)
 	if bytes.Contains(body, []byte("subject_key")) ||
 		bytes.Contains(body, []byte("evidence_refs")) {
@@ -33,6 +36,9 @@ func TestAttributeCostWritesPrivateRedactedAttribution(t *testing.T) {
 	ledger := readAttributionLedger(t, root)
 	if !bytes.Contains(ledger, []byte(`"semantic_hash":"cost_attr_`)) {
 		t.Fatalf("ledger missing attribution hash: %s", ledger)
+	}
+	if !bytes.Contains(ledger, []byte(`"cost_ref":"cost_ref_`)) {
+		t.Fatalf("ledger missing cost ref: %s", ledger)
 	}
 }
 

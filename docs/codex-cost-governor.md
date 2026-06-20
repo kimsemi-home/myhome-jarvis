@@ -28,7 +28,10 @@ Use `mhj codex-cost attribute <json-payload>` to attach already-recorded cost
 to an interpretation scope such as a Linear project, repository, or
 monetization experiment without increasing total budget usage. The private
 record stores a safe subject key and evidence refs; public output returns only
-the scope, amount, basis, subject hash, evidence ref count, and timestamp.
+the scope, amount, basis, subject hash, cost ref, evidence ref count, and
+timestamp. When omitted, the cost ref is derived from unit kind, amount, and
+evidence refs so the same cost can be viewed through multiple scope lenses
+without inflating coverage.
 
 Use `mhj codex-cost guard <json-payload>` before long-running or expensive
 assistant loops. The guard reads current cost and sustainability status, then
@@ -44,6 +47,10 @@ It combines private cost ledger totals, Codex sustainability posture, value
 proxy units, attribution coverage, cache-savings evidence, and the storage
 archive/noise-budget configuration. The value proxy is explicitly allocated by
 cost share until more precise per-scope monetization evidence exists.
+ROI reports raw attribution entry units separately from deduplicated coverage
+units. Coverage uses cost refs and should not exceed total recorded usage even
+when a single cost is attributed to a Linear project, repository, and
+monetization experiment at the same time.
 
 Each stored record must include time, loop scope, unit kind, amount, status,
 semantic hash, and repo-relative evidence refs. Public status surfaces only

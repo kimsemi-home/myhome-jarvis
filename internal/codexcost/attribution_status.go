@@ -40,6 +40,7 @@ func newAttributionStatus(policy Policy) AttributionStatus {
 	return AttributionStatus{LedgerPath: policy.PrivateAttributionLedger,
 		ByScope: map[string]int64{}, SubjectCountByScope: map[string]int{},
 		subjectsByScope: map[string]map[string]bool{},
+		costRefUnits:    map[string]int64{},
 		CheckedAt:       time.Now().UTC().Format(time.RFC3339)}
 }
 

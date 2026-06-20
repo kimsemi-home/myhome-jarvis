@@ -22,7 +22,9 @@
         :attribution_required_fields #("at" "scope" "subject_key"
                                         "unit_kind" "amount" "basis"
                                         "evidence_refs")
+        :attribution_cost_ref_inputs #("unit_kind" "amount" "evidence_refs")
         :attribution_subject_max_length 160
+        :attribution_cost_ref_max_length 80
         :allowed_evidence_prefixes #("generated/" "docs/" "cmd/" "internal/"
                                      "apps/flutter/" "lisp/" "crates/"
                                      "fixtures/" "harness/" ".github/"

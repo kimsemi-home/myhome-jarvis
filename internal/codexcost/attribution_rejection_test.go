@@ -30,3 +30,17 @@ func TestAttributeCostRejectsRawPrivateFields(t *testing.T) {
 		t.Fatal("expected raw private field to fail")
 	}
 }
+
+func TestAttributeCostRejectsUnsafeCostRefs(t *testing.T) {
+	root := t.TempDir()
+	writePolicy(t, root, testPolicy())
+	for _, costRef := range []string{"https://example.invalid/x", "/local/ref", "bad ref"} {
+		payload := `{"scope":"repo","subject_key":"repo:public",` +
+			`"cost_ref":"` + costRef + `",` +
+			`"unit_kind":"codex_tokens","amount":1,"basis":"manual",` +
+			`"evidence_refs":["docs/codex-cost-governor.md"]}`
+		if _, err := AttributeCost(root, []byte(payload)); err == nil {
+			t.Fatalf("expected unsafe cost ref to fail: %s", costRef)
+		}
+	}
+}

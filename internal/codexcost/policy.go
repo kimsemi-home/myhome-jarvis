@@ -25,7 +25,9 @@ type Policy struct {
 	ReviewUnitThreshold         int64    `json:"review_unit_threshold"`
 	RequiredFields              []string `json:"required_fields"`
 	AttributionRequiredFields   []string `json:"attribution_required_fields"`
+	AttributionCostRefInputs    []string `json:"attribution_cost_ref_inputs"`
 	AttributionSubjectMaxLength int      `json:"attribution_subject_max_length"`
+	AttributionCostRefMaxLength int      `json:"attribution_cost_ref_max_length"`
 	AllowedEvidencePrefixes     []string `json:"allowed_evidence_prefixes"`
 	PublicSummaryFields         []string `json:"public_summary_fields"`
 	ForbiddenPublicFields       []string `json:"forbidden_public_fields"`
