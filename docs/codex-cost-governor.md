@@ -18,6 +18,13 @@ stores a semantic hash for cache/de-duplication evidence. Public command output
 only exposes scope, unit kind, amount, status, evidence ref count, budget state,
 and timestamp.
 
+Use `mhj codex-cost guard <json-payload>` before long-running or expensive
+assistant loops. The guard reads current cost and sustainability status, then
+returns `allow`, `warn`, or `review_required` with public-safe reason codes.
+It accepts planned scope, unit kind, estimated units, estimated minutes, and
+repo-relative evidence refs. It does not persist raw loop prompts or evidence
+contents.
+
 Each stored record must include time, loop scope, unit kind, amount, status,
 semantic hash, and repo-relative evidence refs. Public status surfaces only
 expose counts, thresholds, buckets, total units, budget state, and timestamps.
@@ -50,7 +57,8 @@ enforcing the configured evidence noise budget.
 
 ## Public Boundary
 
-The CLI commands `mhj codex-cost status`, `mhj codex-cost record`, and daemon endpoint
-`GET /codex-cost/status` must not expose prompts, transcripts, private notes,
-raw evidence refs, credentials, tokens, local absolute paths, account IDs, card
-numbers, Linear private URLs, or private evidence contents.
+The CLI commands `mhj codex-cost status`, `mhj codex-cost record`,
+`mhj codex-cost guard`, and daemon endpoint `GET /codex-cost/status` must not
+expose prompts, transcripts, private notes, raw evidence refs, credentials,
+tokens, local absolute paths, account IDs, card numbers, Linear private URLs,
+or private evidence contents.

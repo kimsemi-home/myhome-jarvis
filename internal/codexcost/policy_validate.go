@@ -39,6 +39,7 @@ func validatePolicy(policy Policy) error {
 	for _, command := range []string{
 		"mhj codex-cost status",
 		"mhj codex-cost record <json-payload>",
+		"mhj codex-cost guard <json-payload>",
 	} {
 		if !contains(policy.Commands, command) {
 			return fmt.Errorf("codex cost command %q is missing", command)
