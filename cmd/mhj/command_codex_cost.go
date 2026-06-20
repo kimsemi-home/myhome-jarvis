@@ -3,6 +3,9 @@ package main
 import "github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 
 func routeCodexCost(root string, args []string) error {
+	if len(args) == 1 && args[0] == "brief" {
+		return codexCostBrief(root)
+	}
 	if len(args) == 1 && args[0] == "roi" {
 		return codexCostROI(root)
 	}
@@ -16,6 +19,14 @@ func routeCodexCost(root string, args []string) error {
 		return codexCostGuard(root, []byte(args[1]))
 	}
 	return usage()
+}
+
+func codexCostBrief(root string) error {
+	brief, err := codexcost.BriefForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(brief)
 }
 
 func codexCostROI(root string) error {
