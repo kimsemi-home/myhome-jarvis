@@ -28,6 +28,7 @@
 	                               "generated/release_pipeline.generated.json"
 	                               "generated/assistant_vision.generated.json"
 	                               "generated/codex_cost.generated.json"
+	                               "generated/codex_sustainability.generated.json"
 	                               "generated/finance_consent.generated.json"
 	                               "generated/monetization.generated.json"
 	                               "generated/repo_factory.generated.json"

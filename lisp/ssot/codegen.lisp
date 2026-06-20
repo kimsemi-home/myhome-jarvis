@@ -18,6 +18,7 @@
   (validate-review-policy *review-policy*)
   (validate-assistant-vision-policy *assistant-vision-policy*)
   (validate-codex-cost-policy *codex-cost-policy*)
+  (validate-codex-sustainability-policy *codex-sustainability-policy*)
   (validate-monetization-policy *monetization-policy*)
   (validate-repo-factory-policy *repo-factory-policy*)
   (validate-authority-policy *authority-policy*)

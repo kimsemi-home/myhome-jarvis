@@ -53,6 +53,7 @@
     ("review" ,*review-policy*)
     ("assistant_vision" ,*assistant-vision-policy*)
     ("codex_cost" ,*codex-cost-policy*)
+    ("codex_sustainability" ,*codex-sustainability-policy*)
     ("monetization" ,*monetization-policy*)
     ("repo_factory" ,*repo-factory-policy*)
     ("authority" ,*authority-policy*)
