@@ -39,6 +39,6 @@ func decodeAttributionRequest(payload []byte) (AttributionRequest, error) {
 func attributionResult(record AttributionRecord) AttributionResult {
 	return AttributionResult{Scope: record.Scope, UnitKind: record.UnitKind,
 		Amount: record.Amount, Basis: record.Basis,
-		SubjectHash:      record.SubjectHash,
+		SubjectHash: record.SubjectHash, CostRef: record.CostRef,
 		EvidenceRefCount: len(record.EvidenceRefs), RecordedAt: record.At}
 }

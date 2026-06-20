@@ -25,7 +25,9 @@ func testPolicy() Policy {
 		ReviewUnitThreshold:         500000,
 		RequiredFields:              requiredRecordFields,
 		AttributionRequiredFields:   requiredAttributionFields,
+		AttributionCostRefInputs:    requiredAttributionCostRefInputs,
 		AttributionSubjectMaxLength: 160,
+		AttributionCostRefMaxLength: 80,
 		AllowedEvidencePrefixes:     []string{"generated/", "docs/", ".github/", "data/private/"},
 		PublicSummaryFields:         requiredSummaryFields,
 		Commands: []string{

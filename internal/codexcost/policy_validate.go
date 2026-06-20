@@ -34,12 +34,8 @@ func validatePolicy(policy Policy) error {
 	if err := requireAll("required field", policy.RequiredFields, requiredRecordFields); err != nil {
 		return err
 	}
-	if err := requireAll("attribution field", policy.AttributionRequiredFields, requiredAttributionFields); err != nil {
+	if err := validateAttributionPolicy(policy); err != nil {
 		return err
-	}
-	if policy.AttributionSubjectMaxLength <= 0 ||
-		policy.AttributionSubjectMaxLength > 200 {
-		return fmt.Errorf("codex cost attribution subject length is invalid")
 	}
 	if err := requireAll("semantic hash input", policy.SemanticHashInputs, requiredSemanticHashInputs); err != nil {
 		return err
@@ -47,18 +43,7 @@ func validatePolicy(policy Policy) error {
 	if err := requireAll("public summary", policy.PublicSummaryFields, requiredSummaryFields); err != nil {
 		return err
 	}
-	for _, command := range []string{
-		"mhj codex-cost status",
-		"mhj codex-cost record <json-payload>",
-		"mhj codex-cost guard <json-payload>",
-		"mhj codex-cost attribute <json-payload>",
-		"mhj codex-cost roi",
-	} {
-		if !contains(policy.Commands, command) {
-			return fmt.Errorf("codex cost command %q is missing", command)
-		}
-	}
-	return nil
+	return validatePolicyCommands(policy)
 }
 
 func requireAll(label string, values []string, required []string) error {

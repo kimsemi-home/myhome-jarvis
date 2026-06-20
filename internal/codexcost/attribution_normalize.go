@@ -12,8 +12,8 @@ func normalizeAttribution(
 ) (AttributionRecord, error) {
 	record := AttributionRecord{
 		At: request.At, Scope: request.Scope, SubjectKey: request.SubjectKey,
-		UnitKind: request.UnitKind, Amount: request.Amount, Basis: request.Basis,
-		EvidenceRefs: request.EvidenceRefs,
+		CostRef: request.CostRef, UnitKind: request.UnitKind,
+		Amount: request.Amount, Basis: request.Basis, EvidenceRefs: request.EvidenceRefs,
 	}
 	if strings.TrimSpace(record.At) == "" {
 		record.At = now.Format(time.RFC3339)
@@ -34,6 +34,7 @@ func normalizeAttributionRecord(
 	record.At = strings.TrimSpace(record.At)
 	record.Scope = normalizeToken(record.Scope)
 	record.SubjectKey = strings.TrimSpace(record.SubjectKey)
+	record.CostRef = normalizeToken(record.CostRef)
 	record.UnitKind = normalizeToken(record.UnitKind)
 	record.Basis = normalizeToken(record.Basis)
 	record.EvidenceRefs = normalizeRefs(record.EvidenceRefs)
@@ -42,6 +43,12 @@ func normalizeAttributionRecord(
 	}
 	if strings.TrimSpace(record.SubjectHash) == "" {
 		record.SubjectHash = attributionSubjectHash(record.SubjectKey)
+	}
+	if strings.TrimSpace(record.CostRef) == "" {
+		record.CostRef = attributionCostRef(record)
+	}
+	if err := validateCostRef(policy, record.CostRef); err != nil {
+		return AttributionRecord{}, err
 	}
 	return record, validateAttributionRefs(policy, record.EvidenceRefs)
 }

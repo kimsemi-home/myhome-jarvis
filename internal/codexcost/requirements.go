@@ -40,6 +40,12 @@ var requiredSemanticHashInputs = []string{
 	"evidence_refs",
 }
 
+var requiredAttributionCostRefInputs = []string{
+	"unit_kind",
+	"amount",
+	"evidence_refs",
+}
+
 var requiredSummaryFields = []string{
 	"record_count",
 	"invalid_record_count",

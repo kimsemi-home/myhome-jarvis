@@ -8,7 +8,9 @@ type ROISummary struct {
 	TrackedScopeCount          int      `json:"tracked_scope_count"`
 	TotalUnits                 int64    `json:"total_units"`
 	AttributedUnits            int64    `json:"attributed_units"`
+	AttributionEntryUnits      int64    `json:"attribution_entry_units"`
 	AttributionRecordCount     int      `json:"attribution_record_count"`
+	AttributionCostRefCount    int      `json:"attribution_cost_ref_count"`
 	AttributionCoveragePercent int      `json:"attribution_coverage_percent"`
 	InvalidAttributionCount    int      `json:"invalid_attribution_count"`
 	BudgetState                string   `json:"budget_state"`

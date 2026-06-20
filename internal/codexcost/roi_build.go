@@ -24,8 +24,10 @@ func buildROISummary(
 		ScopeCount:                 len(policy.LoopScopes),
 		TrackedScopeCount:          countTrackedROIRows(rows),
 		TotalUnits:                 cost.TotalUnits,
-		AttributedUnits:            attribution.TotalUnits,
+		AttributedUnits:            attribution.CoverageUnits,
+		AttributionEntryUnits:      attribution.EntryUnits,
 		AttributionRecordCount:     attribution.RecordCount,
+		AttributionCostRefCount:    attribution.CostRefCount,
 		AttributionCoveragePercent: attributionCoverage(cost, attribution),
 		InvalidAttributionCount:    attribution.InvalidRecordCount,
 		BudgetState:                cost.BudgetState,
@@ -51,5 +53,5 @@ func buildROISummary(
 }
 
 func attributionCoverage(cost Status, attribution AttributionStatus) int {
-	return costSharePercent(attribution.TotalUnits, cost.TotalUnits)
+	return costSharePercent(attribution.CoverageUnits, cost.TotalUnits)
 }
