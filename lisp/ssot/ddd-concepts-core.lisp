@@ -32,6 +32,12 @@
                 "internal/monetization"
                 #("generated/monetization.generated.json" "internal/monetization/status.go" "docs/monetization-experiments.md")
                 #("CommercePurchase" "CodexCostGovernor" "AuthorityGate" "EvidenceGraph"))
+   (ddd-concept "CodexSustainabilityLoop" "AgentOps" "Policy"
+                "A private evidence loop that measures Codex sustainability, trend posture, cycle speed, cache value, and proposal proof."
+                #("codex sustainability" "trend evidence" "usage sustainability" "optimization evidence")
+                "internal/codexsustainability"
+                #("generated/codex_sustainability.generated.json" "internal/codexsustainability/status.go" "docs/codex-sustainability.md")
+                #("CodexCostGovernor" "ClosedLoopPlanner" "MonetizationExperiment" "EvidenceGraph"))
    (ddd-concept "ConnectorCatalog" "ConnectorReadiness" "Policy"
                 "A public-safe catalog of planned read-only connectors that stays fixture-only until explicit connector work begins."
                 #("connector" "connector catalog" "connector readiness" "connector status")

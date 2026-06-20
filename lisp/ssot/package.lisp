@@ -31,6 +31,7 @@
    #:*review-policy*
    #:*assistant-vision-policy*
    #:*codex-cost-policy*
+   #:*codex-sustainability-policy*
    #:*monetization-policy*
    #:*repo-factory-policy*
    #:*authority-policy*

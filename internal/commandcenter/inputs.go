@@ -3,6 +3,7 @@ package commandcenter
 import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
+	"github.com/kimsemi-home/myhome-jarvis/internal/codexsustainability"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/financeconsent"
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
@@ -13,16 +14,17 @@ import (
 )
 
 type inputs struct {
-	Vision         visionPolicy
-	PDCA           pdca.Status
-	Evidence       evidence.Status
-	Incidents      incidents.Status
-	Authority      authority.Status
-	Review         review.Status
-	FinanceConsent financeconsent.Status
-	Cost           codexcost.Status
-	Monetization   monetization.Status
-	RepoFactory    repofactory.Status
+	Vision              visionPolicy
+	PDCA                pdca.Status
+	Evidence            evidence.Status
+	Incidents           incidents.Status
+	Authority           authority.Status
+	Review              review.Status
+	FinanceConsent      financeconsent.Status
+	Cost                codexcost.Status
+	CodexSustainability codexsustainability.Status
+	Monetization        monetization.Status
+	RepoFactory         repofactory.Status
 }
 
 func collectInputs(root string) (inputs, error) {
@@ -50,6 +52,9 @@ func collectInputs(root string) (inputs, error) {
 		return inputs{}, err
 	}
 	if in.Cost, err = codexcost.StatusForRoot(root); err != nil {
+		return inputs{}, err
+	}
+	if in.CodexSustainability, err = codexsustainability.StatusForRoot(root); err != nil {
 		return inputs{}, err
 	}
 	if in.Monetization, err = monetization.StatusForRoot(root); err != nil {

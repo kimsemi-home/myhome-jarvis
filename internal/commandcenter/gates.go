@@ -13,6 +13,7 @@ func blockedGates(in inputs) []GateSummary {
 	reviewDebt := in.Review.ReviewDebtCount + in.Review.HighRiskOpenCount
 	financeConsentDebt := in.FinanceConsent.ConsentDebtCount
 	costDebt := in.Cost.ReviewRequiredCount + in.Cost.MissingEvidenceCount
+	codexSustainabilityDebt := in.CodexSustainability.ReviewGateCount
 	monetizationDebt := in.Monetization.MonetizationDebtCount
 	repoFactoryDebt := in.RepoFactory.MissingTemplateRoleCount +
 		in.RepoFactory.MissingCreationGateCount +
@@ -35,6 +36,10 @@ func blockedGates(in inputs) []GateSummary {
 		financeConsentDebt)
 	add(in.Cost.BudgetState != "ok" || costDebt > 0, "cost", "Codex Cost",
 		"cost budget or evidence review is required", costDebt)
+	add(in.CodexSustainability.SustainabilityPosture != "sustainable",
+		"codex_sustainability", "Codex Sustainability",
+		"usage growth, trend freshness, or optimization evidence needs review",
+		codexSustainabilityDebt)
 	add(monetizationDebt > 0, "monetization", "Monetization",
 		"experiment decisions need evidence, cost, or review closure", monetizationDebt)
 	add(!in.RepoFactory.PublicSafe || in.RepoFactory.RepoCreationBlockedUntilReview,
