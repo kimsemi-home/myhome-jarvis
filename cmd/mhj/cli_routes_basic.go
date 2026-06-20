@@ -15,6 +15,8 @@ func routeBasics(root string, args []string) (bool, error) {
 		return true, writeJSON(commands.Specs())
 	case "auth":
 		return true, runAuth(root, args[1:])
+	case "assistant":
+		return true, runAssistant(root, args[1:])
 	case "security":
 		return true, runSecurity(root, args[1:])
 	case "command":

@@ -32,8 +32,15 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 		t.Fatalf("storage archive summary = %#v", status.StorageArchive)
 	}
 	if status.StorageArchive.MaxNoiseRatioPercent > 25 ||
+		status.StorageArchive.MaxLowSignalRecords != 10 ||
+		status.StorageArchive.NoiseBudgetWindow != "per_quality_run" ||
+		!status.StorageArchive.BreachBlocksArchive ||
 		status.StorageArchive.ManifestInvalidEntryCount != 0 {
 		t.Fatalf("storage archive noise summary = %#v", status.StorageArchive)
+	}
+	if !hasPillar(status.StorageArchive.DedupeKeyFields, "evidence_ref") ||
+		!hasPillar(status.StorageArchive.ConfigHashInputs, "evidence_noise_budget") {
+		t.Fatalf("storage archive evidence config = %#v", status.StorageArchive)
 	}
 	if !status.AuthorityReview.PublicSafe ||
 		status.AuthorityReview.HighRiskBlockedDecisionCount != 6 {
