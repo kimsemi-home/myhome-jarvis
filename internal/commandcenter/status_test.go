@@ -14,6 +14,10 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 	if status.Vision.CapabilityCount != 6 || status.Vision.GuardrailCount == 0 {
 		t.Fatalf("vision summary = %#v", status.Vision)
 	}
+	if status.Vision.ReadyPillarCount != 2 || status.Vision.GatedPillarCount != 3 ||
+		status.Vision.BlockedPillarCount != 1 {
+		t.Fatalf("vision readiness summary = %#v", status.Vision)
+	}
 	if !status.PDCA.Ready || status.Cost.BudgetState != "ok" {
 		t.Fatalf("pdca/cost summary = %#v %#v", status.PDCA, status.Cost)
 	}

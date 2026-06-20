@@ -4,6 +4,10 @@
 it observes, plans, acts within bounded authority, verifies outcomes, and learns
 from evidence. The SSOT source is `lisp/ssot/assistant-vision.lisp`; the public
 generated artifact is `generated/assistant_vision.generated.json`.
+`mhj assistant status` and daemon `GET /assistant/status` summarize the vision
+with ready/gated/blocked pillar counts and pillar keys, so the closed loop can
+see which mission areas are usable, review-gated, or blocked without exposing
+private payloads.
 
 ## Universal Language
 

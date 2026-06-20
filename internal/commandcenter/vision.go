@@ -21,6 +21,16 @@ type visionPillar struct {
 	Key string `json:"key"`
 }
 
+func visionPillarKeys(pillars []visionPillar) []string {
+	keys := make([]string, 0, len(pillars))
+	for _, pillar := range pillars {
+		if pillar.Key != "" {
+			keys = append(keys, pillar.Key)
+		}
+	}
+	return keys
+}
+
 func readVisionPolicy(root string) (visionPolicy, error) {
 	body, err := os.ReadFile(filepath.Join(root, filepath.FromSlash(visionPolicyPath)))
 	if err != nil {

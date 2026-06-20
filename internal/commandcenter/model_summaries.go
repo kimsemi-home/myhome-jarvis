@@ -1,11 +1,18 @@
 package commandcenter
 
 type VisionSummary struct {
-	PolicyPath      string `json:"policy_path"`
-	Mission         string `json:"mission"`
-	OperatingMode   string `json:"operating_mode"`
-	CapabilityCount int    `json:"capability_count"`
-	GuardrailCount  int    `json:"guardrail_count"`
+	PolicyPath         string   `json:"policy_path"`
+	Mission            string   `json:"mission"`
+	OperatingMode      string   `json:"operating_mode"`
+	CapabilityCount    int      `json:"capability_count"`
+	GuardrailCount     int      `json:"guardrail_count"`
+	PillarKeys         []string `json:"pillar_keys"`
+	ReadyPillarCount   int      `json:"ready_pillar_count"`
+	GatedPillarCount   int      `json:"gated_pillar_count"`
+	BlockedPillarCount int      `json:"blocked_pillar_count"`
+	ReadyPillarKeys    []string `json:"ready_pillar_keys"`
+	GatedPillarKeys    []string `json:"gated_pillar_keys"`
+	BlockedPillarKeys  []string `json:"blocked_pillar_keys"`
 }
 
 type PDCASummary struct {
