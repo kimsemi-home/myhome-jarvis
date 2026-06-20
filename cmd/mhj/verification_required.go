@@ -20,6 +20,7 @@ func requiredVerificationArtifacts() []string {
 		"generated/codex_sustainability.generated.json",
 		"generated/context_pack.generated.json",
 		"generated/finance_consent.generated.json",
+		"generated/media_readiness.generated.json",
 		"generated/monetization.generated.json",
 		"generated/repo_factory.generated.json",
 		"docs/verification-graph.md",
@@ -52,6 +53,7 @@ func requiredVerificationCommands() []string {
 		"test -s generated/codex_sustainability.generated.json",
 		"test -s generated/context_pack.generated.json",
 		"test -s generated/finance_consent.generated.json",
+		"test -s generated/media_readiness.generated.json",
 		"test -s generated/monetization.generated.json",
 		"test -s generated/repo_factory.generated.json",
 	}

@@ -58,3 +58,10 @@ monetization, cost, and self-improvement loops to review, public-safety,
 public-repo, workflow-change, and verifier-separation gates. Finance and
 external publishing paths require review, and every profile keeps self-approval
 disabled.
+
+## Local Media Readiness
+
+The Local Media Concierge pillar now has a public-safe readiness benchmark.
+`mhj media-readiness status` and daemon `GET /media-readiness/status` report
+YouTube/OTT command-planning latency and availability without recording browsing
+history, cookies, credentials, account identifiers, raw payloads, or raw URLs.

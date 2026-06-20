@@ -20,6 +20,7 @@
   (validate-codex-cost-policy *codex-cost-policy*)
   (validate-codex-sustainability-policy *codex-sustainability-policy*)
   (validate-context-pack-policy *context-pack-policy*)
+  (validate-media-readiness-policy *media-readiness-policy*)
   (validate-monetization-policy *monetization-policy*)
   (validate-repo-factory-policy *repo-factory-policy*)
   (validate-authority-policy *authority-policy*)

@@ -55,6 +55,7 @@
     ("codex_cost" ,*codex-cost-policy*)
     ("codex_sustainability" ,*codex-sustainability-policy*)
     ("context_pack" ,*context-pack-policy*)
+    ("media_readiness" ,*media-readiness-policy*)
     ("monetization" ,*monetization-policy*)
     ("repo_factory" ,*repo-factory-policy*)
     ("authority" ,*authority-policy*)
