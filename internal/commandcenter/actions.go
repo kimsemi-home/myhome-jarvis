@@ -7,6 +7,10 @@ func nextSafeAction(status Status) string {
 	for _, gate := range status.BlockedGates {
 		switch gate.Key {
 		case "authority":
+			if status.AuthorityReview.NextSafeAction != "" &&
+				status.AuthorityReview.NextSafeAction != "none" {
+				return status.AuthorityReview.NextSafeAction
+			}
 			if status.AuthorityReview.ReviewRequestable {
 				return "request_authority_review"
 			}
