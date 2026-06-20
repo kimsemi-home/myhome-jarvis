@@ -37,4 +37,5 @@
                                    "linear_url" "private_evidence")
         :commands #("mhj codex-cost status"
                     "mhj codex-cost record <json-payload>"
-                    "mhj codex-cost guard <json-payload>")))
+                    "mhj codex-cost guard <json-payload>"
+                    "mhj codex-cost roi")))
