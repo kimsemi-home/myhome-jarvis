@@ -13,6 +13,12 @@ type AuthorityReviewSummary struct {
 	ReviewRequestable               bool   `json:"review_requestable"`
 	ReviewCapacityState             string `json:"review_capacity_state"`
 	NextSafeAction                  string `json:"next_safe_action"`
+	ReviewRequestRecorded           bool   `json:"review_request_recorded"`
+	ReviewRequestRecordCount        int    `json:"review_request_record_count"`
+	ReviewRequestInvalidRecordCnt   int    `json:"review_request_invalid_record_count"`
+	ReviewRequestLedgerState        string `json:"review_request_ledger_state"`
+	ReviewRequestApprovalState      string `json:"review_request_approval_state"`
+	ReviewRequestLastRecordedAt     string `json:"review_request_last_recorded_at,omitempty"`
 	HighRiskBlockedDecisionCount    int    `json:"high_risk_blocked_decision_count"`
 	RequiredReviewClassCount        int    `json:"required_review_class_count"`
 	PublicRepoReviewProfileCount    int    `json:"public_repo_review_profile_count"`

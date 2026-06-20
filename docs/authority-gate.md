@@ -76,6 +76,10 @@ self-approval. The public command output is summary-only: it reports the request
 id, queue state, class count, approval state, and private ledger state, but does
 not expose evidence refs or queue item refs. Recording a request is not an
 approval and does not unlock repo creation, external writes, or self-approval.
+After the current request has a matching private ledger entry, public authority
+review status reports `review_request_ledger_state` as
+`recorded_pending_review` and the command center switches the next safe action
+from `request_authority_review` to `await_human_authority_review`.
 
 ## Outcomes
 

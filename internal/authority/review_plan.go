@@ -11,7 +11,14 @@ func ReviewPlanForRoot(root string) (ReviewPlanStatus, error) {
 	if err != nil {
 		return ReviewPlanStatus{}, err
 	}
-	return ReviewPlan(policy, status), nil
+	plan := ReviewPlan(policy, status)
+	packet := ReviewRequestPacketFromPlan(plan)
+	ledger, err := ReviewRecordLedgerForRoot(root, policy, packet.RequestID)
+	if err != nil {
+		return ReviewPlanStatus{}, err
+	}
+	applyReviewRecordLedger(&plan, ledger)
+	return plan, nil
 }
 
 func ReviewPlan(policy Policy, status Status) ReviewPlanStatus {
@@ -38,6 +45,18 @@ func ReviewPlan(policy Policy, status Status) ReviewPlanStatus {
 		plan.NextSafeAction = "resolve_authority_debt"
 	}
 	return plan
+}
+
+func applyReviewRecordLedger(plan *ReviewPlanStatus, ledger ReviewRecordLedgerSummary) {
+	plan.ReviewRequestRecorded = ledger.Recorded
+	plan.ReviewRequestRecordCount = ledger.RecordCount
+	plan.ReviewRequestInvalidRecordCount = ledger.InvalidRecordCount
+	plan.ReviewRequestLedgerState = ledger.LedgerState
+	plan.ReviewRequestApprovalState = ledger.ApprovalState
+	plan.ReviewRequestLastRecordedAt = ledger.LastRecordedAt
+	if plan.ReviewRequestable && ledger.Recorded {
+		plan.NextSafeAction = "await_human_authority_review"
+	}
 }
 
 func reviewPlanPublicSafe(policy Policy) bool {
