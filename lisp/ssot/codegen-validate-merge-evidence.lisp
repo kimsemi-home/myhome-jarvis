@@ -7,16 +7,29 @@
   (require-string-equal (getf policy :default_behavior)
                         "merge_when_eligible"
                         "Merge evidence default behavior mismatch")
+  (require-string-equal (getf policy :merge_preference)
+                        "merge_after_checks_pass"
+                        "Merge evidence merge preference mismatch")
   (require-true (getf policy :public_status_redacted)
                 "Merge evidence status must be redacted")
   (require-false (getf policy :merge_without_review_allowed)
                  "Merge evidence must not allow unreviewed merges")
   (require-false (getf policy :persist_private_evidence)
                  "Merge evidence must not persist private evidence")
+  (require-true (getf policy :post_merge_evidence_required)
+                "Merge evidence must require post-merge evidence")
+  (require-true (getf policy :linear_completion_required)
+                "Merge evidence must require Linear completion evidence")
+  (require-true (getf policy :main_quality_run_required)
+                "Merge evidence must require main quality run evidence")
+  (require-true (getf policy :private_data_scan_required)
+                "Merge evidence must require private-data scan evidence")
   (validate-merge-evidence-gates (getf policy :gates))
   (require-members '("pr_url" "feature_commit" "merge_commit"
-                     "push_quality_run" "pr_quality_run" "main_quality_run"
-                     "linear_completion_comment" "public_safety_scan")
+                     "push_quality_run" "pr_quality_run"
+                     "pr_required_checks" "main_quality_run"
+                     "linear_completion_comment" "public_safety_scan"
+                     "private_data_scan" "merge_decision_comment")
                    (policy-list policy :required_evidence)
                    "Merge evidence required item missing: ~A")
   (require-command policy "mhj merge-evidence status"))

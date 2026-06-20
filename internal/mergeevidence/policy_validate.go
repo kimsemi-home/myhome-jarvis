@@ -9,12 +9,15 @@ var requiredGates = []string{
 
 var requiredEvidence = []string{
 	"pr_url", "feature_commit", "merge_commit", "push_quality_run",
-	"pr_quality_run", "main_quality_run", "linear_completion_comment",
-	"public_safety_scan",
+	"pr_quality_run", "pr_required_checks", "main_quality_run",
+	"linear_completion_comment", "public_safety_scan", "private_data_scan",
+	"merge_decision_comment",
 }
 
 var requiredSummaryFields = []string{
-	"context", "version", "policy_path", "default_behavior",
+	"context", "version", "policy_path", "default_behavior", "merge_preference",
+	"post_merge_evidence_required", "linear_completion_required",
+	"main_quality_run_required", "private_data_scan_required",
 	"eligible_gate_count", "required_evidence_count",
 	"missing_required_evidence_count", "merge_ready",
 	"merge_blocked_until_evidence", "checked_at",
@@ -24,11 +27,17 @@ func ValidatePolicy(policy Policy) error {
 	if policy.Context != "MergeEvidencePolicy" {
 		return fmt.Errorf("merge evidence context = %q", policy.Context)
 	}
-	if policy.DefaultBehavior != "merge_when_eligible" || !policy.PublicStatusRedacted {
+	if policy.DefaultBehavior != "merge_when_eligible" ||
+		policy.MergePreference != "merge_after_checks_pass" ||
+		!policy.PublicStatusRedacted {
 		return fmt.Errorf("merge evidence default behavior or redaction is invalid")
 	}
 	if policy.MergeWithoutReviewAllowed || policy.PersistPrivateEvidence {
 		return fmt.Errorf("merge evidence must not allow unreviewed private evidence")
+	}
+	if !policy.PostMergeEvidenceRequired || !policy.LinearCompletionRequired ||
+		!policy.MainQualityRunRequired || !policy.PrivateDataScanRequired {
+		return fmt.Errorf("merge evidence required proof flags are incomplete")
 	}
 	if err := validateGates(policy.Gates); err != nil {
 		return err
