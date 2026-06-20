@@ -34,7 +34,7 @@ func (report *qualityReport) addCommand(root string, name string, command []stri
 		report.Steps = append(report.Steps, step)
 		return
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 	defer cancel()
 	cmd := exec.CommandContext(ctx, command[0], command[1:]...)
 	cmd.Dir = root

@@ -36,6 +36,7 @@ The generated policy defines:
 go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
 go run ./cmd/mhj authority-review request
+go run ./cmd/mhj authority-review evidence
 ```
 
 The command reads the generated Authority Gate policy plus redacted status from
@@ -56,6 +57,10 @@ Daemon `GET /authority-review/request` returns a public-safe request packet with
 a stable request id derived from review classes and counts. It is evidence for a
 human review request only: it never grants approval, self-authority, or external
 write permission.
+
+Daemon `GET /authority-review/evidence` returns the evidence-ready reference
+for that request packet. The reference is stable enough for Linear/GitHub
+comments, but remains a request artifact and always reports `not_approved`.
 
 ## Outcomes
 
@@ -99,6 +104,7 @@ go run ./cmd/mhj review status
 go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
 go run ./cmd/mhj authority-review request
+go run ./cmd/mhj authority-review evidence
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
 cd apps/flutter && flutter test test/daemon_client_test.dart test/widget_test.dart
