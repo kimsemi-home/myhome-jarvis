@@ -26,6 +26,7 @@ type LogArchivePolicy struct {
 	ManifestPath            string   `json:"manifest_path"`
 	RawPayloadPublicAllowed bool     `json:"raw_payload_public_allowed"`
 	ConfigIsEvidence        bool     `json:"config_is_evidence"`
+	ConfigHashInputs        []string `json:"config_hash_inputs"`
 	Lifecycle               []string `json:"lifecycle"`
 }
 

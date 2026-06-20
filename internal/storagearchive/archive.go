@@ -13,13 +13,14 @@ func archiveSource(
 	source domain.PrivateLogSource,
 	scan sourceScan,
 	now string,
+	evidence configEvidenceRef,
 ) (RunResult, manifestEntry, error) {
 	archivePath := archiveRelativePath(policy, source, scan)
 	outputBytes, err := writeGzip(root, archivePath, scan.Content)
 	if err != nil {
 		return RunResult{}, manifestEntry{}, err
 	}
-	result := archivedResult(source, scan, archivePath, outputBytes)
+	result := archivedResult(source, scan, archivePath, outputBytes, evidence)
 	return result, scannedEntry(now, result), nil
 }
 
@@ -28,8 +29,9 @@ func scannedSkip(
 	source domain.PrivateLogSource,
 	state string,
 	scan sourceScan,
+	evidence configEvidenceRef,
 ) (RunResult, manifestEntry) {
-	result := scannedResult(source, state, scan)
+	result := scannedResult(source, state, scan, evidence)
 	return result, scannedEntry(now, result)
 }
 

@@ -15,6 +15,8 @@ type Status struct {
 	NoiseBudgetWindow            string   `json:"noise_budget_window"`
 	DedupeKeyFields              []string `json:"dedupe_key_fields"`
 	ConfigEvidenceField          string   `json:"config_evidence_field"`
+	ConfigHashInputs             []string `json:"config_hash_inputs"`
+	ConfigEvidenceSHA256         string   `json:"config_evidence_sha256"`
 	BreachBlocksArchive          bool     `json:"breach_blocks_archive"`
 	ConfigIsEvidence             bool     `json:"config_is_evidence"`
 	RawPayloadPublicAllowed      bool     `json:"raw_payload_public_allowed"`

@@ -32,6 +32,7 @@
               :manifest_path "data/private/archive/manifest.jsonl"
               :raw_payload_public_allowed nil
               :config_is_evidence t
+              :config_hash_inputs #("log_archive" "evidence_noise_budget")
               :lifecycle #("collect_jsonl" "redact_summary"
                            "dedupe_low_signal" "compress_gzip"
                            "archive_manifest"))

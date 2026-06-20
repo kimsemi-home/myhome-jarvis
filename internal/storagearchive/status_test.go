@@ -24,6 +24,9 @@ func TestStatusSummarizesArchivePolicy(t *testing.T) {
 		!status.BreachBlocksArchive {
 		t.Fatalf("noise budget evidence = %#v", status)
 	}
+	if status.ConfigEvidenceSHA256 == "" || len(status.ConfigHashInputs) != 2 {
+		t.Fatalf("config evidence hash = %#v", status)
+	}
 }
 
 func containsKey(values []string, wanted string) bool {

@@ -75,9 +75,14 @@ Go daemon read surface:
   written as `.jsonl.gz` files under `data/private/archive`.
 - Each run appends private manifest rows to
   `data/private/archive/manifest.jsonl` with source key/path, archive path,
-  input/output bytes, input hash, record/noise counts, and budget verdict.
+  input/output bytes, compression ratio percent, input hash, config evidence
+  hash, record/noise counts, and budget verdict.
   Public command output reports the same aggregate metadata without raw log
   payloads or local absolute paths.
+- The config evidence hash is derived from the SSOT-declared
+  `config_hash_inputs`: `log_archive` and `evidence_noise_budget`. That makes
+  the noise threshold and compression/archive settings part of the evidence for
+  each local archive decision without publishing the private log body.
 
 Validation:
 
