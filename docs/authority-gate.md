@@ -24,6 +24,8 @@ The generated policy defines:
 - role permissions
 - domain attributes used for ABAC decisions
 - decision keys and risk levels
+- assistant authority profiles for media, finance, repo factory,
+  monetization, cost, and self-improvement loops
 - outcome names
 - authority debt classes
 - public redaction fields
@@ -67,6 +69,7 @@ Public status may expose:
 - debt counts by input surface
 - allowed and blocked decision keys
 - counts by risk
+- assistant profile counts and gated profile keys
 - timestamp
 
 It does not expose raw rationale, raw evidence contents, evidence refs,

@@ -50,3 +50,11 @@ The first implementation is a redacted status surface over a private local
 usage ledger. `mhj codex-cost status` and daemon `GET /codex-cost/status`
 report budget state and aggregate counts without exposing raw prompts,
 transcripts, evidence refs, private notes, tokens, credentials, or local paths.
+
+## Authority Profiles
+
+Assistant authority profiles now map media, finance, repo factory,
+monetization, cost, and self-improvement loops to review, public-safety,
+public-repo, workflow-change, and verifier-separation gates. Finance and
+external publishing paths require review, and every profile keeps self-approval
+disabled.

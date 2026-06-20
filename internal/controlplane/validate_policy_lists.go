@@ -10,7 +10,9 @@ func validatePolicyLists(policy Policy) error {
 			"loop_once", "loop_worker_cycle", "checkpoint_write",
 		}},
 		{"control-plane authority profile", normalizeList(policy.AllowedAuthorityProfiles), []string{
-			"local_readonly", "external_write_gated",
+			"local_readonly", "local_interactive", "finance_review_only",
+			"public_repo_review_required", "monetization_review_required",
+			"authority_gated", "external_write_gated",
 		}},
 		{"control-plane lease status", normalizeList(policy.AllowedLeaseStatuses), []string{
 			"issued", "active", "finished", "aborted", "quarantined",

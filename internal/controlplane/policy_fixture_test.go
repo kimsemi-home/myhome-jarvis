@@ -14,7 +14,7 @@ func testPolicy() Policy {
 		MinLeaseSeconds:            1,
 		MaxLeaseSeconds:            3600,
 		AllowedDecisionKinds:       []string{"loop_once", "loop_worker_cycle", "linear_next_observation", "checkpoint_write"},
-		AllowedAuthorityProfiles:   []string{"local_readonly", "external_write_gated", "review_only"},
+		AllowedAuthorityProfiles:   []string{"local_readonly", "local_interactive", "finance_review_only", "review_only", "public_repo_review_required", "monetization_review_required", "authority_gated", "external_write_gated"},
 		AllowedLeaseStatuses:       []string{"issued", "active", "expiring", "expired", "finished", "aborted", "escalated", "quarantined"},
 		RequiredFields:             []string{"decision_kind", "policy_version", "ontology_version", "authority_profile", "selected_route", "reviewer_role", "verifier_role", "lease_seconds", "lease_status", "evidence_refs", "output_ref"},
 		AllowedEvidencePrefixes:    []string{"data/private/", "generated/", "docs/", "cmd/", "internal/", "apps/flutter/", "lisp/", "crates/", "fixtures/", "harness/", ".github/"},

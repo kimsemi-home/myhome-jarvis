@@ -132,6 +132,9 @@ Flutter consumes the daemon status as a read-only Authority Gate metric. The
 generated policy keeps reasoning tiers from granting approval, disables
 self-authority, blocks high-risk public-repo decisions, and exposes only
 outcomes, decision counts, debt counts, booleans, risk buckets, and timestamps.
+It also owns assistant authority profiles for media, finance, repo factory,
+monetization, cost, and self-improvement loops, exposing only profile counts
+and gated profile keys in public status.
 
 The Code Shape Budget SSOT emits `generated/code_shape.generated.json`. Go
 reads that artifact for `mhj code-shape status` and daemon

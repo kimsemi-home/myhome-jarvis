@@ -44,6 +44,7 @@ func Assess(policy Policy, inputs Inputs) Status {
 	sort.Strings(status.BlockedDecisions)
 	status.AllowedDecisionCount = len(status.AllowedDecisions)
 	status.BlockedDecisionCount = len(status.BlockedDecisions)
+	applyProfiles(policy, &status)
 	return status
 }
 

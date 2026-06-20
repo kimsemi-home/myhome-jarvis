@@ -19,7 +19,11 @@
         :max_lease_seconds 3600
         :allowed_decision_kinds #("loop_once" "loop_worker_cycle"
                                   "linear_next_observation" "checkpoint_write")
-        :allowed_authority_profiles #("local_readonly" "external_write_gated" "review_only")
+        :allowed_authority_profiles #("local_readonly" "local_interactive"
+                                      "finance_review_only" "review_only"
+                                      "public_repo_review_required"
+                                      "monetization_review_required"
+                                      "authority_gated" "external_write_gated")
         :allowed_lease_statuses #("issued" "active" "expiring" "expired" "finished"
                                   "aborted" "escalated" "quarantined")
         :required_fields #("decision_kind" "policy_version" "ontology_version"

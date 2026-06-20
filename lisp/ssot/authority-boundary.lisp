@@ -15,7 +15,11 @@
     "evidence_quality_debt_count" "incident_debt_count"
     "control_plane_debt_count" "translation_debt_count"
     "human_review_debt_count" "human_review_capacity_state"
-    "allowed_decisions" "blocked_decisions" "by_risk" "checked_at"))
+    "allowed_decisions" "blocked_decisions" "by_risk" "profile_count"
+    "review_required_profile_count" "public_safety_gated_profile_count"
+    "public_repo_change_gated_profile_count" "workflow_change_gated_profile_count"
+    "self_approval_blocked_profile_count" "profile_keys"
+    "review_required_profiles" "public_safety_gated_profiles" "checked_at"))
 
 (defparameter *authority-forbidden-public-fields*
   #("raw_rationale" "raw_evidence" "evidence_ref" "evidence_refs"
