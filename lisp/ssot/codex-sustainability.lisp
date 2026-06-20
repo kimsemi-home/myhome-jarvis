@@ -61,4 +61,5 @@
                                    "private_finance_data"
                                    "unpublished_revenue_detail")
         :commands #("mhj codex-sustainability status"
-                    "mhj codex-sustainability record-quality")))
+                    "mhj codex-sustainability record-quality"
+                    "mhj codex-sustainability record-proposal <json-payload>")))

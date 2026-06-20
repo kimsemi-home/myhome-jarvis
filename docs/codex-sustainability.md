@@ -40,6 +40,7 @@ CLI:
 ```sh
 mhj codex-sustainability status
 mhj codex-sustainability record-quality
+mhj codex-sustainability record-proposal <json-payload>
 ```
 
 Daemon:
@@ -59,3 +60,16 @@ The capture output is public-safe: it reports state, counts, repo-relative
 ledger paths, the trend baseline version, and non-approval flags. It does not
 expose command output, argv, prompts, transcripts, local absolute paths,
 credentials, tokens, private Linear URLs, finance payloads, or private notes.
+
+## Proposal Capture
+
+`mhj codex-sustainability record-proposal <json-payload>` appends one
+`feature_proposal` record to the private sustainability ledger. The payload is
+limited to proposal id, cost per accepted change, median cycle minutes, cache
+savings units, defect/rework rate, monetization ref, optional timestamp, and
+repo-relative evidence refs.
+
+The command output is redacted and public-safe: proposal id, aggregate metrics,
+review gate state, evidence ref count, and timestamp only. It does not expose
+raw prompts, transcripts, proposal notes, private evidence contents, local
+absolute paths, private finance data, or unpublished revenue details.

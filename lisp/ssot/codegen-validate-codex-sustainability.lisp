@@ -21,7 +21,9 @@
    "Codex sustainability cost threshold required")
   (validate-codex-sustainability-lists policy)
   (require-command policy "mhj codex-sustainability status")
-  (require-command policy "mhj codex-sustainability record-quality"))
+  (require-command policy "mhj codex-sustainability record-quality")
+  (require-command policy
+                   "mhj codex-sustainability record-proposal <json-payload>"))
 
 (defun validate-codex-sustainability-lists (policy)
   (require-members '("usage_sample" "cycle_sample" "trend_baseline"
