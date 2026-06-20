@@ -116,7 +116,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: .github/unit-cache/go
-          key: go-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'go.mod', 'go.sum', 'cmd/**/*.go', 'internal/**/*.go', 'generated/*.json', 'generated/github_quality_workflow.generated.yml') }}
+          key: go-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'go.mod', 'go.sum', 'cmd/**/*.go', 'internal/**/*.go', '.mhj/**', '.codex/**', 'generated/*.json', 'generated/github_quality_workflow.generated.yml') }}
       - name: Report Go daemon and CLI cache hit
         if: steps.unit-cache.outputs.cache-hit == 'true'
         run: echo "Go daemon and CLI unchanged for this unit hash."

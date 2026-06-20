@@ -8,6 +8,14 @@ func decisionPacketFromPolicyEvidence(
 	policy Policy,
 	safety PublicSafetyEvidence,
 ) DecisionPacket {
+	return decisionPacketFromEvidence(policy, safety, contextPackEvidenceUnknown())
+}
+
+func decisionPacketFromEvidence(
+	policy Policy,
+	safety PublicSafetyEvidence,
+	contextPack ContextPackEvidence,
+) DecisionPacket {
 	status := statusFromPolicy(policy)
 	templates := packetTemplates(policy.TemplateFiles, policy.ForbiddenPublicFragments)
 	gates := packetGates(status, policy.CreationGates, safety)
@@ -33,6 +41,7 @@ func decisionPacketFromPolicyEvidence(
 		MissingEvidenceKeys:            missing,
 		NextSafeAction:                 packetNextAction(status, missing),
 		PublicSafetyEvidence:           safety,
+		ContextPackEvidence:            contextPack,
 		TemplateEvidence:               templates,
 		CreationGateEvidence:           gates,
 		CheckedAt:                      status.CheckedAt,

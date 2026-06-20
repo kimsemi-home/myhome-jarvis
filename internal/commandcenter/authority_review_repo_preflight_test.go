@@ -40,4 +40,9 @@ func assertRepoPreflight(t *testing.T, summary RepoFactoryPreflightSummary) {
 		containsString(summary.MissingEvidenceKeys, "public_safety_evidence") {
 		t.Fatalf("repo factory preflight evidence = %#v", summary)
 	}
+	if !summary.ContextPackEvidence.Valid ||
+		summary.ContextPackEvidence.EvidenceState != "ready" ||
+		summary.ContextPackEvidence.DeclarationPath != ".mhj/context-pack.json" {
+		t.Fatalf("context pack evidence = %#v", summary.ContextPackEvidence)
+	}
 }

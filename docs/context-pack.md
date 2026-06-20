@@ -47,6 +47,9 @@ Downstream repositories declare their consumed context in:
 The declaration must include the consumed context pack version, upstream
 compatibility version, ontology version, authority/security contract versions,
 verification profile, and SSOT artifact versions.
+This repository also carries that declaration so the repo factory can prove
+the handoff format with the same verifier it expects downstream repositories
+to run.
 
 Verification:
 

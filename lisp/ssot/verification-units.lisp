@@ -27,7 +27,7 @@
      :timeout 10 :setup "go" :cache "go"
      :hash_inputs #(".github/workflows/quality.yml" ".go-version"
                     "rust-toolchain.toml" "go.mod" "go.sum" "cmd/**/*.go"
-                    "internal/**/*.go" "generated/*.json"
+                    "internal/**/*.go" ".mhj/**" ".codex/**" "generated/*.json"
                     "generated/github_quality_workflow.generated.yml")
      :commands #("go run ./cmd/mhj ci verify" "go run ./cmd/mhj ci-cache status"
                  "go run ./cmd/mhj verification verify"

@@ -8,7 +8,9 @@ func VerifyDeclarationForRoot(root string, declarationPath string) (VerifyResult
 		return VerifyResult{}, err
 	}
 	declaration, resolved, err := ReadDeclaration(root, declarationPath)
-	result := newVerifyResult(resolved)
+	result := newVerifyResult(
+		declarationResultPath(root, policy, declarationPath, resolved),
+	)
 	if err != nil {
 		result.Valid = false
 		result.Findings = append(result.Findings, "declaration_missing_or_unreadable")
