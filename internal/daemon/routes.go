@@ -13,6 +13,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("POST /harness/run", server.wrap(server.handleHarnessRun))
 	mux.HandleFunc("GET /linear/status", server.wrap(server.handleLinearStatus))
 	mux.HandleFunc("GET /media-readiness/status", server.wrap(server.handleMediaReadinessStatus))
+	mux.HandleFunc("GET /merge-evidence/status", server.wrap(server.handleMergeEvidenceStatus))
 	mux.HandleFunc("POST /linear/sync", server.wrap(server.handleLinearSync))
 	mux.HandleFunc("GET /repo/status", server.wrap(server.handleRepoStatus))
 	mux.HandleFunc("GET /security/status", server.wrap(server.handleSecurityStatus))

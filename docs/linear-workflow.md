@@ -70,3 +70,10 @@ Linear API mutation succeeds. The evidence journal is
 action, public issue key when available, and `synced=true` only. Queued offline
 actions, failed GraphQL calls, lookup failures, and zero-created backlog syncs
 do not increment planner `linear_write_evidence` synced mutation counts.
+
+For implementation work, the default completion path is PR creation, validation,
+merge when eligible, and then a Linear completion comment with public-safe
+evidence. The comment should reference the PR, feature commit, merge commit,
+push/PR/main quality runs, and public-safety scan result. Public repo surfaces
+must keep private workspace URLs, local absolute paths, raw review notes, and
+credentials out of generated artifacts and default CLI/daemon summaries.

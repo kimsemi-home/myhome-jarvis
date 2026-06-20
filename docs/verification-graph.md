@@ -24,6 +24,7 @@ Generated artifacts:
 - `generated/context_pack.generated.json`
 - `generated/finance_consent.generated.json`
 - `generated/media_readiness.generated.json`
+- `generated/merge_evidence.generated.json`
 - `generated/monetization.generated.json`
 - `generated/repo_factory.generated.json`
 - `docs/verification-graph.md`
