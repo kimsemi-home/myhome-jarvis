@@ -6,6 +6,7 @@ var requiredTemplateRoles = []string{
 	"private_data_policy",
 	"bootstrap_checklist",
 	"codex_project",
+	"context_pack_declaration",
 }
 
 var requiredCreationGates = []string{
@@ -23,6 +24,7 @@ var requiredChecklistItems = []string{
 	"run mhj security history",
 	"record authority review evidence",
 	"record public safety evidence",
+	"declare consumed context pack version",
 }
 
 var requiredSummaryFields = []string{

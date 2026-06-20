@@ -15,7 +15,7 @@
         :template_files *repo-factory-template-files*
         :creation_gates *repo-factory-creation-gates*
         :bootstrap_checklist *repo-factory-bootstrap-checklist*
-        :allowed_public_path_prefixes #(".github/" ".codex/" "cmd/" "docs/"
+        :allowed_public_path_prefixes #(".github/" ".codex/" ".mhj/" "cmd/" "docs/"
                                         "generated/" "internal/" "README.md"
                                         "LICENSE")
         :forbidden_public_fragments #("absolute_home_path" "old_private_owner"

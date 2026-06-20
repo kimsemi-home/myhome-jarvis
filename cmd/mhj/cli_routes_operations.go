@@ -8,6 +8,8 @@ func routeOperations(root string, args []string) (bool, error) {
 		return true, routeVerification(root, args[1:])
 	case "control-plane":
 		return true, requireSubcommand(args, "verify", func() error { return controlPlaneVerify(root) })
+	case "context-pack":
+		return true, routeContextPack(root, args[1:])
 	case "toolchain":
 		return true, requireSubcommand(args, "verify", func() error { return runToolchainVerify(root) })
 	case "ddd":
@@ -23,6 +25,16 @@ func routeOperations(root string, args []string) (bool, error) {
 	default:
 		return false, nil
 	}
+}
+
+func routeContextPack(root string, args []string) error {
+	if len(args) == 1 && args[0] == "verify" {
+		return contextPackVerify(root, "")
+	}
+	if len(args) == 2 && args[0] == "verify" {
+		return contextPackVerify(root, args[1])
+	}
+	return usage()
 }
 
 func routeLoop(root string, args []string) error {

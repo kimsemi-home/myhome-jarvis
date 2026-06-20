@@ -16,6 +16,8 @@ func nextSafeAction(status Status) string {
 			return "review_codex_cost_budget"
 		case "codex_sustainability":
 			return "review_codex_sustainability_evidence"
+		case "context_pack":
+			return "review_context_pack_handoff"
 		case "monetization":
 			return "review_monetization_experiments"
 		case "repo_factory":

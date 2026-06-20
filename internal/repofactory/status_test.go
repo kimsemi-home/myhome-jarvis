@@ -15,7 +15,7 @@ func TestStatusSummarizesPublicSafeRepoFactory(t *testing.T) {
 	}
 	if !status.GeneratedCIPresent || !status.SecurityScanPresent ||
 		!status.PrivateDataPolicyPresent || !status.BootstrapChecklistPresent ||
-		!status.CodexProjectTemplatePresent {
+		!status.CodexProjectTemplatePresent || !status.ContextPackDeclarationPresent {
 		t.Fatalf("template coverage = %#v", status)
 	}
 	if !status.RepoCreationBlockedUntilReview || status.CreationAllowedWithoutReview {

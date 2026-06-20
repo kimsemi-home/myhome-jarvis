@@ -37,6 +37,7 @@ func statusFromPolicy(policy Policy) Status {
 		PrivateDataPolicyPresent:       contains(roles, "private_data_policy"),
 		BootstrapChecklistPresent:      contains(roles, "bootstrap_checklist"),
 		CodexProjectTemplatePresent:    contains(roles, "codex_project"),
+		ContextPackDeclarationPresent:  contains(roles, "context_pack_declaration"),
 		RepoCreationBlockedUntilReview: !policy.RepoCreationAllowedWithoutReview,
 		CheckedAt:                      time.Now().UTC().Format(time.RFC3339),
 	}

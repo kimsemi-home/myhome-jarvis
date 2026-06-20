@@ -20,7 +20,11 @@
     (:role "codex_project"
      :path ".codex/project-goal.md"
      :source_artifact "generated/assistant_vision.generated.json"
-     :purpose "seed the public-safe Codex project goal")))
+     :purpose "seed the public-safe Codex project goal")
+    (:role "context_pack_declaration"
+     :path ".mhj/context-pack.json"
+     :source_artifact "generated/context_pack.generated.json"
+     :purpose "declare consumed context, ontology, authority, security, and version contract")))
 
 (defparameter *repo-factory-creation-gates*
   #((:key "authority_review" :required t :blocks_repo_creation t
@@ -41,5 +45,6 @@
     "run mhj security history"
     "record authority review evidence"
     "record public safety evidence"
+    "declare consumed context pack version"
     "verify generated public files contain no private assets or local paths"
     "open draft pull request before enabling automation"))

@@ -4,6 +4,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexsustainability"
+	"github.com/kimsemi-home/myhome-jarvis/internal/contextpack"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/financeconsent"
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
@@ -23,6 +24,7 @@ type inputs struct {
 	FinanceConsent      financeconsent.Status
 	Cost                codexcost.Status
 	CodexSustainability codexsustainability.Status
+	ContextPack         contextpack.Status
 	Monetization        monetization.Status
 	RepoFactory         repofactory.Status
 }
@@ -55,6 +57,9 @@ func collectInputs(root string) (inputs, error) {
 		return inputs{}, err
 	}
 	if in.CodexSustainability, err = codexsustainability.StatusForRoot(root); err != nil {
+		return inputs{}, err
+	}
+	if in.ContextPack, err = contextpack.StatusForRoot(root); err != nil {
 		return inputs{}, err
 	}
 	if in.Monetization, err = monetization.StatusForRoot(root); err != nil {

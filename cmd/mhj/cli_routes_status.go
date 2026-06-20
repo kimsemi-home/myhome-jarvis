@@ -11,6 +11,8 @@ func routeStatuses(root string, args []string) (bool, error) {
 		return true, auditStatus(root)
 	case "code-shape":
 		return true, codeShapeStatus(root)
+	case "context-pack":
+		return true, contextPackStatus(root)
 	case "connectors":
 		return true, connectorsStatus(root)
 	case "agent-cluster":

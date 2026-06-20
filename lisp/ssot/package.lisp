@@ -32,6 +32,7 @@
    #:*assistant-vision-policy*
    #:*codex-cost-policy*
    #:*codex-sustainability-policy*
+   #:*context-pack-policy*
    #:*monetization-policy*
    #:*repo-factory-policy*
    #:*authority-policy*

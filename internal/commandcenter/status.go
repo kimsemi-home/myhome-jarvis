@@ -21,6 +21,7 @@ func StatusForRoot(root string) (Status, error) {
 		FinanceConsent:      summarizeFinanceConsent(in.FinanceConsent),
 		Cost:                summarizeCost(in.Cost),
 		CodexSustainability: summarizeCodexSustainability(in.CodexSustainability),
+		ContextPack:         summarizeContextPack(in.ContextPack),
 		Monetization:        summarizeMonetization(in.Monetization),
 		RepoFactory:         summarizeRepoFactory(in.RepoFactory),
 		CheckedAt:           time.Now().UTC().Format(time.RFC3339),

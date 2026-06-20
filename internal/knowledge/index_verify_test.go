@@ -13,7 +13,7 @@ func TestVerifyGeneratedRegistry(t *testing.T) {
 	if report.ContextCount != 9 {
 		t.Fatalf("context count = %d", report.ContextCount)
 	}
-	if report.ConceptCount != 29 {
+	if report.ConceptCount != 30 {
 		t.Fatalf("concept count = %d", report.ConceptCount)
 	}
 	if report.EventCount != 2 {
