@@ -28,6 +28,7 @@
             "../ssot/linear.lisp" "../ssot/planner.lisp" "../ssot/verification-units.lisp"
             "../ssot/github-actions.lisp" "../ssot/verification-graph.lisp"
             "../ssot/codegen-validate-helpers.lisp"
+            "../ssot/codegen-validate-storage.lisp"
             "../ssot/codegen-validate-basics.lisp" "../ssot/codegen-validate-agent.lisp"
             "../ssot/codegen-validate-assistant-vision.lisp"
             "../ssot/codegen-validate-codex-cost.lisp"

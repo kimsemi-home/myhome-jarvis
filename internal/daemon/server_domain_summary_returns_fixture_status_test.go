@@ -31,6 +31,8 @@ func TestDomainSummaryReturnsFixtureStatus(t *testing.T) {
 		`"household"`,
 		`"long_term_format": "parquet"`,
 		`"private_root": "data/lake"`,
+		`"archive_root": "data/private/archive"`,
+		`"config_evidence_field": "evidence_noise_budget"`,
 	} {
 		if !bytes.Contains([]byte(body), []byte(expected)) {
 			t.Fatalf("expected %s in %s", expected, body)

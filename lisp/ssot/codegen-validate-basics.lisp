@@ -14,6 +14,7 @@
 (defun validate-foundation-policies ()
   (require-member "raw" (policy-list *storage-policy* :lake_layers)
                   "Storage policy must include raw layer")
+  (validate-storage-log-archive-policy *storage-policy*)
   (require-member "spouse" (policy-list *household-policy* :scopes)
                   "Household policy must include spouse scope")
   (require-member "subscription_review"

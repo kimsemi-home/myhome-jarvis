@@ -39,6 +39,7 @@
                (:file "planner")
                (:file "github-actions")
                (:file "codegen-validate-helpers")
+               (:file "codegen-validate-storage")
                (:file "codegen-validate-basics")
                (:file "codegen-validate-agent")
                (:file "codegen-validate-assistant-vision")
