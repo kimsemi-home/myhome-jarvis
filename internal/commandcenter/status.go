@@ -18,6 +18,7 @@ func StatusForRoot(root string) (Status, error) {
 		EvidenceIntegrity:   summarizeEvidenceIntegrity(in.EvidenceIntegrity),
 		Incidents:           summarizeIncidents(in.Incidents),
 		Authority:           summarizeAuthority(in.Authority),
+		AuthorityReview:     summarizeAuthorityReview(in.AuthorityReview),
 		Review:              summarizeReview(in.Review),
 		FinanceConsent:      summarizeFinanceConsent(in.FinanceConsent),
 		Cost:                summarizeCost(in.Cost),

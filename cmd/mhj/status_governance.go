@@ -58,6 +58,14 @@ func authorityStatus(root string) error {
 	return writeJSON(status)
 }
 
+func authorityReviewStatus(root string) error {
+	status, err := authority.ReviewPlanForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
 func pdcaStatus(root string) error {
 	status, err := pdca.StatusForRoot(root)
 	if err != nil {

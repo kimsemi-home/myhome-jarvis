@@ -7,6 +7,9 @@ func nextSafeAction(status Status) string {
 	for _, gate := range status.BlockedGates {
 		switch gate.Key {
 		case "authority":
+			if status.AuthorityReview.ReviewRequestable {
+				return "request_authority_review"
+			}
 			return "resolve_authority_gate"
 		case "review":
 			return "assign_or_reduce_human_review"

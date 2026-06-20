@@ -47,6 +47,8 @@ func routeStatuses(root string, args []string) (bool, error) {
 		return true, reviewStatus(root)
 	case "authority":
 		return true, authorityStatus(root)
+	case "authority-review":
+		return true, authorityReviewStatus(root)
 	case "pdca":
 		return true, pdcaStatus(root)
 	case "repo":

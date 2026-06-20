@@ -20,6 +20,10 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 	if !status.EvidenceIntegrity.PublicSafe || status.EvidenceIntegrity.NextSafeAction == "" {
 		t.Fatalf("evidence integrity summary = %#v", status.EvidenceIntegrity)
 	}
+	if !status.AuthorityReview.PublicSafe ||
+		status.AuthorityReview.HighRiskBlockedDecisionCount != 6 {
+		t.Fatalf("authority review summary = %#v", status.AuthorityReview)
+	}
 	if !status.MergeEvidence.MergeReady || status.MergeEvidence.RequiredEvidenceCount != 8 {
 		t.Fatalf("merge evidence summary = %#v", status.MergeEvidence)
 	}

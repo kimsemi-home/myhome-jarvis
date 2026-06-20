@@ -34,6 +34,7 @@ The generated policy defines:
 
 ```sh
 go run ./cmd/mhj authority status
+go run ./cmd/mhj authority-review status
 ```
 
 The command reads the generated Authority Gate policy plus redacted status from
@@ -43,6 +44,12 @@ checks.
 
 Daemon `GET /authority/status` returns the same redacted shape. Flutter Status
 renders the current outcome as a read-only Authority Gate metric.
+
+Daemon `GET /authority-review/status` returns a read-only review plan for the
+same gate. The plan can show when authority review is requestable, which public
+review classes apply, and profile-level gate counts. It does not approve
+high-risk work, grant self-authority, change external-write permissions, expose
+reviewer identities, or publish raw rationale and evidence.
 
 ## Outcomes
 
@@ -84,6 +91,7 @@ Use these checks after changing the gate policy:
 go test ./internal/authority ./internal/daemon ./cmd/mhj ./internal/knowledge
 go run ./cmd/mhj review status
 go run ./cmd/mhj authority status
+go run ./cmd/mhj authority-review status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
 cd apps/flutter && flutter test test/daemon_client_test.dart test/widget_test.dart

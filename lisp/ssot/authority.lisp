@@ -11,4 +11,5 @@
                 :authority_debt_classes *authority-debt-classes*
                 :public_summary_fields *authority-public-summary-fields*
                 :forbidden_public_fields *authority-forbidden-public-fields*
-                :commands #("mhj authority status"))))
+                :commands #("mhj authority status"
+                            "mhj authority-review status"))))

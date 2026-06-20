@@ -1,7 +1,6 @@
 package commandcenter
 
 import (
-	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexsustainability"
 	"github.com/kimsemi-home/myhome-jarvis/internal/contextpack"
@@ -18,7 +17,8 @@ type inputs struct {
 	Evidence            evidenceStatus
 	EvidenceIntegrity   evidenceIntegrityStatus
 	Incidents           incidents.Status
-	Authority           authority.Status
+	Authority           authorityStatus
+	AuthorityReview     authorityReviewPlanStatus
 	Review              review.Status
 	FinanceConsent      financeconsent.Status
 	Cost                codexcost.Status
@@ -45,7 +45,7 @@ func collectInputs(root string) (inputs, error) {
 	if in.Incidents, err = incidents.StatusForRoot(root); err != nil {
 		return inputs{}, err
 	}
-	if in.Authority, err = authority.StatusForRoot(root); err != nil {
+	if err = collectAuthorityInputs(root, &in); err != nil {
 		return inputs{}, err
 	}
 	if in.Review, err = review.StatusForRoot(root); err != nil {
