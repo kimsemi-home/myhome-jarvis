@@ -26,6 +26,8 @@ type Policy struct {
 	RequiredFields              []string `json:"required_fields"`
 	AttributionRequiredFields   []string `json:"attribution_required_fields"`
 	AttributionCostRefInputs    []string `json:"attribution_cost_ref_inputs"`
+	ROIAcceptedChangeInputs     []string `json:"roi_accepted_change_inputs"`
+	ROIMergeLogLimit            int      `json:"roi_merge_log_limit"`
 	AttributionSubjectMaxLength int      `json:"attribution_subject_max_length"`
 	AttributionCostRefMaxLength int      `json:"attribution_cost_ref_max_length"`
 	AllowedEvidencePrefixes     []string `json:"allowed_evidence_prefixes"`

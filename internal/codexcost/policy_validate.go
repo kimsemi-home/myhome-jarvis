@@ -37,6 +37,14 @@ func validatePolicy(policy Policy) error {
 	if err := validateAttributionPolicy(policy); err != nil {
 		return err
 	}
+	if policy.ROIMergeLogLimit <= 0 {
+		return fmt.Errorf("codex cost ROI merge log limit is invalid")
+	}
+	if err := requireAll("ROI accepted-change input",
+		policy.ROIAcceptedChangeInputs,
+		requiredROIAcceptedChangeInputs); err != nil {
+		return err
+	}
 	if err := requireAll("semantic hash input", policy.SemanticHashInputs, requiredSemanticHashInputs); err != nil {
 		return err
 	}

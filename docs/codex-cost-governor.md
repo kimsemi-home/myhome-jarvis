@@ -44,8 +44,11 @@ Use `mhj codex-cost roi` to review public-safe cost ROI by loop scope. The
 summary keeps one row for every governed scope, including Linear projects,
 repositories, and monetization experiments, even when a scope has no usage yet.
 It combines private cost ledger totals, Codex sustainability posture, value
-proxy units, attribution coverage, cache-savings evidence, and the storage
-archive/noise-budget configuration. The value proxy is explicitly allocated by
+proxy units, attribution coverage, cache-savings evidence, accepted merge
+evidence, and the storage archive/noise-budget configuration. Accepted changes
+come from the Codex sustainability ledger and local first-parent GitHub-style
+merge commits; ROI uses the stronger public-safe count and reports only counts,
+source labels, and the log limit. The value proxy is explicitly allocated by
 cost share until more precise per-scope monetization evidence exists.
 ROI reports raw attribution entry units separately from deduplicated coverage
 units. Coverage uses cost refs and should not exceed total recorded usage even

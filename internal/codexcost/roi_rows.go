@@ -12,6 +12,7 @@ func roiRows(
 	sustainability codexsustainability.Status,
 	storage storagearchive.Status,
 	valueProxy int64,
+	costPerChange int64,
 ) []ROIRow {
 	rows := make([]ROIRow, 0, len(policy.LoopScopes))
 	for _, scope := range policy.LoopScopes {
@@ -26,7 +27,7 @@ func roiRows(
 			CostSharePercent:         costSharePercent(costUnits, cost.TotalUnits),
 			Status:                   roiScopeStatus(cost.ByScope[scope], attributedUnits),
 			ValueProxyUnits:          rowValue,
-			CostPerAcceptedChange:    roiCostPerChange(costUnits, sustainability),
+			CostPerAcceptedChange:    roiCostPerChange(costUnits, costPerChange),
 			BudgetState:              cost.BudgetState,
 			SustainabilityPosture:    sustainability.SustainabilityPosture,
 			ReviewGateCount:          sustainability.ReviewGateCount,
