@@ -33,6 +33,7 @@ type AuthorityReviewBrief struct {
 	MergeEvidence                MergeEvidenceSummary        `json:"merge_evidence"`
 	CodexSustainability          CodexSustainabilitySummary  `json:"codex_sustainability"`
 	ContextPack                  ContextPackSummary          `json:"context_pack"`
+	CapabilityReadiness          CapabilityReadinessSummary  `json:"capability_readiness"`
 	VisionGoalComplete           bool                        `json:"vision_goal_complete"`
 	VisionNextSafeAction         string                      `json:"vision_next_safe_action"`
 	NextSafeAction               string                      `json:"next_safe_action"`

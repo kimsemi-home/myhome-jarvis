@@ -60,9 +60,10 @@ reviewer identities, or publish raw rationale and evidence.
 gated vision work. It combines the current request, evidence ref, queue state,
 required review classes, command-center work item, repo-factory gate,
 repo-factory preflight summary, local runtime readiness, merge-evidence
-posture, Codex sustainability posture, cross-repo context-pack posture, and
-next safe action. It is only a handoff artifact: approval, external writes,
-repo creation, and self-approval remain explicitly false.
+posture, Codex sustainability posture, cross-repo context-pack posture,
+capability readiness, and next safe action. It is only a handoff artifact:
+approval, external writes, repo creation, and self-approval remain explicitly
+false.
 
 `mhj authority-review decision-packet` returns the public-safe review packet for
 the human decision point. It excludes raw evidence refs and private payloads,
@@ -87,6 +88,11 @@ It also includes the public-safe context-pack posture so reviewers can see the
 pack id, upstream compatibility version, ontology version, authority/security
 contract versions, and verification profile that downstream repositories must
 declare before acting independently.
+The packet also includes capability readiness for media playback, household
+finance consent, monetization, and Codex cost governance. It exposes only
+states, counts, gate posture, and next-safe-action fields so reviewers can
+judge the assistant vision without raw media sessions, finance records,
+private ledgers, prompts, local absolute paths, or private Linear URLs.
 
 Daemon `GET /authority-review/request` returns a public-safe request packet with
 a stable request id derived from review classes and counts. It is evidence for a
@@ -154,6 +160,8 @@ Public status may expose:
 - merge evidence posture for the authority review brief and decision packet
 - Codex sustainability posture for the authority review brief and decision packet
 - context pack posture for the authority review brief and decision packet
+- capability readiness for media, finance, monetization, and Codex cost in the
+  authority review brief and decision packet
 - timestamp
 
 It does not expose raw rationale, raw evidence contents, evidence refs,

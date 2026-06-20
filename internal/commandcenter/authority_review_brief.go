@@ -51,6 +51,7 @@ func authorityReviewBriefFromStatus(
 		MergeEvidence:                status.MergeEvidence,
 		CodexSustainability:          status.CodexSustainability,
 		ContextPack:                  status.ContextPack,
+		CapabilityReadiness:          summarizeCapabilityReadiness(status),
 		VisionGoalComplete:           visionGoalComplete(status),
 		VisionNextSafeAction:         status.NextSafeAction,
 		NextSafeAction:               authorityReviewBriefNextAction(status),
