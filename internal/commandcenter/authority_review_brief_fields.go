@@ -16,6 +16,7 @@ func authorityReviewBriefPublicSafe(
 		status.MergeEvidence.PublicSafe &&
 		status.CodexSustainability.PublicSafe &&
 		status.ContextPack.PublicSafe &&
+		summarizeCapabilityReadiness(status).PublicSafe &&
 		!status.RepoFactoryPreflight.CreationAllowed &&
 		!status.LocalRuntime.RawRuntimePublicAllowed &&
 		!status.WorkItem.ApprovalGranted &&

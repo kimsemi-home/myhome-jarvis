@@ -27,6 +27,16 @@ func visionAuditFixtureStatus(policy visionPolicy) Status {
 		Cost: CostSummary{
 			BudgetState: "ok",
 		},
+		CodexCostBrief: CodexCostBriefSummary{
+			PublicSafe:     true,
+			Decision:       "allow",
+			BudgetState:    "ok",
+			NextSafeAction: "continue_local_first_loop",
+		},
+		CodexCostScaling: CodexCostScalingSummary{
+			PublicSafe: true,
+			Decision:   "allow",
+		},
 		PDCA: PDCASummary{
 			Ready: true,
 		},

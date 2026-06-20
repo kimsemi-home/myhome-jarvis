@@ -11,6 +11,7 @@ func authorityReviewDecisionPacketPublicSafe(
 		brief.MergeEvidence.PublicSafe &&
 		brief.CodexSustainability.PublicSafe &&
 		brief.ContextPack.PublicSafe &&
+		brief.CapabilityReadiness.PublicSafe &&
 		!brief.LocalRuntime.RawRuntimePublicAllowed &&
 		!brief.ApprovalBoundary.ApprovalGranted &&
 		!brief.ApprovalBoundary.ExternalWritesAllowed &&

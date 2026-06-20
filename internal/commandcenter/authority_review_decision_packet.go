@@ -50,6 +50,7 @@ func authorityReviewDecisionPacketFromStatus(
 		MergeEvidence:                brief.MergeEvidence,
 		CodexSustainability:          brief.CodexSustainability,
 		ContextPack:                  brief.ContextPack,
+		CapabilityReadiness:          brief.CapabilityReadiness,
 		DecisionPacketState:          "review_only",
 		CanApplyDecision:             false,
 		DecisionOptions:              authorityReviewDecisionOptions(),
