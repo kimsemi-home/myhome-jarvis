@@ -19,6 +19,7 @@
                 :forbidden_public_fields *authority-forbidden-public-fields*
                 :commands #("mhj authority status"
                             "mhj authority-review status"
+                            "mhj authority-review brief"
                             "mhj authority-review request"
                             "mhj authority-review evidence"
                             "mhj authority-review queue"

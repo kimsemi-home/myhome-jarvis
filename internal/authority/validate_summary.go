@@ -26,23 +26,8 @@ func validatePolicySummary(policy Policy) error {
 	}); err != nil {
 		return err
 	}
-	if !contains(policy.Commands, "mhj authority status") {
-		return fmt.Errorf("authority status command is missing")
-	}
-	if !contains(policy.Commands, "mhj authority-review status") {
-		return fmt.Errorf("authority review status command is missing")
-	}
-	if !contains(policy.Commands, "mhj authority-review request") {
-		return fmt.Errorf("authority review request command is missing")
-	}
-	if !contains(policy.Commands, "mhj authority-review evidence") {
-		return fmt.Errorf("authority review evidence command is missing")
-	}
-	if !contains(policy.Commands, "mhj authority-review queue") {
-		return fmt.Errorf("authority review queue command is missing")
-	}
-	if !contains(policy.Commands, "mhj authority-review record <json-payload>") {
-		return fmt.Errorf("authority review record command is missing")
+	if err := validatePolicyCommands(policy); err != nil {
+		return err
 	}
 	if !privateJSONL(policy.PrivateReviewRequestLedger) {
 		return fmt.Errorf("authority review ledger must stay private jsonl")
