@@ -1,5 +1,7 @@
 package commandcenter
 
+import "github.com/kimsemi-home/myhome-jarvis/internal/contextpack"
+
 func blockedGates(in inputs) []GateSummary {
 	gates := []GateSummary{}
 	add := func(cond bool, key string, label string, reason string, count int) {
@@ -14,6 +16,7 @@ func blockedGates(in inputs) []GateSummary {
 	financeConsentDebt := in.FinanceConsent.ConsentDebtCount
 	costDebt := in.Cost.ReviewRequiredCount + in.Cost.MissingEvidenceCount
 	codexSustainabilityDebt := in.CodexSustainability.ReviewGateCount
+	contextPackDebt := contextPackDebtCount(in.ContextPack)
 	monetizationDebt := in.Monetization.MonetizationDebtCount
 	repoFactoryDebt := in.RepoFactory.MissingTemplateRoleCount +
 		in.RepoFactory.MissingCreationGateCount +
@@ -40,6 +43,9 @@ func blockedGates(in inputs) []GateSummary {
 		"codex_sustainability", "Codex Sustainability",
 		"usage growth, trend freshness, or optimization evidence needs review",
 		codexSustainabilityDebt)
+	add(!in.ContextPack.PublicSafe, "context_pack", "Context Pack",
+		"cross-repo context, ontology, or authority handoff is incomplete",
+		contextPackDebt)
 	add(monetizationDebt > 0, "monetization", "Monetization",
 		"experiment decisions need evidence, cost, or review closure", monetizationDebt)
 	add(!in.RepoFactory.PublicSafe || in.RepoFactory.RepoCreationBlockedUntilReview,
@@ -47,6 +53,20 @@ func blockedGates(in inputs) []GateSummary {
 		"repo creation requires authority review and public safety evidence",
 		repoFactoryDebt)
 	return gates
+}
+
+func contextPackDebtCount(status contextpack.Status) int {
+	count := 0
+	if status.SplitCriteriaCount < 5 {
+		count++
+	}
+	if status.ExportedArtifactCount < 6 {
+		count++
+	}
+	if !status.PublicSafe {
+		count++
+	}
+	return count
 }
 
 func authorityBlocked(outcome string) bool {

@@ -38,6 +38,12 @@
                 "internal/codexsustainability"
                 #("generated/codex_sustainability.generated.json" "internal/codexsustainability/status.go" "docs/codex-sustainability.md")
                 #("CodexCostGovernor" "ClosedLoopPlanner" "MonetizationExperiment" "EvidenceGraph"))
+   (ddd-concept "CrossRepoContextPack" "AgentOps" "Policy"
+                "A public-safe context, ontology, SSOT, authority, security, and version handoff contract for downstream repositories."
+                #("context pack" "cross repo context" "ontology handoff" "version handoff")
+                "internal/contextpack"
+                #("generated/context_pack.generated.json" "internal/contextpack/status.go" "docs/context-pack.md")
+                #("PublicSafeRepoFactory" "ConceptRegistry" "AuthorityGate" "SecurityPolicy"))
    (ddd-concept "ConnectorCatalog" "ConnectorReadiness" "Policy"
                 "A public-safe catalog of planned read-only connectors that stays fixture-only until explicit connector work begins."
                 #("connector" "connector catalog" "connector readiness" "connector status")

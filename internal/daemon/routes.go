@@ -16,6 +16,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /repo/status", server.wrap(server.handleRepoStatus))
 	mux.HandleFunc("GET /security/status", server.wrap(server.handleSecurityStatus))
 	mux.HandleFunc("GET /code-shape/status", server.wrap(server.handleCodeShapeStatus))
+	mux.HandleFunc("GET /context-pack/status", server.wrap(server.handleContextPackStatus))
 	mux.HandleFunc("GET /loop/status", server.wrap(server.handleLoopStatus))
 	mux.HandleFunc("GET /domain/summary", server.wrap(server.handleDomainSummary))
 	mux.HandleFunc("GET /connectors/status", server.wrap(server.handleConnectorsStatus))

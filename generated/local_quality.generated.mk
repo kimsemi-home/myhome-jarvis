@@ -28,6 +28,7 @@ verify-ssot:
 	test -s generated/finance_consent.generated.json
 	test -s generated/codex_cost.generated.json
 	test -s generated/codex_sustainability.generated.json
+	test -s generated/context_pack.generated.json
 	test -s generated/monetization.generated.json
 	test -s generated/repo_factory.generated.json
 	git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md

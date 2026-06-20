@@ -14,6 +14,7 @@ type Status struct {
 	FinanceConsent      FinanceConsentSummary      `json:"finance_consent"`
 	Cost                CostSummary                `json:"cost"`
 	CodexSustainability CodexSustainabilitySummary `json:"codex_sustainability"`
+	ContextPack         ContextPackSummary         `json:"context_pack"`
 	Monetization        MonetizationSummary        `json:"monetization"`
 	RepoFactory         RepoFactorySummary         `json:"repo_factory"`
 	BlockedGateCount    int                        `json:"blocked_gate_count"`

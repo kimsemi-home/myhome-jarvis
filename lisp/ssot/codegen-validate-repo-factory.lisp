@@ -23,7 +23,8 @@
                      "run mhj security check"
                      "run mhj security history"
                      "record authority review evidence"
-                     "record public safety evidence")
+                     "record public safety evidence"
+                     "declare consumed context pack version")
                    (policy-list policy :bootstrap_checklist)
                    "Repo factory bootstrap checklist missing: ~A")
   (require-command policy "mhj repo-factory status"))
@@ -31,7 +32,8 @@
 (defun validate-repo-factory-template-files (files)
   (let ((roles (mapcar (lambda (file) (getf file :role)) files)))
     (require-members '("generated_ci" "security_scan" "private_data_policy"
-                       "bootstrap_checklist" "codex_project")
+                       "bootstrap_checklist" "codex_project"
+                       "context_pack_declaration")
                      roles
                      "Repo factory template role missing: ~A"))
   (dolist (file files)

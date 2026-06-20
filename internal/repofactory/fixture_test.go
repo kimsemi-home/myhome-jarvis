@@ -26,6 +26,7 @@ func testPolicy() Policy {
 			{Role: "private_data_policy", Path: "docs/private-data-policy.md", SourceArtifact: PolicyRelativePath, Purpose: "keep private assets outside public files"},
 			{Role: "bootstrap_checklist", Path: "docs/bootstrap-checklist.md", SourceArtifact: PolicyRelativePath, Purpose: "prove review gate completion"},
 			{Role: "codex_project", Path: ".codex/project-goal.md", SourceArtifact: "generated/assistant_vision.generated.json", Purpose: "seed the public-safe Codex project goal"},
+			{Role: "context_pack_declaration", Path: ".mhj/context-pack.json", SourceArtifact: "generated/context_pack.generated.json", Purpose: "declare consumed context pack"},
 		},
 		CreationGates: []CreationGate{
 			{Key: "authority_review", Required: true, BlocksRepoCreation: true, Evidence: "approved review record"},
@@ -36,7 +37,7 @@ func testPolicy() Policy {
 		},
 		BootstrapChecklist: requiredChecklistItems,
 		AllowedPublicPathPrefixes: []string{
-			".github/", ".codex/", "cmd/", "docs/", "generated/", "internal/", "README.md", "LICENSE",
+			".github/", ".codex/", ".mhj/", "cmd/", "docs/", "generated/", "internal/", "README.md", "LICENSE",
 		},
 		ForbiddenPublicFragments: []string{
 			"absolute_home_path", "old_private_owner", "private_team_slug", "private_storage_prefix",

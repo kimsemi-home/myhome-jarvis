@@ -56,6 +56,7 @@ type Status struct {
 	PrivateDataPolicyPresent       bool     `json:"private_data_policy_present"`
 	BootstrapChecklistPresent      bool     `json:"bootstrap_checklist_present"`
 	CodexProjectTemplatePresent    bool     `json:"codex_project_template_present"`
+	ContextPackDeclarationPresent  bool     `json:"context_pack_declaration_present"`
 	RepoCreationBlockedUntilReview bool     `json:"repo_creation_blocked_until_review"`
 	CheckedAt                      string   `json:"checked_at"`
 }
