@@ -22,6 +22,8 @@ func routeOperations(root string, args []string) (bool, error) {
 		return true, routeLoop(root, args[1:])
 	case "storage-archive":
 		return true, routeStorageArchive(root, args[1:])
+	case "monetization":
+		return true, routeMonetization(root, args[1:])
 	case "benchmark":
 		return true, requireSubcommand(args, "smoke", func() error { return runBenchmarkSmoke(root) })
 	case "quality":
@@ -64,11 +66,4 @@ func routeVerification(root string, args []string) error {
 		return runVerificationEvidence(root)
 	}
 	return usage()
-}
-
-func routeCodegen(root string, args []string) error {
-	if len(args) == 1 && args[0] == "verify" {
-		return runCodegenVerify(root)
-	}
-	return runCodegen(root)
 }

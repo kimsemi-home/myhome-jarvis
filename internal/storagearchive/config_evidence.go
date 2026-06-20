@@ -16,6 +16,7 @@ type configEvidenceRef struct {
 
 type configEvidencePayload struct {
 	Inputs              []string                   `json:"inputs"`
+	PrivateLogSources   []domain.PrivateLogSource  `json:"private_log_sources"`
 	LogArchive          domain.LogArchivePolicy    `json:"log_archive"`
 	EvidenceNoiseBudget domain.EvidenceNoiseBudget `json:"evidence_noise_budget"`
 }
@@ -24,6 +25,7 @@ func configEvidenceRefForPolicy(policy domain.StoragePolicy) configEvidenceRef {
 	inputs := append([]string{}, policy.LogArchive.ConfigHashInputs...)
 	payload := configEvidencePayload{
 		Inputs:              inputs,
+		PrivateLogSources:   policy.PrivateLogSources,
 		LogArchive:          policy.LogArchive,
 		EvidenceNoiseBudget: policy.EvidenceNoiseBudget,
 	}

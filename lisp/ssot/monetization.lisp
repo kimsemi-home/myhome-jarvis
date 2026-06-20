@@ -46,4 +46,5 @@
         :forbidden_public_fields #("private_revenue_notes" "private_counterparty"
                                    "raw_revenue_amount" "evidence_refs"
                                    "raw_prompt" "token" "secret" "credential")
-        :commands #("mhj monetization status")))
+        :commands #("mhj monetization status"
+                    "mhj monetization record <json-payload>")))

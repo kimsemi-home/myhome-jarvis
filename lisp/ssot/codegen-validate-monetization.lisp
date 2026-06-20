@@ -15,7 +15,8 @@
                      (getf policy :cost_estimate_required))
                 "Monetization decisions require evidence and cost")
   (validate-monetization-lists policy)
-  (require-command policy "mhj monetization status"))
+  (require-command policy "mhj monetization status")
+  (require-command policy "mhj monetization record <json-payload>"))
 
 (defun validate-monetization-lists (policy)
   (require-members '("backlog" "review_required" "running" "closed")

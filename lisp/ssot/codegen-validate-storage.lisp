@@ -24,7 +24,8 @@
                  "Storage archive must not publish raw payloads")
   (require-true (getf archive :config_is_evidence)
                 "Storage archive config must be evidence")
-  (require-members '("log_archive" "evidence_noise_budget")
+  (require-members '("private_log_sources" "log_archive"
+                     "evidence_noise_budget")
                    (policy-list archive :config_hash_inputs)
                    "Storage archive config hash inputs are required"))
 

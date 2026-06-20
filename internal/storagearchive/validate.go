@@ -47,7 +47,9 @@ func hasHashInputs(inputs []string) bool {
 	for _, input := range inputs {
 		seen[input] = true
 	}
-	return seen["log_archive"] && seen["evidence_noise_budget"]
+	return seen["private_log_sources"] &&
+		seen["log_archive"] &&
+		seen["evidence_noise_budget"]
 }
 
 func privatePath(path string) bool {

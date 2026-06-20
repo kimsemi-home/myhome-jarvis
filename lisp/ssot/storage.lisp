@@ -23,6 +23,9 @@
            :format "jsonl")
           (:key "codex_sustainability"
            :path "data/private/codex-sustainability/evidence.jsonl"
+           :format "jsonl")
+          (:key "monetization"
+           :path "data/private/monetization/experiments.jsonl"
            :format "jsonl"))
         :log_archive
         (list :mode "compress_then_archive"
@@ -32,7 +35,8 @@
               :manifest_path "data/private/archive/manifest.jsonl"
               :raw_payload_public_allowed nil
               :config_is_evidence t
-              :config_hash_inputs #("log_archive" "evidence_noise_budget")
+              :config_hash_inputs #("private_log_sources" "log_archive"
+                                     "evidence_noise_budget")
               :lifecycle #("collect_jsonl" "redact_summary"
                            "dedupe_low_signal" "compress_gzip"
                            "archive_manifest"))

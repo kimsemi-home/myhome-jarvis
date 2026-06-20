@@ -1,11 +1,16 @@
 package monetization
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+	"time"
+)
 
 var errMissingEvidenceRef = fmt.Errorf("monetization evidence ref is required")
 var errMissingCostEstimate = fmt.Errorf("monetization cost estimate is required")
 
 func normalizeRecord(policy Policy, record Record) (Record, error) {
+	record.At = strings.TrimSpace(record.At)
 	record.ExperimentID = normalizeToken(record.ExperimentID)
 	record.HypothesisKey = normalizeToken(record.HypothesisKey)
 	record.State = normalizeToken(record.State)
@@ -13,8 +18,12 @@ func normalizeRecord(policy Policy, record Record) (Record, error) {
 	record.ReviewStatus = normalizeToken(record.ReviewStatus)
 	record.ExpectedValueBand = normalizeToken(record.ExpectedValueBand)
 	record.CostUnitKind = normalizeToken(record.CostUnitKind)
+	record.EvidenceRefs = normalizeRefs(record.EvidenceRefs)
 	if record.At == "" || record.ExperimentID == "" || record.HypothesisKey == "" {
 		return Record{}, fmt.Errorf("monetization time, experiment, and hypothesis are required")
+	}
+	if _, err := time.Parse(time.RFC3339, record.At); err != nil {
+		return Record{}, fmt.Errorf("monetization time must be RFC3339: %w", err)
 	}
 	if err := validateRecordEnums(policy, record); err != nil {
 		return Record{}, err
