@@ -24,5 +24,17 @@ type Status struct {
 	ArchiveReady                 bool     `json:"archive_ready"`
 	NoiseBudgetReady             bool     `json:"noise_budget_ready"`
 	CompressionArchivePattern    string   `json:"compression_archive_pattern"`
+	ManifestPresent              bool     `json:"manifest_present"`
+	ManifestEntryCount           int      `json:"manifest_entry_count"`
+	ManifestArchivedCount        int      `json:"manifest_archived_count"`
+	ManifestSkippedCount         int      `json:"manifest_skipped_count"`
+	ManifestBudgetBreachCount    int      `json:"manifest_budget_breach_count"`
+	ManifestInvalidEntryCount    int      `json:"manifest_invalid_entry_count"`
+	ManifestArchivedInputBytes   int64    `json:"manifest_archived_input_bytes"`
+	ManifestArchivedOutputBytes  int64    `json:"manifest_archived_output_bytes"`
+	ManifestCompressionRatio     int      `json:"manifest_compression_ratio_percent"`
+	ManifestLastEntryAt          string   `json:"manifest_last_entry_at,omitempty"`
+	ManifestLastArchivedAt       string   `json:"manifest_last_archived_at,omitempty"`
+	ManifestLastBudgetBreachAt   string   `json:"manifest_last_budget_breach_at,omitempty"`
 	CheckedAt                    string   `json:"checked_at"`
 }

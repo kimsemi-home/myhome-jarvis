@@ -87,6 +87,9 @@ enforcing the configured evidence noise budget.
 The ROI summary reports the same archive pattern and noise-budget evidence
 field so cost decisions can see whether local logs are being collected,
 compressed, and governed below the configured noise threshold.
+It also reports archive manifest entry counts, breach/invalid counts, and
+compression ratio so local log retention health is part of ROI evidence rather
+than an implicit background assumption.
 The attribution ledger is in the same private archive lane, so scope coverage
 evidence is compacted and governed with the cost and sustainability ledgers.
 

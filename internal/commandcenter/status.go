@@ -23,6 +23,7 @@ func StatusForRoot(root string) (Status, error) {
 		FinanceConsent:      summarizeFinanceConsent(in.FinanceConsent),
 		Cost:                summarizeCost(in.Cost),
 		CodexSustainability: summarizeCodexSustainability(in.CodexSustainability),
+		StorageArchive:      summarizeStorageArchive(in.StorageArchive),
 		ContextPack:         summarizeContextPack(in.ContextPack),
 		MediaReadiness:      summarizeMediaReadiness(in.MediaReadiness),
 		MergeEvidence:       summarizeMergeEvidence(in.MergeEvidence),

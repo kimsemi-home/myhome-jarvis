@@ -26,6 +26,15 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 	if !status.EvidenceIntegrity.PublicSafe || status.EvidenceIntegrity.NextSafeAction == "" {
 		t.Fatalf("evidence integrity summary = %#v", status.EvidenceIntegrity)
 	}
+	if !status.StorageArchive.PublicSafe ||
+		status.StorageArchive.CompressionArchivePattern != "compress_then_archive" ||
+		!status.StorageArchive.ConfigIsEvidence {
+		t.Fatalf("storage archive summary = %#v", status.StorageArchive)
+	}
+	if status.StorageArchive.MaxNoiseRatioPercent > 25 ||
+		status.StorageArchive.ManifestInvalidEntryCount != 0 {
+		t.Fatalf("storage archive noise summary = %#v", status.StorageArchive)
+	}
 	if !status.AuthorityReview.PublicSafe ||
 		status.AuthorityReview.HighRiskBlockedDecisionCount != 6 {
 		t.Fatalf("authority review summary = %#v", status.AuthorityReview)

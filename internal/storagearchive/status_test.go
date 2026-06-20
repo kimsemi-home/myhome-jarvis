@@ -36,13 +36,36 @@ func TestStatusSummarizesArchivePolicy(t *testing.T) {
 	if status.ConfigEvidenceSHA256 == "" || len(status.ConfigHashInputs) != 3 {
 		t.Fatalf("config evidence hash = %#v", status)
 	}
+	if status.ManifestBudgetBreachCount != 0 ||
+		status.ManifestInvalidEntryCount != 0 {
+		t.Fatalf("manifest health = %#v", status)
+	}
 }
 
-func containsKey(values []string, wanted string) bool {
-	for _, value := range values {
-		if value == wanted {
-			return true
-		}
+func TestStatusSummarizesArchiveManifest(t *testing.T) {
+	root := t.TempDir()
+	source := privateQualitySource()
+	writeStoragePolicy(t, root, testStoragePolicy(source))
+	writePrivateFile(t, root, source.Path,
+		`{"source":"quality","kind":"run","evidence_ref":"a"}`+"\n")
+	if _, err := RunForRoot(root); err != nil {
+		t.Fatal(err)
 	}
-	return false
+	status, err := StatusForRoot(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !status.ManifestPresent ||
+		status.ManifestEntryCount != 1 ||
+		status.ManifestArchivedCount != 1 {
+		t.Fatalf("manifest summary = %#v", status)
+	}
+	if status.ManifestCompressionRatio <= 0 ||
+		status.ManifestLastArchivedAt == "" {
+		t.Fatalf("manifest compression evidence = %#v", status)
+	}
+	if status.ManifestBudgetBreachCount != 0 ||
+		status.ManifestInvalidEntryCount != 0 {
+		t.Fatalf("manifest noise health = %#v", status)
+	}
 }

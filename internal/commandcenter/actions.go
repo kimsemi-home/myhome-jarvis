@@ -23,6 +23,8 @@ func nextSafeAction(status Status) string {
 			return "review_codex_cost_budget"
 		case "codex_sustainability":
 			return "review_codex_sustainability_evidence"
+		case "storage_archive":
+			return "repair_storage_archive_noise_budget"
 		case "context_pack":
 			return "review_context_pack_handoff"
 		case "monetization":
@@ -57,5 +59,6 @@ func publicSafe(in inputs) bool {
 	return in.Authority.PublicRepoMode &&
 		in.Authority.PublicSafetyOK &&
 		!in.Authority.SelfAuthorityAllowed &&
+		in.StorageArchive.PublicSafe &&
 		in.RepoFactory.PublicSafe
 }
