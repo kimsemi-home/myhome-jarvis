@@ -60,8 +60,9 @@ reviewer identities, or publish raw rationale and evidence.
 gated vision work. It combines the current request, evidence ref, queue state,
 required review classes, command-center work item, repo-factory gate,
 repo-factory preflight summary, local runtime readiness, merge-evidence
-posture, and next safe action. It is only a handoff artifact: approval,
-external writes, repo creation, and self-approval remain explicitly false.
+posture, Codex sustainability posture, and next safe action. It is only a
+handoff artifact: approval, external writes, repo creation, and self-approval
+remain explicitly false.
 
 `mhj authority-review decision-packet` returns the public-safe review packet for
 the human decision point. It excludes raw evidence refs and private payloads,
@@ -78,6 +79,10 @@ next safe action without exposing private template payloads or granting repo
 creation. When public-safety checks are green, the preflight summary should
 show `public_safety_evidence` as ready so human authority review remains the
 visible repo-creation blocker.
+The packet also includes the public-safe Codex sustainability posture so
+reviewers can see whether heavier Codex use is sustainable, whether trend
+evidence is fresh, whether the loop is on trend, and whether cache savings or
+review debt support the next automation decision.
 
 Daemon `GET /authority-review/request` returns a public-safe request packet with
 a stable request id derived from review classes and counts. It is evidence for a
@@ -143,6 +148,7 @@ Public status may expose:
 - review request age, stale threshold, stale boolean, and escalation action
 - local runtime readiness for the authority review brief and decision packet
 - merge evidence posture for the authority review brief and decision packet
+- Codex sustainability posture for the authority review brief and decision packet
 - timestamp
 
 It does not expose raw rationale, raw evidence contents, evidence refs,

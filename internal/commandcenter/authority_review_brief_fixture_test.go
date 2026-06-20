@@ -51,6 +51,7 @@ func authorityReviewBriefStatus(policy visionPolicy) Status {
 	}
 	status.LocalRuntime = authorityReviewHealthyRuntimeFixture()
 	status.MergeEvidence = authorityReviewMergeEvidenceFixture()
+	status.CodexSustainability = authorityReviewCodexSustainabilityFixture()
 	status.WorkItem = summarizeWorkItem(status)
 	return status
 }

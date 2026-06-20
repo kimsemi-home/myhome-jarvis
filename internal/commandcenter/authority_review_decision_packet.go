@@ -48,6 +48,7 @@ func authorityReviewDecisionPacketFromStatus(
 		StorageEvidence:              status.StorageArchive,
 		LocalRuntime:                 brief.LocalRuntime,
 		MergeEvidence:                brief.MergeEvidence,
+		CodexSustainability:          brief.CodexSustainability,
 		DecisionPacketState:          "review_only",
 		CanApplyDecision:             false,
 		DecisionOptions:              authorityReviewDecisionOptions(),
