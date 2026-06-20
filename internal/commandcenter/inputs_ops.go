@@ -8,6 +8,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/monetization"
 	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 	"github.com/kimsemi-home/myhome-jarvis/internal/storagearchive"
+	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
 )
 
 func collectOpsInputs(root string, in *inputs) error {
@@ -33,6 +34,7 @@ func collectOpsInputs(root string, in *inputs) error {
 	if in.StorageArchive, err = storagearchive.StatusForRoot(root); err != nil {
 		return err
 	}
+	in.Supervisor = supervisor.Status(root, nil)
 	if in.ContextPack, err = contextpack.StatusForRoot(root); err != nil {
 		return err
 	}

@@ -37,3 +37,12 @@ type IncidentSummary struct {
 	StaleQuarantineCount    int `json:"stale_quarantine_count"`
 	MissingEvidenceRefCount int `json:"missing_evidence_ref_count"`
 }
+
+type SupervisorSummary struct {
+	Recorded       bool   `json:"recorded"`
+	StatePath      string `json:"state_path"`
+	ProcessRunning bool   `json:"process_running"`
+	ProbeOK        bool   `json:"probe_ok"`
+	Stale          bool   `json:"stale"`
+	Message        string `json:"message"`
+}

@@ -10,6 +10,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/pdca"
 	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 	"github.com/kimsemi-home/myhome-jarvis/internal/storagearchive"
+	"github.com/kimsemi-home/myhome-jarvis/internal/supervisor"
 )
 
 type inputs struct {
@@ -27,6 +28,7 @@ type inputs struct {
 	CostScaling          codexcost.ScalingPacket
 	CodexSustainability  codexsustainability.Status
 	StorageArchive       storagearchive.Status
+	Supervisor           supervisor.DaemonStatus
 	ContextPack          contextpack.Status
 	MediaReadiness       mediaReadinessStatus
 	MergeEvidence        mergeEvidenceStatus
