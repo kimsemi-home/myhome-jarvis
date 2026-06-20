@@ -26,6 +26,7 @@ func StatusForRoot(root string) (Status, error) {
 		CodexCostScaling:     summarizeCodexCostScaling(in.CostScaling),
 		CodexSustainability:  summarizeCodexSustainability(in.CodexSustainability),
 		StorageArchive:       summarizeStorageArchive(in.StorageArchive),
+		Supervisor:           summarizeSupervisor(in.Supervisor),
 		ContextPack:          summarizeContextPack(in.ContextPack),
 		MediaReadiness:       summarizeMediaReadiness(in.MediaReadiness),
 		MergeEvidence:        summarizeMergeEvidence(in.MergeEvidence),

@@ -27,6 +27,7 @@ func TestAssistantStatusReturnsRedactedCommandCenter(t *testing.T) {
 		`"policy_path": "generated/assistant_vision.generated.json"`,
 		`"ready_pillar_count":`,
 		`"codex_cost_brief":`,
+		`"supervisor":`,
 		`"gated_pillar_keys":`,
 		`"blocked_gate_count":`,
 		`"work_item":`,

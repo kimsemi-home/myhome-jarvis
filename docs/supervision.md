@@ -40,6 +40,11 @@ snapshot with:
 - whether `/health` is reachable
 - whether the state appears stale
 
+`mhj assistant status` includes a compact `supervisor` summary for the command
+center: repo-relative state path, recorded/stale booleans, process/probe
+booleans, and message. Detailed pid, address, and probe URL fields stay on
+`mhj daemon status`.
+
 The health probe does not attach bearer tokens. LAN daemon supervision can
 still use the recorded process metadata even if an unauthenticated health probe
 is rejected.
