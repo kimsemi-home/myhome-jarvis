@@ -37,10 +37,20 @@ commit, repo-relative path, line number, code, and a coarse message only;
 matched secret contents are not returned. Its report root is also redacted as
 `.`.
 
-Daemon `GET /security/status` runs the current-tree and Git-history checks for
-local status surfaces, then returns only aggregate booleans, finding counts, and
-a checked timestamp. It does not return raw findings, matched content, or the
-local repository root.
+Daemon `GET /security/status` reports public-safety state for local status
+surfaces, then returns only aggregate booleans, finding counts, and a checked
+timestamp. It does not return raw findings, matched content, or the local
+repository root.
+
+Status surfaces may reuse a private history aggregate cache at
+`data/private/security/status-cache.json`. The cache key includes the current
+Git `HEAD`, `generated/security.generated.json`, and the Go scanner source under
+`internal/security`, so policy or scanner changes force a miss. A miss runs
+`mhj security history` behavior before writing a new private aggregate. A hit
+skips only the expensive history scan; the current-tree scan always runs fresh,
+and `mhj security check`, `mhj security history`, CI, and `mhj quality` remain
+full public-safety gates. Public status reports only cache state, key, input
+hash, command, and aggregate counts, never raw findings or local paths.
 
 Closed-loop checkpoints use the same aggregate public-safety status. This keeps
 private scheduler evidence useful for recovery without storing raw matched

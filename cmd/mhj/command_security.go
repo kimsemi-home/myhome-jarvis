@@ -11,6 +11,8 @@ func runSecurity(root string, args []string) error {
 		return usage()
 	}
 	switch args[0] {
+	case "status":
+		return securityStatus(root)
 	case "check":
 		report, err := security.Check(root)
 		if err != nil {

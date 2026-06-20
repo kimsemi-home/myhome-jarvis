@@ -13,6 +13,16 @@ type generatedSecurityPolicy struct {
 	PrivateIdentityScan            bool `json:"private_identity_scan"`
 	SecretLiteralScan              bool `json:"secret_literal_scan"`
 	ReportMatchedSecretContents    bool `json:"report_matched_secret_contents"`
+	StatusCache                    struct {
+		Enabled                  bool   `json:"enabled"`
+		Path                     string `json:"path"`
+		Mode                     string `json:"mode"`
+		ValidationCommand        string `json:"validation_command"`
+		MissRunsFullHistory      bool   `json:"miss_runs_full_history"`
+		CurrentScanAlwaysFresh   bool   `json:"current_scan_always_fresh"`
+		RawFindingsPublicAllowed bool   `json:"raw_findings_public_allowed"`
+		PublicSafe               bool   `json:"public_safe"`
+	} `json:"status_cache"`
 }
 
 func TestGeneratedPolicyRecordsCurrentContentScan(t *testing.T) {
@@ -35,5 +45,18 @@ func TestGeneratedPolicyRecordsCurrentContentScan(t *testing.T) {
 	}
 	if policy.ReportMatchedSecretContents {
 		t.Fatal("generated security policy must not report matched secret contents")
+	}
+	if !policy.StatusCache.Enabled || policy.StatusCache.Path != statusCachePath {
+		t.Fatalf("generated security status cache mismatch: %#v", policy.StatusCache)
+	}
+	if policy.StatusCache.Mode != "history_aggregate_only" ||
+		policy.StatusCache.ValidationCommand != statusCacheValidation {
+		t.Fatalf("generated security cache mode mismatch: %#v", policy.StatusCache)
+	}
+	if !policy.StatusCache.MissRunsFullHistory || !policy.StatusCache.CurrentScanAlwaysFresh {
+		t.Fatalf("generated security cache weakens safety: %#v", policy.StatusCache)
+	}
+	if policy.StatusCache.RawFindingsPublicAllowed || !policy.StatusCache.PublicSafe {
+		t.Fatalf("generated security cache leaks findings: %#v", policy.StatusCache)
 	}
 }
