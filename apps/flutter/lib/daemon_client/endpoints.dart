@@ -4,6 +4,7 @@ const _commandsPath = '/commands';
 
 const _objectEndpointPaths = <String, String>{
   'health': '/health',
+  'assistant': '/assistant/status',
   'auth': '/auth/status',
   'linear': '/linear/status',
   'repo': '/repo/status',

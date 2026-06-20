@@ -8,6 +8,10 @@ void main() {
     await pumpJarvis(tester);
 
     expect(find.text('myhome-jarvis'), findsOneWidget);
+    expect(find.text('Assistant Center'), findsOneWidget);
+    expect(find.text('2 gated'), findsOneWidget);
+    expect(find.text('Next Safe Action'), findsOneWidget);
+    expect(find.text('Resolve authority'), findsOneWidget);
     expect(find.text('Daemon'), findsOneWidget);
     expect(find.text('127.0.0.1:3888'), findsOneWidget);
     expect(find.text('Network'), findsOneWidget);
@@ -21,12 +25,14 @@ void main() {
     expect(find.text('Tracked'), findsOneWidget);
     expect(find.text('Agent Cluster'), findsOneWidget);
     expect(find.text('5 roles gated'), findsOneWidget);
-    expect(find.text('Learning'), findsOneWidget);
-    expect(find.text('0 observed'), findsOneWidget);
+    expect(find.text('Codex Cost'), findsOneWidget);
+    expect(find.text('0 units'), findsOneWidget);
 
     await tester.drag(find.byType(GridView).first, const Offset(0, -260));
     await tester.pumpAndSettle();
 
+    expect(find.text('Learning'), findsOneWidget);
+    expect(find.text('0 observed'), findsOneWidget);
     expect(find.text('Evidence Graph'), findsOneWidget);
     expect(find.text('0 nodes'), findsOneWidget);
     expect(find.text('Confidence'), findsOneWidget);

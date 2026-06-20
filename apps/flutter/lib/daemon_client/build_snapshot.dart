@@ -2,6 +2,7 @@ part of '../daemon_client.dart';
 
 JarvisSnapshot buildSnapshot({
   required Map<String, Object?> health,
+  required Map<String, Object?> assistant,
   required Map<String, Object?> auth,
   required List<Object?> commands,
   required Map<String, Object?> linear,
@@ -29,6 +30,7 @@ JarvisSnapshot buildSnapshot({
 }) {
   final status = _StatusMaps(
     health: health,
+    assistant: assistant,
     auth: auth,
     linear: linear,
     repo: repo,

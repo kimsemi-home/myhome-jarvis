@@ -2,6 +2,21 @@ part of '../snapshot.dart';
 
 const _sampleCoreMetrics = [
   SystemMetric(
+    label: 'Assistant Center',
+    value: '2 gated',
+    icon: Icons.assistant_direction_outlined,
+  ),
+  SystemMetric(
+    label: 'Next Safe Action',
+    value: 'Resolve authority',
+    icon: Icons.playlist_add_check_circle_outlined,
+  ),
+  SystemMetric(
+    label: 'Codex Cost',
+    value: '0 units',
+    icon: Icons.toll_outlined,
+  ),
+  SystemMetric(
     label: 'Daemon',
     value: '127.0.0.1:3888',
     icon: Icons.settings_ethernet,

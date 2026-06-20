@@ -2,6 +2,17 @@ part of '../snapshot.dart';
 
 const _offlineCoreMetrics = [
   SystemMetric(
+    label: 'Assistant Center',
+    value: 'Local',
+    icon: Icons.assistant_direction_outlined,
+  ),
+  SystemMetric(
+    label: 'Next Safe Action',
+    value: 'Local',
+    icon: Icons.playlist_add_check_circle_outlined,
+  ),
+  SystemMetric(label: 'Codex Cost', value: 'Local', icon: Icons.toll_outlined),
+  SystemMetric(
     label: 'Daemon',
     value: 'Offline fallback',
     icon: Icons.settings_ethernet,

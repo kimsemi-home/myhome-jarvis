@@ -1,7 +1,6 @@
 (in-package #:myhome-jarvis.ssot)
 (defparameter *verification-units*
-  #((:id "public-safety" :name "Public safety" :kind "release-check"
-     :timeout 10 :setup "go" :history t
+  #((:id "public-safety" :name "Public safety" :kind "release-check" :timeout 10 :setup "go" :history t
      :commands #("go run ./cmd/mhj security check"
                  "go run ./cmd/mhj security history"))
     (:id "ssot" :name "SSOT and generated artifacts" :kind "conformance"
@@ -71,5 +70,6 @@
                     "generated/review.generated.json"
                     "generated/pdca.generated.json"
                     "generated/code_shape.generated.json"
+                    "generated/assistant_vision.generated.json" "generated/codex_cost.generated.json"
                     "generated/authority.generated.json")
      :commands #("flutter test" "flutter analyze"))))
