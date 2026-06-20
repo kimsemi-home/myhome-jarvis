@@ -14,7 +14,7 @@ func TestStatusSummarizesArchivePolicy(t *testing.T) {
 		status.CompressionArchivePattern != "compress_then_archive" {
 		t.Fatalf("compression policy = %#v", status)
 	}
-	if status.PrivateLogSourceCount != 5 || status.MaxNoiseRatioPercent > 25 {
+	if status.PrivateLogSourceCount != 6 || status.MaxNoiseRatioPercent > 25 {
 		t.Fatalf("archive counts = %#v", status)
 	}
 	if status.ConfigEvidenceField != "evidence_noise_budget" ||

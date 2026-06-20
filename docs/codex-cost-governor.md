@@ -11,9 +11,16 @@ Usage records belong in the private append-only ledger:
 data/private/codex-cost/usage.jsonl
 ```
 
-Each record must include time, loop scope, unit kind, amount, status, and
-repo-relative evidence refs. Public status surfaces only expose counts,
-thresholds, buckets, total units, budget state, and timestamps.
+Use `mhj codex-cost record <json-payload>` to append a usage sample locally.
+The command accepts loop scope, unit kind, amount, optional status, and
+repo-relative evidence refs; it fills the recorded timestamp when omitted and
+stores a semantic hash for cache/de-duplication evidence. Public command output
+only exposes scope, unit kind, amount, status, evidence ref count, budget state,
+and timestamp.
+
+Each stored record must include time, loop scope, unit kind, amount, status,
+semantic hash, and repo-relative evidence refs. Public status surfaces only
+expose counts, thresholds, buckets, total units, budget state, and timestamps.
 
 ## Agent Cluster Fit
 
@@ -36,9 +43,14 @@ Budget state is a governance signal:
 - `review_required`: require explicit review before expanding paid or external
   automation.
 
+The storage SSOT includes the private cost ledger in the `compress_then_archive`
+source list. `mhj storage-archive run` can therefore compress cost usage JSONL
+into private `.jsonl.gz` archive files while recording manifest rows and
+enforcing the configured evidence noise budget.
+
 ## Public Boundary
 
-The CLI command `mhj codex-cost status` and daemon endpoint
+The CLI commands `mhj codex-cost status`, `mhj codex-cost record`, and daemon endpoint
 `GET /codex-cost/status` must not expose prompts, transcripts, private notes,
 raw evidence refs, credentials, tokens, local absolute paths, account IDs, card
 numbers, Linear private URLs, or private evidence contents.

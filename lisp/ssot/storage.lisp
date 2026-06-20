@@ -16,6 +16,8 @@
            :format "jsonl")
           (:key "linear_write" :path "data/private/linear-write-evidence.jsonl"
            :format "jsonl")
+          (:key "codex_cost" :path "data/private/codex-cost/usage.jsonl"
+           :format "jsonl")
           (:key "codex_sustainability"
            :path "data/private/codex-sustainability/evidence.jsonl"
            :format "jsonl"))

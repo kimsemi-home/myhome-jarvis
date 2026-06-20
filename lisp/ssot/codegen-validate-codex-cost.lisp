@@ -18,7 +18,8 @@
                    (getf policy :review_unit_threshold))
                 "Codex cost review threshold must exceed warning threshold")
   (validate-codex-cost-lists policy)
-  (require-command policy "mhj codex-cost status"))
+  (require-command policy "mhj codex-cost status")
+  (require-command policy "mhj codex-cost record <json-payload>"))
 
 (defun validate-codex-cost-lists (policy)
   (require-members '("codex_tokens" "codex_coin" "github_actions_minutes"
@@ -33,6 +34,9 @@
                      "evidence_refs")
                    (policy-list policy :required_fields)
                    "Codex cost required field missing: ~A")
+  (require-members '("scope" "unit_kind" "amount" "evidence_refs")
+                   (policy-list policy :semantic_hash_inputs)
+                   "Codex cost semantic hash input missing: ~A")
   (require-members '("record_count" "invalid_record_count" "total_units"
                      "review_required_count" "missing_evidence_count"
                      "budget_state" "by_unit_kind" "by_scope" "checked_at")

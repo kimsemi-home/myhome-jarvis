@@ -16,6 +16,7 @@ func testPolicy() Policy {
 		AppendOnly:              true,
 		PublicStatusRedacted:    true,
 		RawUsagePublicAllowed:   false,
+		SemanticHashInputs:      requiredSemanticHashInputs,
 		UnitKinds:               requiredUnitKinds,
 		LoopScopes:              requiredLoopScopes,
 		RecordStatuses:          []string{"recorded", "review_required", "approved", "rejected"},
@@ -24,7 +25,10 @@ func testPolicy() Policy {
 		RequiredFields:          requiredRecordFields,
 		AllowedEvidencePrefixes: []string{"generated/", "docs/", ".github/", "data/private/"},
 		PublicSummaryFields:     requiredSummaryFields,
-		Commands:                []string{"mhj codex-cost status"},
+		Commands: []string{
+			"mhj codex-cost status",
+			"mhj codex-cost record <json-payload>",
+		},
 	}
 }
 

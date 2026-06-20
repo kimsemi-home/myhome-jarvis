@@ -35,4 +35,5 @@
                                    "credential" "cookie" "account_id"
                                    "card_number" "local_absolute_path"
                                    "linear_url" "private_evidence")
-        :commands #("mhj codex-cost status")))
+        :commands #("mhj codex-cost status"
+                    "mhj codex-cost record <json-payload>")))
