@@ -1,6 +1,9 @@
 package commandcenter
 
 func workItemRef(status Status) string {
+	if status.NextSafeAction == "repair_local_runtime_health" {
+		return "universal_work_item:local_runtime"
+	}
 	if status.AuthorityReview.RequestID != "" {
 		return "universal_work_item:" + status.AuthorityReview.RequestID
 	}
@@ -18,6 +21,9 @@ func authorityRef(status Status) string {
 }
 
 func workItemState(status Status) string {
+	if status.NextSafeAction == "repair_local_runtime_health" {
+		return "runtime_health_debt"
+	}
 	if status.AuthorityReview.QueueReady {
 		return "pending_authority_review"
 	}

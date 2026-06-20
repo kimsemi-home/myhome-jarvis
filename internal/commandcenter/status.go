@@ -35,6 +35,7 @@ func StatusForRoot(root string) (Status, error) {
 		RepoFactoryPreflight: summarizeRepoFactoryPreflight(in.RepoFactoryPreflight),
 		CheckedAt:            time.Now().UTC().Format(time.RFC3339),
 	}
+	status.LocalRuntime = summarizeLocalRuntime(status.Supervisor)
 	status.BlockedGates = blockedGates(in)
 	status.BlockedGateCount = len(status.BlockedGates)
 	status.CompactState = compactState(status)

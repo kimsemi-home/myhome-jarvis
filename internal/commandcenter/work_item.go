@@ -21,7 +21,7 @@ func summarizeWorkItem(status Status) WorkItemSummary {
 		IntentKey:              "closed_loop_next_safe_action",
 		CapabilityKeys:         capabilityKeysForGates(gateKeys),
 		DecisionKey:            decisionKey(status.NextSafeAction),
-		EvidenceRef:            status.AuthorityReview.EvidenceRef,
+		EvidenceRef:            workItemEvidenceRef(status),
 		AuthorityRef:           authorityRef(status),
 		GuardrailKeys:          workItemGuardrails(),
 		SourceAction:           status.NextSafeAction,
@@ -42,6 +42,13 @@ func summarizeWorkItem(status Status) WorkItemSummary {
 		SelfApprovalAllowed:    false,
 		NextSafeAction:         status.NextSafeAction,
 	}
+}
+
+func workItemEvidenceRef(status Status) string {
+	if status.NextSafeAction == "repair_local_runtime_health" {
+		return status.LocalRuntime.EvidenceRef
+	}
+	return status.AuthorityReview.EvidenceRef
 }
 
 func workItemPublicSafe(status Status) bool {

@@ -4,6 +4,9 @@ func nextSafeAction(status Status) string {
 	if !status.PublicSafe {
 		return "run_public_safety_review"
 	}
+	if hasBlockedGate(status.BlockedGates, "local_runtime") {
+		return "repair_local_runtime_health"
+	}
 	for _, gate := range status.BlockedGates {
 		switch gate.Key {
 		case "authority":
@@ -25,6 +28,8 @@ func nextSafeAction(status Status) string {
 			return "review_codex_sustainability_evidence"
 		case "storage_archive":
 			return "repair_storage_archive_noise_budget"
+		case "local_runtime":
+			return "repair_local_runtime_health"
 		case "context_pack":
 			return "review_context_pack_handoff"
 		case "monetization":

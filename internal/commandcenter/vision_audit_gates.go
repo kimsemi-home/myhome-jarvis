@@ -15,7 +15,7 @@ func visionGateCandidates(key string) map[string]bool {
 	case "self_improvement_loop":
 		return gateSet(
 			"pdca", "evidence", "incidents", "review", "authority",
-			"storage_archive",
+			"storage_archive", "local_runtime",
 		)
 	default:
 		return map[string]bool{}
