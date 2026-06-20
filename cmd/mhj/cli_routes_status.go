@@ -18,6 +18,8 @@ func routeStatuses(root string, args []string) (bool, error) {
 		return true, codeShapeStatus(root)
 	case "context-pack":
 		return true, contextPackStatus(root)
+	case "ci-cache":
+		return true, ciCacheStatus(root)
 	case "connectors":
 		return true, connectorsStatus(root)
 	case "agent-cluster":

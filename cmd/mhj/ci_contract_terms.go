@@ -9,6 +9,7 @@ func baseCIWorkflowTokens() []string {
 		"cancel-in-progress: true", "permissions:", "contents: read",
 		"fetch-depth: 0", "go run ./cmd/mhj security check",
 		"go run ./cmd/mhj security history", "go run ./cmd/mhj ci verify",
+		"go run ./cmd/mhj ci-cache status",
 		"go run ./cmd/mhj verification verify",
 		"go run ./cmd/mhj verification evidence",
 		"go run ./cmd/mhj pdca status",

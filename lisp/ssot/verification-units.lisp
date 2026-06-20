@@ -29,7 +29,7 @@
                     "rust-toolchain.toml" "go.mod" "go.sum" "cmd/**/*.go"
                     "internal/**/*.go" "generated/*.json"
                     "generated/github_quality_workflow.generated.yml")
-     :commands #("go run ./cmd/mhj ci verify"
+     :commands #("go run ./cmd/mhj ci verify" "go run ./cmd/mhj ci-cache status"
                  "go run ./cmd/mhj verification verify"
                  "go run ./cmd/mhj verification evidence"
                  "go run ./cmd/mhj pdca status"

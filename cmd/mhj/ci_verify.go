@@ -7,11 +7,20 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/kimsemi-home/myhome-jarvis/internal/cicache"
 )
 
 func runCIVerify(root string) error {
 	if err := validateCIWorkflowContract(root); err != nil {
 		return err
+	}
+	status, err := cicache.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
+	if !status.OK {
+		return fmt.Errorf("ci cache contract is not ok")
 	}
 	return writeJSON(map[string]any{"ok": true})
 }

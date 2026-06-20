@@ -47,6 +47,13 @@ Generated artifact verification lives in the `ssot` unit. On a cache miss, CI
 runs SSOT validation, regenerates artifacts, and fails if `generated` differs
 from the checked-in files.
 
+`mhj ci-cache status` exposes the same cache contract as public-safe JSON. It
+reports each cached verification unit, its hash-input coverage,
+generated-artifact coverage, cache-hit skip behavior, cache-miss verification
+behavior, and push-only cache save behavior. Public safety remains outside
+unit-cache skipping, and generated artifacts stay covered by the SSOT unit
+before cache markers can be saved.
+
 Locally, `mhj codegen verify` verifies the current working tree rather than
 HEAD: it snapshots `generated`, regenerates from Lisp, and fails only if
 regeneration changes the generated tree. This lets intentional SSOT/generated
@@ -87,6 +94,7 @@ Local equivalents:
 
 ```sh
 go run ./cmd/mhj ci verify
+go run ./cmd/mhj ci-cache status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj code-shape status
 go run ./cmd/mhj quality

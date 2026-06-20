@@ -44,6 +44,7 @@ func requiredVerificationTests() []string {
 
 func requiredVerificationCommands() []string {
 	return []string{
+		"go run ./cmd/mhj ci-cache status",
 		"go run ./cmd/mhj control-plane verify",
 		"go run ./cmd/mhj verification evidence",
 		"go run ./cmd/mhj pdca status",

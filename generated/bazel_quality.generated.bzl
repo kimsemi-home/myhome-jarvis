@@ -42,6 +42,7 @@ def mhj_verification_graph():
         srcs = [":run_shell"],
         args = [
             "go run ./cmd/mhj ci verify",
+            "go run ./cmd/mhj ci-cache status",
             "go run ./cmd/mhj verification verify",
             "go run ./cmd/mhj verification evidence",
             "go run ./cmd/mhj pdca status",
