@@ -84,7 +84,10 @@ Go daemon read surface:
   empty sources are skipped, present JSONL sources are scanned for invalid or
   duplicate low-signal records, and sources that pass the noise budget are
   written as `.jsonl.gz` files under `data/private/archive`.
-- Each run appends private manifest rows to
+- If a source input hash and config evidence hash already have an archived
+  blob, the run reports a cache hit instead of recompressing the same payload
+  or appending duplicate manifest noise.
+- Archive, skip, and breach decisions append private manifest rows to
   `data/private/archive/manifest.jsonl` with source key/path, archive path,
   input/output bytes, compression ratio percent, input hash, config evidence
   hash, record/noise counts, and budget verdict.

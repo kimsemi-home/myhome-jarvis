@@ -44,8 +44,8 @@
               :config_hash_inputs #("private_log_sources" "log_archive"
                                      "evidence_noise_budget")
               :lifecycle #("collect_jsonl" "redact_summary"
-                           "dedupe_low_signal" "compress_gzip"
-                           "archive_manifest"))
+                           "dedupe_low_signal" "hash_cache_hit"
+                           "compress_gzip" "archive_manifest"))
         :evidence_noise_budget
         (list :enabled t
               :max_noise_ratio_percent 20
