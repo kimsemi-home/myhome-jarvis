@@ -9,6 +9,7 @@ Future<JarvisSnapshot> _loadSnapshotFromDaemon(
     final commands = await _getArray(config, client, _commandsPath);
     return buildSnapshot(
       health: _statusObject(objects, 'health'),
+      assistant: _statusObject(objects, 'assistant'),
       auth: _statusObject(objects, 'auth'),
       commands: commands,
       linear: _statusObject(objects, 'linear'),

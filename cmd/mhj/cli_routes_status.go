@@ -5,6 +5,8 @@ func routeStatuses(root string, args []string) (bool, error) {
 		return false, nil
 	}
 	switch args[0] {
+	case "assistant":
+		return true, assistantStatus(root)
 	case "audit":
 		return true, auditStatus(root)
 	case "code-shape":

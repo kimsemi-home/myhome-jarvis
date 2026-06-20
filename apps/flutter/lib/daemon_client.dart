@@ -17,6 +17,7 @@ part 'daemon_client/household.dart';
 part 'daemon_client/json_helpers.dart';
 part 'daemon_client/linear_items.dart';
 part 'daemon_client/load.dart';
+part 'daemon_client/metrics_assistant.dart';
 part 'daemon_client/metrics_core.dart';
 part 'daemon_client/metrics_governance.dart';
 part 'daemon_client/metrics_learning.dart';

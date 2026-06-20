@@ -4,6 +4,9 @@ import 'package:myhome_jarvis_app/snapshot.dart';
 import 'metric_value.dart';
 
 void expectGovernanceMetrics(JarvisSnapshot snapshot) {
+  expect(metricValue(snapshot, 'Assistant Center'), '2 gated');
+  expect(metricValue(snapshot, 'Next Safe Action'), 'Resolve authority');
+  expect(metricValue(snapshot, 'Codex Cost'), '0 units');
   expect(metricValue(snapshot, 'Connectors'), '2/2 fixture');
   expect(metricValue(snapshot, 'Agent Cluster'), '5 roles gated');
   expect(metricValue(snapshot, 'Authority Gate'), '3 debt');

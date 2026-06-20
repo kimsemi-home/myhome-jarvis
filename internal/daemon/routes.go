@@ -7,6 +7,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /health", server.wrap(server.handleHealth))
 	mux.HandleFunc("GET /version", server.wrap(server.handleVersion))
 	mux.HandleFunc("GET /auth/status", server.wrap(server.handleAuthStatus))
+	mux.HandleFunc("GET /assistant/status", server.wrap(server.handleAssistantStatus))
 	mux.HandleFunc("GET /commands", server.wrap(server.handleCommands))
 	mux.HandleFunc("POST /intent", server.wrap(server.handleIntent))
 	mux.HandleFunc("POST /harness/run", server.wrap(server.handleHarnessRun))

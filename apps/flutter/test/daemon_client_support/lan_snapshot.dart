@@ -8,6 +8,12 @@ JarvisSnapshot buildLanSnapshot() {
       'dry_run': true,
       'host': '192.168.1.10',
     },
+    assistant: const <String, Object?>{
+      'blocked_gate_count': 0,
+      'compact_state': 'ready',
+      'next_safe_action': 'continue_closed_loop_planning',
+      'cost': <String, Object?>{'budget_state': 'ok', 'total_units': 0},
+    },
     auth: const <String, Object?>{'configured': true},
     commands: const <Object?>[],
     linear: const <String, Object?>{},

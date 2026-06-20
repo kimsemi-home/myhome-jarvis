@@ -3,6 +3,7 @@ part of '../daemon_client.dart';
 class _StatusMaps {
   const _StatusMaps({
     required this.health,
+    required this.assistant,
     required this.auth,
     required this.linear,
     required this.repo,
@@ -29,6 +30,7 @@ class _StatusMaps {
   });
 
   final Map<String, Object?> health;
+  final Map<String, Object?> assistant;
   final Map<String, Object?> auth;
   final Map<String, Object?> linear;
   final Map<String, Object?> repo;

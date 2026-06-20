@@ -4,6 +4,37 @@
     "dry_run": true,
     "host": "127.0.0.1"
   },
+  "/assistant/status": {
+    "context": "AssistantCommandCenter",
+    "version": "v1",
+    "public_safe": true,
+    "redaction": "public-summary-only",
+    "vision": {
+      "policy_path": "generated/assistant_vision.generated.json",
+      "mission": "local-first household executive assistant",
+      "operating_mode": "observe-plan-act-verify-learn",
+      "capability_count": 6,
+      "guardrail_count": 8
+    },
+    "cost": {
+      "budget_state": "ok",
+      "total_units": 0,
+      "review_required_count": 0,
+      "missing_evidence_count": 0
+    },
+    "blocked_gate_count": 2,
+    "blocked_gates": [
+      {
+        "key": "authority",
+        "label": "Authority",
+        "state": "blocked",
+        "reason": "confidence_cap_low",
+        "count": 6
+      }
+    ],
+    "next_safe_action": "resolve_authority_gate",
+    "compact_state": "blocked"
+  },
   "/auth/status": {
     "configured": true,
     "path": "data/private/local-token.txt",
