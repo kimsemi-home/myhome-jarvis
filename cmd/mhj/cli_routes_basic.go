@@ -27,6 +27,8 @@ func routeBasics(root string, args []string) (bool, error) {
 		return true, runHarness(root, args[1:])
 	case "linear":
 		return true, runLinear(root, args[1:])
+	case "repo-factory":
+		return true, routeRepoFactory(root, args[1:])
 	case "daemon":
 		return true, runDaemon(root, args[1:])
 	case "knowledge":

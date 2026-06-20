@@ -32,6 +32,9 @@ func validatePolicy(policy Policy) error {
 	if !contains(policy.Commands, "mhj repo-factory status") {
 		return fmt.Errorf("repo factory status command is missing")
 	}
+	if !contains(policy.Commands, "mhj repo-factory decision-packet") {
+		return fmt.Errorf("repo factory decision packet command is missing")
+	}
 	return nil
 }
 

@@ -40,3 +40,16 @@ absolute paths, raw prompts, household finance payloads, or private media
 assets. Private working material stays outside the generated public template.
 
 Use `mhj repo-factory status` to inspect the public-safe summary.
+
+## Preflight Decision Packet
+
+Use `mhj repo-factory decision-packet` before any public repository or Codex
+project is created. The packet is a public-safe review input, not a creation
+approval. It lists template evidence, gate evidence, missing review evidence,
+and the next safe action while keeping `creation_allowed` false until human
+authority review and public-safety evidence are recorded.
+
+If a generated policy ever contains a forbidden template value, the packet
+marks the affected template as invalid and redacts the value instead of
+printing local paths, private owner markers, credentials, or other private
+payloads.
