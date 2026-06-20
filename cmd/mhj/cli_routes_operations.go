@@ -10,6 +10,8 @@ func routeOperations(root string, args []string) (bool, error) {
 		return true, requireSubcommand(args, "verify", func() error { return controlPlaneVerify(root) })
 	case "context-pack":
 		return true, routeContextPack(root, args[1:])
+	case "codex-sustainability":
+		return true, routeCodexSustainability(root, args[1:])
 	case "toolchain":
 		return true, requireSubcommand(args, "verify", func() error { return runToolchainVerify(root) })
 	case "ddd":
@@ -65,11 +67,4 @@ func routeCodegen(root string, args []string) error {
 		return runCodegenVerify(root)
 	}
 	return runCodegen(root)
-}
-
-func requireSubcommand(args []string, name string, run func() error) error {
-	if len(args) == 2 && args[1] == name {
-		return run()
-	}
-	return usage()
 }
