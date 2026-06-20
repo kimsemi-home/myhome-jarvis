@@ -4,6 +4,7 @@
   #((:name "concepts" :path "generated/concepts.generated.json" :owner "KnowledgeIndex")
     (:name "commands" :path "generated/commands.generated.json" :owner "HomeControl")
     (:name "finance" :path "generated/finance.generated.json" :owner "HouseholdFinance")
+    (:name "finance_consent" :path "generated/finance_consent.generated.json" :owner "HouseholdFinance")
     (:name "commerce" :path "generated/commerce.generated.json" :owner "CommerceIntelligence")
     (:name "connectors" :path "generated/connectors.generated.json" :owner "ConnectorReadiness")
     (:name "agent_cluster" :path "generated/agent_cluster.generated.json" :owner "AgentCluster")

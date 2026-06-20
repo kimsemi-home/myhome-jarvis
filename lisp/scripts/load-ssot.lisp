@@ -11,7 +11,8 @@
 (defun mhj-ssot-files ()
   (append '("../ssot/package.lisp" "../ssot/project.lisp")
           (mhj-ddd-files)
-          '("../ssot/commands.lisp" "../ssot/finance.lisp" "../ssot/commerce.lisp"
+          '("../ssot/commands.lisp" "../ssot/finance.lisp"
+            "../ssot/finance-consent.lisp" "../ssot/commerce.lisp"
             "../ssot/storage.lisp" "../ssot/household.lisp" "../ssot/recommendations.lisp"
             "../ssot/scheduler.lisp" "../ssot/security.lisp" "../ssot/connectors.lisp"
             "../ssot/agent-cluster.lisp" "../ssot/learning.lisp" "../ssot/evidence.lisp"
@@ -28,6 +29,7 @@
             "../ssot/codegen-validate-basics.lisp" "../ssot/codegen-validate-agent.lisp"
             "../ssot/codegen-validate-assistant-vision.lisp"
             "../ssot/codegen-validate-codex-cost.lisp"
+            "../ssot/codegen-validate-finance-consent.lisp"
             "../ssot/codegen-validate-monetization.lisp"
             "../ssot/codegen-validate-repo-factory.lisp"
             "../ssot/codegen-validate-shape-learning.lisp" "../ssot/codegen-validate-evidence.lisp"

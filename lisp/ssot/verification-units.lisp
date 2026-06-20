@@ -17,9 +17,9 @@
                  "test -s generated/verification_evidence.generated.json"
                  "test -s generated/pdca.generated.json"
                  "test -s generated/verification_graph.schema.generated.json"
-                 "test -s generated/verification_conformance.generated.json"
+	                 "test -s generated/verification_conformance.generated.json"
 	                 "test -s generated/verification_tests.generated.json"
-	                 "test -s generated/release_pipeline.generated.json"
+	                 "test -s generated/release_pipeline.generated.json" "test -s generated/finance_consent.generated.json"
 	                 "test -s generated/codex_cost.generated.json" "test -s generated/monetization.generated.json"
 	                 "test -s generated/repo_factory.generated.json"
 	                 "git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md"))

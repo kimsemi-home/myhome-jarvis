@@ -12,6 +12,7 @@
    #:*planning-rules*
    #:*knowledge-index-schema*
    #:*finance-entities*
+   #:*finance-consent-policy*
    #:*commerce-entities*
    #:*storage-policy*
    #:*household-policy*

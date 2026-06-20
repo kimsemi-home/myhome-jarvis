@@ -37,6 +37,7 @@
 (defun policy-artifacts ()
   `(("storage" ,*storage-policy*)
     ("household" ,*household-policy*)
+    ("finance_consent" ,*finance-consent-policy*)
     ("recommendations" ,*recommendation-policy*)
     ("scheduler" ,*scheduler-policy*)
     ("security" ,*security-policy*)

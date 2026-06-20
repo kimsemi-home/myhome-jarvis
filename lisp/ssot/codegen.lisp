@@ -5,6 +5,7 @@
   (validate-foundation-policies)
   (validate-security-policy-basics)
   (validate-connector-policy *connector-policy*)
+  (validate-finance-consent-policy *finance-consent-policy*)
   (validate-agent-cluster-policy *agent-cluster-policy*)
   (validate-code-shape-policy *code-shape-policy*)
   (validate-learning-policy *learning-policy*)

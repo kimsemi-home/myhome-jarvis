@@ -11,6 +11,7 @@ func blockedGates(in inputs) []GateSummary {
 	evidenceDebt := in.Evidence.DanglingEvidenceRefCount + in.Evidence.OpenLearningCount
 	incidentDebt := in.Incidents.IncidentDebtCount + in.Incidents.StaleQuarantineCount
 	reviewDebt := in.Review.ReviewDebtCount + in.Review.HighRiskOpenCount
+	financeConsentDebt := in.FinanceConsent.ConsentDebtCount
 	costDebt := in.Cost.ReviewRequiredCount + in.Cost.MissingEvidenceCount
 	monetizationDebt := in.Monetization.MonetizationDebtCount
 	repoFactoryDebt := in.RepoFactory.MissingTemplateRoleCount +
@@ -29,6 +30,9 @@ func blockedGates(in inputs) []GateSummary {
 		in.Authority.ActiveRule, in.Authority.BlockedDecisionCount)
 	add(reviewDebt > 0 || in.Review.CapacityState == "overloaded", "review", "Review",
 		in.Review.ActiveRule, reviewDebt)
+	add(in.FinanceConsent.ReadinessState != "ready_read_only", "finance_consent",
+		"Finance Consent", "real finance connectors and shared scopes need consent",
+		financeConsentDebt)
 	add(in.Cost.BudgetState != "ok" || costDebt > 0, "cost", "Codex Cost",
 		"cost budget or evidence review is required", costDebt)
 	add(monetizationDebt > 0, "monetization", "Monetization",
