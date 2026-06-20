@@ -48,6 +48,7 @@ func authorityReviewBriefFromStatus(
 		RepoFactoryGate:              authorityReviewRepoFactory(status.RepoFactory),
 		RepoFactoryPreflight:         status.RepoFactoryPreflight,
 		LocalRuntime:                 status.LocalRuntime,
+		MergeEvidence:                status.MergeEvidence,
 		VisionGoalComplete:           visionGoalComplete(status),
 		VisionNextSafeAction:         status.NextSafeAction,
 		NextSafeAction:               authorityReviewBriefNextAction(status),

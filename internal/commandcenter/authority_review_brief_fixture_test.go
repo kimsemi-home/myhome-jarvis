@@ -50,6 +50,7 @@ func authorityReviewBriefStatus(policy visionPolicy) Status {
 		NextSafeAction:                 "await_human_authority_review",
 	}
 	status.LocalRuntime = authorityReviewHealthyRuntimeFixture()
+	status.MergeEvidence = authorityReviewMergeEvidenceFixture()
 	status.WorkItem = summarizeWorkItem(status)
 	return status
 }

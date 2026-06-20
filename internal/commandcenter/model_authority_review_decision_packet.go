@@ -26,6 +26,7 @@ type AuthorityReviewDecisionPacket struct {
 	PublicSafetyPosture          AuthorityReviewPublicSafety     `json:"public_safety_posture"`
 	StorageEvidence              StorageArchiveSummary           `json:"storage_evidence"`
 	LocalRuntime                 LocalRuntimeSummary             `json:"local_runtime"`
+	MergeEvidence                MergeEvidenceSummary            `json:"merge_evidence"`
 	DecisionPacketState          string                          `json:"decision_packet_state"`
 	CanApplyDecision             bool                            `json:"can_apply_decision"`
 	DecisionOptions              []AuthorityReviewDecisionOption `json:"decision_options"`

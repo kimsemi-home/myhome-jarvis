@@ -59,9 +59,9 @@ reviewer identities, or publish raw rationale and evidence.
 `mhj authority-review brief` returns the reviewer-facing public handoff for
 gated vision work. It combines the current request, evidence ref, queue state,
 required review classes, command-center work item, repo-factory gate,
-repo-factory preflight summary, and next safe action. It is only a handoff
-artifact: approval, external writes, repo creation, and self-approval remain
-explicitly false.
+repo-factory preflight summary, local runtime readiness, merge-evidence
+posture, and next safe action. It is only a handoff artifact: approval,
+external writes, repo creation, and self-approval remain explicitly false.
 
 `mhj authority-review decision-packet` returns the public-safe review packet for
 the human decision point. It excludes raw evidence refs and private payloads,
@@ -69,7 +69,10 @@ keeps `review_only` as the packet state, and includes explicit non-granting
 decision options. The packet also includes the redacted storage archive summary
 so reviewers can see that private local logs follow the compress-then-archive
 pattern and that the evidence-noise budget configuration is itself hashed as
-evidence. The repo-factory preflight portion reports creation decision,
+evidence. It includes the public-safe merge-evidence posture so reviewers can
+see the default merge-after-checks behavior, post-merge evidence requirement,
+Linear completion requirement, main quality run requirement, and private-data
+scan requirement. The repo-factory preflight portion reports creation decision,
 creation allowed, blocking gate count, missing evidence keys, and the preflight
 next safe action without exposing private template payloads or granting repo
 creation. When public-safety checks are green, the preflight summary should
@@ -139,6 +142,7 @@ Public status may expose:
 - assistant profile counts and gated profile keys
 - review request age, stale threshold, stale boolean, and escalation action
 - local runtime readiness for the authority review brief and decision packet
+- merge evidence posture for the authority review brief and decision packet
 - timestamp
 
 It does not expose raw rationale, raw evidence contents, evidence refs,

@@ -13,6 +13,7 @@ func authorityReviewBriefPublicSafe(
 		status.RepoFactory.PublicSafe &&
 		status.RepoFactoryPreflight.PublicSafe &&
 		status.LocalRuntime.PublicSafe &&
+		status.MergeEvidence.PublicSafe &&
 		!status.RepoFactoryPreflight.CreationAllowed &&
 		!status.LocalRuntime.RawRuntimePublicAllowed &&
 		!status.WorkItem.ApprovalGranted &&

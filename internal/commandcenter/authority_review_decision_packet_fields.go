@@ -8,6 +8,7 @@ func authorityReviewDecisionPacketPublicSafe(
 		status.StorageArchive.PublicSafe &&
 		status.StorageArchive.ConfigIsEvidence &&
 		brief.LocalRuntime.PublicSafe &&
+		brief.MergeEvidence.PublicSafe &&
 		!brief.LocalRuntime.RawRuntimePublicAllowed &&
 		!brief.ApprovalBoundary.ApprovalGranted &&
 		!brief.ApprovalBoundary.ExternalWritesAllowed &&
