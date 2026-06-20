@@ -7,7 +7,7 @@ func StatusForRoot(root string) (Status, error) {
 	if err != nil {
 		return Status{}, err
 	}
-	history, err := CheckHistory(root)
+	history, cache, err := cachedHistoryAggregate(root)
 	if err != nil {
 		return Status{}, err
 	}
@@ -16,7 +16,8 @@ func StatusForRoot(root string) (Status, error) {
 		CurrentOK:           current.OK,
 		CurrentFindingCount: len(current.Findings),
 		HistoryOK:           history.OK,
-		HistoryFindingCount: len(history.Findings),
+		HistoryFindingCount: history.FindingCount,
+		Cache:               cache,
 		CheckedAt:           time.Now().UTC().Format(time.RFC3339),
 	}, nil
 }
