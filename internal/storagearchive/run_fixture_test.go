@@ -40,7 +40,9 @@ func testStoragePolicy(source domain.PrivateLogSource) domain.StoragePolicy {
 			ManifestPath:            "data/private/archive/manifest.jsonl",
 			RawPayloadPublicAllowed: false,
 			ConfigIsEvidence:        true,
-			ConfigHashInputs:        []string{"log_archive", "evidence_noise_budget"},
+			ConfigHashInputs: []string{
+				"private_log_sources", "log_archive", "evidence_noise_budget",
+			},
 		},
 		EvidenceNoiseBudget: domain.EvidenceNoiseBudget{
 			Enabled:                      true,

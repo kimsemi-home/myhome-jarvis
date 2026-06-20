@@ -28,6 +28,9 @@ func validatePolicy(policy Policy) error {
 	if !contains(policy.Commands, "mhj monetization status") {
 		return fmt.Errorf("monetization status command is missing")
 	}
+	if !contains(policy.Commands, "mhj monetization record <json-payload>") {
+		return fmt.Errorf("monetization record command is missing")
+	}
 	return nil
 }
 

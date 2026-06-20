@@ -14,17 +14,20 @@ func TestStatusSummarizesArchivePolicy(t *testing.T) {
 		status.CompressionArchivePattern != "compress_then_archive" {
 		t.Fatalf("compression policy = %#v", status)
 	}
-	if status.PrivateLogSourceCount != 7 || status.MaxNoiseRatioPercent > 25 {
+	if status.PrivateLogSourceCount != 8 || status.MaxNoiseRatioPercent > 25 {
 		t.Fatalf("archive counts = %#v", status)
 	}
 	if !containsKey(status.PrivateLogSourceKeys, "codex_cost_attribution") {
+		t.Fatalf("archive sources = %#v", status.PrivateLogSourceKeys)
+	}
+	if !containsKey(status.PrivateLogSourceKeys, "monetization") {
 		t.Fatalf("archive sources = %#v", status.PrivateLogSourceKeys)
 	}
 	if status.ConfigEvidenceField != "evidence_noise_budget" ||
 		!status.BreachBlocksArchive {
 		t.Fatalf("noise budget evidence = %#v", status)
 	}
-	if status.ConfigEvidenceSHA256 == "" || len(status.ConfigHashInputs) != 2 {
+	if status.ConfigEvidenceSHA256 == "" || len(status.ConfigHashInputs) != 3 {
 		t.Fatalf("config evidence hash = %#v", status)
 	}
 }

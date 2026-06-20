@@ -16,3 +16,30 @@ type Record struct {
 	PrivateCounterparty        string   `json:"private_counterparty,omitempty"`
 	RawRevenueAmountMinorUnits int64    `json:"raw_revenue_amount_minor_units,omitempty"`
 }
+
+type RecordRequest struct {
+	At                string   `json:"at,omitempty"`
+	ExperimentID      string   `json:"experiment_id"`
+	HypothesisKey     string   `json:"hypothesis_key"`
+	State             string   `json:"state"`
+	DecisionKind      string   `json:"decision_kind"`
+	ReviewStatus      string   `json:"review_status"`
+	ExpectedValueBand string   `json:"expected_value_band"`
+	CostEstimateUnits int64    `json:"cost_estimate_units"`
+	CostUnitKind      string   `json:"cost_unit_kind"`
+	EvidenceRefs      []string `json:"evidence_refs"`
+}
+
+type RecordResult struct {
+	ExperimentID          string `json:"experiment_id"`
+	HypothesisKey         string `json:"hypothesis_key"`
+	State                 string `json:"state"`
+	DecisionKind          string `json:"decision_kind"`
+	ReviewStatus          string `json:"review_status"`
+	ExpectedValueBand     string `json:"expected_value_band"`
+	CostEstimateUnits     int64  `json:"cost_estimate_units"`
+	CostUnitKind          string `json:"cost_unit_kind"`
+	EvidenceRefCount      int    `json:"evidence_ref_count"`
+	MonetizationDebtCount int    `json:"monetization_debt_count"`
+	RecordedAt            string `json:"recorded_at"`
+}

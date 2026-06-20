@@ -16,9 +16,9 @@ Private operational logs use a lighter archive lane before they ever become
 long-term lake data. JSONL ledgers under `data/private` are collected as
 private log sources, summarized without payloads, compressed with gzip, and
 recorded under `data/private/archive` with a private JSONL manifest. The
-compression and archive configuration itself is public-safe evidence because it
-proves which local data can be compacted and where the private archive boundary
-is.
+source list, compression, archive configuration, and noise budget are
+public-safe evidence because they prove which local data can be compacted and
+where the private archive boundary is.
 
 Evidence noise is also configured as evidence. The storage SSOT records an
 enabled noise budget, a maximum noise ratio percent, a low-signal record window,
@@ -69,6 +69,8 @@ Go daemon read surface:
   decisions can verify that local evidence logs are compacted and governed.
   The archive source list includes Codex cost attribution records, allowing
   scope-level ROI evidence to be compressed without publishing raw subjects.
+  It also includes monetization experiment records so revenue hypotheses can be
+  compressed and retained without exposing raw revenue details.
 - `mhj storage-archive run` executes the local private archive lane. Missing or
   empty sources are skipped, present JSONL sources are scanned for invalid or
   duplicate low-signal records, and sources that pass the noise budget are
@@ -80,9 +82,10 @@ Go daemon read surface:
   Public command output reports the same aggregate metadata without raw log
   payloads or local absolute paths.
 - The config evidence hash is derived from the SSOT-declared
-  `config_hash_inputs`: `log_archive` and `evidence_noise_budget`. That makes
-  the noise threshold and compression/archive settings part of the evidence for
-  each local archive decision without publishing the private log body.
+  `config_hash_inputs`: `private_log_sources`, `log_archive`, and
+  `evidence_noise_budget`. That makes the source list, noise threshold, and
+  compression/archive settings part of the evidence for each local archive
+  decision without publishing the private log body.
 
 Validation:
 

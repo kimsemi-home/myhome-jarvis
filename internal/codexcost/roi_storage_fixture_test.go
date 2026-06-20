@@ -21,7 +21,9 @@ func writeStoragePolicy(t *testing.T, root string) {
 			ArchiveRoot: "data/private/archive", ArchiveExtension: ".jsonl.gz",
 			ManifestPath:     "data/private/archive/manifest.jsonl",
 			ConfigIsEvidence: true,
-			ConfigHashInputs: []string{"log_archive", "evidence_noise_budget"},
+			ConfigHashInputs: []string{
+				"private_log_sources", "log_archive", "evidence_noise_budget",
+			},
 		},
 		EvidenceNoiseBudget: domain.EvidenceNoiseBudget{
 			Enabled: true, MaxNoiseRatioPercent: 20,

@@ -24,7 +24,10 @@ func testPolicy() Policy {
 		RequiredFields:           requiredFields,
 		PublicSummaryFields:      requiredSummaryFields,
 		AllowedEvidencePrefixes:  []string{"generated/", "docs/", "data/private/"},
-		Commands:                 []string{"mhj monetization status"},
+		Commands: []string{
+			"mhj monetization status",
+			"mhj monetization record <json-payload>",
+		},
 	}
 }
 
