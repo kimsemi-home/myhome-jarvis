@@ -50,6 +50,7 @@ func authorityReviewBriefFromStatus(
 		LocalRuntime:                 status.LocalRuntime,
 		MergeEvidence:                status.MergeEvidence,
 		CodexSustainability:          status.CodexSustainability,
+		ContextPack:                  status.ContextPack,
 		VisionGoalComplete:           visionGoalComplete(status),
 		VisionNextSafeAction:         status.NextSafeAction,
 		NextSafeAction:               authorityReviewBriefNextAction(status),
