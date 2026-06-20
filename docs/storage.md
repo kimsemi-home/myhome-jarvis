@@ -12,6 +12,20 @@ Long-term storage is organized as:
 Lake data lives under `data/lake` and is ignored. Parquet+Zstd support belongs
 to the Rust storage phase.
 
+Private operational logs use a lighter archive lane before they ever become
+long-term lake data. JSONL ledgers under `data/private` are collected as
+private log sources, summarized without payloads, compressed with gzip, and
+recorded under `data/private/archive` with a private JSONL manifest. The
+compression and archive configuration itself is public-safe evidence because it
+proves which local data can be compacted and where the private archive boundary
+is.
+
+Evidence noise is also configured as evidence. The storage SSOT records an
+enabled noise budget, a maximum noise ratio percent, a low-signal record window,
+dedupe keys, and the rule that a noise-budget breach blocks archive promotion.
+Public surfaces may report this configuration and counts, but never raw log
+payloads.
+
 Rust storage boundary:
 
 - `mhj-storage::LakeLayer` models `raw`, `bronze`, `silver`, and `gold`.
@@ -49,6 +63,8 @@ Go daemon read surface:
 
 - `GET /domain/summary` includes the generated storage policy.
 - The endpoint is local read-only and does not read from `data/lake`.
+- `mhj storage-archive status` exposes a redacted summary of the compression
+  lane, archive root, manifest path, source count, and noise budget.
 
 Validation:
 

@@ -45,4 +45,8 @@ func assertStoragePolicy(t *testing.T, summary Summary) {
 	if summary.Storage.LongTermFormat != "parquet" || summary.Storage.Compression != "zstd" {
 		t.Fatalf("storage policy = %#v", summary.Storage)
 	}
+	if summary.Storage.LogArchive.Compression != "gzip" ||
+		!summary.Storage.EvidenceNoiseBudget.BreachBlocksArchive {
+		t.Fatalf("storage archive policy = %#v", summary.Storage)
+	}
 }
