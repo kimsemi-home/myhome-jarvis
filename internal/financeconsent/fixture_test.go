@@ -27,7 +27,10 @@ func testPolicy() Policy {
 		RequiredFields:                requiredFields,
 		AllowedEvidencePrefixes:       []string{"data/private/", "generated/", "docs/"},
 		PublicSummaryFields:           requiredSummaryFields,
-		Commands:                      []string{"mhj finance-consent status"},
+		Commands: []string{
+			"mhj finance-consent status",
+			"mhj finance-consent record <json-payload>",
+		},
 	}
 }
 

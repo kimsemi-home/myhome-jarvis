@@ -19,7 +19,8 @@
                      (getf policy :household_scope_requires_active_consent))
                 "Finance connector and shared scopes require active consent")
   (validate-finance-consent-lists policy)
-  (require-command policy "mhj finance-consent status"))
+  (require-command policy "mhj finance-consent status")
+  (require-command policy "mhj finance-consent record <json-payload>"))
 
 (defun require-finance-no-write-actions (policy)
   (dolist (key '(:external_writes_allowed :transfer_actions_allowed

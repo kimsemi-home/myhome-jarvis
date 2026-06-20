@@ -69,8 +69,9 @@ Go daemon read surface:
   decisions can verify that local evidence logs are compacted and governed.
   The archive source list includes Codex cost attribution records, allowing
   scope-level ROI evidence to be compressed without publishing raw subjects.
-  It also includes monetization experiment records so revenue hypotheses can be
-  compressed and retained without exposing raw revenue details.
+  It also includes monetization experiment records and finance consent records
+  so revenue hypotheses and read-only household finance consent evidence can be
+  compressed without exposing raw revenue or finance details.
 - `mhj storage-archive run` executes the local private archive lane. Missing or
   empty sources are skipped, present JSONL sources are scanned for invalid or
   duplicate low-signal records, and sources that pass the noise budget are

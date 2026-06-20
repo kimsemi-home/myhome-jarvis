@@ -50,4 +50,5 @@
                                    "raw_balance" "raw_transaction"
                                    "private_notes" "evidence_refs"
                                    "credential" "cookie" "token" "secret")
-        :commands #("mhj finance-consent status")))
+        :commands #("mhj finance-consent status"
+                    "mhj finance-consent record <json-payload>")))

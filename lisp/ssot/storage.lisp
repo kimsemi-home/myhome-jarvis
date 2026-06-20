@@ -26,6 +26,9 @@
            :format "jsonl")
           (:key "monetization"
            :path "data/private/monetization/experiments.jsonl"
+           :format "jsonl")
+          (:key "finance_consent"
+           :path "data/private/finance/consent.jsonl"
            :format "jsonl"))
         :log_archive
         (list :mode "compress_then_archive"
