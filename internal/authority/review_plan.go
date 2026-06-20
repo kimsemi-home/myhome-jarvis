@@ -57,6 +57,7 @@ func applyReviewRecordLedger(plan *ReviewPlanStatus, ledger ReviewRecordLedgerSu
 	if plan.ReviewRequestable && ledger.Recorded {
 		plan.NextSafeAction = "await_human_authority_review"
 	}
+	applyReviewRequestFreshness(plan, time.Now().UTC())
 }
 
 func reviewPlanPublicSafe(policy Policy) bool {

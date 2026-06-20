@@ -33,6 +33,10 @@ func TestAuthorityReviewDecisionPacketIncludesStorageEvidence(t *testing.T) {
 		!containsString(packet.GatedCapabilityKeys, "shorts_factory_control_plane") {
 		t.Fatalf("review handoff = %#v", packet)
 	}
+	if packet.ReviewRequestStaleAfterHours != 24 ||
+		packet.ReviewEscalationAction == "" {
+		t.Fatalf("review stale guard = %#v", packet)
+	}
 }
 
 func TestAuthorityReviewDecisionPacketOptionsAreNonGranting(t *testing.T) {

@@ -26,6 +26,10 @@ type ReviewPlanStatus struct {
 	ReviewRequestLedgerState          string              `json:"review_request_ledger_state"`
 	ReviewRequestApprovalState        string              `json:"review_request_approval_state"`
 	ReviewRequestLastRecordedAt       string              `json:"review_request_last_recorded_at,omitempty"`
+	ReviewRequestAgeHours             int                 `json:"review_request_age_hours"`
+	ReviewRequestStaleAfterHours      int                 `json:"review_request_stale_after_hours"`
+	ReviewRequestStale                bool                `json:"review_request_stale"`
+	ReviewRequestEscalationAction     string              `json:"review_request_escalation_action"`
 	Profiles                          []ReviewProfilePlan `json:"profiles"`
 	CheckedAt                         string              `json:"checked_at"`
 }
