@@ -41,6 +41,19 @@ func validatePolicySummary(policy Policy) error {
 	if !contains(policy.Commands, "mhj authority-review queue") {
 		return fmt.Errorf("authority review queue command is missing")
 	}
+	if !contains(policy.Commands, "mhj authority-review record <json-payload>") {
+		return fmt.Errorf("authority review record command is missing")
+	}
+	if !privateJSONL(policy.PrivateReviewRequestLedger) {
+		return fmt.Errorf("authority review ledger must stay private jsonl")
+	}
+	if err := requireAll("authority review record field", normalizeList(policy.ReviewRecordRequiredFields), []string{
+		"request_id", "evidence_ref", "queue_item_ref", "queue_state",
+		"required_review_classes", "approval_granted",
+		"external_writes_allowed", "self_approval_allowed",
+	}); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -51,4 +64,10 @@ func requireAll(label string, values []string, required []string) error {
 		}
 	}
 	return nil
+}
+
+func privateJSONL(path string) bool {
+	return len(path) > len("data/private/.jsonl") &&
+		path[:len("data/private/")] == "data/private/" &&
+		path[len(path)-len(".jsonl"):] == ".jsonl"
 }

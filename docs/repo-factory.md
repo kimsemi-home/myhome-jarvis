@@ -23,10 +23,15 @@ Each new public repo must start from the generated factory policy:
 Repo creation remains blocked until all gates have evidence:
 
 - authority review is approved
+- authority review request evidence is recorded privately
 - public safety evidence is recorded
 - generated CI exists
 - private-data policy exists
 - bootstrap checklist is complete
+
+The private authority review request ledger proves the review was requested and
+queued. It does not count as approval; repo creation stays blocked until a human
+review grants the relevant public-repo authority.
 
 ## Public Boundary
 

@@ -18,6 +18,8 @@ type Policy struct {
 	AssistantAuthorityProfiles  []AssistantProfile `json:"assistant_authority_profiles"`
 	Outcomes                    []string           `json:"outcomes"`
 	AuthorityDebtClasses        []string           `json:"authority_debt_classes"`
+	PrivateReviewRequestLedger  string             `json:"private_review_request_ledger"`
+	ReviewRecordRequiredFields  []string           `json:"review_record_required_fields"`
 	PublicSummaryFields         []string           `json:"public_summary_fields"`
 	ForbiddenPublicFields       []string           `json:"forbidden_public_fields"`
 	Commands                    []string           `json:"commands"`

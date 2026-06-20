@@ -15,6 +15,7 @@
   (validate-authority-decisions policy)
   (validate-authority-profiles policy)
   (validate-authority-summary policy)
+  (validate-authority-review-recording policy)
   (require-command policy "mhj authority status"))
 
 (defun validate-authority-taxonomy (policy)
@@ -41,3 +42,14 @@
                      "human_review_capacity")
                    (policy-list policy :domain_attributes)
                    "Authority domain attribute missing: ~A"))
+
+(defun validate-authority-review-recording (policy)
+  (require-private-jsonl (getf policy :private_review_request_ledger)
+                         "Authority review ledger must stay private JSONL")
+  (require-members '("request_id" "evidence_ref" "queue_item_ref"
+                     "queue_state" "required_review_classes"
+                     "approval_granted" "external_writes_allowed"
+                     "self_approval_allowed")
+                   (policy-list policy :review_record_required_fields)
+                   "Authority review record field missing: ~A")
+  (require-command policy "mhj authority-review record <json-payload>"))

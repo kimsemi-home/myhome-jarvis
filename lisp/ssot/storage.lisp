@@ -29,6 +29,9 @@
            :format "jsonl")
           (:key "finance_consent"
            :path "data/private/finance/consent.jsonl"
+           :format "jsonl")
+          (:key "authority_review"
+           :path "data/private/authority-review/requests.jsonl"
            :format "jsonl"))
         :log_archive
         (list :mode "compress_then_archive"
