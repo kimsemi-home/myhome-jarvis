@@ -19,6 +19,10 @@ type AuthorityReviewSummary struct {
 	ReviewRequestLedgerState        string `json:"review_request_ledger_state"`
 	ReviewRequestApprovalState      string `json:"review_request_approval_state"`
 	ReviewRequestLastRecordedAt     string `json:"review_request_last_recorded_at,omitempty"`
+	ReviewRequestAgeHours           int    `json:"review_request_age_hours"`
+	ReviewRequestStaleAfterHours    int    `json:"review_request_stale_after_hours"`
+	ReviewRequestStale              bool   `json:"review_request_stale"`
+	ReviewRequestEscalationAction   string `json:"review_request_escalation_action"`
 	HighRiskBlockedDecisionCount    int    `json:"high_risk_blocked_decision_count"`
 	RequiredReviewClassCount        int    `json:"required_review_class_count"`
 	PublicRepoReviewProfileCount    int    `json:"public_repo_review_profile_count"`

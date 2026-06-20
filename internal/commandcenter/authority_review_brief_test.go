@@ -28,6 +28,10 @@ func TestAuthorityReviewBriefSummarizesGatedHandoff(t *testing.T) {
 		!containsString(brief.RequiredReviewClasses, "public_repo_change_review") {
 		t.Fatalf("review classes = %#v", brief)
 	}
+	if brief.ReviewRequestStaleAfterHours != 24 ||
+		brief.ReviewEscalationAction == "" {
+		t.Fatalf("review stale guard = %#v", brief)
+	}
 	if !brief.RepoFactoryGate.RepoCreationBlockedUntilReview ||
 		brief.ApprovalBoundary.ApprovalGranted ||
 		brief.ApprovalBoundary.ExternalWritesAllowed ||

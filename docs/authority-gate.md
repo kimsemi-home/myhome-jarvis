@@ -95,6 +95,12 @@ After the current request has a matching private ledger entry, public authority
 review status reports `review_request_ledger_state` as
 `recorded_pending_review` and the command center switches the next safe action
 from `request_authority_review` to `await_human_authority_review`.
+Recorded review requests also carry a public-safe staleness guard. Status,
+brief, and decision-packet surfaces report the request age, stale threshold, and
+escalation action so `await_human_authority_review` cannot sit unnoticed. The
+guard may request escalation or request refresh of malformed review evidence,
+but it never grants approval or exposes reviewer identities, private Linear
+URLs, raw ledger rows, prompts, transcripts, secrets, or local absolute paths.
 
 ## Outcomes
 
@@ -122,6 +128,7 @@ Public status may expose:
 - allowed and blocked decision keys
 - counts by risk
 - assistant profile counts and gated profile keys
+- review request age, stale threshold, stale boolean, and escalation action
 - timestamp
 
 It does not expose raw rationale, raw evidence contents, evidence refs,
