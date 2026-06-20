@@ -56,6 +56,7 @@ func testStoragePolicy(source domain.PrivateLogSource) domain.StoragePolicy {
 			Enabled:                      true,
 			MaxNoiseRatioPercent:         20,
 			MaxLowSignalRecordsPerWindow: 10,
+			Window:                       "per_quality_run",
 			DedupeKeyFields:              []string{"source", "kind", "evidence_ref"},
 			ConfigEvidenceField:          "evidence_noise_budget",
 			BreachBlocksArchive:          true,
