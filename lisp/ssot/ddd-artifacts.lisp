@@ -21,6 +21,7 @@
 	    (:name "codex_sustainability" :path "generated/codex_sustainability.generated.json" :owner "AgentOps")
 	    (:name "context_pack" :path "generated/context_pack.generated.json" :owner "AgentOps")
 	    (:name "media_readiness" :path "generated/media_readiness.generated.json" :owner "HomeControl")
+	    (:name "merge_evidence" :path "generated/merge_evidence.generated.json" :owner "AgentOps")
 	    (:name "monetization" :path "generated/monetization.generated.json" :owner "CommerceIntelligence")
 	    (:name "repo_factory" :path "generated/repo_factory.generated.json" :owner "AgentOps")
 	    (:name "authority" :path "generated/authority.generated.json" :owner "AgentCluster")

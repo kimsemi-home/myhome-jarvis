@@ -34,6 +34,7 @@
    #:*codex-sustainability-policy*
    #:*context-pack-policy*
    #:*media-readiness-policy*
+   #:*merge-evidence-policy*
    #:*monetization-policy*
    #:*repo-factory-policy*
    #:*authority-policy*

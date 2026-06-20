@@ -16,6 +16,7 @@ type Status struct {
 	CodexSustainability CodexSustainabilitySummary `json:"codex_sustainability"`
 	ContextPack         ContextPackSummary         `json:"context_pack"`
 	MediaReadiness      MediaReadinessSummary      `json:"media_readiness"`
+	MergeEvidence       MergeEvidenceSummary       `json:"merge_evidence"`
 	Monetization        MonetizationSummary        `json:"monetization"`
 	RepoFactory         RepoFactorySummary         `json:"repo_factory"`
 	BlockedGateCount    int                        `json:"blocked_gate_count"`

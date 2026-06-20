@@ -14,6 +14,7 @@ generated artifact is `generated/assistant_vision.generated.json`.
 - `cost_unit`: Codex token or paid service usage unit.
 - `monetization_loop`: experiment tied to revenue evidence.
 - `repo_factory`: repeatable public-safe repo creation flow.
+- `merge_evidence`: proof that eligible PR work reached main.
 - `household_scope`: user, spouse, household, or shared view.
 
 ## Epics
@@ -65,3 +66,10 @@ The Local Media Concierge pillar now has a public-safe readiness benchmark.
 `mhj media-readiness status` and daemon `GET /media-readiness/status` report
 YouTube/OTT command-planning latency and availability without recording browsing
 history, cookies, credentials, account identifiers, raw payloads, or raw URLs.
+
+## Merge Evidence
+
+`mhj merge-evidence status` and daemon `GET /merge-evidence/status` publish the
+redacted policy for merging eligible PR work and proving completion. Future
+loops should treat merged main evidence, not just an open PR, as the normal done
+state when checks and public-safety scans pass.

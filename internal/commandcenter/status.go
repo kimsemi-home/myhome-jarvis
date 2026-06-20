@@ -23,6 +23,7 @@ func StatusForRoot(root string) (Status, error) {
 		CodexSustainability: summarizeCodexSustainability(in.CodexSustainability),
 		ContextPack:         summarizeContextPack(in.ContextPack),
 		MediaReadiness:      summarizeMediaReadiness(in.MediaReadiness),
+		MergeEvidence:       summarizeMergeEvidence(in.MergeEvidence),
 		Monetization:        summarizeMonetization(in.Monetization),
 		RepoFactory:         summarizeRepoFactory(in.RepoFactory),
 		CheckedAt:           time.Now().UTC().Format(time.RFC3339),

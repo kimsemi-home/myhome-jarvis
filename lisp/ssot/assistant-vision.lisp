@@ -8,6 +8,7 @@
     (:key "cost_unit" :meaning "Codex token or paid service usage unit")
     (:key "monetization_loop" :meaning "experiment tied to revenue evidence")
     (:key "repo_factory" :meaning "repeatable public-safe repo creation flow")
+    (:key "merge_evidence" :meaning "proof that eligible PR work reached main")
     (:key "household_scope" :meaning "user spouse household or shared view")))
 
 (defparameter *assistant-capability-pillars*

@@ -38,6 +38,12 @@
                 "internal/repofactory"
                 #("generated/repo_factory.generated.json" "internal/repofactory/status.go" "docs/repo-factory.md")
                 #("SecurityPolicy" "AuthorityGate" "EvidenceGraph" "CodexCostGovernor"))
+   (ddd-concept "MergeEvidencePolicy" "AgentOps" "Policy"
+                "The public-safe rule that eligible PRs are merged and completion evidence records PR, commit, checks, and Linear status."
+                #("merge evidence" "merge when eligible" "main quality evidence")
+                "internal/mergeevidence"
+                #("generated/merge_evidence.generated.json" "internal/mergeevidence/status.go" "docs/merge-evidence.md")
+                #("LinearWorkQueue" "SecurityPolicy" "EvidenceGraph"))
    (ddd-concept "ConceptRegistry" "KnowledgeIndex" "Repository"
                 "The SSOT-owned registry of canonical concepts, aliases, owners, and generated targets."
                 #("concept registry" "canonical concepts" "aliases")

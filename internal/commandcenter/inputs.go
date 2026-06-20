@@ -25,6 +25,7 @@ type inputs struct {
 	CodexSustainability codexsustainability.Status
 	ContextPack         contextpack.Status
 	MediaReadiness      mediaReadinessStatus
+	MergeEvidence       mergeEvidenceStatus
 	Monetization        monetization.Status
 	RepoFactory         repoFactoryStatus
 }

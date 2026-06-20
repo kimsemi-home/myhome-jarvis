@@ -31,7 +31,7 @@
 (defun validate-assistant-terms (policy)
   (require-members '("intent" "capability" "evidence" "decision"
                      "cost_unit" "monetization_loop" "repo_factory"
-                     "household_scope")
+                     "merge_evidence" "household_scope")
                    (mapcar (lambda (term) (getf term :key))
                            (policy-list policy :universal_terms))
                    "Assistant universal term missing: ~A"))
