@@ -9,6 +9,7 @@ func validatePolicyCommands(policy Policy) error {
 		"mhj codex-cost guard <json-payload>",
 		"mhj codex-cost attribute <json-payload>",
 		"mhj codex-cost roi",
+		"mhj codex-cost brief",
 	} {
 		if !contains(policy.Commands, command) {
 			return fmt.Errorf("codex cost command %q is missing", command)

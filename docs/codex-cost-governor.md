@@ -93,10 +93,20 @@ than an implicit background assumption.
 The attribution ledger is in the same private archive lane, so scope coverage
 evidence is compacted and governed with the cost and sustainability ledgers.
 
+Use `mhj codex-cost brief` for a compact public-safe supervision view before
+expanding paid or external loops. The brief reuses the redacted ROI,
+sustainability, and storage archive aggregates, then emits a decision
+(`allow`, `warn`, or `review_required`), coded reasons, a recommendation, and a
+next safe action. It does not include private ledger rows, raw evidence refs,
+absolute local paths, prompts, transcripts, or private Linear URLs. The brief
+treats the archive/noise-budget configuration as evidence: if compression,
+archive readiness, noise-budget readiness, manifest integrity, or config
+evidence is missing, the decision becomes review-gated before scaling.
+
 ## Public Boundary
 
 The CLI commands `mhj codex-cost status`, `mhj codex-cost record`,
-`mhj codex-cost guard`, `mhj codex-cost roi`, and daemon endpoint
+`mhj codex-cost guard`, `mhj codex-cost roi`, `mhj codex-cost brief`, and daemon endpoint
 `GET /codex-cost/status` must not expose prompts, transcripts, private notes,
 raw evidence refs, credentials, tokens, local absolute paths, account IDs,
 card numbers, Linear private URLs, or private evidence contents.
