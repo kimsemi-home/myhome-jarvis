@@ -35,6 +35,7 @@ The generated policy defines:
 ```sh
 go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
+go run ./cmd/mhj authority-review brief
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
 go run ./cmd/mhj authority-review queue
@@ -54,6 +55,12 @@ same gate. The plan can show when authority review is requestable, which public
 review classes apply, and profile-level gate counts. It does not approve
 high-risk work, grant self-authority, change external-write permissions, expose
 reviewer identities, or publish raw rationale and evidence.
+
+`mhj authority-review brief` returns the reviewer-facing public handoff for
+gated vision work. It combines the current request, evidence ref, queue state,
+required review classes, command-center work item, repo-factory gate, and next
+safe action. It is only a handoff artifact: approval, external writes, and
+self-approval remain explicitly false.
 
 Daemon `GET /authority-review/request` returns a public-safe request packet with
 a stable request id derived from review classes and counts. It is evidence for a
@@ -122,6 +129,7 @@ go test ./internal/authority ./internal/daemon ./cmd/mhj ./internal/knowledge
 go run ./cmd/mhj review status
 go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
+go run ./cmd/mhj authority-review brief
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
 go run ./cmd/mhj authority-review queue

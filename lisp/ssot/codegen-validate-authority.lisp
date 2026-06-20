@@ -16,7 +16,8 @@
   (validate-authority-profiles policy)
   (validate-authority-summary policy)
   (validate-authority-review-recording policy)
-  (require-command policy "mhj authority status"))
+  (require-command policy "mhj authority status")
+  (require-command policy "mhj authority-review brief"))
 
 (defun validate-authority-taxonomy (policy)
   (require-members '("confidence_assessor" "evidence_quality"
