@@ -18,6 +18,7 @@ func requiredVerificationArtifacts() []string {
 		"generated/assistant_vision.generated.json",
 		"generated/codex_cost.generated.json",
 		"generated/monetization.generated.json",
+		"generated/repo_factory.generated.json",
 		"docs/verification-graph.md",
 	}
 }
@@ -46,6 +47,7 @@ func requiredVerificationCommands() []string {
 		"test -s generated/pdca.generated.json",
 		"test -s generated/codex_cost.generated.json",
 		"test -s generated/monetization.generated.json",
+		"test -s generated/repo_factory.generated.json",
 	}
 }
 

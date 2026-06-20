@@ -7,6 +7,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
 	"github.com/kimsemi-home/myhome-jarvis/internal/monetization"
 	"github.com/kimsemi-home/myhome-jarvis/internal/pdca"
+	"github.com/kimsemi-home/myhome-jarvis/internal/repofactory"
 	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 )
 
@@ -19,6 +20,7 @@ type inputs struct {
 	Review       review.Status
 	Cost         codexcost.Status
 	Monetization monetization.Status
+	RepoFactory  repofactory.Status
 }
 
 func collectInputs(root string) (inputs, error) {
@@ -46,6 +48,9 @@ func collectInputs(root string) (inputs, error) {
 		return inputs{}, err
 	}
 	if in.Monetization, err = monetization.StatusForRoot(root); err != nil {
+		return inputs{}, err
+	}
+	if in.RepoFactory, err = repofactory.StatusForRoot(root); err != nil {
 		return inputs{}, err
 	}
 	return in, nil

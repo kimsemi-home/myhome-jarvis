@@ -29,6 +29,7 @@
 	                               "generated/assistant_vision.generated.json"
 	                               "generated/codex_cost.generated.json"
 	                               "generated/monetization.generated.json"
+	                               "generated/repo_factory.generated.json"
 	                               "docs/verification-graph.md")
         :backends *verification-backends*
         :github_action_refs *github-action-refs*

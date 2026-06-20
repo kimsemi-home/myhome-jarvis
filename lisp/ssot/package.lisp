@@ -31,6 +31,7 @@
    #:*assistant-vision-policy*
    #:*codex-cost-policy*
    #:*monetization-policy*
+   #:*repo-factory-policy*
    #:*authority-policy*
    #:*pdca-policy*
    #:*code-shape-policy*

@@ -13,6 +13,12 @@ func blockedGates(in inputs) []GateSummary {
 	reviewDebt := in.Review.ReviewDebtCount + in.Review.HighRiskOpenCount
 	costDebt := in.Cost.ReviewRequiredCount + in.Cost.MissingEvidenceCount
 	monetizationDebt := in.Monetization.MonetizationDebtCount
+	repoFactoryDebt := in.RepoFactory.MissingTemplateRoleCount +
+		in.RepoFactory.MissingCreationGateCount +
+		in.RepoFactory.ForbiddenTemplateValueCount
+	if in.RepoFactory.RepoCreationBlockedUntilReview && repoFactoryDebt == 0 {
+		repoFactoryDebt = 1
+	}
 	add(!in.PDCA.Ready, "pdca", "PDCA", "pdca artifacts or cycles are not ready",
 		in.PDCA.MissingArtifactCount+in.PDCA.InvalidCycleCount)
 	add(evidenceDebt > 0, "evidence", "Evidence",
@@ -27,6 +33,10 @@ func blockedGates(in inputs) []GateSummary {
 		"cost budget or evidence review is required", costDebt)
 	add(monetizationDebt > 0, "monetization", "Monetization",
 		"experiment decisions need evidence, cost, or review closure", monetizationDebt)
+	add(!in.RepoFactory.PublicSafe || in.RepoFactory.RepoCreationBlockedUntilReview,
+		"repo_factory", "Repo Factory",
+		"repo creation requires authority review and public safety evidence",
+		repoFactoryDebt)
 	return gates
 }
 

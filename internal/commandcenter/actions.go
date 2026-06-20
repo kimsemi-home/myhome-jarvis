@@ -14,6 +14,8 @@ func nextSafeAction(status Status) string {
 			return "review_codex_cost_budget"
 		case "monetization":
 			return "review_monetization_experiments"
+		case "repo_factory":
+			return "review_repo_factory_bootstrap"
 		case "incidents":
 			return "close_or_quarantine_incidents"
 		case "evidence":
@@ -41,5 +43,6 @@ func compactState(status Status) string {
 func publicSafe(in inputs) bool {
 	return in.Authority.PublicRepoMode &&
 		in.Authority.PublicSafetyOK &&
-		!in.Authority.SelfAuthorityAllowed
+		!in.Authority.SelfAuthorityAllowed &&
+		in.RepoFactory.PublicSafe
 }

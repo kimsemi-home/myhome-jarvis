@@ -4,6 +4,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 	"github.com/kimsemi-home/myhome-jarvis/internal/monetization"
+	"github.com/kimsemi-home/myhome-jarvis/internal/repofactory"
 	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 )
 
@@ -52,5 +53,20 @@ func summarizeMonetization(status monetization.Status) MonetizationSummary {
 		MissingEvidenceCount:      status.MissingEvidenceCount,
 		MissingCostEstimateCount:  status.MissingCostEstimateCount,
 		ExpectedValueUnknownCount: status.ExpectedValueUnknownCount,
+	}
+}
+
+func summarizeRepoFactory(status repofactory.Status) RepoFactorySummary {
+	return RepoFactorySummary{
+		PublicSafe:                     status.PublicSafe,
+		TemplateFileCount:              status.TemplateFileCount,
+		CreationGateCount:              status.CreationGateCount,
+		BootstrapCheckCount:            status.BootstrapCheckCount,
+		AuthorityReviewRequired:        status.AuthorityReviewRequired,
+		PublicSafetyEvidenceRequired:   status.PublicSafetyEvidenceRequired,
+		MissingTemplateRoleCount:       status.MissingTemplateRoleCount,
+		MissingCreationGateCount:       status.MissingCreationGateCount,
+		ForbiddenTemplateValueCount:    status.ForbiddenTemplateValueCount,
+		RepoCreationBlockedUntilReview: status.RepoCreationBlockedUntilReview,
 	}
 }
