@@ -4,6 +4,9 @@ func routeStatuses(root string, args []string) (bool, error) {
 	if len(args) == 2 && args[0] == "authority-review" && args[1] == "request" {
 		return true, authorityReviewRequest(root)
 	}
+	if len(args) == 2 && args[0] == "authority-review" && args[1] == "evidence" {
+		return true, authorityReviewEvidence(root)
+	}
 	if len(args) != 2 || args[1] != "status" {
 		return false, nil
 	}

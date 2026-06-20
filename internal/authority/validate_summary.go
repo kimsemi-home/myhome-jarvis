@@ -35,6 +35,9 @@ func validatePolicySummary(policy Policy) error {
 	if !contains(policy.Commands, "mhj authority-review request") {
 		return fmt.Errorf("authority review request command is missing")
 	}
+	if !contains(policy.Commands, "mhj authority-review evidence") {
+		return fmt.Errorf("authority review evidence command is missing")
+	}
 	return nil
 }
 
