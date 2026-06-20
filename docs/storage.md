@@ -65,6 +65,15 @@ Go daemon read surface:
 - The endpoint is local read-only and does not read from `data/lake`.
 - `mhj storage-archive status` exposes a redacted summary of the compression
   lane, archive root, manifest path, source count, and noise budget.
+- `mhj storage-archive run` executes the local private archive lane. Missing or
+  empty sources are skipped, present JSONL sources are scanned for invalid or
+  duplicate low-signal records, and sources that pass the noise budget are
+  written as `.jsonl.gz` files under `data/private/archive`.
+- Each run appends private manifest rows to
+  `data/private/archive/manifest.jsonl` with source key/path, archive path,
+  input/output bytes, input hash, record/noise counts, and budget verdict.
+  Public command output reports the same aggregate metadata without raw log
+  payloads or local absolute paths.
 
 Validation:
 

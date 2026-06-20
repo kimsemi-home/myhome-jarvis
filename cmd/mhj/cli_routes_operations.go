@@ -18,6 +18,8 @@ func routeOperations(root string, args []string) (bool, error) {
 		return true, requireSubcommand(args, "verify", func() error { return runDDDVerify(root) })
 	case "loop":
 		return true, routeLoop(root, args[1:])
+	case "storage-archive":
+		return true, routeStorageArchive(root, args[1:])
 	case "benchmark":
 		return true, requireSubcommand(args, "smoke", func() error { return runBenchmarkSmoke(root) })
 	case "quality":
