@@ -84,6 +84,9 @@ write permission.
 Daemon `GET /authority-review/evidence` returns the evidence-ready reference
 for that request packet. The reference is stable enough for Linear/GitHub
 comments, but remains a request artifact and always reports `not_approved`.
+Before a matching request is recorded, its next safe action is to request
+authority review; after a matching pending ledger entry exists, it aligns with
+brief and queue surfaces by reporting `await_human_authority_review`.
 
 Daemon `GET /authority-review/queue` returns the public-safe queue item state for
 the request. A queued item means a human review is pending, not approved, and it

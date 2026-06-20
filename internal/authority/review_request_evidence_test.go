@@ -19,6 +19,31 @@ func TestReviewRequestEvidenceIsReadyWithoutApproval(t *testing.T) {
 	if status.ApprovalState != "not_approved" || status.ApprovalGranted {
 		t.Fatalf("approval state = %#v", status)
 	}
+	if status.NextSafeAction != "request_authority_review" {
+		t.Fatalf("next safe action = %q", status.NextSafeAction)
+	}
+}
+
+func TestReviewRequestEvidenceFollowsRecordedReviewPlan(t *testing.T) {
+	plan := ReviewPlan(testPolicy(), Assess(testPolicy(), clearInputs()))
+	if plan.NextSafeAction != "request_authority_review" {
+		t.Fatalf("pre-record plan next action = %q", plan.NextSafeAction)
+	}
+	applyReviewRecordLedger(&plan, ReviewRecordLedgerSummary{
+		Recorded:       true,
+		LedgerState:    "recorded_pending_review",
+		ApprovalState:  "not_approved",
+		LastRecordedAt: "2026-06-20T05:00:00Z",
+	})
+
+	status := ReviewRequestEvidenceFromPlan(plan)
+	if status.NextSafeAction != "await_human_authority_review" {
+		t.Fatalf("recorded evidence next action = %q", status.NextSafeAction)
+	}
+	if status.ApprovalGranted || status.ExternalWritesAllowed ||
+		status.SelfApprovalAllowed {
+		t.Fatalf("recorded evidence granted authority = %#v", status)
+	}
 }
 
 func TestReviewRequestEvidenceRedactsPrivateFields(t *testing.T) {
