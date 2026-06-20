@@ -29,6 +29,7 @@ type AuthorityReviewBrief struct {
 	ApprovalBoundary             AuthorityReviewBoundary     `json:"approval_boundary"`
 	RepoFactoryGate              AuthorityReviewRepoFactory  `json:"repo_factory_gate"`
 	RepoFactoryPreflight         RepoFactoryPreflightSummary `json:"repo_factory_preflight"`
+	LocalRuntime                 LocalRuntimeSummary         `json:"local_runtime"`
 	VisionGoalComplete           bool                        `json:"vision_goal_complete"`
 	VisionNextSafeAction         string                      `json:"vision_next_safe_action"`
 	NextSafeAction               string                      `json:"next_safe_action"`
