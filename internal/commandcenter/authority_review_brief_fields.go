@@ -11,6 +11,8 @@ func authorityReviewBriefPublicSafe(
 		status.AuthorityReview.PublicSafe &&
 		status.WorkItem.PublicSafe &&
 		status.RepoFactory.PublicSafe &&
+		status.RepoFactoryPreflight.PublicSafe &&
+		!status.RepoFactoryPreflight.CreationAllowed &&
 		!status.WorkItem.ApprovalGranted &&
 		!status.WorkItem.ExternalWritesAllowed &&
 		!status.WorkItem.SelfApprovalAllowed

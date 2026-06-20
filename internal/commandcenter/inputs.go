@@ -13,25 +13,26 @@ import (
 )
 
 type inputs struct {
-	Vision              visionPolicy
-	PDCA                pdca.Status
-	Evidence            evidenceStatus
-	EvidenceIntegrity   evidenceIntegrityStatus
-	Incidents           incidents.Status
-	Authority           authorityStatus
-	AuthorityReview     authorityReviewPlanStatus
-	Review              review.Status
-	FinanceConsent      financeconsent.Status
-	Cost                codexcost.Status
-	CostBrief           codexcost.Brief
-	CostScaling         codexcost.ScalingPacket
-	CodexSustainability codexsustainability.Status
-	StorageArchive      storagearchive.Status
-	ContextPack         contextpack.Status
-	MediaReadiness      mediaReadinessStatus
-	MergeEvidence       mergeEvidenceStatus
-	Monetization        monetization.Status
-	RepoFactory         repoFactoryStatus
+	Vision               visionPolicy
+	PDCA                 pdca.Status
+	Evidence             evidenceStatus
+	EvidenceIntegrity    evidenceIntegrityStatus
+	Incidents            incidents.Status
+	Authority            authorityStatus
+	AuthorityReview      authorityReviewPlanStatus
+	Review               review.Status
+	FinanceConsent       financeconsent.Status
+	Cost                 codexcost.Status
+	CostBrief            codexcost.Brief
+	CostScaling          codexcost.ScalingPacket
+	CodexSustainability  codexsustainability.Status
+	StorageArchive       storagearchive.Status
+	ContextPack          contextpack.Status
+	MediaReadiness       mediaReadinessStatus
+	MergeEvidence        mergeEvidenceStatus
+	Monetization         monetization.Status
+	RepoFactory          repoFactoryStatus
+	RepoFactoryPreflight repoFactoryPreflightStatus
 }
 
 func collectInputs(root string) (inputs, error) {

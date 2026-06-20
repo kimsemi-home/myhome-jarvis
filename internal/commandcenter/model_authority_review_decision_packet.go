@@ -22,6 +22,7 @@ type AuthorityReviewDecisionPacket struct {
 	BlockedGateKeys              []string                        `json:"blocked_gate_keys"`
 	ApprovalBoundary             AuthorityReviewBoundary         `json:"approval_boundary"`
 	RepoFactoryGate              AuthorityReviewRepoFactory      `json:"repo_factory_gate"`
+	RepoFactoryPreflight         RepoFactoryPreflightSummary     `json:"repo_factory_preflight"`
 	PublicSafetyPosture          AuthorityReviewPublicSafety     `json:"public_safety_posture"`
 	StorageEvidence              StorageArchiveSummary           `json:"storage_evidence"`
 	DecisionPacketState          string                          `json:"decision_packet_state"`

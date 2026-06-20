@@ -35,6 +35,22 @@ func authorityReviewBriefStatus(policy visionPolicy) Status {
 	}
 	status.RepoFactory.AuthorityReviewRequired = true
 	status.RepoFactory.PublicSafetyEvidenceRequired = true
+	status.RepoFactoryPreflight = RepoFactoryPreflightSummary{
+		PublicSafe:                     true,
+		CreationDecision:               "blocked_pending_review_evidence",
+		CreationAllowed:                false,
+		RepoCreationBlockedUntilReview: true,
+		SelfApprovalAllowed:            false,
+		TemplateReadyCount:             6,
+		TemplateFileCount:              6,
+		GateReadyCount:                 3,
+		CreationGateCount:              5,
+		BlockingGateCount:              2,
+		MissingEvidenceKeys: []string{
+			"authority_review", "public_safety_evidence",
+		},
+		NextSafeAction: "await_human_authority_review",
+	}
 	status.WorkItem = summarizeWorkItem(status)
 	return status
 }

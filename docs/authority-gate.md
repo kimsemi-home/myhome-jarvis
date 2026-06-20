@@ -58,9 +58,10 @@ reviewer identities, or publish raw rationale and evidence.
 
 `mhj authority-review brief` returns the reviewer-facing public handoff for
 gated vision work. It combines the current request, evidence ref, queue state,
-required review classes, command-center work item, repo-factory gate, and next
-safe action. It is only a handoff artifact: approval, external writes, and
-self-approval remain explicitly false.
+required review classes, command-center work item, repo-factory gate,
+repo-factory preflight summary, and next safe action. It is only a handoff
+artifact: approval, external writes, repo creation, and self-approval remain
+explicitly false.
 
 `mhj authority-review decision-packet` returns the public-safe review packet for
 the human decision point. It excludes raw evidence refs and private payloads,
@@ -68,7 +69,10 @@ keeps `review_only` as the packet state, and includes explicit non-granting
 decision options. The packet also includes the redacted storage archive summary
 so reviewers can see that private local logs follow the compress-then-archive
 pattern and that the evidence-noise budget configuration is itself hashed as
-evidence.
+evidence. The repo-factory preflight portion reports creation decision,
+creation allowed, blocking gate count, missing evidence keys, and the preflight
+next safe action without exposing private template payloads or granting repo
+creation.
 
 Daemon `GET /authority-review/request` returns a public-safe request packet with
 a stable request id derived from review classes and counts. It is evidence for a
