@@ -9,7 +9,10 @@
      :expected_host "www.youtube.com")
     (:id "ott_netflix" :capability "ott_launch"
      :command "open_ott" :payload_kind "fixture_service_netflix"
-     :expected_host "www.netflix.com")))
+     :expected_host "www.netflix.com")
+    (:id "playback_readiness" :capability "playback_readiness"
+     :command "open_youtube" :payload_kind "empty"
+     :expected_host "www.youtube.com")))
 
 (defparameter *media-readiness-policy*
   (list :context "MediaReadinessBenchmark"
@@ -25,6 +28,8 @@
         :public_summary_fields #("context" "version" "policy_path"
                                  "benchmark_kind" "case_count"
                                  "available_count" "degraded_count"
+                                 "playback_ready" "playback_case_count"
+                                 "playback_available_count"
                                  "max_planning_latency_ms"
                                  "target_planning_latency_ms"
                                  "local_launcher_available" "cases"

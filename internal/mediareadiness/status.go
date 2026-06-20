@@ -15,14 +15,28 @@ func StatusForRoot(root string) (Status, error) {
 		status.CaseCount++
 		if caseStatus.Available && caseStatus.PlanningLatencyMS <= policy.TargetPlanningLatencyMS {
 			status.AvailableCount++
+			applyPlaybackCase(&status, caseStatus, true)
 		} else {
 			status.DegradedCount++
+			applyPlaybackCase(&status, caseStatus, false)
 		}
 		if caseStatus.PlanningLatencyMS > status.MaxPlanningLatencyMS {
 			status.MaxPlanningLatencyMS = caseStatus.PlanningLatencyMS
 		}
 	}
 	return status, nil
+}
+
+func applyPlaybackCase(status *Status, item CaseStatus, available bool) {
+	if item.Capability != "playback_readiness" {
+		return
+	}
+	status.PlaybackCaseCount++
+	if available {
+		status.PlaybackAvailableCount++
+	}
+	status.PlaybackReady = status.PlaybackCaseCount > 0 &&
+		status.PlaybackAvailableCount == status.PlaybackCaseCount
 }
 
 func newStatus(policy Policy) Status {

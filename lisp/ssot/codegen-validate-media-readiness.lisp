@@ -15,10 +15,11 @@
   (require-command policy "mhj media-readiness status"))
 
 (defun validate-media-readiness-cases (cases)
-  (require-true (and (vectorp cases) (>= (length cases) 3))
-                "Media readiness requires at least three benchmark cases")
+  (require-true (and (vectorp cases) (>= (length cases) 4))
+                "Media readiness requires at least four benchmark cases")
   (let ((ids (loop for index from 0 below (length cases)
                    collect (getf (aref cases index) :id))))
-    (require-members '("youtube_launch" "youtube_search" "ott_netflix")
+    (require-members '("youtube_launch" "youtube_search" "ott_netflix"
+                       "playback_readiness")
                      ids
                      "Media readiness case missing: ~A")))

@@ -22,7 +22,10 @@ func ValidatePolicy(policy Policy) error {
 }
 
 func validateCases(cases []BenchmarkCase) error {
-	required := map[string]bool{"youtube_launch": false, "youtube_search": false, "ott_netflix": false}
+	required := map[string]bool{
+		"youtube_launch": false, "youtube_search": false,
+		"ott_netflix": false, "playback_readiness": false,
+	}
 	for _, item := range cases {
 		if item.ID == "" || item.Capability == "" || item.Command == "" {
 			return fmt.Errorf("media readiness case must declare id, capability, command")

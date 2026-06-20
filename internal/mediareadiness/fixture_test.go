@@ -19,6 +19,7 @@ func testPolicy() Policy {
 			{ID: "youtube_launch", Capability: "youtube_launch", Command: "open_youtube", PayloadKind: "empty", ExpectedHost: "www.youtube.com"},
 			{ID: "youtube_search", Capability: "youtube_search", Command: "open_youtube_search", PayloadKind: "fixture_query", ExpectedHost: "www.youtube.com"},
 			{ID: "ott_netflix", Capability: "ott_launch", Command: "open_ott", PayloadKind: "fixture_service_netflix", ExpectedHost: "www.netflix.com"},
+			{ID: "playback_readiness", Capability: "playback_readiness", Command: "open_youtube", PayloadKind: "empty", ExpectedHost: "www.youtube.com"},
 		},
 		Commands: []string{"mhj media-readiness status"},
 	}
