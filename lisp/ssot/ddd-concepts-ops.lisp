@@ -26,6 +26,12 @@
                 "internal/planner"
                 #("generated/planner.generated.json" "internal/planner/status.go" "internal/orchestrator/checkpoint.go" "docs/closed-loop.md")
                 #("KnowledgeIndex" "LinearWorkQueue" "SecurityPolicy"))
+   (ddd-concept "CodexCostGovernor" "AgentOps" "Policy"
+                "A private usage ledger and public-safe budget status for Codex tokens, coins, actions minutes, and external tool costs."
+                #("codex cost" "cost governor" "codex coin" "usage budget")
+                "internal/codexcost"
+                #("generated/codex_cost.generated.json" "internal/codexcost/status.go" "docs/codex-cost-governor.md")
+                #("ClosedLoopPlanner" "SecurityPolicy" "EvidenceGraph"))
    (ddd-concept "ConceptRegistry" "KnowledgeIndex" "Repository"
                 "The SSOT-owned registry of canonical concepts, aliases, owners, and generated targets."
                 #("concept registry" "canonical concepts" "aliases")

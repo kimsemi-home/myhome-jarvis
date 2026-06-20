@@ -52,6 +52,7 @@
     ("review" ,*review-policy*)
     ("assistant_vision" ,*assistant-vision-policy*)
     ("codex_cost" ,*codex-cost-policy*)
+    ("monetization" ,*monetization-policy*)
     ("authority" ,*authority-policy*)
     ("pdca" ,*pdca-policy*)
     ("code_shape" ,*code-shape-policy*)

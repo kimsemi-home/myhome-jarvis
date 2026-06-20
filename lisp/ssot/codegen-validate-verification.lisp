@@ -16,6 +16,7 @@
 	                     "generated/release_pipeline.generated.json"
 	                     "generated/assistant_vision.generated.json"
 	                     "generated/codex_cost.generated.json"
+	                     "generated/monetization.generated.json"
 	                     "docs/verification-graph.md")
                    (policy-list graph :generated_artifacts)
                    "Verification generated artifact missing: ~A")

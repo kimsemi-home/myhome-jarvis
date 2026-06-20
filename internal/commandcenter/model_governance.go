@@ -29,3 +29,13 @@ type CostSummary struct {
 	ReviewRequiredCount  int    `json:"review_required_count"`
 	MissingEvidenceCount int    `json:"missing_evidence_count"`
 }
+
+type MonetizationSummary struct {
+	ExperimentCount           int `json:"experiment_count"`
+	DecisionCount             int `json:"decision_count"`
+	ReviewRequiredCount       int `json:"review_required_count"`
+	MonetizationDebtCount     int `json:"monetization_debt_count"`
+	MissingEvidenceCount      int `json:"missing_evidence_count"`
+	MissingCostEstimateCount  int `json:"missing_cost_estimate_count"`
+	ExpectedValueUnknownCount int `json:"expected_value_unknown_count"`
+}

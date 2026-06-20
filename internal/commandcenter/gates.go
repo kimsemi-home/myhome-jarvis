@@ -12,6 +12,7 @@ func blockedGates(in inputs) []GateSummary {
 	incidentDebt := in.Incidents.IncidentDebtCount + in.Incidents.StaleQuarantineCount
 	reviewDebt := in.Review.ReviewDebtCount + in.Review.HighRiskOpenCount
 	costDebt := in.Cost.ReviewRequiredCount + in.Cost.MissingEvidenceCount
+	monetizationDebt := in.Monetization.MonetizationDebtCount
 	add(!in.PDCA.Ready, "pdca", "PDCA", "pdca artifacts or cycles are not ready",
 		in.PDCA.MissingArtifactCount+in.PDCA.InvalidCycleCount)
 	add(evidenceDebt > 0, "evidence", "Evidence",
@@ -24,6 +25,8 @@ func blockedGates(in inputs) []GateSummary {
 		in.Review.ActiveRule, reviewDebt)
 	add(in.Cost.BudgetState != "ok" || costDebt > 0, "cost", "Codex Cost",
 		"cost budget or evidence review is required", costDebt)
+	add(monetizationDebt > 0, "monetization", "Monetization",
+		"experiment decisions need evidence, cost, or review closure", monetizationDebt)
 	return gates
 }
 

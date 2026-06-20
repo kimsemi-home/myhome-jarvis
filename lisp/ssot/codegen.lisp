@@ -17,6 +17,7 @@
   (validate-review-policy *review-policy*)
   (validate-assistant-vision-policy *assistant-vision-policy*)
   (validate-codex-cost-policy *codex-cost-policy*)
+  (validate-monetization-policy *monetization-policy*)
   (validate-authority-policy *authority-policy*)
   (validate-pdca-policy *pdca-policy*)
   (validate-linear-policy *linear-policy*)
