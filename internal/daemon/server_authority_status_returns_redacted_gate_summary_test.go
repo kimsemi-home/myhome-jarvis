@@ -27,6 +27,9 @@ func TestAuthorityStatusReturnsRedactedGateSummary(t *testing.T) {
 		`"reasoning_tier_grants_approval": false`,
 		`"self_authority_allowed": false`,
 		`"public_repo_mode": true`,
+		`"profile_count": 6`,
+		`"review_required_profile_count": 4`,
+		`"self_approval_blocked_profile_count": 6`,
 	} {
 		if !bytes.Contains([]byte(body), []byte(expected)) {
 			t.Fatalf("expected %s in %s", expected, body)

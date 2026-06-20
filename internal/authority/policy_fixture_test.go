@@ -24,12 +24,13 @@ func testPolicy() Policy {
 			{Role: "deterministic_verifier", May: []string{"run_checks"}, MustNot: []string{"approve_semantics"}},
 			{Role: "governance_steward", May: []string{"gate_authority"}, MustNot: []string{"solo_major_ontology_change"}},
 		},
-		DomainAttributes:     []string{"agent_reliability", "reasoning_tier", "ontology_maturity", "evidence_quality", "security_impact", "data_sensitivity", "change_risk", "verification_scope", "lease_status", "quarantine_state", "human_review_capacity"},
-		Decisions:            testDecisions(),
-		Outcomes:             []string{"limited", "review_required", "blocked"},
-		AuthorityDebtClasses: []string{"public_safety", "confidence_cap", "evidence_quality", "incident", "control_plane", "translation", "human_review"},
-		PublicSummaryFields:  []string{"policy_path", "outcome", "active_rule", "input_count", "decision_count", "allowed_decision_count", "blocked_decision_count", "authority_debt_count", "public_repo_mode", "reasoning_tier_grants_approval", "self_authority_allowed", "public_safety_ok", "confidence_cap", "evidence_quality_debt_count", "incident_debt_count", "control_plane_debt_count", "translation_debt_count", "human_review_debt_count", "human_review_capacity_state", "allowed_decisions", "blocked_decisions", "by_risk", "checked_at"},
-		Commands:             []string{"mhj authority status"},
+		DomainAttributes:           []string{"agent_reliability", "reasoning_tier", "ontology_maturity", "evidence_quality", "security_impact", "data_sensitivity", "change_risk", "verification_scope", "lease_status", "quarantine_state", "human_review_capacity"},
+		Decisions:                  testDecisions(),
+		AssistantAuthorityProfiles: testProfiles(),
+		Outcomes:                   []string{"limited", "review_required", "blocked"},
+		AuthorityDebtClasses:       []string{"public_safety", "confidence_cap", "evidence_quality", "incident", "control_plane", "translation", "human_review"},
+		PublicSummaryFields:        []string{"policy_path", "outcome", "active_rule", "input_count", "decision_count", "allowed_decision_count", "blocked_decision_count", "authority_debt_count", "public_repo_mode", "reasoning_tier_grants_approval", "self_authority_allowed", "public_safety_ok", "confidence_cap", "evidence_quality_debt_count", "incident_debt_count", "control_plane_debt_count", "translation_debt_count", "human_review_debt_count", "human_review_capacity_state", "allowed_decisions", "blocked_decisions", "by_risk", "profile_count", "review_required_profile_count", "public_safety_gated_profile_count", "self_approval_blocked_profile_count", "profile_keys", "review_required_profiles", "checked_at"},
+		Commands:                   []string{"mhj authority status"},
 	}
 }
 
@@ -47,5 +48,16 @@ func testDecisions() []Decision {
 		{Key: "evidence_pruning", Risk: "high", RequiresHumanReview: true},
 		{Key: "quarantine_release", Risk: "high", RequiresHumanReview: true},
 		{Key: "high_risk_automation", Risk: "high", RequiresHumanReview: true},
+	}
+}
+
+func testProfiles() []AssistantProfile {
+	return []AssistantProfile{
+		{Key: "local_media_concierge", AuthorityProfile: "local_interactive"},
+		{Key: "household_finance_copilot", AuthorityProfile: "finance_review_only", RequiresHumanReview: true},
+		{Key: "shorts_factory_control_plane", AuthorityProfile: "public_repo_review_required", RequiresHumanReview: true, PublicSafetyGateRequired: true, PublicRepoChangeGateRequired: true, WorkflowChangeGateRequired: true, VerifierSeparationRequired: true},
+		{Key: "monetization_console", AuthorityProfile: "monetization_review_required", RequiresHumanReview: true, PublicSafetyGateRequired: true},
+		{Key: "codex_cost_governor", AuthorityProfile: "local_readonly"},
+		{Key: "self_improvement_loop", AuthorityProfile: "authority_gated", RequiresHumanReview: true, PublicSafetyGateRequired: true, WorkflowChangeGateRequired: true, VerifierSeparationRequired: true},
 	}
 }

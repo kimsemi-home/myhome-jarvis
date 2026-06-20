@@ -13,6 +13,7 @@
                 "Public repo mode must block high-risk authority decisions")
   (validate-authority-taxonomy policy)
   (validate-authority-decisions policy)
+  (validate-authority-profiles policy)
   (validate-authority-summary policy)
   (require-command policy "mhj authority status"))
 

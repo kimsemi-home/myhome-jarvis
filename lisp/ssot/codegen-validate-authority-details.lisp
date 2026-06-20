@@ -40,6 +40,10 @@
                      "self_authority_allowed" "public_safety_ok"
                      "confidence_cap" "human_review_debt_count"
                      "human_review_capacity_state" "allowed_decisions"
-                     "blocked_decisions" "checked_at")
+                     "blocked_decisions" "profile_count"
+                     "review_required_profile_count"
+                     "public_safety_gated_profile_count"
+                     "self_approval_blocked_profile_count" "profile_keys"
+                     "review_required_profiles" "checked_at")
                    (policy-list policy :public_summary_fields)
                    "Authority summary missing field: ~A"))

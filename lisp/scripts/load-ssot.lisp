@@ -32,6 +32,7 @@
             "../ssot/codegen-validate-incidents.lisp" "../ssot/codegen-validate-evidence-quality.lisp"
             "../ssot/codegen-validate-review.lisp" "../ssot/codegen-validate-review-details.lisp"
             "../ssot/codegen-validate-authority.lisp" "../ssot/codegen-validate-authority-details.lisp"
+            "../ssot/codegen-validate-authority-profiles.lisp"
             "../ssot/codegen-validate-pdca.lisp" "../ssot/codegen-validate-translation.lisp"
             "../ssot/codegen-validate-linear-planner.lisp" "../ssot/codegen-validate-verification.lisp"
             "../ssot/codegen-json.lisp" "../ssot/codegen-workflow-helpers.lisp"
@@ -55,4 +56,5 @@
 (defun mhj-authority-files ()
   '("../ssot/authority-core.lisp" "../ssot/authority-reasoning.lisp"
     "../ssot/authority-roles.lisp" "../ssot/authority-decisions.lisp"
-    "../ssot/authority-boundary.lisp" "../ssot/authority.lisp"))
+    "../ssot/authority-profiles.lisp" "../ssot/authority-boundary.lisp"
+    "../ssot/authority.lisp"))

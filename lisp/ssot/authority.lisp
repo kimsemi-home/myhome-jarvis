@@ -6,6 +6,7 @@
                 :role_permissions *authority-role-permissions*
                 :domain_attributes *authority-domain-attributes*
                 :decisions *authority-decisions*
+                :assistant_authority_profiles *assistant-authority-profiles*
                 :outcomes *authority-outcomes*
                 :authority_debt_classes *authority-debt-classes*
                 :public_summary_fields *authority-public-summary-fields*

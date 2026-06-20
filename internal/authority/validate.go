@@ -7,6 +7,7 @@ func validatePolicy(policy Policy) error {
 		validatePolicyBasics,
 		validatePolicyRoles,
 		validatePolicyDecisions,
+		validatePolicyProfiles,
 		validatePolicySummary,
 	} {
 		if err := validate(policy); err != nil {

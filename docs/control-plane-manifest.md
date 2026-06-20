@@ -46,6 +46,10 @@ The public status includes only:
 - counts by decision kind, authority profile, and lease status
 - timestamps
 
+Allowed authority profiles include the assistant profile names for local media,
+finance review, public repo factory, monetization review, cost read-only, and
+self-improvement authority-gated loops.
+
 It does not expose raw rationale, candidate agents, evidence refs, output refs,
 prompts, transcripts, Linear URLs, tokens, credentials, local absolute paths,
 account IDs, card numbers, or private evidence contents.
