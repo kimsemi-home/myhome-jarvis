@@ -26,6 +26,8 @@ func testPolicy() Policy {
 		RequiredFields:              requiredRecordFields,
 		AttributionRequiredFields:   requiredAttributionFields,
 		AttributionCostRefInputs:    requiredAttributionCostRefInputs,
+		ROIAcceptedChangeInputs:     requiredROIAcceptedChangeInputs,
+		ROIMergeLogLimit:            200,
 		AttributionSubjectMaxLength: 160,
 		AttributionCostRefMaxLength: 80,
 		AllowedEvidencePrefixes:     []string{"generated/", "docs/", ".github/", "data/private/"},

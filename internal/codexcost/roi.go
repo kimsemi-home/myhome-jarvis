@@ -28,5 +28,6 @@ func ROISummaryForRoot(root string) (ROISummary, error) {
 	if err != nil {
 		return ROISummary{}, err
 	}
-	return buildROISummary(policy, cost, attribution, sustainability, storage), nil
+	merge := mergeAcceptanceForRoot(root, policy)
+	return buildROISummary(policy, cost, attribution, sustainability, storage, merge), nil
 }

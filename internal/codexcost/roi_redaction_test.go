@@ -29,6 +29,7 @@ func TestROISummaryDoesNotExposeRawUsageFields(t *testing.T) {
 		[]byte("subject_key"),
 		[]byte("evidence_refs"),
 		[]byte("raw_prompt"),
+		[]byte("Merge pull request"),
 	} {
 		if bytes.Contains(body, forbidden) {
 			t.Fatalf("roi summary leaked %s in %s", forbidden, body)

@@ -23,6 +23,9 @@
                                         "unit_kind" "amount" "basis"
                                         "evidence_refs")
         :attribution_cost_ref_inputs #("unit_kind" "amount" "evidence_refs")
+        :roi_accepted_change_inputs #("codex_sustainability_ledger"
+                                      "git_merge_commits")
+        :roi_merge_log_limit 200
         :attribution_subject_max_length 160
         :attribution_cost_ref_max_length 80
         :allowed_evidence_prefixes #("generated/" "docs/" "cmd/" "internal/"

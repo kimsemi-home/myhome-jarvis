@@ -46,6 +46,11 @@ var requiredAttributionCostRefInputs = []string{
 	"evidence_refs",
 }
 
+var requiredROIAcceptedChangeInputs = []string{
+	"codex_sustainability_ledger",
+	"git_merge_commits",
+}
+
 var requiredSummaryFields = []string{
 	"record_count",
 	"invalid_record_count",
