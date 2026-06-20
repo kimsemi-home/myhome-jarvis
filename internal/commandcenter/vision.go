@@ -13,8 +13,14 @@ type visionPolicy struct {
 	Version           string         `json:"version"`
 	Mission           string         `json:"mission"`
 	OperatingMode     string         `json:"operating_mode"`
+	UniversalTerms    []visionTerm   `json:"universal_terms"`
 	CapabilityPillars []visionPillar `json:"capability_pillars"`
 	Guardrails        []string       `json:"guardrails"`
+	LinearEpics       []string       `json:"linear_epics"`
+}
+
+type visionTerm struct {
+	Key string `json:"key"`
 }
 
 type visionPillar struct {

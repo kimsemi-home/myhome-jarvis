@@ -9,9 +9,14 @@ type StorageArchiveSummary struct {
 	ArchiveReady              bool     `json:"archive_ready"`
 	NoiseBudgetReady          bool     `json:"noise_budget_ready"`
 	MaxNoiseRatioPercent      int      `json:"max_noise_ratio_percent"`
+	MaxLowSignalRecords       int      `json:"max_low_signal_records_per_window"`
+	NoiseBudgetWindow         string   `json:"noise_budget_window"`
+	DedupeKeyFields           []string `json:"dedupe_key_fields"`
 	ConfigEvidenceField       string   `json:"config_evidence_field"`
+	ConfigHashInputs          []string `json:"config_hash_inputs"`
 	ConfigEvidenceSHA256      string   `json:"config_evidence_sha256"`
 	ConfigIsEvidence          bool     `json:"config_is_evidence"`
+	BreachBlocksArchive       bool     `json:"breach_blocks_archive"`
 	ManifestPresent           bool     `json:"manifest_present"`
 	ManifestEntryCount        int      `json:"manifest_entry_count"`
 	ManifestArchivedCount     int      `json:"manifest_archived_count"`

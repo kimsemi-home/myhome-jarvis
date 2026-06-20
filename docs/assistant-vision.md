@@ -8,6 +8,11 @@ generated artifact is `generated/assistant_vision.generated.json`.
 with ready/gated/blocked pillar counts and pillar keys, so the closed loop can
 see which mission areas are usable, review-gated, or blocked without exposing
 private payloads.
+`mhj assistant vision-audit` is the public-safe completion check for the
+long-running goal. It expands the same vision into per-capability audit rows,
+evidence section refs, gate refs, and a `goal_complete` verdict. The verdict
+stays false until every capability pillar is ready and no command-center gate
+remains open.
 
 ## Universal Language
 
@@ -89,3 +94,23 @@ closed-loop work item using universal-language fields: intent, capability,
 decision, evidence, authority, guardrail, and next safe action. It is a
 public-safe planning card only; it does not grant approval, external writes, or
 self-approval.
+
+## Completion Audit
+
+`mhj assistant vision-audit` reports:
+
+- universal term, Linear epic, and capability requirement counts
+- ready/gated/blocked requirement counts
+- the active next safe action
+- local evidence retention readiness: compress-then-archive mode, gzip
+  compression, private log source count, noise budget, dedupe fields, and
+  config evidence hash
+- one row per capability pillar with evidence refs and gate refs
+
+The audit uses summary refs such as `media_readiness`, `finance_consent`,
+`repo_factory`, `codex_cost`, `storage_archive`, and `authority`. Storage
+archive configuration is itself evidence through `config_evidence_sha256`, and
+archive promotion is blocked when the evidence noise budget is breached. The
+audit does not read or publish raw private ledgers, local absolute paths,
+private Linear URLs, finance payloads, prompts, transcripts, tokens,
+credentials, or secrets.

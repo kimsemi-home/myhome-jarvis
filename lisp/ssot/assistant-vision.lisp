@@ -10,6 +10,8 @@
     (:key "monetization_loop" :meaning "experiment tied to revenue evidence")
     (:key "repo_factory" :meaning "repeatable public-safe repo creation flow")
     (:key "merge_evidence" :meaning "proof that eligible PR work reached main")
+    (:key "evidence_retention" :meaning "local log compression archive lifecycle")
+    (:key "evidence_noise_budget" :meaning "bounded low-signal evidence budget")
     (:key "household_scope" :meaning "user spouse household or shared view")))
 
 (defparameter *assistant-capability-pillars*
@@ -36,7 +38,8 @@
   #("local_first" "public_safe_by_default" "private_data_stays_private"
     "finance_actions_are_review_only" "no_cookie_or_credential_import"
     "no_self_approval" "cost_tracking_before_external_scale"
-    "repo_creation_requires_public_safety_scan"))
+    "repo_creation_requires_public_safety_scan"
+    "evidence_noise_budget_blocks_archive_promotion"))
 
 (defparameter *assistant-linear-epics*
   #("Universal Language and Governance"
@@ -46,6 +49,7 @@
     "Monetization Console"
     "Codex Cost Governor"
     "Self-Improvement Command Center"
+    "Evidence Retention and Noise Budget"
     "Security Privacy and Authority Hardening"))
 
 (defparameter *assistant-vision-policy*
