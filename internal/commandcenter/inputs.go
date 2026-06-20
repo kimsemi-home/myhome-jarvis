@@ -24,6 +24,7 @@ type inputs struct {
 	FinanceConsent      financeconsent.Status
 	Cost                codexcost.Status
 	CostBrief           codexcost.Brief
+	CostScaling         codexcost.ScalingPacket
 	CodexSustainability codexsustainability.Status
 	StorageArchive      storagearchive.Status
 	ContextPack         contextpack.Status
