@@ -30,11 +30,19 @@ func validatePolicy(policy Policy) error {
 	if err := requireAll("required field", policy.RequiredFields, requiredRecordFields); err != nil {
 		return err
 	}
+	if err := requireAll("semantic hash input", policy.SemanticHashInputs, requiredSemanticHashInputs); err != nil {
+		return err
+	}
 	if err := requireAll("public summary", policy.PublicSummaryFields, requiredSummaryFields); err != nil {
 		return err
 	}
-	if !contains(policy.Commands, "mhj codex-cost status") {
-		return fmt.Errorf("codex cost status command is missing")
+	for _, command := range []string{
+		"mhj codex-cost status",
+		"mhj codex-cost record <json-payload>",
+	} {
+		if !contains(policy.Commands, command) {
+			return fmt.Errorf("codex cost command %q is missing", command)
+		}
 	}
 	return nil
 }

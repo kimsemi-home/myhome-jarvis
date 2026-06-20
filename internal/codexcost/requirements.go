@@ -23,6 +23,13 @@ var requiredRecordFields = []string{
 	"evidence_refs",
 }
 
+var requiredSemanticHashInputs = []string{
+	"scope",
+	"unit_kind",
+	"amount",
+	"evidence_refs",
+}
+
 var requiredSummaryFields = []string{
 	"record_count",
 	"invalid_record_count",
