@@ -65,8 +65,9 @@ disabled.
 
 The Local Media Concierge pillar now has a public-safe readiness benchmark.
 `mhj media-readiness status` and daemon `GET /media-readiness/status` report
-YouTube/OTT command-planning latency and availability without recording browsing
-history, cookies, credentials, account identifiers, raw payloads, or raw URLs.
+YouTube/OTT command-planning latency, availability, and playback readiness
+without recording browsing history, cookies, credentials, account identifiers,
+raw payloads, session data, profile identifiers, or raw URLs.
 
 ## Merge Evidence
 

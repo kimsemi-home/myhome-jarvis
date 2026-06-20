@@ -24,7 +24,11 @@ func TestMediaReadinessStatusReturnsRedactedBenchmark(t *testing.T) {
 		t.Fatalf("status = %d body = %s", recorder.Code, recorder.Body.String())
 	}
 	body := recorder.Body.String()
-	for _, expected := range []string{`"context": "MediaReadinessBenchmark"`, `"case_count": 3`} {
+	for _, expected := range []string{
+		`"context": "MediaReadinessBenchmark"`,
+		`"case_count": 4`,
+		`"playback_ready": true`,
+	} {
 		if !strings.Contains(body, expected) {
 			t.Fatalf("missing %s in %s", expected, body)
 		}

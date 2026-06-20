@@ -12,12 +12,13 @@ policy is `generated/media_readiness.generated.json`.
 - YouTube launch command planning.
 - YouTube search command planning with a fixed fixture query.
 - OTT launch command planning through the shared safe OTT target map.
+- Playback readiness as aggregate local planning evidence.
 - Local launcher availability as a coarse platform probe.
 
 The benchmark records case id, capability, command name, availability, planning
 latency, invocation count, expected host, and checked timestamp. It does not
 record browsing history, cookies, credentials, account identifiers, raw payloads,
-or raw URLs.
+session data, profile identifiers, or raw URLs.
 
 ## Evidence Surfaces
 
