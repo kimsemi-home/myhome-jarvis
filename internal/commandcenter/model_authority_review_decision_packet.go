@@ -28,6 +28,7 @@ type AuthorityReviewDecisionPacket struct {
 	LocalRuntime                 LocalRuntimeSummary             `json:"local_runtime"`
 	MergeEvidence                MergeEvidenceSummary            `json:"merge_evidence"`
 	CodexSustainability          CodexSustainabilitySummary      `json:"codex_sustainability"`
+	ContextPack                  ContextPackSummary              `json:"context_pack"`
 	DecisionPacketState          string                          `json:"decision_packet_state"`
 	CanApplyDecision             bool                            `json:"can_apply_decision"`
 	DecisionOptions              []AuthorityReviewDecisionOption `json:"decision_options"`
