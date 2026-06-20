@@ -24,6 +24,9 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 		status.AuthorityReview.HighRiskBlockedDecisionCount != 6 {
 		t.Fatalf("authority review summary = %#v", status.AuthorityReview)
 	}
+	if status.AuthorityReview.RequestID == "" || status.AuthorityReview.RequestState == "" {
+		t.Fatalf("authority review request summary = %#v", status.AuthorityReview)
+	}
 	if !status.MergeEvidence.MergeReady || status.MergeEvidence.RequiredEvidenceCount != 8 {
 		t.Fatalf("merge evidence summary = %#v", status.MergeEvidence)
 	}

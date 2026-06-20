@@ -1,6 +1,8 @@
 package commandcenter
 
 type AuthorityReviewSummary struct {
+	RequestID                       string `json:"request_id"`
+	RequestState                    string `json:"request_state"`
 	PublicSafe                      bool   `json:"public_safe"`
 	ReviewRequestable               bool   `json:"review_requestable"`
 	ReviewCapacityState             string `json:"review_capacity_state"`
