@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
+	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidencequality"
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
 	"github.com/kimsemi-home/myhome-jarvis/internal/pdca"
@@ -18,6 +19,14 @@ func incidentsStatus(root string) error {
 
 func evidenceQualityStatus(root string) error {
 	status, err := evidencequality.StatusForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
+func codexCostStatus(root string) error {
+	status, err := codexcost.StatusForRoot(root)
 	if err != nil {
 		return err
 	}

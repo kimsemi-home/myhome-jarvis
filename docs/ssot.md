@@ -19,6 +19,7 @@ Current SSOT boundaries are intentionally separated by domain:
   cluster policy, Linear workflow rules, and planning metadata.
 - `assistant-vision`: universal language, capability pillars, Linear epics, and
   guardrails for the long-running assistant roadmap.
+- `codex-cost`: private Codex token/coin and paid-loop usage ledger policy.
 - `code-shape`: 75-line source budget, current legacy debt baseline, and
   public-safe code-shape status fields.
 - `learning`: private observation ledger policy for loop gaps and evidence
@@ -80,6 +81,13 @@ intents, capabilities, evidence, decisions, cost units, monetization loops,
 repo factories, and household scopes. It also records the roadmap epics for
 local media, household finance, Shorts Factory repo governance, monetization,
 Codex cost governance, self-improvement, and security hardening.
+
+The Codex Cost Governor SSOT emits `generated/codex_cost.generated.json`. Go
+reads that artifact for `mhj codex-cost status` and daemon
+`GET /codex-cost/status`. The generated policy keeps usage records under
+`data/private`, requires repo-relative evidence refs, treats budget threshold
+crossing as a review signal, and exposes only counts, buckets, thresholds,
+budget state, total units, and timestamps.
 
 The Learning Ledger SSOT emits `generated/learning.generated.json`. Go reads
 that artifact for `mhj learning status`, `mhj learning record`, and daemon

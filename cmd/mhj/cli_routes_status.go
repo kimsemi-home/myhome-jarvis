@@ -25,6 +25,8 @@ func routeStatuses(root string, args []string) (bool, error) {
 		return true, incidentsStatus(root)
 	case "evidence-quality":
 		return true, evidenceQualityStatus(root)
+	case "codex-cost":
+		return true, codexCostStatus(root)
 	case "review":
 		return true, reviewStatus(root)
 	case "authority":

@@ -43,3 +43,10 @@ generated artifact is `generated/assistant_vision.generated.json`.
 - Require public-safety scans before repo creation, generated workflow changes,
   monetization publishing, or external automation.
 - Track cost before scaling external or paid loops.
+
+## Codex Cost Governor
+
+The first implementation is a redacted status surface over a private local
+usage ledger. `mhj codex-cost status` and daemon `GET /codex-cost/status`
+report budget state and aggregate counts without exposing raw prompts,
+transcripts, evidence refs, private notes, tokens, credentials, or local paths.
