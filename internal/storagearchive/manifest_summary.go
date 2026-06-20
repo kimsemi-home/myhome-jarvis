@@ -26,7 +26,11 @@ func readManifestSummary(
 }
 
 func scanManifest(file *os.File) (manifestSummary, error) {
-	summary := manifestSummary{Present: true}
+	summary := manifestSummary{
+		Present:          true,
+		LatestBySource:   map[string]manifestEntry{},
+		ArchivedBySource: map[string]manifestEntry{},
+	}
 	scanner := bufio.NewScanner(file)
 	scanner.Buffer(make([]byte, 0, 64*1024), 1024*1024)
 	for scanner.Scan() {

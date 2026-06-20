@@ -102,6 +102,11 @@ Go daemon read surface:
   closed loop when the archive policy is not public-safe, the noise budget is
   not ready, or the private manifest records invalid rows or budget breaches.
   A missing private manifest alone does not block a fresh clone or CI run.
+  The same summary also exposes per-source `source_health` rows with only source
+  keys, latest state/verdict, record/noise counts, compression ratio, archive
+  evidence presence, hash-cache-key presence, and health debt booleans. It does
+  not expose source paths, archive paths, hashes, raw JSONL rows, or gzip
+  payloads.
 
 Validation:
 

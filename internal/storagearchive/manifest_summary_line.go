@@ -10,6 +10,7 @@ func applyManifestLine(summary *manifestSummary, line string) {
 	}
 	summary.EntryCount++
 	summary.LastEntryAt = latestRFC3339(summary.LastEntryAt, entry.At)
+	recordSourceManifestEntry(summary, entry)
 	if entry.State == "archived" {
 		applyArchivedManifestEntry(summary, entry)
 		return

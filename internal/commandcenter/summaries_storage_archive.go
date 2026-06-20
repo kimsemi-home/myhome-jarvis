@@ -28,5 +28,7 @@ func summarizeStorageArchive(status storagearchive.Status) StorageArchiveSummary
 		ManifestInvalidEntryCount: status.ManifestInvalidEntryCount,
 		ManifestCompressionRatio:  status.ManifestCompressionRatio,
 		ManifestLastArchivedAt:    status.ManifestLastArchivedAt,
+		SourceHealthDebtCount:     status.SourceHealthDebtCount,
+		SourceHealth:              summarizeStorageArchiveSources(status.SourceHealth),
 	}
 }
