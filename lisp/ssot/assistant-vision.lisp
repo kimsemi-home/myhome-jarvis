@@ -5,6 +5,7 @@
     (:key "capability" :meaning "bounded assistant skill with authority rules")
     (:key "evidence" :meaning "repo-relative proof for a claim")
     (:key "decision" :meaning "authority-gated choice with lease and reviewer")
+    (:key "work_item" :meaning "public-safe closed-loop unit of intent and evidence")
     (:key "cost_unit" :meaning "Codex token or paid service usage unit")
     (:key "monetization_loop" :meaning "experiment tied to revenue evidence")
     (:key "repo_factory" :meaning "repeatable public-safe repo creation flow")
@@ -63,4 +64,5 @@
                                  "guardrails" "linear_epics")
         :forbidden_public_fields #("token" "secret" "credential" "cookie"
                                    "account_id" "card_number" "phone" "email"
-                                   "local_absolute_path" "raw_prompt")))
+                                   "local_absolute_path" "raw_prompt"
+                                   "raw_transcript" "reviewer_identity")))
