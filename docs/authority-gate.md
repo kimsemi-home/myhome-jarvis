@@ -62,6 +62,14 @@ required review classes, command-center work item, repo-factory gate, and next
 safe action. It is only a handoff artifact: approval, external writes, and
 self-approval remain explicitly false.
 
+`mhj authority-review decision-packet` returns the public-safe review packet for
+the human decision point. It excludes raw evidence refs and private payloads,
+keeps `review_only` as the packet state, and includes explicit non-granting
+decision options. The packet also includes the redacted storage archive summary
+so reviewers can see that private local logs follow the compress-then-archive
+pattern and that the evidence-noise budget configuration is itself hashed as
+evidence.
+
 Daemon `GET /authority-review/request` returns a public-safe request packet with
 a stable request id derived from review classes and counts. It is evidence for a
 human review request only: it never grants approval, self-authority, or external
@@ -130,6 +138,7 @@ go run ./cmd/mhj review status
 go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
 go run ./cmd/mhj authority-review brief
+go run ./cmd/mhj authority-review decision-packet
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
 go run ./cmd/mhj authority-review queue

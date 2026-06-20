@@ -7,6 +7,8 @@ func routeAuthorityReviewStatus(root string, args []string) (bool, error) {
 	switch args[1] {
 	case "brief":
 		return true, authorityReviewBrief(root)
+	case "decision-packet":
+		return true, authorityReviewDecisionPacket(root)
 	case "request":
 		return true, authorityReviewRequest(root)
 	case "evidence":
@@ -26,6 +28,8 @@ func routeAuthorityReview(root string, args []string) error {
 		switch args[0] {
 		case "brief":
 			return authorityReviewBrief(root)
+		case "decision-packet":
+			return authorityReviewDecisionPacket(root)
 		case "status":
 			return authorityReviewStatus(root)
 		case "request":
