@@ -16,3 +16,14 @@ func (server *Server) handleAuthorityReviewStatus(
 	}
 	return writeJSON(writer, http.StatusOK, status)
 }
+
+func (server *Server) handleAuthorityReviewRequest(
+	writer http.ResponseWriter,
+	request *http.Request,
+) error {
+	packet, err := authority.ReviewRequestPacketForRoot(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, packet)
+}

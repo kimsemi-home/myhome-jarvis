@@ -35,6 +35,7 @@ The generated policy defines:
 ```sh
 go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
+go run ./cmd/mhj authority-review request
 ```
 
 The command reads the generated Authority Gate policy plus redacted status from
@@ -50,6 +51,11 @@ same gate. The plan can show when authority review is requestable, which public
 review classes apply, and profile-level gate counts. It does not approve
 high-risk work, grant self-authority, change external-write permissions, expose
 reviewer identities, or publish raw rationale and evidence.
+
+Daemon `GET /authority-review/request` returns a public-safe request packet with
+a stable request id derived from review classes and counts. It is evidence for a
+human review request only: it never grants approval, self-authority, or external
+write permission.
 
 ## Outcomes
 
@@ -92,6 +98,7 @@ go test ./internal/authority ./internal/daemon ./cmd/mhj ./internal/knowledge
 go run ./cmd/mhj review status
 go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
+go run ./cmd/mhj authority-review request
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
 cd apps/flutter && flutter test test/daemon_client_test.dart test/widget_test.dart
