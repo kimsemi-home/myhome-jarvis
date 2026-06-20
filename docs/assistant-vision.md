@@ -74,7 +74,9 @@ raw payloads, session data, profile identifiers, or raw URLs.
 `mhj merge-evidence status` and daemon `GET /merge-evidence/status` publish the
 redacted policy for merging eligible PR work and proving completion. Future
 loops should treat merged main evidence, not just an open PR, as the normal done
-state when checks and public-safety scans pass.
+state when checks and public-safety scans pass. The policy also requires
+post-merge evidence for the main quality run, Linear completion, private-data
+scan, and merge decision comment.
 
 ## Universal Work Item
 

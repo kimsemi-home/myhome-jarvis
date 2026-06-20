@@ -33,7 +33,10 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 	if status.AuthorityReview.QueueState == "" || status.AuthorityReview.PendingReviewClassCount == 0 {
 		t.Fatalf("authority review queue summary = %#v", status.AuthorityReview)
 	}
-	if !status.MergeEvidence.MergeReady || status.MergeEvidence.RequiredEvidenceCount != 8 {
+	if !status.MergeEvidence.MergeReady ||
+		status.MergeEvidence.RequiredEvidenceCount != 11 ||
+		status.MergeEvidence.MergePreference != "merge_after_checks_pass" ||
+		!status.MergeEvidence.PrivateDataScanRequired {
 		t.Fatalf("merge evidence summary = %#v", status.MergeEvidence)
 	}
 	if status.BlockedGateCount == 0 || status.NextSafeAction == "" {

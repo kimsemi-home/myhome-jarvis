@@ -14,9 +14,15 @@ func statusFromPolicy(policy Policy) Status {
 	keys := gateKeys(policy.Gates)
 	missingGates := missingStrings(keys, requiredGates)
 	missingEvidence := missingStrings(policy.RequiredEvidence, requiredEvidence)
-	publicSafe := policy.PublicStatusRedacted &&
+	publicSafe := policy.DefaultBehavior == "merge_when_eligible" &&
+		policy.MergePreference == "merge_after_checks_pass" &&
+		policy.PublicStatusRedacted &&
 		!policy.MergeWithoutReviewAllowed &&
 		!policy.PersistPrivateEvidence &&
+		policy.PostMergeEvidenceRequired &&
+		policy.LinearCompletionRequired &&
+		policy.MainQualityRunRequired &&
+		policy.PrivateDataScanRequired &&
 		len(missingGates) == 0 &&
 		len(missingEvidence) == 0
 	return Status{
@@ -24,8 +30,13 @@ func statusFromPolicy(policy Policy) Status {
 		Version:                      policy.Version,
 		PolicyPath:                   PolicyRelativePath,
 		DefaultBehavior:              policy.DefaultBehavior,
+		MergePreference:              policy.MergePreference,
 		PublicSafe:                   publicSafe,
 		Redaction:                    "policy-summary-only",
+		PostMergeEvidenceRequired:    policy.PostMergeEvidenceRequired,
+		LinearCompletionRequired:     policy.LinearCompletionRequired,
+		MainQualityRunRequired:       policy.MainQualityRunRequired,
+		PrivateDataScanRequired:      policy.PrivateDataScanRequired,
 		EligibleGateCount:            len(policy.Gates),
 		RequiredEvidenceCount:        len(policy.RequiredEvidence),
 		MissingGateCount:             len(missingGates),

@@ -14,21 +14,32 @@
 
 (defparameter *merge-evidence-required-items*
   #("pr_url" "feature_commit" "merge_commit" "push_quality_run"
-    "pr_quality_run" "main_quality_run" "linear_completion_comment"
-    "public_safety_scan"))
+    "pr_quality_run" "pr_required_checks" "main_quality_run"
+    "linear_completion_comment" "public_safety_scan"
+    "private_data_scan" "merge_decision_comment"))
 
 (defparameter *merge-evidence-policy*
   (list :context "MergeEvidencePolicy"
         :version "v1"
         :generated_artifact "generated/merge_evidence.generated.json"
         :default_behavior "merge_when_eligible"
+        :merge_preference "merge_after_checks_pass"
         :public_status_redacted t
         :merge_without_review_allowed nil
         :persist_private_evidence nil
+        :post_merge_evidence_required t
+        :linear_completion_required t
+        :main_quality_run_required t
+        :private_data_scan_required t
         :gates *merge-evidence-gates*
         :required_evidence *merge-evidence-required-items*
         :public_summary_fields #("context" "version" "policy_path"
-                                 "default_behavior" "eligible_gate_count"
+                                 "default_behavior" "merge_preference"
+                                 "post_merge_evidence_required"
+                                 "linear_completion_required"
+                                 "main_quality_run_required"
+                                 "private_data_scan_required"
+                                 "eligible_gate_count"
                                  "required_evidence_count"
                                  "missing_required_evidence_count"
                                  "merge_ready"
