@@ -1,6 +1,10 @@
 package codexcost
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/kimsemi-home/myhome-jarvis/internal/storagearchive"
+)
 
 func TestROISummaryIncludesKnownScopesAndArchiveEvidence(t *testing.T) {
 	root := t.TempDir()
@@ -10,6 +14,9 @@ func TestROISummaryIncludesKnownScopesAndArchiveEvidence(t *testing.T) {
 	writeStoragePolicy(t, root)
 	writeFile(t, root, "data/private/codex-cost/usage.jsonl",
 		`{"at":"2026-06-19T00:00:00Z","scope":"assistant_loop","unit_kind":"codex_tokens","amount":100,"status":"recorded","evidence_refs":["docs/codex-cost-governor.md"]}`+"\n")
+	if _, err := storagearchive.RunForRoot(root); err != nil {
+		t.Fatal(err)
+	}
 
 	summary, err := ROISummaryForRoot(root)
 	if err != nil {
@@ -20,6 +27,11 @@ func TestROISummaryIncludesKnownScopesAndArchiveEvidence(t *testing.T) {
 	}
 	if !summary.StorageArchiveReady || !summary.NoiseBudgetReady {
 		t.Fatalf("archive evidence = %#v", summary)
+	}
+	if summary.ArchiveManifestEntryCount != 3 ||
+		summary.ArchiveManifestBudgetBreaches != 0 ||
+		summary.ArchiveManifestCompressionRatio <= 0 {
+		t.Fatalf("manifest evidence = %#v", summary)
 	}
 	rows := roiRowsByScope(summary.Rows)
 	if rows["assistant_loop"].Status != "tracked" {

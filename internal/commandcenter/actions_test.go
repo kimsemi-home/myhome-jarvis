@@ -31,3 +31,14 @@ func TestNextSafeActionAwaitsRecordedAuthorityReview(t *testing.T) {
 		t.Fatalf("next safe action = %q", got)
 	}
 }
+
+func TestNextSafeActionRepairsStorageArchiveNoiseBudget(t *testing.T) {
+	status := Status{
+		PublicSafe:   true,
+		BlockedGates: []GateSummary{{Key: "storage_archive"}},
+	}
+
+	if got := nextSafeAction(status); got != "repair_storage_archive_noise_budget" {
+		t.Fatalf("next safe action = %q", got)
+	}
+}

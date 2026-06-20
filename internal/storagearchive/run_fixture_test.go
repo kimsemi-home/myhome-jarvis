@@ -29,6 +29,14 @@ func writePrivateFile(t *testing.T, root string, rel string, body string) {
 	}
 }
 
+func privateQualitySource() domain.PrivateLogSource {
+	return domain.PrivateLogSource{
+		Key:    "quality",
+		Path:   "data/private/quality/runs.jsonl",
+		Format: "jsonl",
+	}
+}
+
 func testStoragePolicy(source domain.PrivateLogSource) domain.StoragePolicy {
 	return domain.StoragePolicy{
 		PrivateLogSources: []domain.PrivateLogSource{source},

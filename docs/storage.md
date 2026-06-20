@@ -64,9 +64,16 @@ Go daemon read surface:
 - `GET /domain/summary` includes the generated storage policy.
 - The endpoint is local read-only and does not read from `data/lake`.
 - `mhj storage-archive status` exposes a redacted summary of the compression
-  lane, archive root, manifest path, source count, and noise budget.
+  lane, archive root, manifest path, source count, noise budget, config
+  evidence hash, and private manifest health. Manifest status is summary-only:
+  entry counts, archived/skipped/breach/invalid counts, compression ratio, and
+  latest archive timestamps are allowed; raw JSONL rows and gzip payloads are
+  not.
 - `mhj codex-cost roi` reuses this redacted archive/noise status so cost
   decisions can verify that local evidence logs are compacted and governed.
+  ROI also reports manifest counts and compression ratio so Codex usage,
+  cache savings, accepted changes, and local archive health are reviewed
+  together.
   The archive source list includes Codex cost attribution records, allowing
   scope-level ROI evidence to be compressed without publishing raw subjects.
   It also includes monetization experiment records, finance consent records, and
@@ -88,6 +95,10 @@ Go daemon read surface:
   `evidence_noise_budget`. That makes the source list, noise threshold, and
   compression/archive settings part of the evidence for each local archive
   decision without publishing the private log body.
+- `mhj assistant status` includes a `storage_archive` summary. It can gate the
+  closed loop when the archive policy is not public-safe, the noise budget is
+  not ready, or the private manifest records invalid rows or budget breaches.
+  A missing private manifest alone does not block a fresh clone or CI run.
 
 Validation:
 

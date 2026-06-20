@@ -9,6 +9,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/monetization"
 	"github.com/kimsemi-home/myhome-jarvis/internal/pdca"
 	"github.com/kimsemi-home/myhome-jarvis/internal/review"
+	"github.com/kimsemi-home/myhome-jarvis/internal/storagearchive"
 )
 
 type inputs struct {
@@ -23,6 +24,7 @@ type inputs struct {
 	FinanceConsent      financeconsent.Status
 	Cost                codexcost.Status
 	CodexSustainability codexsustainability.Status
+	StorageArchive      storagearchive.Status
 	ContextPack         contextpack.Status
 	MediaReadiness      mediaReadinessStatus
 	MergeEvidence       mergeEvidenceStatus
@@ -48,22 +50,7 @@ func collectInputs(root string) (inputs, error) {
 	if err = collectAuthorityInputs(root, &in); err != nil {
 		return inputs{}, err
 	}
-	if in.Review, err = review.StatusForRoot(root); err != nil {
-		return inputs{}, err
-	}
-	if in.FinanceConsent, err = financeconsent.StatusForRoot(root); err != nil {
-		return inputs{}, err
-	}
-	if in.Cost, err = codexcost.StatusForRoot(root); err != nil {
-		return inputs{}, err
-	}
-	if in.CodexSustainability, err = codexsustainability.StatusForRoot(root); err != nil {
-		return inputs{}, err
-	}
-	if in.ContextPack, err = contextpack.StatusForRoot(root); err != nil {
-		return inputs{}, err
-	}
-	if in.Monetization, err = monetization.StatusForRoot(root); err != nil {
+	if err = collectOpsInputs(root, &in); err != nil {
 		return inputs{}, err
 	}
 	if err = collectMediaAndRepoInputs(root, &in); err != nil {
