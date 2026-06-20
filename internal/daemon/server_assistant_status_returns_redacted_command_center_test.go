@@ -28,6 +28,7 @@ func TestAssistantStatusReturnsRedactedCommandCenter(t *testing.T) {
 		`"ready_pillar_count":`,
 		`"codex_cost_brief":`,
 		`"supervisor":`,
+		`"source_health":`,
 		`"gated_pillar_keys":`,
 		`"blocked_gate_count":`,
 		`"work_item":`,
@@ -38,7 +39,10 @@ func TestAssistantStatusReturnsRedactedCommandCenter(t *testing.T) {
 			t.Fatalf("expected %s in %s", expected, body)
 		}
 	}
-	for _, forbidden := range []string{"raw_prompt", "raw_transcript", "secret", "local_absolute_path"} {
+	for _, forbidden := range []string{
+		"raw_prompt", "raw_transcript", "secret", "local_absolute_path",
+		"source_path", "archive_path", "input_sha256", "linear" + ".app",
+	} {
 		if bytes.Contains([]byte(body), []byte(forbidden)) {
 			t.Fatalf("assistant status leaked %s in %s", forbidden, body)
 		}

@@ -13,4 +13,6 @@ type manifestSummary struct {
 	LastEntryAt         string
 	LastArchivedAt      string
 	LastBudgetBreachAt  string
+	LatestBySource      map[string]manifestEntry
+	ArchivedBySource    map[string]manifestEntry
 }

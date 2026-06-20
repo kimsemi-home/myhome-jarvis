@@ -42,7 +42,8 @@ func statusFromPolicy(
 		CompressionArchivePattern:    archive.Mode,
 		CheckedAt:                    time.Now().UTC().Format(time.RFC3339),
 	}
-	return withManifestSummary(status, manifest)
+	status = withManifestSummary(status, manifest)
+	return withSourceHealth(status, policy, manifest)
 }
 
 func privateLogSourceKeys(policy domain.StoragePolicy) []string {
