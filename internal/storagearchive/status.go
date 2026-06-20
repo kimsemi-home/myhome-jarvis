@@ -25,6 +25,7 @@ func StatusForRoot(root string) (Status, error) {
 func statusFromPolicy(policy domain.StoragePolicy) Status {
 	noise := policy.EvidenceNoiseBudget
 	archive := policy.LogArchive
+	evidence := configEvidenceRefForPolicy(policy)
 	publicSafe := !archive.RawPayloadPublicAllowed &&
 		archive.ConfigIsEvidence && noise.Enabled &&
 		noise.BreachBlocksArchive
@@ -43,6 +44,8 @@ func statusFromPolicy(policy domain.StoragePolicy) Status {
 		NoiseBudgetWindow:            noise.Window,
 		DedupeKeyFields:              append([]string{}, noise.DedupeKeyFields...),
 		ConfigEvidenceField:          noise.ConfigEvidenceField,
+		ConfigHashInputs:             append([]string{}, evidence.Inputs...),
+		ConfigEvidenceSHA256:         evidence.SHA256,
 		BreachBlocksArchive:          noise.BreachBlocksArchive,
 		ConfigIsEvidence:             archive.ConfigIsEvidence,
 		RawPayloadPublicAllowed:      archive.RawPayloadPublicAllowed,

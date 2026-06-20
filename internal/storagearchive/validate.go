@@ -28,6 +28,9 @@ func ValidatePolicy(policy domain.StoragePolicy) error {
 	if archive.RawPayloadPublicAllowed || !archive.ConfigIsEvidence {
 		return fmt.Errorf("storage archive redaction policy is invalid")
 	}
+	if !hasHashInputs(archive.ConfigHashInputs) {
+		return fmt.Errorf("storage archive config hash inputs are invalid")
+	}
 	noise := policy.EvidenceNoiseBudget
 	if !noise.Enabled ||
 		!noise.BreachBlocksArchive ||
@@ -37,6 +40,14 @@ func ValidatePolicy(policy domain.StoragePolicy) error {
 		return fmt.Errorf("storage archive noise budget is invalid")
 	}
 	return nil
+}
+
+func hasHashInputs(inputs []string) bool {
+	seen := map[string]bool{}
+	for _, input := range inputs {
+		seen[input] = true
+	}
+	return seen["log_archive"] && seen["evidence_noise_budget"]
 }
 
 func privatePath(path string) bool {

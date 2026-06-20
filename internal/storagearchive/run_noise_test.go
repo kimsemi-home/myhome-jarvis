@@ -27,6 +27,9 @@ func TestRunBlocksArchiveOnNoiseBudgetBreach(t *testing.T) {
 	if entry.BudgetVerdict != "breach" || entry.RawPayloadStored {
 		t.Fatalf("manifest breach entry = %#v", entry)
 	}
+	if entry.ConfigEvidenceSHA256 == "" || entry.CompressionRatioPercent != 0 {
+		t.Fatalf("manifest breach evidence = %#v", entry)
+	}
 	matches, err := filepath.Glob(filepath.Join(root, "data/private/archive/quality-*.jsonl.gz"))
 	if err != nil {
 		t.Fatal(err)

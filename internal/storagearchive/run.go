@@ -19,10 +19,11 @@ func RunForRoot(root string) (RunReport, error) {
 		return RunReport{}, err
 	}
 	now := time.Now().UTC().Format(time.RFC3339)
-	report := newRunReport(policy, now)
+	evidence := configEvidenceRefForPolicy(policy)
+	report := newRunReport(policy, now, evidence)
 	entries := make([]manifestEntry, 0, len(policy.PrivateLogSources))
 	for _, source := range policy.PrivateLogSources {
-		result, entry, err := runSource(root, policy, source, now)
+		result, entry, err := runSource(root, policy, source, now, evidence)
 		if err != nil {
 			return RunReport{}, err
 		}
@@ -41,11 +42,12 @@ func runSource(
 	policy domain.StoragePolicy,
 	source domain.PrivateLogSource,
 	now string,
+	evidence configEvidenceRef,
 ) (RunResult, manifestEntry, error) {
 	path := filepath.Join(root, filepath.FromSlash(source.Path))
 	content, err := os.ReadFile(path)
 	if os.IsNotExist(err) {
-		return skippedResult(source, "missing"), skippedEntry(now, source, "missing"), nil
+		return skippedResult(source, "missing", evidence), skippedEntry(now, source, "missing", evidence), nil
 	}
 	if err != nil {
 		return RunResult{}, manifestEntry{}, err
@@ -55,12 +57,12 @@ func runSource(
 		return RunResult{}, manifestEntry{}, err
 	}
 	if scan.RecordCount == 0 {
-		result, entry := scannedSkip(now, source, "empty", scan)
+		result, entry := scannedSkip(now, source, "empty", scan, evidence)
 		return result, entry, nil
 	}
 	if !scan.BudgetOK && policy.EvidenceNoiseBudget.BreachBlocksArchive {
-		result, entry := scannedSkip(now, source, "budget_breach", scan)
+		result, entry := scannedSkip(now, source, "budget_breach", scan, evidence)
 		return result, entry, nil
 	}
-	return archiveSource(root, policy, source, scan, now)
+	return archiveSource(root, policy, source, scan, now, evidence)
 }

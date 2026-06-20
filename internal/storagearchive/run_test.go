@@ -36,10 +36,19 @@ func TestRunArchivesJSONLAndAppendsManifest(t *testing.T) {
 	if result.State != "archived" || result.ArchivePath == "" || !result.BudgetOK {
 		t.Fatalf("archive result = %#v", result)
 	}
+	if result.CompressionRatioPercent <= 0 || report.CompressionRatioPercent <= 0 {
+		t.Fatalf("compression evidence missing = %#v / %#v", result, report)
+	}
+	if result.ConfigEvidenceSHA256 == "" || report.ConfigEvidenceSHA256 == "" {
+		t.Fatalf("config evidence missing = %#v / %#v", result, report)
+	}
 	assertGzipContains(t, root, result.ArchivePath, `"source":"quality"`)
 	entry := readManifestEntry(t, root, report.ManifestPath)
 	if entry.ArchivePath != result.ArchivePath || entry.RawPayloadStored != true {
 		t.Fatalf("manifest entry = %#v", entry)
+	}
+	if entry.CompressionRatioPercent <= 0 || entry.ConfigEvidenceSHA256 == "" {
+		t.Fatalf("manifest evidence = %#v", entry)
 	}
 	if strings.Contains(mustJSON(t, report), "local-token") {
 		t.Fatalf("public report leaked private marker: %#v", report)
