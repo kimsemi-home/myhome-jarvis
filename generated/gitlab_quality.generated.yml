@@ -37,6 +37,7 @@ ssot:
     - test -s generated/verification_conformance.generated.json
     - test -s generated/verification_tests.generated.json
     - test -s generated/release_pipeline.generated.json
+    - test -s generated/codex_cost.generated.json
     - git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md
   artifacts:
     when: always

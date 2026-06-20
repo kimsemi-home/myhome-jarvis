@@ -1,0 +1,40 @@
+(in-package #:myhome-jarvis.ssot)
+
+(defun validate-codex-cost-policy (policy)
+  (require-string-equal (getf policy :context) "CodexCostGovernor"
+                        "Codex cost policy context mismatch")
+  (require-private-jsonl (getf policy :private_usage_ledger)
+                         "Codex cost ledger must stay private JSONL")
+  (require-true (and (getf policy :append_only)
+                     (getf policy :public_status_redacted))
+                "Codex cost records must be append-only and redacted")
+  (require-false (getf policy :raw_usage_public_allowed)
+                 "Codex cost public status must not expose raw usage")
+  (require-positive-integer (getf policy :warning_unit_threshold)
+                            "Codex cost warning threshold must be positive")
+  (require-positive-integer (getf policy :review_unit_threshold)
+                            "Codex cost review threshold must be positive")
+  (require-true (< (getf policy :warning_unit_threshold)
+                   (getf policy :review_unit_threshold))
+                "Codex cost review threshold must exceed warning threshold")
+  (validate-codex-cost-lists policy)
+  (require-command policy "mhj codex-cost status"))
+
+(defun validate-codex-cost-lists (policy)
+  (require-members '("codex_tokens" "codex_coin" "github_actions_minutes"
+                     "external_tool_cost")
+                   (policy-list policy :unit_kinds)
+                   "Codex cost unit missing: ~A")
+  (require-members '("assistant_loop" "linear_project" "repo"
+                     "monetization_experiment")
+                   (policy-list policy :loop_scopes)
+                   "Codex cost scope missing: ~A")
+  (require-members '("at" "scope" "unit_kind" "amount" "status"
+                     "evidence_refs")
+                   (policy-list policy :required_fields)
+                   "Codex cost required field missing: ~A")
+  (require-members '("record_count" "invalid_record_count" "total_units"
+                     "review_required_count" "missing_evidence_count"
+                     "budget_state" "by_unit_kind" "by_scope" "checked_at")
+                   (policy-list policy :public_summary_fields)
+                   "Codex cost public summary missing: ~A"))

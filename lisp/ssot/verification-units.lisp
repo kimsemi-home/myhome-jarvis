@@ -1,5 +1,4 @@
 (in-package #:myhome-jarvis.ssot)
-
 (defparameter *verification-units*
   #((:id "public-safety" :name "Public safety" :kind "release-check"
      :timeout 10 :setup "go" :history t
@@ -7,8 +6,8 @@
                  "go run ./cmd/mhj security history"))
     (:id "ssot" :name "SSOT and generated artifacts" :kind "conformance"
      :timeout 10 :setup "lisp" :cache "ssot"
-     :hash_inputs #(".github/workflows/quality.yml" "lisp/ssot/**"
-                    "lisp/scripts/**" "generated/**")
+	     :hash_inputs #(".github/workflows/quality.yml" "lisp/ssot/**" "lisp/scripts/**"
+	                    "generated/**")
      :commands #("ros -Q run -- --script lisp/scripts/validate-ssot.lisp"
                  "ros -Q run -- --script lisp/scripts/codegen.lisp"
                  "test -s generated/verification_graph.generated.json"
@@ -23,6 +22,7 @@
                  "test -s generated/verification_conformance.generated.json"
                  "test -s generated/verification_tests.generated.json"
                  "test -s generated/release_pipeline.generated.json"
+                 "test -s generated/codex_cost.generated.json"
                  "git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md"))
     (:id "go" :name "Go daemon and CLI" :kind "unit-test"
      :timeout 10 :setup "go" :cache "go"

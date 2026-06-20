@@ -25,7 +25,7 @@
      :authority "review_required" :evidence "Linear project")
     (:key "codex_cost_governor"
      :features #("usage_ledger" "budget_alert" "roi_review")
-     :authority "local_readonly" :evidence "private cost ledger")
+     :authority "local_readonly" :evidence "generated codex cost policy")
     (:key "self_improvement_loop"
      :features #("pdca" "learning_ledger" "incident_feedback")
      :authority "authority_gated" :evidence "generated pdca")))

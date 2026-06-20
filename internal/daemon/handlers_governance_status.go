@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
+	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 	"github.com/kimsemi-home/myhome-jarvis/internal/controlplane"
 	"github.com/kimsemi-home/myhome-jarvis/internal/evidencequality"
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
@@ -37,6 +38,14 @@ func (server *Server) handleIncidentsStatus(writer http.ResponseWriter, request 
 
 func (server *Server) handleEvidenceQualityStatus(writer http.ResponseWriter, request *http.Request) error {
 	status, err := evidencequality.StatusForRoot(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, status)
+}
+
+func (server *Server) handleCodexCostStatus(writer http.ResponseWriter, request *http.Request) error {
+	status, err := codexcost.StatusForRoot(server.config.Root)
 	if err != nil {
 		return err
 	}

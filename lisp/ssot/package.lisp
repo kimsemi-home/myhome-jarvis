@@ -29,6 +29,7 @@
    #:*evidence-quality-policy*
    #:*review-policy*
    #:*assistant-vision-policy*
+   #:*codex-cost-policy*
    #:*authority-policy*
    #:*pdca-policy*
    #:*code-shape-policy*

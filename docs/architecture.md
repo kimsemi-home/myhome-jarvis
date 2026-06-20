@@ -190,6 +190,14 @@ metric. Private quality snapshots stay under
 `data/private/evidence-quality`; public status exposes only counts, quality and
 mapping buckets, stale thresholds, debt totals, and timestamps.
 
+The first Codex Cost Governor surface makes token, coin, and paid-loop usage a
+private evidence stream. Common Lisp SSOT owns
+`generated/codex_cost.generated.json`, Go exposes `mhj codex-cost status` and
+daemon `GET /codex-cost/status`, and public status shows only aggregate units,
+scope buckets, status buckets, thresholds, budget state, and timestamps. Raw
+prompts, transcripts, private notes, evidence refs, tokens, credentials, and
+local paths remain private.
+
 The first Confidence Assessor surface makes confidence an external cap instead
 of an agent self-report. Common Lisp SSOT owns
 `generated/confidence.generated.json`, Go exposes `mhj confidence status` and
