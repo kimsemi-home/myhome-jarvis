@@ -31,6 +31,7 @@ func TestVerifyReleaseGatesRequireEveryUnit(t *testing.T) {
 
 func TestVerifyGraphCommandsRequireControlPlaneVerifier(t *testing.T) {
 	graph := verificationGraphFile{Units: []verificationUnit{{ID: "go", Commands: []string{
+		"go run ./cmd/mhj ci-cache status",
 		"go run ./cmd/mhj verification verify",
 		"test -s generated/control_plane_verification.generated.json",
 	}}}}

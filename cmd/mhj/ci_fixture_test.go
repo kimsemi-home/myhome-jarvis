@@ -46,6 +46,7 @@ jobs:
         with:
           key: go-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'generated/*.json', 'generated/github_quality_workflow.generated.yml') }}
       - run: go run ./cmd/mhj ci verify
+      - run: go run ./cmd/mhj ci-cache status
       - run: go run ./cmd/mhj verification verify
       - run: go run ./cmd/mhj verification evidence
       - run: go run ./cmd/mhj pdca status
