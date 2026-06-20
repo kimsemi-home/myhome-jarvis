@@ -39,6 +39,7 @@ func testPolicy() Policy {
 			"mhj codex-cost attribute <json-payload>",
 			"mhj codex-cost roi",
 			"mhj codex-cost brief",
+			"mhj codex-cost scaling-packet",
 		},
 	}
 }
