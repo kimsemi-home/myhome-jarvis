@@ -43,13 +43,11 @@ func authorityReviewBriefStatus(policy visionPolicy) Status {
 		SelfApprovalAllowed:            false,
 		TemplateReadyCount:             6,
 		TemplateFileCount:              6,
-		GateReadyCount:                 3,
+		GateReadyCount:                 4,
 		CreationGateCount:              5,
-		BlockingGateCount:              2,
-		MissingEvidenceKeys: []string{
-			"authority_review", "public_safety_evidence",
-		},
-		NextSafeAction: "await_human_authority_review",
+		BlockingGateCount:              1,
+		MissingEvidenceKeys:            []string{"authority_review"},
+		NextSafeAction:                 "await_human_authority_review",
 	}
 	status.WorkItem = summarizeWorkItem(status)
 	return status

@@ -1,6 +1,10 @@
 package repofactory
 
-func packetGates(status Status, gates []CreationGate) []GateEvidence {
+func packetGates(
+	status Status,
+	gates []CreationGate,
+	safety PublicSafetyEvidence,
+) []GateEvidence {
 	evidence := make([]GateEvidence, 0, len(gates))
 	for _, gate := range gates {
 		evidence = append(evidence, GateEvidence{
@@ -8,13 +12,17 @@ func packetGates(status Status, gates []CreationGate) []GateEvidence {
 			Required:           gate.Required,
 			BlocksRepoCreation: gate.BlocksRepoCreation,
 			EvidenceKind:       gate.Evidence,
-			State:              packetGateState(status, gate),
+			State:              packetGateState(status, gate, safety),
 		})
 	}
 	return evidence
 }
 
-func packetGateState(status Status, gate CreationGate) string {
+func packetGateState(
+	status Status,
+	gate CreationGate,
+	safety PublicSafetyEvidence,
+) string {
 	switch gate.Key {
 	case "generated_ci":
 		return readyIf(status.GeneratedCIPresent)
@@ -25,7 +33,7 @@ func packetGateState(status Status, gate CreationGate) string {
 	case "authority_review":
 		return "blocked_pending_human_review"
 	case "public_safety_evidence":
-		return "required_before_creation"
+		return safety.EvidenceState
 	default:
 		if gate.Required {
 			return "required_before_creation"

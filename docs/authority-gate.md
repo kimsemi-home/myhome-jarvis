@@ -72,7 +72,9 @@ pattern and that the evidence-noise budget configuration is itself hashed as
 evidence. The repo-factory preflight portion reports creation decision,
 creation allowed, blocking gate count, missing evidence keys, and the preflight
 next safe action without exposing private template payloads or granting repo
-creation.
+creation. When public-safety checks are green, the preflight summary should
+show `public_safety_evidence` as ready so human authority review remains the
+visible repo-creation blocker.
 
 Daemon `GET /authority-review/request` returns a public-safe request packet with
 a stable request id derived from review classes and counts. It is evidence for a

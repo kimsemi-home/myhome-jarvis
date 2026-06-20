@@ -49,6 +49,12 @@ approval. It lists template evidence, gate evidence, missing review evidence,
 and the next safe action while keeping `creation_allowed` false until human
 authority review and public-safety evidence are recorded.
 
+The packet also reads the redacted public-safety status. When `mhj security
+check` and `mhj security history` both pass, the `public_safety_evidence` gate
+is marked `ready`; raw findings, cache keys, local paths, and credentials are
+not printed. Repo creation still stays blocked until human authority review is
+approved separately.
+
 If a generated policy ever contains a forbidden template value, the packet
 marks the affected template as invalid and redacts the value instead of
 printing local paths, private owner markers, credentials, or other private

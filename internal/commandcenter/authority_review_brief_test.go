@@ -39,8 +39,9 @@ func TestAuthorityReviewBriefSummarizesGatedHandoff(t *testing.T) {
 		t.Fatalf("approval boundary = %#v", brief)
 	}
 	if brief.RepoFactoryPreflight.CreationAllowed ||
-		brief.RepoFactoryPreflight.BlockingGateCount != 2 ||
-		!containsString(brief.RepoFactoryPreflight.MissingEvidenceKeys, "authority_review") {
+		brief.RepoFactoryPreflight.BlockingGateCount != 1 ||
+		!containsString(brief.RepoFactoryPreflight.MissingEvidenceKeys, "authority_review") ||
+		containsString(brief.RepoFactoryPreflight.MissingEvidenceKeys, "public_safety_evidence") {
 		t.Fatalf("repo factory preflight = %#v", brief.RepoFactoryPreflight)
 	}
 }
