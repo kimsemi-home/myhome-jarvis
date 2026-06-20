@@ -29,8 +29,10 @@ func testPolicy() Policy {
 		AssistantAuthorityProfiles: testProfiles(),
 		Outcomes:                   []string{"limited", "review_required", "blocked"},
 		AuthorityDebtClasses:       []string{"public_safety", "confidence_cap", "evidence_quality", "incident", "control_plane", "translation", "human_review"},
+		PrivateReviewRequestLedger: "data/private/authority-review/requests.jsonl",
+		ReviewRecordRequiredFields: []string{"request_id", "evidence_ref", "queue_item_ref", "queue_state", "required_review_classes", "approval_granted", "external_writes_allowed", "self_approval_allowed"},
 		PublicSummaryFields:        []string{"policy_path", "outcome", "active_rule", "input_count", "decision_count", "allowed_decision_count", "blocked_decision_count", "authority_debt_count", "public_repo_mode", "reasoning_tier_grants_approval", "self_authority_allowed", "public_safety_ok", "confidence_cap", "evidence_quality_debt_count", "incident_debt_count", "control_plane_debt_count", "translation_debt_count", "human_review_debt_count", "human_review_capacity_state", "allowed_decisions", "blocked_decisions", "by_risk", "profile_count", "review_required_profile_count", "public_safety_gated_profile_count", "self_approval_blocked_profile_count", "profile_keys", "review_required_profiles", "checked_at"},
-		Commands:                   []string{"mhj authority status", "mhj authority-review status", "mhj authority-review request", "mhj authority-review evidence", "mhj authority-review queue"},
+		Commands:                   []string{"mhj authority status", "mhj authority-review status", "mhj authority-review request", "mhj authority-review evidence", "mhj authority-review queue", "mhj authority-review record <json-payload>"},
 	}
 }
 

@@ -38,6 +38,7 @@ go run ./cmd/mhj authority-review status
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
 go run ./cmd/mhj authority-review queue
+go run ./cmd/mhj authority-review record '<json-payload>'
 ```
 
 The command reads the generated Authority Gate policy plus redacted status from
@@ -66,6 +67,15 @@ comments, but remains a request artifact and always reports `not_approved`.
 Daemon `GET /authority-review/queue` returns the public-safe queue item state for
 the request. A queued item means a human review is pending, not approved, and it
 does not enable external writes or self-approval.
+
+`mhj authority-review record <json-payload>` appends the current request to
+`data/private/authority-review/requests.jsonl`. The payload must echo the
+current request id, evidence ref, queue item ref, queue state, required review
+classes, and explicit `false` values for approval, external writes, and
+self-approval. The public command output is summary-only: it reports the request
+id, queue state, class count, approval state, and private ledger state, but does
+not expose evidence refs or queue item refs. Recording a request is not an
+approval and does not unlock repo creation, external writes, or self-approval.
 
 ## Outcomes
 
@@ -111,6 +121,7 @@ go run ./cmd/mhj authority-review status
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
 go run ./cmd/mhj authority-review queue
+go run ./cmd/mhj authority-review record '<json-payload>'
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
 cd apps/flutter && flutter test test/daemon_client_test.dart test/widget_test.dart

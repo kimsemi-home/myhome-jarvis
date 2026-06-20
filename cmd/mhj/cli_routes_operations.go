@@ -26,6 +26,8 @@ func routeOperations(root string, args []string) (bool, error) {
 		return true, routeStorageArchive(root, args[1:])
 	case "monetization":
 		return true, routeMonetization(root, args[1:])
+	case "authority-review":
+		return true, routeAuthorityReview(root, args[1:])
 	case "benchmark":
 		return true, requireSubcommand(args, "smoke", func() error { return runBenchmarkSmoke(root) })
 	case "quality":
