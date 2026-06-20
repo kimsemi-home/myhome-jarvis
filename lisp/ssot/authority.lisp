@@ -14,4 +14,5 @@
                 :commands #("mhj authority status"
                             "mhj authority-review status"
                             "mhj authority-review request"
-                            "mhj authority-review evidence"))))
+                            "mhj authority-review evidence"
+                            "mhj authority-review queue"))))

@@ -38,3 +38,14 @@ func (server *Server) handleAuthorityReviewEvidence(
 	}
 	return writeJSON(writer, http.StatusOK, status)
 }
+
+func (server *Server) handleAuthorityReviewQueue(
+	writer http.ResponseWriter,
+	request *http.Request,
+) error {
+	status, err := authority.ReviewQueueStatusForRoot(server.config.Root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(writer, http.StatusOK, status)
+}
