@@ -23,6 +23,16 @@ var requiredRecordFields = []string{
 	"evidence_refs",
 }
 
+var requiredAttributionFields = []string{
+	"at",
+	"scope",
+	"subject_key",
+	"unit_kind",
+	"amount",
+	"basis",
+	"evidence_refs",
+}
+
 var requiredSemanticHashInputs = []string{
 	"scope",
 	"unit_kind",

@@ -13,6 +13,7 @@ func writeStoragePolicy(t *testing.T, root string) {
 	policy := domain.StoragePolicy{
 		PrivateLogSources: []domain.PrivateLogSource{
 			{Key: "codex_cost", Path: "data/private/codex-cost/usage.jsonl", Format: "jsonl"},
+			{Key: "codex_cost_attribution", Path: "data/private/codex-cost/attribution.jsonl", Format: "jsonl"},
 			{Key: "codex_sustainability", Path: "data/private/codex-sustainability/evidence.jsonl", Format: "jsonl"},
 		},
 		LogArchive: domain.LogArchivePolicy{

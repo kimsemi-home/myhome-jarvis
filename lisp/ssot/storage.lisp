@@ -18,6 +18,9 @@
            :format "jsonl")
           (:key "codex_cost" :path "data/private/codex-cost/usage.jsonl"
            :format "jsonl")
+          (:key "codex_cost_attribution"
+           :path "data/private/codex-cost/attribution.jsonl"
+           :format "jsonl")
           (:key "codex_sustainability"
            :path "data/private/codex-sustainability/evidence.jsonl"
            :format "jsonl"))
