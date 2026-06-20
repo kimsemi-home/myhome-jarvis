@@ -39,6 +39,8 @@ func routeStatuses(root string, args []string) (bool, error) {
 		return true, pdcaStatus(root)
 	case "repo":
 		return true, repoStatus(root)
+	case "repo-factory":
+		return true, repoFactoryStatus(root)
 	case "planner":
 		return true, plannerStatus(root)
 	case "quality":

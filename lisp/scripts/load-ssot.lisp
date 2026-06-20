@@ -18,7 +18,8 @@
             "../ssot/confidence.lisp" "../ssot/translation.lisp" "../ssot/control-plane.lisp"
             "../ssot/incidents.lisp" "../ssot/evidence-quality.lisp" "../ssot/review.lisp"
             "../ssot/assistant-vision.lisp" "../ssot/codex-cost.lisp"
-            "../ssot/monetization.lisp")
+            "../ssot/monetization.lisp" "../ssot/repo-factory-template.lisp"
+            "../ssot/repo-factory.lisp")
           (mhj-authority-files)
           '("../ssot/pdca.lisp" "../ssot/code-shape.lisp"
             "../ssot/linear.lisp" "../ssot/planner.lisp" "../ssot/verification-units.lisp"
@@ -28,6 +29,7 @@
             "../ssot/codegen-validate-assistant-vision.lisp"
             "../ssot/codegen-validate-codex-cost.lisp"
             "../ssot/codegen-validate-monetization.lisp"
+            "../ssot/codegen-validate-repo-factory.lisp"
             "../ssot/codegen-validate-shape-learning.lisp" "../ssot/codegen-validate-evidence.lisp"
             "../ssot/codegen-validate-confidence.lisp" "../ssot/codegen-validate-ddd-core.lisp"
             "../ssot/codegen-validate-ddd-links.lisp" "../ssot/codegen-validate-control.lisp"

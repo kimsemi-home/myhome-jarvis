@@ -32,6 +32,12 @@
                 "internal/codexcost"
                 #("generated/codex_cost.generated.json" "internal/codexcost/status.go" "docs/codex-cost-governor.md")
                 #("ClosedLoopPlanner" "SecurityPolicy" "EvidenceGraph"))
+   (ddd-concept "PublicSafeRepoFactory" "AgentOps" "Policy"
+                "The SSOT template and authority-gated bootstrap contract for creating public Shorts Factory repos and Codex projects."
+                #("repo factory" "shorts repo" "codex project bootstrap" "public repo template")
+                "internal/repofactory"
+                #("generated/repo_factory.generated.json" "internal/repofactory/status.go" "docs/repo-factory.md")
+                #("SecurityPolicy" "AuthorityGate" "EvidenceGraph" "CodexCostGovernor"))
    (ddd-concept "ConceptRegistry" "KnowledgeIndex" "Repository"
                 "The SSOT-owned registry of canonical concepts, aliases, owners, and generated targets."
                 #("concept registry" "canonical concepts" "aliases")

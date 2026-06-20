@@ -39,3 +39,16 @@ type MonetizationSummary struct {
 	MissingCostEstimateCount  int `json:"missing_cost_estimate_count"`
 	ExpectedValueUnknownCount int `json:"expected_value_unknown_count"`
 }
+
+type RepoFactorySummary struct {
+	PublicSafe                     bool `json:"public_safe"`
+	TemplateFileCount              int  `json:"template_file_count"`
+	CreationGateCount              int  `json:"creation_gate_count"`
+	BootstrapCheckCount            int  `json:"bootstrap_check_count"`
+	AuthorityReviewRequired        bool `json:"authority_review_required"`
+	PublicSafetyEvidenceRequired   bool `json:"public_safety_evidence_required"`
+	MissingTemplateRoleCount       int  `json:"missing_template_role_count"`
+	MissingCreationGateCount       int  `json:"missing_creation_gate_count"`
+	ForbiddenTemplateValueCount    int  `json:"forbidden_template_value_count"`
+	RepoCreationBlockedUntilReview bool `json:"repo_creation_blocked_until_review"`
+}

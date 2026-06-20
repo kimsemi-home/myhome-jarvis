@@ -13,6 +13,7 @@ type Status struct {
 	Review           ReviewSummary       `json:"review"`
 	Cost             CostSummary         `json:"cost"`
 	Monetization     MonetizationSummary `json:"monetization"`
+	RepoFactory      RepoFactorySummary  `json:"repo_factory"`
 	BlockedGateCount int                 `json:"blocked_gate_count"`
 	BlockedGates     []GateSummary       `json:"blocked_gates"`
 	NextSafeAction   string              `json:"next_safe_action"`

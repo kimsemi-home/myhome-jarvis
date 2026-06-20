@@ -21,6 +21,7 @@ Generated artifacts:
 - `generated/assistant_vision.generated.json`
 - `generated/codex_cost.generated.json`
 - `generated/monetization.generated.json`
+- `generated/repo_factory.generated.json`
 - `docs/verification-graph.md`
 
 Backends:

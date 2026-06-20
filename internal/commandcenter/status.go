@@ -20,6 +20,7 @@ func StatusForRoot(root string) (Status, error) {
 		Review:       summarizeReview(in.Review),
 		Cost:         summarizeCost(in.Cost),
 		Monetization: summarizeMonetization(in.Monetization),
+		RepoFactory:  summarizeRepoFactory(in.RepoFactory),
 		CheckedAt:    time.Now().UTC().Format(time.RFC3339),
 	}
 	status.BlockedGates = blockedGates(in)
