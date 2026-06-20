@@ -17,6 +17,9 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 	if !status.PDCA.Ready || status.Cost.BudgetState != "ok" {
 		t.Fatalf("pdca/cost summary = %#v %#v", status.PDCA, status.Cost)
 	}
+	if !status.EvidenceIntegrity.PublicSafe || status.EvidenceIntegrity.NextSafeAction == "" {
+		t.Fatalf("evidence integrity summary = %#v", status.EvidenceIntegrity)
+	}
 	if !status.MergeEvidence.MergeReady || status.MergeEvidence.RequiredEvidenceCount != 8 {
 		t.Fatalf("merge evidence summary = %#v", status.MergeEvidence)
 	}

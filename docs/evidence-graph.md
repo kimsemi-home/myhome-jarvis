@@ -20,17 +20,24 @@ The policy declares:
 - allowed evidence ref prefixes
 - public redaction fields
 - the `mhj evidence status` command
+- the `mhj evidence-integrity status` command
 
 ## Commands
 
 ```sh
 go run ./cmd/mhj evidence status
+go run ./cmd/mhj evidence-integrity status
 ```
 
 The command reads private evidence sources such as the Learning Ledger, quality
 runs, checkpoints, Control Plane manifests, Incident Lifecycle records,
 Evidence Quality snapshots, Linear write evidence, and command intent audit
 journal. It returns a redacted graph summary only.
+
+The integrity command reads Learning Ledger evidence refs and reports checked,
+present, and dangling counts by allowed repo-relative prefix. It does not return
+exact evidence refs, raw observation summaries, private next actions, prompts,
+transcripts, tokens, credentials, account identifiers, or local absolute paths.
 
 ## Daemon Status
 
@@ -50,6 +57,10 @@ It does not expose raw summaries, next actions, evidence ref strings, tokens,
 credentials, local absolute paths, prompts, transcripts, account IDs, card
 numbers, or private evidence contents.
 
+`GET /evidence-integrity/status` is also read-only. It exposes only aggregate
+integrity counts and prefix-level counts so the command center can decide when
+`repair_private_learning_refs` is the next safe action.
+
 ## Validation
 
 Use these checks after changing the graph:
@@ -57,6 +68,7 @@ Use these checks after changing the graph:
 ```sh
 go test ./internal/evidence ./internal/daemon ./cmd/mhj ./internal/knowledge
 go run ./cmd/mhj evidence status
+go run ./cmd/mhj evidence-integrity status
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
 cd apps/flutter && flutter test test/daemon_client_test.dart test/widget_test.dart

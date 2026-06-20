@@ -15,6 +15,14 @@ func evidenceStatus(root string) error {
 	return writeJSON(status)
 }
 
+func evidenceIntegrityStatus(root string) error {
+	status, err := evidence.IntegrityForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}
+
 func confidenceStatus(root string) error {
 	status, err := confidence.StatusForRoot(root)
 	if err != nil {
