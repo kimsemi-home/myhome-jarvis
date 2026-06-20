@@ -18,6 +18,8 @@ func blockedGates(in inputs) []GateSummary {
 	}
 	codexSustainabilityDebt := in.CodexSustainability.ReviewGateCount
 	storageArchiveDebt := storageArchiveDebtCount(in.StorageArchive)
+	localRuntimeDebt := summarizeLocalRuntime(summarizeSupervisor(in.Supervisor)).
+		HealthDebtCount
 	contextPackDebt := contextPackDebtCount(in.ContextPack)
 	monetizationDebt := in.Monetization.MonetizationDebtCount
 	repoFactoryDebt := in.RepoFactory.MissingTemplateRoleCount +
@@ -48,6 +50,8 @@ func blockedGates(in inputs) []GateSummary {
 	add(storageArchiveDebt > 0, "storage_archive", "Storage Archive",
 		"local archive policy, manifest, or noise budget needs repair",
 		storageArchiveDebt)
+	add(localRuntimeDebt > 0, "local_runtime", "Local Runtime",
+		"local daemon supervisor is stale or unreachable", localRuntimeDebt)
 	add(!in.ContextPack.PublicSafe, "context_pack", "Context Pack",
 		"cross-repo context, ontology, or authority handoff is incomplete",
 		contextPackDebt)

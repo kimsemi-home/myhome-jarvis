@@ -54,7 +54,8 @@ func visionPillarReadiness(key string, status Status) string {
 		}
 		return "gated"
 	case "self_improvement_loop":
-		if !status.PDCA.Ready || status.Incidents.IncidentDebtCount > 0 {
+		if !status.PDCA.Ready || status.Incidents.IncidentDebtCount > 0 ||
+			status.LocalRuntime.HealthDebtCount > 0 {
 			return "blocked"
 		}
 		if authorityBlocked(status.Authority.Outcome) || status.Review.ReviewDebtCount > 0 {

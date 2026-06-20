@@ -20,6 +20,7 @@ type Status struct {
 	CodexSustainability  CodexSustainabilitySummary  `json:"codex_sustainability"`
 	StorageArchive       StorageArchiveSummary       `json:"storage_archive"`
 	Supervisor           SupervisorSummary           `json:"supervisor"`
+	LocalRuntime         LocalRuntimeSummary         `json:"local_runtime"`
 	ContextPack          ContextPackSummary          `json:"context_pack"`
 	MediaReadiness       MediaReadinessSummary       `json:"media_readiness"`
 	MergeEvidence        MergeEvidenceSummary        `json:"merge_evidence"`

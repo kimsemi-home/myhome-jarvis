@@ -45,6 +45,13 @@ center: repo-relative state path, recorded/stale booleans, process/probe
 booleans, and message. Detailed pid, address, and probe URL fields stay on
 `mhj daemon status`.
 
+The command center also derives `local_runtime` health from the supervisor
+summary. When the daemon state is missing, stale, not running, or not reachable,
+the assistant raises a public-safe `local_runtime` gate and chooses
+`repair_local_runtime_health` as the next safe action. The universal work item
+then points at `local_runtime:supervisor` evidence while keeping approval,
+external writes, and self-approval disabled.
+
 The health probe does not attach bearer tokens. LAN daemon supervision can
 still use the recorded process metadata even if an unauthenticated health probe
 is rejected.

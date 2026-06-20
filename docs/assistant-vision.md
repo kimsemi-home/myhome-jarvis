@@ -25,6 +25,9 @@ remains open.
 - `monetization_loop`: experiment tied to revenue evidence.
 - `repo_factory`: repeatable public-safe repo creation flow.
 - `merge_evidence`: proof that eligible PR work reached main.
+- `evidence_retention`: local log compression archive lifecycle.
+- `evidence_noise_budget`: bounded low-signal evidence budget.
+- `local_runtime_health`: daemon supervisor reachability evidence.
 - `household_scope`: user, spouse, household, or shared view.
 
 ## Epics
@@ -54,6 +57,8 @@ remains open.
 - Require public-safety scans before repo creation, generated workflow changes,
   monetization publishing, or external automation.
 - Track cost before scaling external or paid loops.
+- Treat stale local daemon supervision as runtime health debt before scaling
+  external or higher-risk automation.
 
 ## Codex Cost Governor
 
@@ -95,6 +100,16 @@ decision, evidence, authority, guardrail, and next safe action. It is a
 public-safe planning card only; it does not grant approval, external writes, or
 self-approval.
 
+## Local Runtime Health
+
+`mhj assistant status` promotes the compact supervisor summary into
+`local_runtime` health evidence. Missing, stale, non-running, or unreachable
+daemon supervisor state creates a `local_runtime` gate with
+`repair_local_runtime_health` as the safe next action. This gate is
+public-safe: it exposes only booleans, a repo-relative evidence ref, debt count,
+and summary message. It does not expose process command lines, local absolute
+paths, tokens, probe URLs, or request payloads.
+
 ## Completion Audit
 
 `mhj assistant vision-audit` reports:
@@ -105,6 +120,7 @@ self-approval.
 - local evidence retention readiness: compress-then-archive mode, gzip
   compression, private log source count, noise budget, dedupe fields, and
   config evidence hash
+- local runtime health evidence for the self-improvement loop
 - one row per capability pillar with evidence refs and gate refs
 
 The audit uses summary refs such as `media_readiness`, `finance_consent`,
