@@ -11,6 +11,7 @@ type Status struct {
 	EvidenceIntegrity   EvidenceIntegritySummary   `json:"evidence_integrity"`
 	Incidents           IncidentSummary            `json:"incidents"`
 	Authority           AuthoritySummary           `json:"authority"`
+	AuthorityReview     AuthorityReviewSummary     `json:"authority_review"`
 	Review              ReviewSummary              `json:"review"`
 	FinanceConsent      FinanceConsentSummary      `json:"finance_consent"`
 	Cost                CostSummary                `json:"cost"`
