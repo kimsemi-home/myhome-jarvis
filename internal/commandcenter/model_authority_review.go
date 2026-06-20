@@ -6,6 +6,9 @@ type AuthorityReviewSummary struct {
 	EvidenceRef                     string `json:"evidence_ref"`
 	EvidenceState                   string `json:"evidence_state"`
 	EvidenceReady                   bool   `json:"evidence_ready"`
+	QueueState                      string `json:"queue_state"`
+	QueueReady                      bool   `json:"queue_ready"`
+	PendingReviewClassCount         int    `json:"pending_review_class_count"`
 	PublicSafe                      bool   `json:"public_safe"`
 	ReviewRequestable               bool   `json:"review_requestable"`
 	ReviewCapacityState             string `json:"review_capacity_state"`

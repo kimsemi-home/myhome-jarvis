@@ -37,6 +37,7 @@ go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
+go run ./cmd/mhj authority-review queue
 ```
 
 The command reads the generated Authority Gate policy plus redacted status from
@@ -61,6 +62,10 @@ write permission.
 Daemon `GET /authority-review/evidence` returns the evidence-ready reference
 for that request packet. The reference is stable enough for Linear/GitHub
 comments, but remains a request artifact and always reports `not_approved`.
+
+Daemon `GET /authority-review/queue` returns the public-safe queue item state for
+the request. A queued item means a human review is pending, not approved, and it
+does not enable external writes or self-approval.
 
 ## Outcomes
 
@@ -105,6 +110,7 @@ go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
+go run ./cmd/mhj authority-review queue
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
 cd apps/flutter && flutter test test/daemon_client_test.dart test/widget_test.dart
