@@ -38,6 +38,11 @@ func TestAuthorityReviewBriefSummarizesGatedHandoff(t *testing.T) {
 		brief.ApprovalBoundary.SelfApprovalAllowed {
 		t.Fatalf("approval boundary = %#v", brief)
 	}
+	if brief.RepoFactoryPreflight.CreationAllowed ||
+		brief.RepoFactoryPreflight.BlockingGateCount != 2 ||
+		!containsString(brief.RepoFactoryPreflight.MissingEvidenceKeys, "authority_review") {
+		t.Fatalf("repo factory preflight = %#v", brief.RepoFactoryPreflight)
+	}
 }
 
 func TestAuthorityReviewBriefDoesNotExposePrivatePayloadFields(t *testing.T) {

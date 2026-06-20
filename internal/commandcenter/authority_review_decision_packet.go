@@ -43,6 +43,7 @@ func authorityReviewDecisionPacketFromStatus(
 		BlockedGateKeys:              append([]string{}, brief.BlockedGateKeys...),
 		ApprovalBoundary:             brief.ApprovalBoundary,
 		RepoFactoryGate:              brief.RepoFactoryGate,
+		RepoFactoryPreflight:         brief.RepoFactoryPreflight,
 		PublicSafetyPosture:          authorityReviewPublicSafety(status),
 		StorageEvidence:              status.StorageArchive,
 		DecisionPacketState:          "review_only",

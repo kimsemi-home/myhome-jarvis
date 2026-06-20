@@ -9,6 +9,7 @@ import (
 type mediaReadinessStatus = mediareadiness.Status
 type mergeEvidenceStatus = mergeevidence.Status
 type repoFactoryStatus = repofactory.Status
+type repoFactoryPreflightStatus = repofactory.DecisionPacket
 
 func collectMediaAndRepoInputs(root string, in *inputs) error {
 	var err error
@@ -19,6 +20,9 @@ func collectMediaAndRepoInputs(root string, in *inputs) error {
 		return err
 	}
 	if in.RepoFactory, err = repofactory.StatusForRoot(root); err != nil {
+		return err
+	}
+	if in.RepoFactoryPreflight, err = repofactory.DecisionPacketForRoot(root); err != nil {
 		return err
 	}
 	return nil

@@ -46,6 +46,7 @@ func authorityReviewBriefFromStatus(
 		AuthorityRef:                 status.WorkItem.AuthorityRef,
 		ApprovalBoundary:             authorityReviewBoundary(status.WorkItem),
 		RepoFactoryGate:              authorityReviewRepoFactory(status.RepoFactory),
+		RepoFactoryPreflight:         status.RepoFactoryPreflight,
 		VisionGoalComplete:           visionGoalComplete(status),
 		VisionNextSafeAction:         status.NextSafeAction,
 		NextSafeAction:               authorityReviewBriefNextAction(status),
