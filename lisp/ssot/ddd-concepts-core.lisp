@@ -20,6 +20,12 @@
                 "lisp/ssot/commerce.lisp"
                 #("generated/commerce.generated.json" "fixtures/commerce_purchases.jsonl")
                 #("StorageLake" "SecurityPolicy"))
+   (ddd-concept "MonetizationExperiment" "CommerceIntelligence" "Repository"
+                "A private experiment ledger for revenue hypotheses, review gates, evidence, expected value bands, and cost estimates."
+                #("monetization" "revenue experiment" "experiment ledger" "revenue hypothesis")
+                "internal/monetization"
+                #("generated/monetization.generated.json" "internal/monetization/status.go" "docs/monetization-experiments.md")
+                #("CommercePurchase" "CodexCostGovernor" "AuthorityGate" "EvidenceGraph"))
    (ddd-concept "ConnectorCatalog" "ConnectorReadiness" "Policy"
                 "A public-safe catalog of planned read-only connectors that stays fixture-only until explicit connector work begins."
                 #("connector" "connector catalog" "connector readiness" "connector status")

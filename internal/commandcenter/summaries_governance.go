@@ -3,6 +3,7 @@ package commandcenter
 import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
+	"github.com/kimsemi-home/myhome-jarvis/internal/monetization"
 	"github.com/kimsemi-home/myhome-jarvis/internal/review"
 )
 
@@ -39,5 +40,17 @@ func summarizeCost(status codexcost.Status) CostSummary {
 		ReviewUnitThreshold:  status.ReviewUnitThreshold,
 		ReviewRequiredCount:  status.ReviewRequiredCount,
 		MissingEvidenceCount: status.MissingEvidenceCount,
+	}
+}
+
+func summarizeMonetization(status monetization.Status) MonetizationSummary {
+	return MonetizationSummary{
+		ExperimentCount:           status.ExperimentCount,
+		DecisionCount:             status.DecisionCount,
+		ReviewRequiredCount:       status.ReviewRequiredCount,
+		MonetizationDebtCount:     status.MonetizationDebtCount,
+		MissingEvidenceCount:      status.MissingEvidenceCount,
+		MissingCostEstimateCount:  status.MissingCostEstimateCount,
+		ExpectedValueUnknownCount: status.ExpectedValueUnknownCount,
 	}
 }

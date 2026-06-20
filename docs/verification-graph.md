@@ -20,6 +20,7 @@ Generated artifacts:
 - `generated/release_pipeline.generated.json`
 - `generated/assistant_vision.generated.json`
 - `generated/codex_cost.generated.json`
+- `generated/monetization.generated.json`
 - `docs/verification-graph.md`
 
 Backends:

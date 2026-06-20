@@ -17,6 +17,7 @@
 	    (:name "review" :path "generated/review.generated.json" :owner "AgentCluster")
 	    (:name "assistant_vision" :path "generated/assistant_vision.generated.json" :owner "AgentOps")
 	    (:name "codex_cost" :path "generated/codex_cost.generated.json" :owner "AgentOps")
+	    (:name "monetization" :path "generated/monetization.generated.json" :owner "CommerceIntelligence")
 	    (:name "authority" :path "generated/authority.generated.json" :owner "AgentCluster")
     (:name "code_shape" :path "generated/code_shape.generated.json" :owner "AgentCluster")
     (:name "storage" :path "generated/storage.generated.json" :owner "StorageLake")

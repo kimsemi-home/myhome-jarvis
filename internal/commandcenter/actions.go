@@ -12,6 +12,8 @@ func nextSafeAction(status Status) string {
 			return "assign_or_reduce_human_review"
 		case "cost":
 			return "review_codex_cost_budget"
+		case "monetization":
+			return "review_monetization_experiments"
 		case "incidents":
 			return "close_or_quarantine_incidents"
 		case "evidence":

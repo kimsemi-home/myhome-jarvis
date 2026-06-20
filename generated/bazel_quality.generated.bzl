@@ -27,6 +27,7 @@ def mhj_verification_graph():
             "test -s generated/verification_tests.generated.json",
             "test -s generated/release_pipeline.generated.json",
             "test -s generated/codex_cost.generated.json",
+            "test -s generated/monetization.generated.json",
             "git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md",
         ],
     )

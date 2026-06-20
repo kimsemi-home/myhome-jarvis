@@ -30,6 +30,7 @@
    #:*review-policy*
    #:*assistant-vision-policy*
    #:*codex-cost-policy*
+   #:*monetization-policy*
    #:*authority-policy*
    #:*pdca-policy*
    #:*code-shape-policy*
