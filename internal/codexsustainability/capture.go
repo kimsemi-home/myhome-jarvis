@@ -40,10 +40,23 @@ func captureQualityRunAt(root string, now time.Time) (CaptureStatus, error) {
 		status.CaptureState = "already_recorded"
 		return status, nil
 	}
+	storageRecords, storageCapture, err := recordsFromStorageArchive(root, runAt(records))
+	if err != nil {
+		return CaptureStatus{}, err
+	}
+	status = withStorageArchiveCapture(status, storageCapture)
+	records = append(records, storageRecords...)
 	if err := appendRecords(root, policy, records); err != nil {
 		return CaptureStatus{}, err
 	}
 	status.CaptureState = "recorded"
 	status.RecordedRecordCount = len(records)
 	return status, nil
+}
+
+func runAt(records []Record) string {
+	if len(records) == 0 {
+		return ""
+	}
+	return records[0].At
 }

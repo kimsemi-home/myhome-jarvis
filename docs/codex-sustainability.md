@@ -55,11 +55,17 @@ GET /codex-sustainability/status
 `data/private/quality/runs.jsonl` journal and appends aggregate trend evidence
 to the private Codex sustainability ledger. It records a trend baseline and
 cycle sample derived from the latest successful quality run duration.
+When the local storage archive policy is available, the same capture also runs
+the private archive lane and records aggregate cache hit count, archive miss
+count, and cached input bytes avoided from recompression as `usage_sample`
+metrics. Those records point only at repo-relative storage policy/docs evidence
+and never publish private log payloads.
 
 The capture output is public-safe: it reports state, counts, repo-relative
-ledger paths, the trend baseline version, and non-approval flags. It does not
-expose command output, argv, prompts, transcripts, local absolute paths,
-credentials, tokens, private Linear URLs, finance payloads, or private notes.
+ledger paths, the trend baseline version, aggregate storage cache metrics, and
+non-approval flags. It does not expose command output, argv, prompts,
+transcripts, local absolute paths, credentials, tokens, private Linear URLs,
+finance payloads, or private notes.
 
 ## Proposal Capture
 

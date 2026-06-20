@@ -9,6 +9,10 @@ type CaptureStatus struct {
 	LastQualityOK              bool   `json:"last_quality_ok"`
 	TrendBaselineVersion       string `json:"trend_baseline_version,omitempty"`
 	CycleMinutes               int64  `json:"cycle_minutes,omitempty"`
+	StorageArchiveState        string `json:"storage_archive_state,omitempty"`
+	StorageCacheHitCount       int64  `json:"storage_cache_hit_count,omitempty"`
+	StorageCacheMissCount      int64  `json:"storage_cache_miss_count,omitempty"`
+	StorageCacheSavingsUnits   int64  `json:"storage_cache_savings_units,omitempty"`
 	RecordedRecordCount        int    `json:"recorded_record_count"`
 	EvidenceRef                string `json:"evidence_ref,omitempty"`
 	PublicSafe                 bool   `json:"public_safe"`
