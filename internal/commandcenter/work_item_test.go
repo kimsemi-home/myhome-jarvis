@@ -22,6 +22,10 @@ func TestWorkItemStatusUsesUniversalVocabulary(t *testing.T) {
 		len(status.GuardrailKeys) == 0 {
 		t.Fatalf("work item refs = %#v", status)
 	}
+	if status.ReviewStaleAfterHours != 24 ||
+		status.ReviewEscalationAction == "" {
+		t.Fatalf("work item stale guard = %#v", status)
+	}
 	if status.ApprovalGranted || status.ExternalWritesAllowed ||
 		status.SelfApprovalAllowed || status.ApprovalState != "not_approved" {
 		t.Fatalf("work item granted authority = %#v", status)

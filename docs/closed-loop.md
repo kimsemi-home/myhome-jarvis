@@ -37,6 +37,11 @@ Planner evidence stores SSOT-backed counts, quality/offline-fallback flags,
 repo-relative checkpoint root, gated task metadata, the standing external-write
 gate, redacted synced Linear write evidence counts, and a redacted
 KnowledgeIndex evidence summary only.
+Universal work-item status also carries authority-review freshness metadata
+for pending human review: request age, stale threshold, stale boolean, and
+escalation action. This keeps `await_human_authority_review` observable without
+publishing reviewer identities, raw review payloads, private ledger rows, or
+workspace URLs.
 Public-safety evidence stores aggregate current-tree and Git-history booleans,
 finding counts, and checked timestamp only. Checkpoints do not store raw Linear
 viewer/team identities, raw security findings, matched content, local
