@@ -39,6 +39,7 @@ CLI:
 
 ```sh
 mhj codex-sustainability status
+mhj codex-sustainability record-quality
 ```
 
 Daemon:
@@ -46,3 +47,15 @@ Daemon:
 ```http
 GET /codex-sustainability/status
 ```
+
+## Quality Run Capture
+
+`mhj codex-sustainability record-quality` reads the private redacted
+`data/private/quality/runs.jsonl` journal and appends aggregate trend evidence
+to the private Codex sustainability ledger. It records a trend baseline and
+cycle sample derived from the latest successful quality run duration.
+
+The capture output is public-safe: it reports state, counts, repo-relative
+ledger paths, the trend baseline version, and non-approval flags. It does not
+expose command output, argv, prompts, transcripts, local absolute paths,
+credentials, tokens, private Linear URLs, finance payloads, or private notes.

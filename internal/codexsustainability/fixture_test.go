@@ -25,7 +25,10 @@ func testPolicy() Policy {
 		ProposalRequiredFields:               requiredProposalFields,
 		AllowedEvidencePrefixes:              []string{"generated/", "docs/", ".github/", "data/private/"},
 		PublicSummaryFields:                  requiredSummaryFields,
-		Commands:                             []string{"mhj codex-sustainability status"},
+		Commands: []string{
+			"mhj codex-sustainability status",
+			"mhj codex-sustainability record-quality",
+		},
 	}
 }
 

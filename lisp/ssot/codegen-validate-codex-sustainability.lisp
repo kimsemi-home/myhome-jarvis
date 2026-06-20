@@ -20,7 +20,8 @@
    (getf policy :cost_per_accepted_change_review_threshold)
    "Codex sustainability cost threshold required")
   (validate-codex-sustainability-lists policy)
-  (require-command policy "mhj codex-sustainability status"))
+  (require-command policy "mhj codex-sustainability status")
+  (require-command policy "mhj codex-sustainability record-quality"))
 
 (defun validate-codex-sustainability-lists (policy)
   (require-members '("usage_sample" "cycle_sample" "trend_baseline"

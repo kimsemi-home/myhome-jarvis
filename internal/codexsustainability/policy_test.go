@@ -17,3 +17,11 @@ func TestPolicyRequiresPrivateVersionedLedger(t *testing.T) {
 		t.Fatal("expected unversioned trends to be rejected")
 	}
 }
+
+func TestPolicyRequiresQualityCaptureCommand(t *testing.T) {
+	policy := testPolicy()
+	policy.Commands = []string{"mhj codex-sustainability status"}
+	if err := validatePolicy(policy); err == nil {
+		t.Fatal("expected missing quality capture command to be rejected")
+	}
+}

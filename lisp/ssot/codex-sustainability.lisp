@@ -60,4 +60,5 @@
                                    "card_number" "local_absolute_path"
                                    "private_finance_data"
                                    "unpublished_revenue_detail")
-        :commands #("mhj codex-sustainability status")))
+        :commands #("mhj codex-sustainability status"
+                    "mhj codex-sustainability record-quality")))

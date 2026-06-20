@@ -26,8 +26,13 @@ func validatePolicy(policy Policy) error {
 			return err
 		}
 	}
-	if !contains(policy.Commands, "mhj codex-sustainability status") {
-		return fmt.Errorf("codex sustainability status command is missing")
+	for _, command := range []string{
+		"mhj codex-sustainability status",
+		"mhj codex-sustainability record-quality",
+	} {
+		if !contains(policy.Commands, command) {
+			return fmt.Errorf("codex sustainability command is missing: %s", command)
+		}
 	}
 	return nil
 }
