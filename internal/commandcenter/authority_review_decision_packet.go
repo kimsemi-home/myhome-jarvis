@@ -47,6 +47,7 @@ func authorityReviewDecisionPacketFromStatus(
 		PublicSafetyPosture:          authorityReviewPublicSafety(status),
 		StorageEvidence:              status.StorageArchive,
 		LocalRuntime:                 brief.LocalRuntime,
+		MergeEvidence:                brief.MergeEvidence,
 		DecisionPacketState:          "review_only",
 		CanApplyDecision:             false,
 		DecisionOptions:              authorityReviewDecisionOptions(),
