@@ -1,6 +1,9 @@
 package repofactory
 
-import "github.com/kimsemi-home/myhome-jarvis/internal/security"
+import (
+	"github.com/kimsemi-home/myhome-jarvis/internal/contextpack"
+	"github.com/kimsemi-home/myhome-jarvis/internal/security"
+)
 
 func DecisionPacketForRoot(root string) (DecisionPacket, error) {
 	policy, err := ReadPolicy(root)
@@ -11,8 +14,17 @@ func DecisionPacketForRoot(root string) (DecisionPacket, error) {
 	if err != nil {
 		return DecisionPacket{}, err
 	}
-	return decisionPacketFromPolicyEvidence(
+	verify, err := contextpack.VerifyDeclarationForRoot(root, "")
+	if err != nil {
+		return DecisionPacket{}, err
+	}
+	contextStatus, err := contextpack.StatusForRoot(root)
+	if err != nil {
+		return DecisionPacket{}, err
+	}
+	return decisionPacketFromEvidence(
 		policy,
 		publicSafetyEvidenceFromStatus(status),
+		contextPackEvidenceFromStatus(contextStatus, verify),
 	), nil
 }

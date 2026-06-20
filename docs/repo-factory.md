@@ -55,6 +55,13 @@ is marked `ready`; raw findings, cache keys, local paths, and credentials are
 not printed. Repo creation still stays blocked until human authority review is
 approved separately.
 
+The packet also includes `context_pack_evidence`, a public-safe summary from
+`mhj context-pack verify`. It reports declaration path, validity, drift/missing
+counts, context pack version, ontology version, authority/security contract
+versions, verification profile, and exported artifact count. It does not expose
+raw private context, local absolute paths, private Linear URLs, credentials, or
+review payloads, and a valid context pack never grants repo creation authority.
+
 If a generated policy ever contains a forbidden template value, the packet
 marks the affected template as invalid and redacts the value instead of
 printing local paths, private owner markers, credentials, or other private

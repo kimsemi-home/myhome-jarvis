@@ -18,5 +18,6 @@ func summarizeRepoFactoryPreflight(
 		BlockingGateCount:              packet.BlockingGateCount,
 		MissingEvidenceKeys:            append([]string{}, packet.MissingEvidenceKeys...),
 		NextSafeAction:                 packet.NextSafeAction,
+		ContextPackEvidence:            summarizeContextPackEvidence(packet.ContextPackEvidence),
 	}
 }
