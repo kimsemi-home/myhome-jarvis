@@ -15,6 +15,7 @@ func StatusForRoot(root string) (Status, error) {
 		Vision:              summarizeVision(in.Vision),
 		PDCA:                summarizePDCA(in.PDCA),
 		Evidence:            summarizeEvidence(in.Evidence),
+		EvidenceIntegrity:   summarizeEvidenceIntegrity(in.EvidenceIntegrity),
 		Incidents:           summarizeIncidents(in.Incidents),
 		Authority:           summarizeAuthority(in.Authority),
 		Review:              summarizeReview(in.Review),

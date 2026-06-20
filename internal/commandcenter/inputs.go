@@ -5,7 +5,6 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexsustainability"
 	"github.com/kimsemi-home/myhome-jarvis/internal/contextpack"
-	"github.com/kimsemi-home/myhome-jarvis/internal/evidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/financeconsent"
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
 	"github.com/kimsemi-home/myhome-jarvis/internal/monetization"
@@ -16,7 +15,8 @@ import (
 type inputs struct {
 	Vision              visionPolicy
 	PDCA                pdca.Status
-	Evidence            evidence.Status
+	Evidence            evidenceStatus
+	EvidenceIntegrity   evidenceIntegrityStatus
 	Incidents           incidents.Status
 	Authority           authority.Status
 	Review              review.Status
@@ -39,7 +39,7 @@ func collectInputs(root string) (inputs, error) {
 	if in.PDCA, err = pdca.StatusForRoot(root); err != nil {
 		return inputs{}, err
 	}
-	if in.Evidence, err = evidence.StatusForRoot(root); err != nil {
+	if err = collectEvidenceInputs(root, &in); err != nil {
 		return inputs{}, err
 	}
 	if in.Incidents, err = incidents.StatusForRoot(root); err != nil {

@@ -25,6 +25,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /agent-cluster/status", server.wrap(server.handleAgentClusterStatus))
 	mux.HandleFunc("GET /learning/status", server.wrap(server.handleLearningStatus))
 	mux.HandleFunc("GET /evidence/status", server.wrap(server.handleEvidenceStatus))
+	mux.HandleFunc("GET /evidence-integrity/status", server.wrap(server.handleEvidenceIntegrityStatus))
 	mux.HandleFunc("GET /confidence/status", server.wrap(server.handleConfidenceStatus))
 	mux.HandleFunc("GET /translation/status", server.wrap(server.handleTranslationStatus))
 	mux.HandleFunc("GET /control-plane/status", server.wrap(server.handleControlPlaneStatus))

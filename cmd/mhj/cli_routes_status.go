@@ -19,6 +19,8 @@ func routeStatuses(root string, args []string) (bool, error) {
 		return true, agentClusterStatus(root)
 	case "evidence":
 		return true, evidenceStatus(root)
+	case "evidence-integrity":
+		return true, evidenceIntegrityStatus(root)
 	case "confidence":
 		return true, confidenceStatus(root)
 	case "translation":

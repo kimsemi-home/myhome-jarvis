@@ -23,7 +23,8 @@
                    "Evidence graph summary missing field: ~A")
   (require-member "data/private/" (policy-list policy :allowed_evidence_prefixes)
                   "Evidence graph evidence refs must allow private paths")
-  (require-command policy "mhj evidence status"))
+  (require-command policy "mhj evidence status")
+  (require-command policy "mhj evidence-integrity status"))
 
 (defun validate-evidence-sources (policy)
   (let ((sources (policy-list policy :private_sources))

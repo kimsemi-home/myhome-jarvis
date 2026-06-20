@@ -43,4 +43,5 @@
                                    "secret" "credential" "cookie" "raw_prompt"
                                    "raw_transcript" "account_id" "card_number"
                                    "local_absolute_path")
-        :commands #("mhj evidence status")))
+        :commands #("mhj evidence status"
+                    "mhj evidence-integrity status")))

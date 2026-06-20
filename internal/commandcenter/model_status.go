@@ -8,6 +8,7 @@ type Status struct {
 	Vision              VisionSummary              `json:"vision"`
 	PDCA                PDCASummary                `json:"pdca"`
 	Evidence            EvidenceSummary            `json:"evidence"`
+	EvidenceIntegrity   EvidenceIntegritySummary   `json:"evidence_integrity"`
 	Incidents           IncidentSummary            `json:"incidents"`
 	Authority           AuthoritySummary           `json:"authority"`
 	Review              ReviewSummary              `json:"review"`
