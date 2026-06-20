@@ -28,6 +28,9 @@ func validatePolicy(policy Policy) error {
 	if !contains(policy.Commands, "mhj finance-consent status") {
 		return fmt.Errorf("finance consent status command is missing")
 	}
+	if !contains(policy.Commands, "mhj finance-consent record <json-payload>") {
+		return fmt.Errorf("finance consent record command is missing")
+	}
 	return nil
 }
 
