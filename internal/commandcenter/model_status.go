@@ -21,6 +21,7 @@ type Status struct {
 	MergeEvidence       MergeEvidenceSummary       `json:"merge_evidence"`
 	Monetization        MonetizationSummary        `json:"monetization"`
 	RepoFactory         RepoFactorySummary         `json:"repo_factory"`
+	WorkItem            WorkItemSummary            `json:"work_item"`
 	BlockedGateCount    int                        `json:"blocked_gate_count"`
 	BlockedGates        []GateSummary              `json:"blocked_gates"`
 	NextSafeAction      string                     `json:"next_safe_action"`

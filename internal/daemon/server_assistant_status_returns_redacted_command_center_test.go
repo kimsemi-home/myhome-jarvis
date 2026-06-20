@@ -26,6 +26,7 @@ func TestAssistantStatusReturnsRedactedCommandCenter(t *testing.T) {
 		`"context": "AssistantCommandCenter"`,
 		`"policy_path": "generated/assistant_vision.generated.json"`,
 		`"blocked_gate_count":`,
+		`"work_item":`,
 		`"next_safe_action":`,
 		`"compact_state":`,
 	} {

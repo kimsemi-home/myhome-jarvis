@@ -9,3 +9,11 @@ func assistantStatus(root string) error {
 	}
 	return writeJSON(status)
 }
+
+func workItemStatus(root string) error {
+	status, err := commandcenter.WorkItemForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(status)
+}

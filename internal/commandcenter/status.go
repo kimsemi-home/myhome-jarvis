@@ -34,5 +34,6 @@ func StatusForRoot(root string) (Status, error) {
 	status.BlockedGateCount = len(status.BlockedGates)
 	status.CompactState = compactState(status)
 	status.NextSafeAction = nextSafeAction(status)
+	status.WorkItem = summarizeWorkItem(status)
 	return status, nil
 }

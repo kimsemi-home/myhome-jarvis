@@ -11,6 +11,7 @@ generated artifact is `generated/assistant_vision.generated.json`.
 - `capability`: a bounded assistant skill with authority rules.
 - `evidence`: repo-relative proof for a claim.
 - `decision`: an authority-gated choice with lease and reviewer.
+- `work_item`: public-safe closed-loop unit of intent and evidence.
 - `cost_unit`: Codex token or paid service usage unit.
 - `monetization_loop`: experiment tied to revenue evidence.
 - `repo_factory`: repeatable public-safe repo creation flow.
@@ -73,3 +74,11 @@ history, cookies, credentials, account identifiers, raw payloads, or raw URLs.
 redacted policy for merging eligible PR work and proving completion. Future
 loops should treat merged main evidence, not just an open PR, as the normal done
 state when checks and public-safety scans pass.
+
+## Universal Work Item
+
+`mhj work-item status` and daemon `GET /work-item/status` publish the current
+closed-loop work item using universal-language fields: intent, capability,
+decision, evidence, authority, guardrail, and next safe action. It is a
+public-safe planning card only; it does not grant approval, external writes, or
+self-approval.

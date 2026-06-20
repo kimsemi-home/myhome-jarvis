@@ -39,6 +39,9 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 	if status.BlockedGateCount == 0 || status.NextSafeAction == "" {
 		t.Fatalf("expected a safe next action with gates: %#v", status)
 	}
+	if status.WorkItem.WorkItemRef == "" || status.WorkItem.WorkItemState == "" {
+		t.Fatalf("work item summary = %#v", status.WorkItem)
+	}
 	if status.CompactState != "blocked" && status.CompactState != "gated" {
 		t.Fatalf("compact state = %q", status.CompactState)
 	}
@@ -56,6 +59,7 @@ func TestStatusDoesNotExposePrivatePayloadFields(t *testing.T) {
 	for _, forbidden := range []string{
 		"raw_prompt", "raw_transcript", "private_notes",
 		"token", "secret", "credential", "local_absolute_path",
+		"reviewer_identity", "linear_url", "finance_payload",
 	} {
 		if strings.Contains(string(body), forbidden) {
 			t.Fatalf("command center leaked %q in %s", forbidden, body)

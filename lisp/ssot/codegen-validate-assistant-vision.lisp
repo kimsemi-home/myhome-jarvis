@@ -30,7 +30,7 @@
 
 (defun validate-assistant-terms (policy)
   (require-members '("intent" "capability" "evidence" "decision"
-                     "cost_unit" "monetization_loop" "repo_factory"
+                     "work_item" "cost_unit" "monetization_loop" "repo_factory"
                      "merge_evidence" "household_scope")
                    (mapcar (lambda (term) (getf term :key))
                            (policy-list policy :universal_terms))
