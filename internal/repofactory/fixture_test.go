@@ -43,7 +43,10 @@ func testPolicy() Policy {
 			"absolute_home_path", "old_private_owner", "private_team_slug", "private_storage_prefix",
 		},
 		PublicSummaryFields: requiredSummaryFields,
-		Commands:            []string{"mhj repo-factory status"},
+		Commands: []string{
+			"mhj repo-factory status",
+			"mhj repo-factory decision-packet",
+		},
 	}
 }
 

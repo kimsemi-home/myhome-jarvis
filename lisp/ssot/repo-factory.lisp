@@ -32,4 +32,5 @@
                                  "missing_creation_gate_count"
                                  "forbidden_template_value_count"
                                  "checked_at")
-        :commands #("mhj repo-factory status")))
+        :commands #("mhj repo-factory status"
+                    "mhj repo-factory decision-packet")))

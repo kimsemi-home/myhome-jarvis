@@ -27,7 +27,8 @@
                      "declare consumed context pack version")
                    (policy-list policy :bootstrap_checklist)
                    "Repo factory bootstrap checklist missing: ~A")
-  (require-command policy "mhj repo-factory status"))
+  (require-command policy "mhj repo-factory status")
+  (require-command policy "mhj repo-factory decision-packet"))
 
 (defun validate-repo-factory-template-files (files)
   (let ((roles (mapcar (lambda (file) (getf file :role)) files)))
