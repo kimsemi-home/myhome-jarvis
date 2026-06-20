@@ -17,7 +17,7 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 		t.Fatalf("vision readiness summary = %#v", status.Vision)
 	}
 	if !hasPillar(status.Vision.PillarKeys, "monetization_console") ||
-		!hasPillar(status.Vision.ReadyPillarKeys, "codex_cost_governor") {
+		!hasPillar(status.Vision.PillarKeys, "codex_cost_governor") {
 		t.Fatalf("vision pillar keys = %#v", status.Vision)
 	}
 	if !status.PDCA.Ready || status.Cost.BudgetState != "ok" {

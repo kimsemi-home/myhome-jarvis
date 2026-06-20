@@ -13,6 +13,9 @@ func blockedGates(in inputs) []GateSummary {
 	reviewDebt := in.Review.ReviewDebtCount + in.Review.HighRiskOpenCount
 	financeConsentDebt := in.FinanceConsent.ConsentDebtCount
 	costDebt := in.Cost.ReviewRequiredCount + in.Cost.MissingEvidenceCount
+	if in.CostBrief.Decision != "allow" && costDebt == 0 {
+		costDebt = 1
+	}
 	codexSustainabilityDebt := in.CodexSustainability.ReviewGateCount
 	storageArchiveDebt := storageArchiveDebtCount(in.StorageArchive)
 	contextPackDebt := contextPackDebtCount(in.ContextPack)

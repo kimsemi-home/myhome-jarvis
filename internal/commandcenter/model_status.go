@@ -15,6 +15,7 @@ type Status struct {
 	Review              ReviewSummary              `json:"review"`
 	FinanceConsent      FinanceConsentSummary      `json:"finance_consent"`
 	Cost                CostSummary                `json:"cost"`
+	CodexCostBrief      CodexCostBriefSummary      `json:"codex_cost_brief"`
 	CodexSustainability CodexSustainabilitySummary `json:"codex_sustainability"`
 	StorageArchive      StorageArchiveSummary      `json:"storage_archive"`
 	ContextPack         ContextPackSummary         `json:"context_pack"`

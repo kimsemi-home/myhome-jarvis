@@ -59,6 +59,7 @@ func publicSafe(in inputs) bool {
 	return in.Authority.PublicRepoMode &&
 		in.Authority.PublicSafetyOK &&
 		!in.Authority.SelfAuthorityAllowed &&
+		in.CostBrief.PublicSafe &&
 		in.StorageArchive.PublicSafe &&
 		in.RepoFactory.PublicSafe
 }

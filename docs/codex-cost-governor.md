@@ -102,11 +102,15 @@ absolute local paths, prompts, transcripts, or private Linear URLs. The brief
 treats the archive/noise-budget configuration as evidence: if compression,
 archive readiness, noise-budget readiness, manifest integrity, or config
 evidence is missing, the decision becomes review-gated before scaling.
+`mhj assistant status` also exposes the brief as `codex_cost_brief`, so the
+top-level command center can supervise cost, cache-savings value, accepted
+change evidence, archive readiness, noise-budget posture, and the next safe
+action without publishing private ledger rows or raw evidence refs.
 
 ## Public Boundary
 
 The CLI commands `mhj codex-cost status`, `mhj codex-cost record`,
-`mhj codex-cost guard`, `mhj codex-cost roi`, `mhj codex-cost brief`, and daemon endpoint
-`GET /codex-cost/status` must not expose prompts, transcripts, private notes,
-raw evidence refs, credentials, tokens, local absolute paths, account IDs,
-card numbers, Linear private URLs, or private evidence contents.
+`mhj codex-cost guard`, `mhj codex-cost roi`, `mhj codex-cost brief`, and
+daemon endpoint `GET /codex-cost/status` must not expose prompts, transcripts,
+private notes, raw evidence refs, credentials, tokens, local absolute paths,
+account IDs, card numbers, Linear private URLs, or private evidence contents.

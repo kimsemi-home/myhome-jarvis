@@ -48,7 +48,8 @@ func visionPillarReadiness(key string, status Status) string {
 		return "ready"
 	case "codex_cost_governor":
 		if status.Cost.BudgetState == "ok" && status.Cost.ReviewRequiredCount == 0 &&
-			status.Cost.MissingEvidenceCount == 0 {
+			status.Cost.MissingEvidenceCount == 0 &&
+			status.CodexCostBrief.Decision == "allow" {
 			return "ready"
 		}
 		return "gated"
