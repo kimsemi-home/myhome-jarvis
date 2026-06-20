@@ -20,7 +20,8 @@
   (validate-codex-cost-lists policy)
   (require-command policy "mhj codex-cost status")
   (require-command policy "mhj codex-cost record <json-payload>")
-  (require-command policy "mhj codex-cost guard <json-payload>"))
+  (require-command policy "mhj codex-cost guard <json-payload>")
+  (require-command policy "mhj codex-cost roi"))
 
 (defun validate-codex-cost-lists (policy)
   (require-members '("codex_tokens" "codex_coin" "github_actions_minutes"

@@ -65,6 +65,8 @@ Go daemon read surface:
 - The endpoint is local read-only and does not read from `data/lake`.
 - `mhj storage-archive status` exposes a redacted summary of the compression
   lane, archive root, manifest path, source count, and noise budget.
+- `mhj codex-cost roi` reuses this redacted archive/noise status so cost
+  decisions can verify that local evidence logs are compacted and governed.
 - `mhj storage-archive run` executes the local private archive lane. Missing or
   empty sources are skipped, present JSONL sources are scanned for invalid or
   duplicate low-signal records, and sources that pass the noise budget are

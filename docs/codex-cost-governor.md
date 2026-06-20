@@ -25,6 +25,14 @@ It accepts planned scope, unit kind, estimated units, estimated minutes, and
 repo-relative evidence refs. It does not persist raw loop prompts or evidence
 contents.
 
+Use `mhj codex-cost roi` to review public-safe cost ROI by loop scope. The
+summary keeps one row for every governed scope, including Linear projects,
+repositories, and monetization experiments, even when a scope has no usage yet.
+It combines private cost ledger totals, Codex sustainability posture, value
+proxy units, cache-savings evidence, and the storage archive/noise-budget
+configuration. The value proxy is explicitly allocated by cost share until
+more precise per-scope monetization evidence exists.
+
 Each stored record must include time, loop scope, unit kind, amount, status,
 semantic hash, and repo-relative evidence refs. Public status surfaces only
 expose counts, thresholds, buckets, total units, budget state, and timestamps.
@@ -54,11 +62,14 @@ The storage SSOT includes the private cost ledger in the `compress_then_archive`
 source list. `mhj storage-archive run` can therefore compress cost usage JSONL
 into private `.jsonl.gz` archive files while recording manifest rows and
 enforcing the configured evidence noise budget.
+The ROI summary reports the same archive pattern and noise-budget evidence
+field so cost decisions can see whether local logs are being collected,
+compressed, and governed below the configured noise threshold.
 
 ## Public Boundary
 
 The CLI commands `mhj codex-cost status`, `mhj codex-cost record`,
-`mhj codex-cost guard`, and daemon endpoint `GET /codex-cost/status` must not
-expose prompts, transcripts, private notes, raw evidence refs, credentials,
-tokens, local absolute paths, account IDs, card numbers, Linear private URLs,
-or private evidence contents.
+`mhj codex-cost guard`, `mhj codex-cost roi`, and daemon endpoint
+`GET /codex-cost/status` must not expose prompts, transcripts, private notes,
+raw evidence refs, credentials, tokens, local absolute paths, account IDs,
+card numbers, Linear private URLs, or private evidence contents.

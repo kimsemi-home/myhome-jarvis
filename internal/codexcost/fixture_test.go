@@ -29,6 +29,7 @@ func testPolicy() Policy {
 			"mhj codex-cost status",
 			"mhj codex-cost record <json-payload>",
 			"mhj codex-cost guard <json-payload>",
+			"mhj codex-cost roi",
 		},
 	}
 }
