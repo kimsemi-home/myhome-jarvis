@@ -15,6 +15,7 @@ func newRunReport(
 		ConfigEvidenceField:     evidence.Field,
 		ConfigHashInputs:        append([]string{}, evidence.Inputs...),
 		ConfigEvidenceSHA256:    evidence.SHA256,
+		PolicyEvidence:          newRunPolicyEvidence(policy, evidence),
 		PublicSafe:              true,
 		RawPayloadPublicAllowed: policy.LogArchive.RawPayloadPublicAllowed,
 		CheckedAt:               checkedAt,

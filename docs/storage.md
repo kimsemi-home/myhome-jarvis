@@ -84,6 +84,11 @@ Go daemon read surface:
   empty sources are skipped, present JSONL sources are scanned for invalid or
   duplicate low-signal records, and sources that pass the noise budget are
   written as `.jsonl.gz` files under `data/private/archive`.
+- The run report includes a `policy_evidence` summary with the
+  compress-then-archive mode, gzip compression, enabled noise budget,
+  threshold/window/dedupe settings, breach-blocking rule, and config evidence
+  hash. This makes the noise-budget configuration part of every archive run
+  proof, while still keeping raw log rows private.
 - If a source input hash and config evidence hash already have an archived
   blob, the run reports a cache hit instead of recompressing the same payload
   or appending duplicate manifest noise.

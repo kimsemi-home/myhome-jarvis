@@ -1,24 +1,25 @@
 package storagearchive
 
 type RunReport struct {
-	PolicyPath              string      `json:"policy_path"`
-	ArchiveRoot             string      `json:"archive_root"`
-	ManifestPath            string      `json:"manifest_path"`
-	SourceCount             int         `json:"source_count"`
-	ArchivedCount           int         `json:"archived_count"`
-	CachedCount             int         `json:"cached_count"`
-	SkippedCount            int         `json:"skipped_count"`
-	BudgetBreachCount       int         `json:"budget_breach_count"`
-	ArchivedInputBytes      int64       `json:"archived_input_bytes"`
-	ArchivedOutputBytes     int64       `json:"archived_output_bytes"`
-	CompressionRatioPercent int         `json:"compression_ratio_percent"`
-	ConfigEvidenceField     string      `json:"config_evidence_field"`
-	ConfigHashInputs        []string    `json:"config_hash_inputs"`
-	ConfigEvidenceSHA256    string      `json:"config_evidence_sha256"`
-	PublicSafe              bool        `json:"public_safe"`
-	RawPayloadPublicAllowed bool        `json:"raw_payload_public_allowed"`
-	Results                 []RunResult `json:"results"`
-	CheckedAt               string      `json:"checked_at"`
+	PolicyPath              string            `json:"policy_path"`
+	ArchiveRoot             string            `json:"archive_root"`
+	ManifestPath            string            `json:"manifest_path"`
+	SourceCount             int               `json:"source_count"`
+	ArchivedCount           int               `json:"archived_count"`
+	CachedCount             int               `json:"cached_count"`
+	SkippedCount            int               `json:"skipped_count"`
+	BudgetBreachCount       int               `json:"budget_breach_count"`
+	ArchivedInputBytes      int64             `json:"archived_input_bytes"`
+	ArchivedOutputBytes     int64             `json:"archived_output_bytes"`
+	CompressionRatioPercent int               `json:"compression_ratio_percent"`
+	ConfigEvidenceField     string            `json:"config_evidence_field"`
+	ConfigHashInputs        []string          `json:"config_hash_inputs"`
+	ConfigEvidenceSHA256    string            `json:"config_evidence_sha256"`
+	PolicyEvidence          RunPolicyEvidence `json:"policy_evidence"`
+	PublicSafe              bool              `json:"public_safe"`
+	RawPayloadPublicAllowed bool              `json:"raw_payload_public_allowed"`
+	Results                 []RunResult       `json:"results"`
+	CheckedAt               string            `json:"checked_at"`
 }
 
 type RunResult struct {
