@@ -24,6 +24,9 @@ func collectOpsInputs(root string, in *inputs) error {
 	if in.CostBrief, err = codexcost.BriefForRoot(root); err != nil {
 		return err
 	}
+	if in.CostScaling, err = codexcost.ScalingPacketForRoot(root); err != nil {
+		return err
+	}
 	if in.CodexSustainability, err = codexsustainability.StatusForRoot(root); err != nil {
 		return err
 	}

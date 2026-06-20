@@ -115,6 +115,12 @@ compress-then-archive/noise-budget evidence used by the command center. It also
 lists non-granting scaling options. The packet cannot approve paid expansion,
 external tools, workflow changes, or self-approval; separate guard and record
 commands remain required before any larger loop.
+`mhj assistant status` exposes the same supervision signal as
+`codex_cost_scaling`, keeping only headroom, evidence posture, storage posture,
+recommended option keys, and explicit non-granting counts.
+Local evidence should first be written as compact private aggregate log rows,
+then gzip-archived; the noise-budget thresholds and config hash inputs are
+evidence for whether the archive can be trusted.
 
 ## Public Boundary
 
