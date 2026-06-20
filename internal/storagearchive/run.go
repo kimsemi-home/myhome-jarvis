@@ -1,7 +1,6 @@
 package storagearchive
 
 import (
-	"os"
 	"path/filepath"
 	"time"
 
@@ -21,48 +20,24 @@ func RunForRoot(root string) (RunReport, error) {
 	now := time.Now().UTC().Format(time.RFC3339)
 	evidence := configEvidenceRefForPolicy(policy)
 	report := newRunReport(policy, now, evidence)
+	cache, err := readArchiveCache(root, policy.LogArchive.ManifestPath)
+	if err != nil {
+		return RunReport{}, err
+	}
 	entries := make([]manifestEntry, 0, len(policy.PrivateLogSources))
 	for _, source := range policy.PrivateLogSources {
-		result, entry, err := runSource(root, policy, source, now, evidence)
+		result, entry, err := runSource(root, policy, source, now, evidence, cache)
 		if err != nil {
 			return RunReport{}, err
 		}
 		report.Results = append(report.Results, result)
-		entries = append(entries, entry)
+		if entry.At != "" {
+			entries = append(entries, entry)
+		}
 		applyResult(&report, result)
 	}
 	if err := appendManifest(root, policy.LogArchive.ManifestPath, entries); err != nil {
 		return RunReport{}, err
 	}
 	return report, nil
-}
-
-func runSource(
-	root string,
-	policy domain.StoragePolicy,
-	source domain.PrivateLogSource,
-	now string,
-	evidence configEvidenceRef,
-) (RunResult, manifestEntry, error) {
-	path := filepath.Join(root, filepath.FromSlash(source.Path))
-	content, err := os.ReadFile(path)
-	if os.IsNotExist(err) {
-		return skippedResult(source, "missing", evidence), skippedEntry(now, source, "missing", evidence), nil
-	}
-	if err != nil {
-		return RunResult{}, manifestEntry{}, err
-	}
-	scan, err := scanSource(content, policy.EvidenceNoiseBudget)
-	if err != nil {
-		return RunResult{}, manifestEntry{}, err
-	}
-	if scan.RecordCount == 0 {
-		result, entry := scannedSkip(now, source, "empty", scan, evidence)
-		return result, entry, nil
-	}
-	if !scan.BudgetOK && policy.EvidenceNoiseBudget.BreachBlocksArchive {
-		result, entry := scannedSkip(now, source, "budget_breach", scan, evidence)
-		return result, entry, nil
-	}
-	return archiveSource(root, policy, source, scan, now, evidence)
 }

@@ -6,6 +6,7 @@ type RunReport struct {
 	ManifestPath            string      `json:"manifest_path"`
 	SourceCount             int         `json:"source_count"`
 	ArchivedCount           int         `json:"archived_count"`
+	CachedCount             int         `json:"cached_count"`
 	SkippedCount            int         `json:"skipped_count"`
 	BudgetBreachCount       int         `json:"budget_breach_count"`
 	ArchivedInputBytes      int64       `json:"archived_input_bytes"`

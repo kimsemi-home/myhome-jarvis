@@ -51,3 +51,15 @@ func archivedResult(
 	result.CompressionRatioPercent = compressionRatioPercent(result.InputBytes, outputBytes)
 	return result
 }
+
+func cachedResult(
+	source domain.PrivateLogSource,
+	scan sourceScan,
+	archivePath string,
+	outputBytes int64,
+	evidence configEvidenceRef,
+) RunResult {
+	result := archivedResult(source, scan, archivePath, outputBytes, evidence)
+	result.State = "cached"
+	return result
+}

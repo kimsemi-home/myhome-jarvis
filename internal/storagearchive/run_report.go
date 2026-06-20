@@ -31,6 +31,8 @@ func applyResult(report *RunReport, result RunResult) {
 			report.ArchivedInputBytes,
 			report.ArchivedOutputBytes,
 		)
+	case "cached":
+		report.CachedCount++
 	case "budget_breach":
 		report.BudgetBreachCount++
 		report.SkippedCount++
