@@ -23,6 +23,7 @@ type inputs struct {
 	Review              review.Status
 	FinanceConsent      financeconsent.Status
 	Cost                codexcost.Status
+	CostBrief           codexcost.Brief
 	CodexSustainability codexsustainability.Status
 	StorageArchive      storagearchive.Status
 	ContextPack         contextpack.Status
