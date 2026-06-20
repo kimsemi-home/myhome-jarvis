@@ -1,17 +1,16 @@
 package repofactory
 
-func DecisionPacketForRoot(root string) (DecisionPacket, error) {
-	policy, err := ReadPolicy(root)
-	if err != nil {
-		return DecisionPacket{}, err
-	}
-	return decisionPacketFromPolicy(policy), nil
+func decisionPacketFromPolicy(policy Policy) DecisionPacket {
+	return decisionPacketFromPolicyEvidence(policy, publicSafetyEvidenceUnknown())
 }
 
-func decisionPacketFromPolicy(policy Policy) DecisionPacket {
+func decisionPacketFromPolicyEvidence(
+	policy Policy,
+	safety PublicSafetyEvidence,
+) DecisionPacket {
 	status := statusFromPolicy(policy)
 	templates := packetTemplates(policy.TemplateFiles, policy.ForbiddenPublicFragments)
-	gates := packetGates(status, policy.CreationGates)
+	gates := packetGates(status, policy.CreationGates, safety)
 	blockers := packetBlockingGates(gates)
 	missing := packetMissingEvidence(gates)
 	return DecisionPacket{
@@ -33,6 +32,7 @@ func decisionPacketFromPolicy(policy Policy) DecisionPacket {
 		BlockingGateCount:              blockers,
 		MissingEvidenceKeys:            missing,
 		NextSafeAction:                 packetNextAction(status, missing),
+		PublicSafetyEvidence:           safety,
 		TemplateEvidence:               templates,
 		CreationGateEvidence:           gates,
 		CheckedAt:                      status.CheckedAt,

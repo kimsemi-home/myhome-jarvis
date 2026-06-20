@@ -7,26 +7,31 @@ import (
 )
 
 func TestDecisionPacketKeepsRepoCreationBlockedForReview(t *testing.T) {
-	root := t.TempDir()
-	writePolicy(t, root, testPolicy())
-
-	packet, err := DecisionPacketForRoot(root)
-	if err != nil {
-		t.Fatal(err)
-	}
+	packet := decisionPacketFromPolicyEvidence(
+		testPolicy(),
+		PublicSafetyEvidence{OK: true, EvidenceState: "ready"},
+	)
 	if packet.CreationAllowed || !packet.RepoCreationBlockedUntilReview {
 		t.Fatalf("creation gate = %#v", packet)
 	}
-	if packet.TemplateReadyCount != 6 || packet.GateReadyCount != 3 {
+	if packet.TemplateReadyCount != 6 || packet.GateReadyCount != 4 {
 		t.Fatalf("readiness counts = %#v", packet)
 	}
-	if packet.BlockingGateCount != 2 ||
+	if packet.BlockingGateCount != 1 ||
 		!contains(packet.MissingEvidenceKeys, "authority_review") ||
-		!contains(packet.MissingEvidenceKeys, "public_safety_evidence") {
+		contains(packet.MissingEvidenceKeys, "public_safety_evidence") {
 		t.Fatalf("missing evidence = %#v", packet)
 	}
 	if packet.NextSafeAction != "await_human_authority_review" {
 		t.Fatalf("next action = %q", packet.NextSafeAction)
+	}
+}
+
+func TestDecisionPacketKeepsPublicSafetyMissingWhenUnknown(t *testing.T) {
+	packet := decisionPacketFromPolicy(testPolicy())
+	if packet.PublicSafetyEvidence.EvidenceState != "required_before_creation" ||
+		!contains(packet.MissingEvidenceKeys, "public_safety_evidence") {
+		t.Fatalf("public safety evidence = %#v", packet)
 	}
 }
 
