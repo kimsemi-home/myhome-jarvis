@@ -83,13 +83,14 @@ Go daemon read surface:
   together.
   The archive source list includes Codex cost attribution records, allowing
   scope-level ROI evidence to be compressed without publishing raw subjects.
-  It also includes monetization experiment records, finance consent records, and
-  authority review request records so revenue hypotheses, read-only household
-  finance consent evidence, and human-review queue evidence can be compressed
-  without exposing raw revenue, finance details, or private review context. It
-  also includes the external evidence manifest so news, economic, trend, GitHub,
-  and community intake evidence can be compressed without publishing fetched
-  payloads.
+  It also includes monetization experiment records, finance consent records,
+  authority review request records, and authority approval decision records so
+  revenue hypotheses, read-only household finance consent evidence,
+  human-review queue evidence, and scoped approval leases can be compressed
+  without exposing raw revenue, finance details, private review context, or raw
+  approval payloads. It also includes the external evidence manifest so news,
+  economic, trend, GitHub, and community intake evidence can be compressed
+  without publishing fetched payloads.
 - `mhj storage-archive run` executes the local private archive lane. Missing or
   empty sources are skipped, present JSONL sources are scanned for invalid or
   duplicate low-signal records, and sources that pass the noise budget are

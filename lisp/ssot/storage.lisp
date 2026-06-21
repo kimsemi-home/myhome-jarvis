@@ -33,6 +33,9 @@
           (:key "authority_review"
            :path "data/private/authority-review/requests.jsonl"
            :format "jsonl")
+          (:key "authority_approval"
+           :path "data/private/authority-review/approvals.jsonl"
+           :format "jsonl")
           (:key "external_evidence"
            :path "data/private/external-evidence/manifest.jsonl"
            :format "jsonl"))
