@@ -27,6 +27,9 @@ func ValidatePolicy(policy Policy) error {
 	if !contains(policy.Commands, "mhj external-evidence repo-split-decision") {
 		return fmt.Errorf("external evidence repo split decision command required")
 	}
+	if !contains(policy.Commands, "mhj external-evidence repo-bootstrap") {
+		return fmt.Errorf("external evidence repo bootstrap command required")
+	}
 	return validateRepoSplit(policy.RepoSplitAssessment)
 }
 

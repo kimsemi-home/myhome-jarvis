@@ -4,6 +4,7 @@ import (
 	"flag"
 	"os"
 
+	"github.com/kimsemi-home/myhome-jarvis/internal/externalbootstrap"
 	"github.com/kimsemi-home/myhome-jarvis/internal/externalevidence"
 )
 
@@ -13,6 +14,9 @@ func routeExternalEvidence(root string, args []string) error {
 	}
 	if len(args) == 1 && args[0] == "repo-split-decision" {
 		return externalEvidenceRepoSplitDecision(root)
+	}
+	if len(args) == 1 && args[0] == "repo-bootstrap" {
+		return externalEvidenceRepoBootstrap(root)
 	}
 	if len(args) >= 1 && args[0] == "collect" {
 		return externalEvidenceCollect(root, args[1:])
@@ -30,6 +34,14 @@ func externalEvidenceStatus(root string) error {
 
 func externalEvidenceRepoSplitDecision(root string) error {
 	packet, err := externalevidence.RepoSplitDecisionPacketForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(packet)
+}
+
+func externalEvidenceRepoBootstrap(root string) error {
+	packet, err := externalbootstrap.PacketForRoot(root)
 	if err != nil {
 		return err
 	}

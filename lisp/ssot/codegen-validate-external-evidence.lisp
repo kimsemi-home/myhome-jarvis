@@ -21,6 +21,9 @@
   (require-member "mhj external-evidence repo-split-decision"
                   (policy-list policy :commands)
                   "External evidence repo split decision command required")
+  (require-member "mhj external-evidence repo-bootstrap"
+                  (policy-list policy :commands)
+                  "External evidence repo bootstrap command required")
   (validate-external-evidence-sources policy)
   (validate-external-evidence-repo-split policy))
 
