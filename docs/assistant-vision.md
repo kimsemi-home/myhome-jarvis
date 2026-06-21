@@ -129,7 +129,10 @@ paths, tokens, probe URLs, or request payloads.
 The audit uses summary refs such as `media_readiness`, `finance_consent`,
 `repo_factory`, `codex_cost`, `storage_archive`, and `authority`. Storage
 archive configuration is itself evidence through `config_evidence_sha256`, and
-archive promotion is blocked when the evidence noise budget is breached. The
-audit does not read or publish raw private ledgers, local absolute paths,
-private Linear URLs, finance payloads, prompts, transcripts, tokens,
-credentials, or secrets.
+archive promotion is blocked when the evidence noise budget is breached.
+Authority review packets also carry a `decision_contract`, which keeps human
+review non-delegable, maps Shorts Factory and self-improvement gate scopes to
+required evidence keys, and keeps approval, external writes, repo creation,
+workflow changes, and self-approval false. The audit does not read or publish
+raw private ledgers, local absolute paths, private Linear URLs, finance
+payloads, prompts, transcripts, tokens, credentials, or secrets.

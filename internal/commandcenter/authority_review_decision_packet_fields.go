@@ -3,8 +3,10 @@ package commandcenter
 func authorityReviewDecisionPacketPublicSafe(
 	brief AuthorityReviewBrief,
 	status Status,
+	contract AuthorityReviewDecisionContract,
 ) bool {
 	return brief.PublicSafe &&
+		contract.PublicSafe &&
 		status.StorageArchive.PublicSafe &&
 		status.StorageArchive.ConfigIsEvidence &&
 		brief.LocalRuntime.PublicSafe &&

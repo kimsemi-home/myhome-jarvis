@@ -93,6 +93,11 @@ finance consent, monetization, and Codex cost governance. It exposes only
 states, counts, gate posture, and next-safe-action fields so reviewers can
 judge the assistant vision without raw media sessions, finance records,
 private ledgers, prompts, local absolute paths, or private Linear URLs.
+The packet also includes a public-safe `decision_contract` that names the
+human-only reviewer posture, ready capabilities that do not block the review,
+each gated capability that needs a separate human decision record, evidence
+keys the reviewer must inspect, and grant flags that must remain false. This
+makes the review handoff actionable without turning the packet into approval.
 
 Daemon `GET /authority-review/request` returns a public-safe request packet with
 a stable request id derived from review classes and counts. It is evidence for a
