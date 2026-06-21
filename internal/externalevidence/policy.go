@@ -1,0 +1,21 @@
+package externalevidence
+
+import (
+	"encoding/json"
+	"os"
+	"path/filepath"
+)
+
+const PolicyRelativePath = "generated/external_evidence.generated.json"
+
+func readPolicy(root string) (Policy, error) {
+	body, err := os.ReadFile(filepath.Join(root, filepath.FromSlash(PolicyRelativePath)))
+	if err != nil {
+		return Policy{}, err
+	}
+	var policy Policy
+	if err := json.Unmarshal(body, &policy); err != nil {
+		return Policy{}, err
+	}
+	return policy, nil
+}

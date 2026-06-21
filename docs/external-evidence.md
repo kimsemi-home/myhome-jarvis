@@ -1,0 +1,39 @@
+# External Evidence Lake
+
+`external-evidence` is the first local intake rail for outside signals used by
+the self-improvement loop: news, economic indicators, trend sources, GitHub
+signals, and communities.
+
+The public repository owns only the contract:
+
+- source descriptors and allowed source classes
+- public-safe status fields
+- preprocessing and archive policy
+- repo split assessment
+
+Collected payloads stay under `data/private/external-evidence`. The collector
+writes hash-addressed raw files plus JSONL bronze, silver, gold, and manifest
+records. Public status never returns raw payload bodies, credentials, cookies,
+local absolute paths, accounts, or private notes.
+
+Commands:
+
+```sh
+mhj external-evidence status
+mhj external-evidence collect --max-sources 2
+mhj storage-archive run
+```
+
+## Repo Split
+
+The current recommendation is
+`keep_contract_in_myhome_jarvis_defer_repo_creation`.
+
+That means `myhome-jarvis` should keep the public-safe SSOT, validation,
+redacted status, archive contract, and split decision record. A future
+`kimsemi-home/myhome-external-evidence-lake` repo becomes useful when adapter
+count, release cadence, fixture volume, or lake implementation complexity
+exceeds this repository's boundary.
+
+Creating that repo remains authority-gated. A public repo must never contain raw
+payloads, credentials, cookies, local absolute paths, or private household data.

@@ -24,6 +24,8 @@ func routeOperations(root string, args []string) (bool, error) {
 		return true, routeLoop(root, args[1:])
 	case "storage-archive":
 		return true, routeStorageArchive(root, args[1:])
+	case "external-evidence":
+		return true, routeExternalEvidence(root, args[1:])
 	case "monetization":
 		return true, routeMonetization(root, args[1:])
 	case "authority-review":

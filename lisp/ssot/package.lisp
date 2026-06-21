@@ -36,6 +36,7 @@
    #:*media-readiness-policy*
    #:*merge-evidence-policy*
    #:*monetization-policy*
+   #:*external-evidence-policy*
    #:*repo-factory-policy*
    #:*authority-policy*
    #:*pdca-policy*

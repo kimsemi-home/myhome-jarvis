@@ -34,6 +34,7 @@
 	                               "generated/media_readiness.generated.json"
 	                               "generated/merge_evidence.generated.json"
 	                               "generated/monetization.generated.json"
+	                               "generated/external_evidence.generated.json"
 	                               "generated/repo_factory.generated.json"
 	                               "docs/verification-graph.md")
         :backends *verification-backends*

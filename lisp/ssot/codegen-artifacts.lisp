@@ -58,6 +58,7 @@
     ("media_readiness" ,*media-readiness-policy*)
     ("merge_evidence" ,*merge-evidence-policy*)
     ("monetization" ,*monetization-policy*)
+    ("external_evidence" ,*external-evidence-policy*)
     ("repo_factory" ,*repo-factory-policy*)
     ("authority" ,*authority-policy*)
     ("pdca" ,*pdca-policy*)

@@ -32,6 +32,7 @@ verify-ssot:
 	test -s generated/media_readiness.generated.json
 	test -s generated/merge_evidence.generated.json
 	test -s generated/monetization.generated.json
+	test -s generated/external_evidence.generated.json
 	test -s generated/repo_factory.generated.json
 	git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md
 

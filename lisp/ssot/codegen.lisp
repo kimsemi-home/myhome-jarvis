@@ -23,6 +23,7 @@
   (validate-media-readiness-policy *media-readiness-policy*)
   (validate-merge-evidence-policy *merge-evidence-policy*)
   (validate-monetization-policy *monetization-policy*)
+  (validate-external-evidence-policy *external-evidence-policy*)
   (validate-repo-factory-policy *repo-factory-policy*)
   (validate-authority-policy *authority-policy*)
   (validate-pdca-policy *pdca-policy*)
