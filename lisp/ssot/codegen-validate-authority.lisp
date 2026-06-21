@@ -47,10 +47,22 @@
 (defun validate-authority-review-recording (policy)
   (require-private-jsonl (getf policy :private_review_request_ledger)
                          "Authority review ledger must stay private JSONL")
+  (require-private-jsonl (getf policy :private_approval_decision_ledger)
+                         "Authority approval ledger must stay private JSONL")
   (require-members '("request_id" "evidence_ref" "queue_item_ref"
                      "queue_state" "required_review_classes"
                      "approval_granted" "external_writes_allowed"
                      "self_approval_allowed")
                    (policy-list policy :review_record_required_fields)
                    "Authority review record field missing: ~A")
-  (require-command policy "mhj authority-review record <json-payload>"))
+  (require-members '("decision_packet_ref" "decision_packet_context"
+                     "decision_packet_checked_at" "scope" "target"
+                     "reviewer_boundary" "reviewer_is_requester"
+                     "expires_at" "approval_granted"
+                     "repo_creation_allowed" "workflow_changes_allowed"
+                     "external_writes_allowed" "self_approval_allowed")
+                   (policy-list policy :approval_decision_required_fields)
+                   "Authority approval decision field missing: ~A")
+  (require-command policy "mhj authority-review record <json-payload>")
+  (require-command policy "mhj authority-review approval-status")
+  (require-command policy "mhj authority-review approve <json-payload>"))

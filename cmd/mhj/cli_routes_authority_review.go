@@ -5,6 +5,8 @@ func routeAuthorityReviewStatus(root string, args []string) (bool, error) {
 		return false, nil
 	}
 	switch args[1] {
+	case "approval-status":
+		return true, authorityReviewApprovalStatus(root)
 	case "brief":
 		return true, authorityReviewBrief(root)
 	case "decision-packet":
@@ -24,8 +26,13 @@ func routeAuthorityReview(root string, args []string) error {
 	if len(args) == 2 && args[0] == "record" {
 		return authorityReviewRecord(root, []byte(args[1]))
 	}
+	if len(args) == 2 && args[0] == "approve" {
+		return authorityReviewApprove(root, []byte(args[1]))
+	}
 	if len(args) == 1 {
 		switch args[0] {
+		case "approval-status":
+			return authorityReviewApprovalStatus(root)
 		case "brief":
 			return authorityReviewBrief(root)
 		case "decision-packet":

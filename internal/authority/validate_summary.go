@@ -32,10 +32,23 @@ func validatePolicySummary(policy Policy) error {
 	if !privateJSONL(policy.PrivateReviewRequestLedger) {
 		return fmt.Errorf("authority review ledger must stay private jsonl")
 	}
+	if !privateJSONL(policy.PrivateApprovalDecisionLedger) {
+		return fmt.Errorf("authority approval ledger must stay private jsonl")
+	}
 	if err := requireAll("authority review record field", normalizeList(policy.ReviewRecordRequiredFields), []string{
 		"request_id", "evidence_ref", "queue_item_ref", "queue_state",
 		"required_review_classes", "approval_granted",
 		"external_writes_allowed", "self_approval_allowed",
+	}); err != nil {
+		return err
+	}
+	if err := requireAll("authority approval field", normalizeList(policy.ApprovalDecisionRequiredFields), []string{
+		"decision_packet_ref", "decision_packet_context",
+		"decision_packet_checked_at", "scope", "target", "reviewer_boundary",
+		"reviewer_is_requester", "expires_at", "approval_granted",
+		"repo_creation_allowed",
+		"workflow_changes_allowed", "external_writes_allowed",
+		"self_approval_allowed",
 	}); err != nil {
 		return err
 	}
