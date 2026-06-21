@@ -19,6 +19,7 @@ func requiredPolicyCommands() []string {
 		"mhj authority-review request",
 		"mhj authority-review evidence",
 		"mhj authority-review queue",
+		"mhj authority-review refresh [linear-ref]",
 		"mhj authority-review record <json-payload>",
 		"mhj authority-review approval-status",
 		"mhj authority-review approve <json-payload>",
