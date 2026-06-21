@@ -54,6 +54,7 @@ func fixturePolicy(sourceURL string) Policy {
 		Commands: []string{
 			"mhj external-evidence status",
 			"mhj external-evidence repo-split-decision",
+			"mhj external-evidence repo-bootstrap",
 			"mhj external-evidence collect",
 		},
 	}

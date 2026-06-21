@@ -21,6 +21,7 @@ Commands:
 ```sh
 mhj external-evidence status
 mhj external-evidence repo-split-decision
+mhj external-evidence repo-bootstrap
 mhj external-evidence collect --max-sources 2
 mhj storage-archive run
 ```
@@ -50,3 +51,17 @@ The packet is review-only. It keeps repo creation, external writes, workflow
 changes, and self-approval false until an authority decision record explicitly
 grants the creation path. Raw, bronze, silver, and gold lake payloads remain
 private regardless of the option selected.
+
+Use `mhj external-evidence repo-bootstrap` after the split decision packet. It
+joins the split packet, repo-factory preflight, context-pack handoff, and
+authority approval status into a single public-safe bootstrap packet. Without an
+active `repo_creation` approval lease for the exact candidate repo, the packet
+keeps `creation_allowed=false` and reports
+`blocked_missing_repo_creation_approval`.
+
+When approval is present, the allowed surface is still only the minimal public
+skeleton: README/license policy, `.codex` goal, `.mhj` context-pack declaration,
+security/private-data docs, and generated GitHub Actions quality workflow. The
+packet exposes hash-cache inputs for generated artifacts, source descriptors,
+workflow dependencies, context-pack version, and ontology version so unchanged
+bootstrap units can skip unnecessary GitHub Actions work.
