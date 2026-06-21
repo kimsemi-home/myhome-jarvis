@@ -49,6 +49,7 @@ func assertContractItem(
 		if item.Scope != scope || item.RequiredReviewClass != reviewClass ||
 			!item.HumanDecisionRecordRequired ||
 			!containsString(item.RequiredEvidenceKeys, "storage_evidence") ||
+			!containsString(item.RequiredEvidenceKeys, "external_evidence") ||
 			!containsString(item.RequiredEvidenceKeys, "capability_readiness") ||
 			item.ThisPacketGrantsApproval || item.AllowsExternalWrites ||
 			item.AllowsRepoCreation || item.AllowsWorkflowChanges ||

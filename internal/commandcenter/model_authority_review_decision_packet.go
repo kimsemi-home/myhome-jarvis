@@ -28,6 +28,7 @@ type AuthorityReviewDecisionPacket struct {
 	LocalRuntime                 LocalRuntimeSummary             `json:"local_runtime"`
 	MergeEvidence                MergeEvidenceSummary            `json:"merge_evidence"`
 	CodexSustainability          CodexSustainabilitySummary      `json:"codex_sustainability"`
+	ExternalEvidence             ExternalEvidenceSummary         `json:"external_evidence"`
 	ContextPack                  ContextPackSummary              `json:"context_pack"`
 	CapabilityReadiness          CapabilityReadinessSummary      `json:"capability_readiness"`
 	DecisionContract             AuthorityReviewDecisionContract `json:"decision_contract"`

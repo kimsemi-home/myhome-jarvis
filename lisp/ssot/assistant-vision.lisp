@@ -12,6 +12,7 @@
     (:key "merge_evidence" :meaning "proof that eligible PR work reached main")
     (:key "evidence_retention" :meaning "local log compression archive lifecycle")
     (:key "evidence_noise_budget" :meaning "bounded low-signal evidence budget")
+    (:key "external_evidence_lake" :meaning "public outside signals collected into a private local lake")
     (:key "local_runtime_health" :meaning "daemon supervisor reachability evidence")
     (:key "household_scope" :meaning "user spouse household or shared view")))
 
@@ -32,8 +33,8 @@
      :features #("usage_ledger" "budget_alert" "roi_review")
      :authority "local_readonly" :evidence "generated codex cost policy")
     (:key "self_improvement_loop"
-     :features #("pdca" "learning_ledger" "incident_feedback")
-     :authority "authority_gated" :evidence "generated pdca")))
+     :features #("pdca" "learning_ledger" "incident_feedback" "external_evidence_lake")
+     :authority "authority_gated" :evidence "generated pdca and external evidence")))
 
 (defparameter *assistant-guardrails*
   #("local_first" "public_safe_by_default" "private_data_stays_private"

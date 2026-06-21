@@ -40,6 +40,7 @@ func visionAuditFixtureStatus(policy visionPolicy) Status {
 		PDCA: PDCASummary{
 			Ready: true,
 		},
+		ExternalEvidence: readyExternalEvidenceSummary(),
 		Authority: AuthoritySummary{
 			Outcome: "blocked",
 		},

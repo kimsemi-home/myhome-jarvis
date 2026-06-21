@@ -18,6 +18,7 @@ type Status struct {
 	CodexCostBrief       CodexCostBriefSummary       `json:"codex_cost_brief"`
 	CodexCostScaling     CodexCostScalingSummary     `json:"codex_cost_scaling"`
 	CodexSustainability  CodexSustainabilitySummary  `json:"codex_sustainability"`
+	ExternalEvidence     ExternalEvidenceSummary     `json:"external_evidence"`
 	StorageArchive       StorageArchiveSummary       `json:"storage_archive"`
 	Supervisor           SupervisorSummary           `json:"supervisor"`
 	LocalRuntime         LocalRuntimeSummary         `json:"local_runtime"`

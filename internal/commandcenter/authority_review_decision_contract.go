@@ -62,6 +62,7 @@ func commonAuthorityReviewEvidenceKeys() []string {
 		"local_runtime",
 		"merge_evidence",
 		"codex_sustainability",
+		"external_evidence",
 		"context_pack",
 		"capability_readiness",
 	}

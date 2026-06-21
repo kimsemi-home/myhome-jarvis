@@ -65,6 +65,8 @@ func publicSafe(in inputs) bool {
 		in.Authority.PublicSafetyOK &&
 		!in.Authority.SelfAuthorityAllowed &&
 		in.CostBrief.PublicSafe &&
+		in.ExternalEvidence.PublicSafe &&
+		!in.ExternalEvidence.RawPayloadPublicAllowed &&
 		in.StorageArchive.PublicSafe &&
 		in.RepoFactory.PublicSafe &&
 		in.RepoFactoryPreflight.PublicSafe &&

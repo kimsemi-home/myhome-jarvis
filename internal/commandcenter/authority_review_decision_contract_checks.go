@@ -17,10 +17,19 @@ func authorityReviewContractEvidenceChecks(
 			brief.MergeEvidence.PublicSafe),
 		contractCheck("codex_sustainability", brief.CodexSustainability.SustainabilityPosture, true,
 			brief.CodexSustainability.PublicSafe),
+		contractCheck("external_evidence", externalEvidenceState(brief.ExternalEvidence), true,
+			brief.ExternalEvidence.PublicSafe && !brief.ExternalEvidence.RawPayloadPublicAllowed),
 		contractCheck("context_pack", brief.ContextPack.Version, true, brief.ContextPack.PublicSafe),
 		contractCheck("capability_readiness", publicState(brief.CapabilityReadiness.PublicSafe), true,
 			brief.CapabilityReadiness.PublicSafe),
 	}
+}
+
+func externalEvidenceState(summary ExternalEvidenceSummary) string {
+	if summary.EvidenceReady {
+		return "ready"
+	}
+	return "missing_private_manifest"
 }
 
 func contractCheck(
