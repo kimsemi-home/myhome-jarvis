@@ -15,7 +15,7 @@ func visionEvidenceRefs(key string) []string {
 	case "self_improvement_loop":
 		return []string{
 			"pdca", "evidence", "storage_archive", "incidents", "review",
-			"authority", "local_runtime",
+			"authority", "local_runtime", "external_evidence",
 		}
 	default:
 		return []string{"assistant_status"}

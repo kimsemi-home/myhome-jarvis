@@ -32,7 +32,8 @@ func TestVisionAuditShowsIncompleteGoalWhenCapabilityGated(t *testing.T) {
 	}
 	row := visionAuditRowByKey(audit, "self_improvement_loop")
 	if row.State != "gated" || !containsString(row.GateRefs, "authority") ||
-		!containsString(row.EvidenceRefs, "storage_archive") {
+		!containsString(row.EvidenceRefs, "storage_archive") ||
+		!containsString(row.EvidenceRefs, "external_evidence") {
 		t.Fatalf("self-improvement row = %#v", row)
 	}
 }

@@ -42,6 +42,7 @@ func TestStatusSummarizesAssistantCommandCenter(t *testing.T) {
 		!hasPillar(status.StorageArchive.ConfigHashInputs, "evidence_noise_budget") {
 		t.Fatalf("storage archive evidence config = %#v", status.StorageArchive)
 	}
+	assertReadyExternalEvidenceSummary(t, status.ExternalEvidence)
 	if !status.AuthorityReview.PublicSafe ||
 		status.AuthorityReview.HighRiskBlockedDecisionCount != 6 {
 		t.Fatalf("authority review summary = %#v", status.AuthorityReview)

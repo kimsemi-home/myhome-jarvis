@@ -4,6 +4,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexsustainability"
 	"github.com/kimsemi-home/myhome-jarvis/internal/contextpack"
+	"github.com/kimsemi-home/myhome-jarvis/internal/externalevidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/financeconsent"
 	"github.com/kimsemi-home/myhome-jarvis/internal/incidents"
 	"github.com/kimsemi-home/myhome-jarvis/internal/monetization"
@@ -27,6 +28,7 @@ type inputs struct {
 	CostBrief            codexcost.Brief
 	CostScaling          codexcost.ScalingPacket
 	CodexSustainability  codexsustainability.Status
+	ExternalEvidence     externalevidence.Status
 	StorageArchive       storagearchive.Status
 	Supervisor           supervisor.DaemonStatus
 	ContextPack          contextpack.Status

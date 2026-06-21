@@ -44,6 +44,7 @@ func TestAuthorityReviewBriefSummarizesGatedHandoff(t *testing.T) {
 		containsString(brief.RepoFactoryPreflight.MissingEvidenceKeys, "public_safety_evidence") {
 		t.Fatalf("repo factory preflight = %#v", brief.RepoFactoryPreflight)
 	}
+	assertReadyExternalEvidenceSummary(t, brief.ExternalEvidence)
 }
 
 func TestAuthorityReviewBriefDoesNotExposePrivatePayloadFields(t *testing.T) {

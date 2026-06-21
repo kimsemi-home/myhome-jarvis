@@ -50,6 +50,7 @@ func authorityReviewDecisionPacketFromStatus(
 		LocalRuntime:                 brief.LocalRuntime,
 		MergeEvidence:                brief.MergeEvidence,
 		CodexSustainability:          brief.CodexSustainability,
+		ExternalEvidence:             brief.ExternalEvidence,
 		ContextPack:                  brief.ContextPack,
 		CapabilityReadiness:          brief.CapabilityReadiness,
 		DecisionContract:             contract,

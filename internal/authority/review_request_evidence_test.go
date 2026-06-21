@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestReviewRequestEvidenceIsReadyWithoutApproval(t *testing.T) {
@@ -33,7 +34,7 @@ func TestReviewRequestEvidenceFollowsRecordedReviewPlan(t *testing.T) {
 		Recorded:       true,
 		LedgerState:    "recorded_pending_review",
 		ApprovalState:  "not_approved",
-		LastRecordedAt: "2026-06-20T05:00:00Z",
+		LastRecordedAt: time.Now().UTC().Add(-time.Hour).Format(time.RFC3339),
 	})
 
 	status := ReviewRequestEvidenceFromPlan(plan)

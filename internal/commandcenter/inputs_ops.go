@@ -4,6 +4,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexcost"
 	"github.com/kimsemi-home/myhome-jarvis/internal/codexsustainability"
 	"github.com/kimsemi-home/myhome-jarvis/internal/contextpack"
+	"github.com/kimsemi-home/myhome-jarvis/internal/externalevidence"
 	"github.com/kimsemi-home/myhome-jarvis/internal/financeconsent"
 	"github.com/kimsemi-home/myhome-jarvis/internal/monetization"
 	"github.com/kimsemi-home/myhome-jarvis/internal/review"
@@ -29,6 +30,9 @@ func collectOpsInputs(root string, in *inputs) error {
 		return err
 	}
 	if in.CodexSustainability, err = codexsustainability.StatusForRoot(root); err != nil {
+		return err
+	}
+	if in.ExternalEvidence, err = externalevidence.StatusForRoot(root); err != nil {
 		return err
 	}
 	if in.StorageArchive, err = storagearchive.StatusForRoot(root); err != nil {
