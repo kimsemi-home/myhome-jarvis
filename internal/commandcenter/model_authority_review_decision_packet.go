@@ -30,6 +30,7 @@ type AuthorityReviewDecisionPacket struct {
 	CodexSustainability          CodexSustainabilitySummary      `json:"codex_sustainability"`
 	ContextPack                  ContextPackSummary              `json:"context_pack"`
 	CapabilityReadiness          CapabilityReadinessSummary      `json:"capability_readiness"`
+	DecisionContract             AuthorityReviewDecisionContract `json:"decision_contract"`
 	DecisionPacketState          string                          `json:"decision_packet_state"`
 	CanApplyDecision             bool                            `json:"can_apply_decision"`
 	DecisionOptions              []AuthorityReviewDecisionOption `json:"decision_options"`

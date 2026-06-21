@@ -21,10 +21,11 @@ func authorityReviewDecisionPacketFromStatus(
 	brief AuthorityReviewBrief,
 	status Status,
 ) AuthorityReviewDecisionPacket {
+	contract := authorityReviewDecisionContract(brief, status)
 	return AuthorityReviewDecisionPacket{
 		Context:                      "AuthorityReviewDecisionPacket",
 		Version:                      "v1",
-		PublicSafe:                   authorityReviewDecisionPacketPublicSafe(brief, status),
+		PublicSafe:                   authorityReviewDecisionPacketPublicSafe(brief, status, contract),
 		Redaction:                    "review-decision-public-handoff",
 		PolicyPath:                   brief.PolicyPath,
 		RequestID:                    brief.RequestID,
@@ -51,6 +52,7 @@ func authorityReviewDecisionPacketFromStatus(
 		CodexSustainability:          brief.CodexSustainability,
 		ContextPack:                  brief.ContextPack,
 		CapabilityReadiness:          brief.CapabilityReadiness,
+		DecisionContract:             contract,
 		DecisionPacketState:          "review_only",
 		CanApplyDecision:             false,
 		DecisionOptions:              authorityReviewDecisionOptions(),
