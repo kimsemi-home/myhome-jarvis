@@ -26,6 +26,13 @@ func TestWorkItemStatusUsesUniversalVocabulary(t *testing.T) {
 		status.ReviewEscalationAction == "" {
 		t.Fatalf("work item stale guard = %#v", status)
 	}
+	if !status.CapabilityReadiness.PublicSafe ||
+		status.CapabilityReadiness.Media.State == "" ||
+		status.CapabilityReadiness.FinanceConsent.State == "" ||
+		status.CapabilityReadiness.Monetization.State == "" ||
+		status.CapabilityReadiness.CodexCost.State == "" {
+		t.Fatalf("work item capability readiness = %#v", status.CapabilityReadiness)
+	}
 	if status.ApprovalGranted || status.ExternalWritesAllowed ||
 		status.SelfApprovalAllowed || status.ApprovalState != "not_approved" {
 		t.Fatalf("work item granted authority = %#v", status)
