@@ -22,6 +22,7 @@ const _objectEndpointPaths = <String, String>{
   'evidenceQuality': '/evidence-quality/status',
   'review': '/review/status',
   'authority': '/authority/status',
+  'authorityReviewDecision': '/authority-review/decision-packet',
   'metrics': '/metrics',
   'events': '/events',
   'supervisor': '/supervisor/status',

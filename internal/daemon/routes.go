@@ -41,6 +41,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /review/status", server.wrap(server.handleReviewStatus))
 	mux.HandleFunc("GET /authority/status", server.wrap(server.handleAuthorityStatus))
 	mux.HandleFunc("GET /authority-review/status", server.wrap(server.handleAuthorityReviewStatus))
+	mux.HandleFunc("GET /authority-review/decision-packet", server.wrap(server.handleAuthorityReviewDecisionPacket))
 	mux.HandleFunc("GET /authority-review/request", server.wrap(server.handleAuthorityReviewRequest))
 	mux.HandleFunc("GET /authority-review/evidence", server.wrap(server.handleAuthorityReviewEvidence))
 	mux.HandleFunc("GET /authority-review/queue", server.wrap(server.handleAuthorityReviewQueue))

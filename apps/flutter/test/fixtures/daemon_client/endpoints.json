@@ -421,6 +421,37 @@
     "reasoning_tier_grants_approval": false,
     "self_authority_allowed": false
   },
+  "/authority-review/decision-packet": {
+    "context": "AuthorityReviewDecisionPacket",
+    "public_safe": true,
+    "decision_packet_state": "review_only",
+    "can_apply_decision": false,
+    "decision_contract": {
+      "public_safe": true,
+      "reviewer_posture": "human_only_non_delegable",
+      "review_only": true,
+      "can_apply_decision": false,
+      "contract_items": [
+        {
+          "capability_key": "self_improvement_loop",
+          "scope": "closed_loop_authority_and_external_write_boundary",
+          "allows_self_approval": false
+        },
+        {
+          "capability_key": "shorts_factory_control_plane",
+          "scope": "public_repo_and_workflow_control",
+          "allows_repo_creation": false
+        }
+      ],
+      "forbidden_grant_flags": {
+        "approval_granted": false,
+        "external_writes_allowed": false,
+        "repo_creation_allowed": false,
+        "workflow_changes_allowed": false,
+        "self_approval_allowed": false
+      }
+    }
+  },
   "/metrics": {
     "bind_host": "127.0.0.1",
     "requests": 7,

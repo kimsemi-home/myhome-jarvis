@@ -32,6 +32,7 @@ JarvisSnapshot buildLanSnapshot() {
     evidenceQuality: const <String, Object?>{},
     review: const <String, Object?>{},
     authority: const <String, Object?>{},
+    authorityReviewDecision: const <String, Object?>{},
     metrics: <String, Object?>{
       'bind_host': '192.168.1.10',
       'dry_run_default': true,

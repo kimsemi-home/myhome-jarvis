@@ -28,6 +28,10 @@ Future<JarvisSnapshot> _loadSnapshotFromDaemon(
       evidenceQuality: _statusObject(objects, 'evidenceQuality'),
       review: _statusObject(objects, 'review'),
       authority: _statusObject(objects, 'authority'),
+      authorityReviewDecision: _statusObject(
+        objects,
+        'authorityReviewDecision',
+      ),
       metrics: _statusObject(objects, 'metrics'),
       events: _statusObject(objects, 'events'),
       supervisor: _statusObject(objects, 'supervisor'),

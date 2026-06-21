@@ -36,6 +36,7 @@ The generated policy defines:
 go run ./cmd/mhj authority status
 go run ./cmd/mhj authority-review status
 go run ./cmd/mhj authority-review brief
+go run ./cmd/mhj authority-review decision-packet
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
 go run ./cmd/mhj authority-review queue
@@ -98,6 +99,14 @@ human-only reviewer posture, ready capabilities that do not block the review,
 each gated capability that needs a separate human decision record, evidence
 keys the reviewer must inspect, and grant flags that must remain false. This
 makes the review handoff actionable without turning the packet into approval.
+
+Daemon `GET /authority-review/decision-packet` returns the same public-safe
+decision packet for local command-center clients. The endpoint is read-only and
+keeps the decision contract, scoped gated capability items, required evidence
+checks, `review_only`, `can_apply_decision=false`, and false grant flags
+observable without exposing raw evidence payloads, reviewer identities, private
+Linear URLs, tokens, local absolute paths, or private notes. It does not grant
+approval, external writes, repo creation, workflow changes, or self-approval.
 
 Daemon `GET /authority-review/request` returns a public-safe request packet with
 a stable request id derived from review classes and counts. It is evidence for a
