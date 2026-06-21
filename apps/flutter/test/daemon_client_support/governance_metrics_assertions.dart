@@ -10,6 +10,7 @@ void expectGovernanceMetrics(JarvisSnapshot snapshot) {
   expect(metricValue(snapshot, 'Connectors'), '2/2 fixture');
   expect(metricValue(snapshot, 'Agent Cluster'), '5 roles gated');
   expect(metricValue(snapshot, 'Authority Gate'), '3 debt');
+  expect(metricValue(snapshot, 'Authority Decision'), '2 scoped');
   expect(metricValue(snapshot, 'Review Capacity'), '1 debt');
   expect(metricValue(snapshot, 'Learning'), '1 open');
   expect(metricValue(snapshot, 'Evidence Graph'), '2 links');

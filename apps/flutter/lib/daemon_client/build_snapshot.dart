@@ -21,6 +21,7 @@ JarvisSnapshot buildSnapshot({
   required Map<String, Object?> evidenceQuality,
   required Map<String, Object?> review,
   required Map<String, Object?> authority,
+  required Map<String, Object?> authorityReviewDecision,
   required Map<String, Object?> metrics,
   required Map<String, Object?> events,
   required Map<String, Object?> supervisor,
@@ -48,6 +49,7 @@ JarvisSnapshot buildSnapshot({
     evidenceQuality: evidenceQuality,
     review: review,
     authority: authority,
+    authorityReviewDecision: authorityReviewDecision,
     metrics: metrics,
     events: events,
     supervisor: supervisor,
@@ -57,11 +59,7 @@ JarvisSnapshot buildSnapshot({
   );
   return JarvisSnapshot(
     metrics: _systemMetrics(status),
-    commands: commands
-        .whereType<Map<String, Object?>>()
-        .map(_commandFromSpec)
-        .whereType<HomeCommand>()
-        .toList(growable: false),
+    commands: _commandsFromSpecs(commands),
     linearItems: _linearItems(linear),
     storageItems: _domainItems(domain),
     recommendationItems: _recommendationItems(domain),

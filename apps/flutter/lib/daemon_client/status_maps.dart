@@ -21,6 +21,7 @@ class _StatusMaps {
     required this.evidenceQuality,
     required this.review,
     required this.authority,
+    required this.authorityReviewDecision,
     required this.metrics,
     required this.events,
     required this.supervisor,
@@ -48,6 +49,7 @@ class _StatusMaps {
   final Map<String, Object?> evidenceQuality;
   final Map<String, Object?> review;
   final Map<String, Object?> authority;
+  final Map<String, Object?> authorityReviewDecision;
   final Map<String, Object?> metrics;
   final Map<String, Object?> events;
   final Map<String, Object?> supervisor;

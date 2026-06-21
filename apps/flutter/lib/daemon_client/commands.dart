@@ -40,6 +40,14 @@ HomeCommand? _commandFromSpec(Map<String, Object?> spec) {
   );
 }
 
+List<HomeCommand> _commandsFromSpecs(List<Object?> commands) {
+  return commands
+      .whereType<Map<String, Object?>>()
+      .map(_commandFromSpec)
+      .whereType<HomeCommand>()
+      .toList(growable: false);
+}
+
 List<CommandInvocation> _invocations(Object? value) {
   if (value is! List<Object?>) {
     return const [];

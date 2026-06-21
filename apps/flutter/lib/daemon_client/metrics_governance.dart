@@ -12,6 +12,8 @@ List<SystemMetric> _governanceMetrics(_StatusMaps s) {
   final reviewState = _string(s.review['capacity_state']) ?? 'unknown';
   final reviewDebt = _int(s.review['review_debt_count']) ?? 0;
   final reviewOpen = _int(s.review['open_count']) ?? 0;
+  final decisionContract =
+      _object(s.authorityReviewDecision['decision_contract']) ?? {};
   return [
     SystemMetric(
       label: 'Linear',
@@ -36,6 +38,11 @@ List<SystemMetric> _governanceMetrics(_StatusMaps s) {
       label: 'Authority Gate',
       value: _authorityGateValue(outcome, authorityDebt, blocked),
       icon: Icons.admin_panel_settings_outlined,
+    ),
+    SystemMetric(
+      label: 'Authority Decision',
+      value: _authorityDecisionValue(decisionContract),
+      icon: Icons.fact_check_outlined,
     ),
     SystemMetric(
       label: 'Review Capacity',
