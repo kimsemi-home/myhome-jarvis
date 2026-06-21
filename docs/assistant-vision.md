@@ -27,6 +27,8 @@ remains open.
 - `merge_evidence`: proof that eligible PR work reached main.
 - `evidence_retention`: local log compression archive lifecycle.
 - `evidence_noise_budget`: bounded low-signal evidence budget.
+- `external_evidence_lake`: public-source signals collected into a private
+  local lake for the self-improvement loop.
 - `local_runtime_health`: daemon supervisor reachability evidence.
 - `household_scope`: user, spouse, household, or shared view.
 

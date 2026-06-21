@@ -32,6 +32,9 @@
            :format "jsonl")
           (:key "authority_review"
            :path "data/private/authority-review/requests.jsonl"
+           :format "jsonl")
+          (:key "external_evidence"
+           :path "data/private/external-evidence/manifest.jsonl"
            :format "jsonl"))
         :log_archive
         (list :mode "compress_then_archive"

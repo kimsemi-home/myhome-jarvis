@@ -20,6 +20,13 @@ source list, compression, archive configuration, and noise budget are
 public-safe evidence because they prove which local data can be compacted and
 where the private archive boundary is.
 
+External evidence uses the same private archive lane. `mhj external-evidence
+collect` writes a source manifest under
+`data/private/external-evidence/manifest.jsonl`, and `mhj storage-archive run`
+archives that manifest through the `external_evidence` source key. Raw fetched
+payloads remain in the private external evidence lake and are not emitted by
+public status surfaces.
+
 Evidence noise is also configured as evidence. The storage SSOT records an
 enabled noise budget, a maximum noise ratio percent, a low-signal record window,
 dedupe keys, and the rule that a noise-budget breach blocks archive promotion.
@@ -79,7 +86,10 @@ Go daemon read surface:
   It also includes monetization experiment records, finance consent records, and
   authority review request records so revenue hypotheses, read-only household
   finance consent evidence, and human-review queue evidence can be compressed
-  without exposing raw revenue, finance details, or private review context.
+  without exposing raw revenue, finance details, or private review context. It
+  also includes the external evidence manifest so news, economic, trend, GitHub,
+  and community intake evidence can be compressed without publishing fetched
+  payloads.
 - `mhj storage-archive run` executes the local private archive lane. Missing or
   empty sources are skipped, present JSONL sources are scanned for invalid or
   duplicate low-signal records, and sources that pass the noise budget are

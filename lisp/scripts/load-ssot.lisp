@@ -21,6 +21,7 @@
             "../ssot/assistant-vision.lisp" "../ssot/codex-cost.lisp"
             "../ssot/codex-sustainability.lisp" "../ssot/context-pack.lisp"
             "../ssot/media-readiness.lisp" "../ssot/merge-evidence.lisp" "../ssot/monetization.lisp"
+            "../ssot/external-evidence.lisp"
             "../ssot/repo-factory-template.lisp"
             "../ssot/repo-factory.lisp")
           (mhj-authority-files)
@@ -38,6 +39,7 @@
             "../ssot/codegen-validate-merge-evidence.lisp"
             "../ssot/codegen-validate-finance-consent.lisp"
             "../ssot/codegen-validate-monetization.lisp"
+            "../ssot/codegen-validate-external-evidence.lisp"
             "../ssot/codegen-validate-repo-factory.lisp"
             "../ssot/codegen-validate-shape-learning.lisp" "../ssot/codegen-validate-evidence.lisp"
             "../ssot/codegen-validate-confidence.lisp" "../ssot/codegen-validate-ddd-core.lisp"

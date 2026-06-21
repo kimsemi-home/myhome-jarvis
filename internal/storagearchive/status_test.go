@@ -14,7 +14,7 @@ func TestStatusSummarizesArchivePolicy(t *testing.T) {
 		status.CompressionArchivePattern != "compress_then_archive" {
 		t.Fatalf("compression policy = %#v", status)
 	}
-	if status.PrivateLogSourceCount != 10 || status.MaxNoiseRatioPercent > 25 {
+	if status.PrivateLogSourceCount != 11 || status.MaxNoiseRatioPercent > 25 {
 		t.Fatalf("archive counts = %#v", status)
 	}
 	if !containsKey(status.PrivateLogSourceKeys, "codex_cost_attribution") {
@@ -27,6 +27,9 @@ func TestStatusSummarizesArchivePolicy(t *testing.T) {
 		t.Fatalf("archive sources = %#v", status.PrivateLogSourceKeys)
 	}
 	if !containsKey(status.PrivateLogSourceKeys, "authority_review") {
+		t.Fatalf("archive sources = %#v", status.PrivateLogSourceKeys)
+	}
+	if !containsKey(status.PrivateLogSourceKeys, "external_evidence") {
 		t.Fatalf("archive sources = %#v", status.PrivateLogSourceKeys)
 	}
 	if status.ConfigEvidenceField != "evidence_noise_budget" ||

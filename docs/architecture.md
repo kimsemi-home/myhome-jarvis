@@ -72,6 +72,13 @@ under `data/private/quality/runs.jsonl`. `mhj quality status` and
 last run summary. Command output, argv, environment variables, raw test output,
 and local absolute paths are never recorded.
 
+External evidence follows the same public/private boundary. The public contract
+lives in `generated/external_evidence.generated.json`, while fetched payloads
+and raw/bronze/silver/gold lake layers stay under
+`data/private/external-evidence`. `mhj external-evidence status` and daemon
+`GET /external-evidence/status` expose only source counts, policy fields,
+manifest counts, and the repo split gate.
+
 The first repository safety surface is read-only. `mhj repo status` and daemon
 `GET /repo/status` report branch, head SHA, tracked changes, untracked files,
 and ignored private data paths using repository-relative paths only. Public
