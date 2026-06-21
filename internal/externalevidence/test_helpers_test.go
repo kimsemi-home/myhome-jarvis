@@ -46,8 +46,15 @@ func fixturePolicy(sourceURL string) Policy {
 			Recommendation:      "keep_contract_in_myhome_jarvis_defer_repo_creation",
 			FutureRepoCandidate: "kimsemi-home/myhome-external-evidence-lake",
 			CreationGate:        "authority_review_required",
-			PublicRepoRules:     []string{"no_raw_payloads", "private_data_stays_private"},
+			PublicRepoRules: []string{
+				"no_raw_payloads", "no_credentials", "no_cookies",
+				"no_local_absolute_paths", "private_data_stays_private",
+			},
 		},
-		Commands: []string{"mhj external-evidence status", "mhj external-evidence collect"},
+		Commands: []string{
+			"mhj external-evidence status",
+			"mhj external-evidence repo-split-decision",
+			"mhj external-evidence collect",
+		},
 	}
 }

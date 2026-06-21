@@ -64,4 +64,5 @@
               #("no_raw_payloads" "no_credentials" "no_cookies"
                 "no_local_absolute_paths" "private_data_stays_private"))
         :commands #("mhj external-evidence status"
+                    "mhj external-evidence repo-split-decision"
                     "mhj external-evidence collect")))

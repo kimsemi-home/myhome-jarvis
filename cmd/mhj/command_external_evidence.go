@@ -11,6 +11,9 @@ func routeExternalEvidence(root string, args []string) error {
 	if len(args) == 1 && args[0] == "status" {
 		return externalEvidenceStatus(root)
 	}
+	if len(args) == 1 && args[0] == "repo-split-decision" {
+		return externalEvidenceRepoSplitDecision(root)
+	}
 	if len(args) >= 1 && args[0] == "collect" {
 		return externalEvidenceCollect(root, args[1:])
 	}
@@ -23,6 +26,14 @@ func externalEvidenceStatus(root string) error {
 		return err
 	}
 	return writeJSON(status)
+}
+
+func externalEvidenceRepoSplitDecision(root string) error {
+	packet, err := externalevidence.RepoSplitDecisionPacketForRoot(root)
+	if err != nil {
+		return err
+	}
+	return writeJSON(packet)
 }
 
 func externalEvidenceCollect(root string, args []string) error {
