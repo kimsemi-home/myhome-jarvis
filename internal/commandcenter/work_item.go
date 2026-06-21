@@ -15,6 +15,7 @@ func WorkItemForRoot(root string) (WorkItemStatus, error) {
 
 func summarizeWorkItem(status Status) WorkItemSummary {
 	gateKeys := blockedGateKeys(status.BlockedGates)
+	readiness := summarizeCapabilityReadiness(status)
 	return WorkItemSummary{
 		WorkItemRef:            workItemRef(status),
 		WorkItemState:          workItemState(status),
@@ -33,7 +34,8 @@ func summarizeWorkItem(status Status) WorkItemSummary {
 		ReviewRequestStale:     status.AuthorityReview.ReviewRequestStale,
 		ReviewEscalationAction: status.AuthorityReview.ReviewRequestEscalationAction,
 		MergeEligibilityHint:   mergeEligibilityHint(status),
-		PublicSafe:             workItemPublicSafe(status),
+		CapabilityReadiness:    readiness,
+		PublicSafe:             workItemPublicSafe(status, readiness),
 		Redaction:              "universal-work-item-public-status",
 		ReviewOnly:             status.BlockedGateCount > 0,
 		ApprovalState:          "not_approved",
@@ -51,8 +53,12 @@ func workItemEvidenceRef(status Status) string {
 	return status.AuthorityReview.EvidenceRef
 }
 
-func workItemPublicSafe(status Status) bool {
+func workItemPublicSafe(
+	status Status,
+	readiness CapabilityReadinessSummary,
+) bool {
 	return status.PublicSafe &&
 		status.AuthorityReview.PublicSafe &&
+		readiness.PublicSafe &&
 		!status.Authority.SelfAuthorityAllowed
 }

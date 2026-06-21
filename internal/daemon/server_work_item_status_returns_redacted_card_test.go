@@ -25,6 +25,9 @@ func TestWorkItemStatusReturnsRedactedCard(t *testing.T) {
 	for _, expected := range []string{
 		`"context": "UniversalWorkItem"`,
 		`"work_item_state":`,
+		`"capability_readiness":`,
+		`"media":`,
+		`"codex_cost":`,
 		`"approval_state": "not_approved"`,
 		`"external_writes_allowed": false`,
 	} {

@@ -98,7 +98,10 @@ scan, and merge decision comment.
 closed-loop work item using universal-language fields: intent, capability,
 decision, evidence, authority, guardrail, and next safe action. It is a
 public-safe planning card only; it does not grant approval, external writes, or
-self-approval.
+self-approval. The same card carries `capability_readiness` for media, finance
+consent, monetization, and Codex cost governance so sibling repositories and
+Linear/GitHub updates can interpret ready and gated pillars without reading
+private ledgers.
 
 ## Local Runtime Health
 
