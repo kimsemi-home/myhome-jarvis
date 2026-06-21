@@ -24,6 +24,9 @@
   (require-member "mhj external-evidence repo-bootstrap"
                   (policy-list policy :commands)
                   "External evidence repo bootstrap command required")
+  (require-member "mhj external-evidence child-repo-status [path]"
+                  (policy-list policy :commands)
+                  "External evidence child repo status command required")
   (validate-external-evidence-sources policy)
   (validate-external-evidence-repo-split policy))
 

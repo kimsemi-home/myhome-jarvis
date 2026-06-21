@@ -22,6 +22,7 @@ Commands:
 mhj external-evidence status
 mhj external-evidence repo-split-decision
 mhj external-evidence repo-bootstrap
+mhj external-evidence child-repo-status ../myhome-external-evidence-lake
 mhj external-evidence collect --max-sources 2
 mhj storage-archive run
 ```
@@ -65,3 +66,11 @@ security/private-data docs, and generated GitHub Actions quality workflow. The
 packet exposes hash-cache inputs for generated artifacts, source descriptors,
 workflow dependencies, context-pack version, and ontology version so unchanged
 bootstrap units can skip unnecessary GitHub Actions work.
+
+After the child repo exists, use `mhj external-evidence child-repo-status
+<checkout-path>` from `myhome-jarvis` to verify the linked checkout without
+publishing the local path. The status checks the child context pack, upstream
+repo, ontology, authority and security versions, candidate repo, hash-cache
+inputs, required skeleton files, absence of `data/private`, and forbidden
+private identity/local path/token patterns. The output reports only redacted
+repo-relative findings and a ready/drifted/missing evidence state.

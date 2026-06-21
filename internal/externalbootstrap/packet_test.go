@@ -3,10 +3,19 @@ package externalbootstrap
 import (
 	"testing"
 	"time"
+
+	"github.com/kimsemi-home/myhome-jarvis/internal/authority"
 )
 
-func TestPacketForRootBlocksWithoutApprovalLease(t *testing.T) {
-	packet, err := PacketForRoot(repoRoot(t))
+func TestPacketBlocksWithoutApprovalLease(t *testing.T) {
+	now := time.Date(2026, 6, 21, 6, 0, 0, 0, time.UTC)
+	packet, err := packetFromEvidence(
+		repoRoot(t),
+		splitFixture(now),
+		approvalMissingFixture(now),
+		factoryFixture(),
+		now,
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -18,6 +27,18 @@ func TestPacketForRootBlocksWithoutApprovalLease(t *testing.T) {
 	if packet.CandidateRepo != "kimsemi-home/myhome-external-evidence-lake" ||
 		packet.NextSafeAction != "record_human_repo_creation_approval" {
 		t.Fatalf("bootstrap target = %#v", packet)
+	}
+}
+
+func approvalMissingFixture(now time.Time) authority.ApprovalDecisionStatus {
+	return authority.ApprovalDecisionStatus{
+		PublicSafe:       true,
+		LedgerState:      "missing",
+		NextSafeAction:   "record_human_approval_decision",
+		CheckedAt:        now.Format(time.RFC3339),
+		ScopeSummaries:   nil,
+		CanCreateRepo:    false,
+		CanWriteExternal: false,
 	}
 }
 

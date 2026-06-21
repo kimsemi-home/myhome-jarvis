@@ -21,6 +21,7 @@ func TestStatusSummarizesExternalEvidencePolicy(t *testing.T) {
 	if !contains(status.PublicRepoRules, "no_raw_payloads") ||
 		!contains(status.Commands, "mhj external-evidence repo-split-decision") ||
 		!contains(status.Commands, "mhj external-evidence repo-bootstrap") ||
+		!contains(status.Commands, "mhj external-evidence child-repo-status [path]") ||
 		!contains(status.Commands, "mhj external-evidence collect") {
 		t.Fatalf("public rules or commands missing = %#v", status)
 	}
