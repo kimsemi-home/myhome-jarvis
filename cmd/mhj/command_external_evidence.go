@@ -18,6 +18,9 @@ func routeExternalEvidence(root string, args []string) error {
 	if len(args) == 1 && args[0] == "repo-bootstrap" {
 		return externalEvidenceRepoBootstrap(root)
 	}
+	if len(args) >= 1 && args[0] == "child-repo-status" {
+		return externalEvidenceChildRepoStatus(root, args[1:])
+	}
 	if len(args) >= 1 && args[0] == "collect" {
 		return externalEvidenceCollect(root, args[1:])
 	}

@@ -66,4 +66,5 @@
         :commands #("mhj external-evidence status"
                     "mhj external-evidence repo-split-decision"
                     "mhj external-evidence repo-bootstrap"
+                    "mhj external-evidence child-repo-status [path]"
                     "mhj external-evidence collect")))
