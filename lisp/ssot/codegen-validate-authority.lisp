@@ -63,6 +63,7 @@
                      "external_writes_allowed" "self_approval_allowed")
                    (policy-list policy :approval_decision_required_fields)
                    "Authority approval decision field missing: ~A")
+  (require-command policy "mhj authority-review refresh [linear-ref]")
   (require-command policy "mhj authority-review record <json-payload>")
   (require-command policy "mhj authority-review approval-status")
   (require-command policy "mhj authority-review approve <json-payload>"))

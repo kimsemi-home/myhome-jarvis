@@ -29,6 +29,9 @@ func routeAuthorityReview(root string, args []string) error {
 	if len(args) == 2 && args[0] == "approve" {
 		return authorityReviewApprove(root, []byte(args[1]))
 	}
+	if len(args) >= 1 && args[0] == "refresh" {
+		return authorityReviewRefresh(root, args[1:])
+	}
 	if len(args) == 1 {
 		switch args[0] {
 		case "approval-status":

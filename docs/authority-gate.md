@@ -40,6 +40,7 @@ go run ./cmd/mhj authority-review decision-packet
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
 go run ./cmd/mhj authority-review queue
+go run ./cmd/mhj authority-review refresh KIM-210
 go run ./cmd/mhj authority-review record '<json-payload>'
 ```
 
@@ -143,6 +144,17 @@ guard may request escalation or request refresh of malformed review evidence,
 but it never grants approval or exposes reviewer identities, private Linear
 URLs, raw ledger rows, prompts, transcripts, secrets, or local absolute paths.
 
+`mhj authority-review refresh [linear-ref]` is the safe wrapper for refreshing a
+stale pending request from the current public-safe request, evidence, and queue
+surfaces. It appends a new pending request row to the same private ledger and
+sets `approval_granted=false`, `external_writes_allowed=false`, and
+`self_approval_allowed=false` internally. The optional Linear reference is
+normalized for traceability, but the public output remains summary-only:
+request id, queue state, approval state, recorded timestamp, optional Linear
+reference, class count, and private ledger state. Refreshing a request is not an
+approval and does not unlock workflow changes, public repo creation, external
+writes, or self-approval.
+
 ## Outcomes
 
 - `blocked`: public safety failed, confidence is blocked or low/unknown, or a
@@ -196,6 +208,7 @@ go run ./cmd/mhj authority-review decision-packet
 go run ./cmd/mhj authority-review request
 go run ./cmd/mhj authority-review evidence
 go run ./cmd/mhj authority-review queue
+go run ./cmd/mhj authority-review refresh KIM-210
 go run ./cmd/mhj authority-review record '<json-payload>'
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj ddd verify
