@@ -11,9 +11,15 @@ func TestAuthorityReviewDecisionPacketIncludesDecisionContract(t *testing.T) {
 	if !contract.PublicSafe || !contract.ReviewOnly || contract.CanApplyDecision {
 		t.Fatalf("decision contract boundary = %#v", contract)
 	}
-	if !containsString(contract.ReadyCapabilitiesNonBlocking, "codex_cost_governor") ||
+	if len(contract.ReadyCapabilitiesNonBlocking) !=
+		len(packet.CapabilityReadiness.ReadyCapabilityKeys) ||
 		len(contract.ContractItems) != len(packet.GatedCapabilityKeys) {
 		t.Fatalf("decision contract capabilities = %#v", contract)
+	}
+	for _, key := range packet.CapabilityReadiness.ReadyCapabilityKeys {
+		if !containsString(contract.ReadyCapabilitiesNonBlocking, key) {
+			t.Fatalf("ready capability %s missing in %#v", key, contract)
+		}
 	}
 	assertContractItem(t, contract, "shorts_factory_control_plane",
 		"public_repo_and_workflow_control", "public_repo_change_review")
