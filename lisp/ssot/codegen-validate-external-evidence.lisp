@@ -18,6 +18,9 @@
                           "External evidence path must stay private"))
   (require-positive-integer (getf policy :collection_max_bytes)
                             "External evidence collection max bytes required")
+  (require-member "mhj external-evidence repo-split-decision"
+                  (policy-list policy :commands)
+                  "External evidence repo split decision command required")
   (validate-external-evidence-sources policy)
   (validate-external-evidence-repo-split policy))
 

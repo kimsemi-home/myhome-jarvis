@@ -20,6 +20,7 @@ Commands:
 
 ```sh
 mhj external-evidence status
+mhj external-evidence repo-split-decision
 mhj external-evidence collect --max-sources 2
 mhj storage-archive run
 ```
@@ -37,3 +38,15 @@ exceeds this repository's boundary.
 
 Creating that repo remains authority-gated. A public repo must never contain raw
 payloads, credentials, cookies, local absolute paths, or private household data.
+
+Use `mhj external-evidence repo-split-decision` before creating any external
+evidence repository. The packet compares keeping the public contract in
+`myhome-jarvis` with splitting collector and lake experiments into a future
+repo. It includes privacy risk, maintenance burden, SSOT handoff, context-pack
+handoff, GitHub Actions cost, archive/cache behavior, and ontology/version
+discovery evidence.
+
+The packet is review-only. It keeps repo creation, external writes, workflow
+changes, and self-approval false until an authority decision record explicitly
+grants the creation path. Raw, bronze, silver, and gold lake payloads remain
+private regardless of the option selected.
