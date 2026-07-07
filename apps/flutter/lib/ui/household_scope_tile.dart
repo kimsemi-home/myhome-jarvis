@@ -14,10 +14,17 @@ class HouseholdScopeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      subtitle: Text(subtitle),
+    final shad = ShadTheme.of(context);
+    return JarvisSurface(
+      padding: const EdgeInsets.all(14),
+      child: Row(
+        children: [
+          Icon(icon, color: shad.colorScheme.primary),
+          const SizedBox(width: 12),
+          Expanded(child: Text(title, overflow: TextOverflow.ellipsis)),
+          JarvisBadge(subtitle),
+        ],
+      ),
     );
   }
 }

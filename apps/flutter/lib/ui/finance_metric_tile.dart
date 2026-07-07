@@ -14,35 +14,29 @@ class FinanceMetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(color: colors.outlineVariant),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: [
-            Icon(icon, color: colors.primary),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(label, style: Theme.of(context).textTheme.labelMedium),
-                  const SizedBox(height: 4),
-                  Text(
-                    value,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                ],
-              ),
+    final shad = ShadTheme.of(context);
+    return JarvisSurface(
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        children: [
+          Icon(icon, color: shad.colorScheme.primary),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(label, style: Theme.of(context).textTheme.labelMedium),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

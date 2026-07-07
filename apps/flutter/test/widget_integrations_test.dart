@@ -16,6 +16,10 @@ void main() {
 
     await openTab(tester, 'Connectors');
     expect(find.text('MyData aggregator'), findsOneWidget);
+    await scrollConnectorIntoView(tester, 'External evidence lake');
+    expect(find.text('External evidence lake'), findsOneWidget);
+    expect(find.text('public_evidence_boundary'), findsOneWidget);
+    expect(find.textContaining('raw_payload_import'), findsOneWidget);
     expect(find.text('fixture-only'), findsWidgets);
     expect(find.textContaining('Allowed:'), findsWidgets);
     expect(find.textContaining('Blocked:'), findsWidgets);

@@ -9,6 +9,7 @@ class ConnectorsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ListView.separated(
+        key: const Key('connectors-list'),
         padding: const EdgeInsets.all(16),
         itemCount: connectors.length,
         separatorBuilder: (_, _) => const SizedBox(height: 8),

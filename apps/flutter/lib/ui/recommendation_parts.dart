@@ -7,21 +7,21 @@ class RecommendationScoreBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
+    final shad = ShadTheme.of(context);
     return SizedBox(
       width: 48,
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: colors.primaryContainer,
+          color: shad.colorScheme.secondary,
         ),
         child: Center(
           child: Text(
             '$score',
             style: Theme.of(
               context,
-            ).textTheme.titleSmall?.copyWith(color: colors.onPrimaryContainer),
+            ).textTheme.titleSmall?.copyWith(color: shad.colorScheme.primary),
           ),
         ),
       ),
@@ -36,13 +36,13 @@ class RecommendationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
+    final shad = ShadTheme.of(context);
     return Row(
       children: [
         Icon(
           _recommendationIcon(recommendation.kind),
           size: 18,
-          color: colors.primary,
+          color: shad.colorScheme.primary,
         ),
         const SizedBox(width: 6),
         Expanded(

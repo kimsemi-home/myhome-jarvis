@@ -22,10 +22,10 @@ class JarvisScaffold extends StatelessWidget {
         appBar: AppBar(
           title: const Text('myhome-jarvis'),
           actions: [
-            IconButton(
+            JarvisIconAction(
               tooltip: 'Refresh',
+              icon: Icons.refresh,
               onPressed: loading ? null : onRefresh,
-              icon: const Icon(Icons.refresh),
             ),
           ],
           bottom: const TabBar(

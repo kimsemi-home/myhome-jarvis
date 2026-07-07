@@ -11,7 +11,7 @@ Future<void> showDryRunPreview(
     if (!context.mounted) {
       return;
     }
-    await showDialog<void>(
+    await showShadDialog<void>(
       context: context,
       builder: (dialogContext) => CommandPlanDialog(plan: plan),
     );
@@ -27,17 +27,16 @@ class CommandPlanDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ShadDialog(
       title: Text(plan.name),
-      content: SizedBox(
+      description: Text(plan.dryRun ? 'Dry-run plan' : 'Execution plan'),
+      child: SizedBox(
         width: 420,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(plan.dryRun ? 'Dry-run plan' : 'Execution plan'),
-              const SizedBox(height: 12),
               for (final invocation in plan.invocations) ...[
                 Text(
                   invocation.label,
@@ -61,7 +60,7 @@ class CommandPlanDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        TextButton(
+        ShadButton.outline(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Close'),
         ),

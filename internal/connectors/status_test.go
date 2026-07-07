@@ -17,7 +17,7 @@ func TestStatusForRootReadsPublicSafeGeneratedCatalog(t *testing.T) {
 	if !status.FixtureOnly || status.RealCredentialsAllowed || status.ExternalAPICallsAllowed {
 		t.Fatalf("connector safety flags = %#v", status)
 	}
-	if status.ConnectorCount < 6 || status.PlannedCount != status.ConnectorCount {
+	if status.ConnectorCount < 7 || status.PlannedCount < 6 {
 		t.Fatalf("connector counts = %#v", status)
 	}
 	if status.FixtureModeCount != status.ConnectorCount {
@@ -26,7 +26,11 @@ func TestStatusForRootReadsPublicSafeGeneratedCatalog(t *testing.T) {
 	if status.GeneratedPath != generatedConnectorPath {
 		t.Fatalf("generated path = %q", status.GeneratedPath)
 	}
+	foundExternalEvidenceLake := false
 	for _, connector := range status.Connectors {
+		if connector.Key == "external-evidence-lake" && connector.Status == "bootstrap" {
+			foundExternalEvidenceLake = true
+		}
 		for _, forbidden := range []string{"token", "secret", "cookie_value", "account_id", "card_number"} {
 			joined := strings.Join([]string{
 				connector.Key,
@@ -47,6 +51,9 @@ func TestStatusForRootReadsPublicSafeGeneratedCatalog(t *testing.T) {
 				t.Fatalf("connector %q allowed forbidden operation %q", connector.Key, operation)
 			}
 		}
+	}
+	if !foundExternalEvidenceLake {
+		t.Fatal("external evidence lake connector missing")
 	}
 }
 

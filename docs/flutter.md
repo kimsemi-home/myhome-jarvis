@@ -5,6 +5,25 @@ The first Flutter client lives in `apps/flutter`.
 Current scope:
 
 - Dart-only Flutter skeleton.
+- `shadcn_ui` is installed as the Flutter shadcn component baseline, with the
+  app wrapped in `ShadApp.custom` so existing Material navigation can migrate
+  incrementally instead of being rewritten at once.
+- Reference links for follow-up agent work: package
+  [`shadcn_ui`](https://pub.dev/packages/shadcn_ui), official docs
+  [Flutter Shadcn UI](https://mariuti.com/flutter-shadcn-ui/), API reference
+  [`shadcn_ui` library](https://pub.dev/documentation/shadcn_ui/latest/shadcn_ui/),
+  and upstream repo
+  [`nank1ro/flutter-shadcn-ui`](https://github.com/nank1ro/flutter-shadcn-ui).
+- Shared shadcn-style theme, surface, and badge wrappers live in the Flutter UI
+  layer so AI agents can inspect tokens and migrated components directly.
+- Screen contracts for agent-readable migration work live in
+  [`docs/flutter-screen-contracts.md`](flutter-screen-contracts.md).
+- The low-risk shadcn pilot decision lives in
+  [`docs/flutter-shadcn-low-risk-pilot.md`](flutter-shadcn-low-risk-pilot.md);
+  Connectors is the selected read-only pilot tab.
+- The navigation/chrome decision lives in
+  [`docs/flutter-navigation-chrome-decision.md`](flutter-navigation-chrome-decision.md);
+  Material tabs and scaffold remain under `ShadApp.custom` for this phase.
 - Status, command, finance, purchases, Linear, storage, household, and
   optimization tabs.
 - Dry-run command rows with editable payload fields for the initial
@@ -30,6 +49,10 @@ Current scope:
   metric.
 - Local-only network mode rendering from `/health` and `/metrics`, with
   LAN-enabled daemon mode shown as token-gated.
+- Public-safe external evidence lake readiness appears in Connectors from the
+  fixture-only metadata contract; it shows context-pack/status metadata while
+  keeping raw payload import, credentials, private archives, and collector
+  writes blocked.
 - Runtime status rendering from `/metrics`, showing goroutine count and
   formatted heap allocation when the daemon provides those counters.
 - LAN auth status rendering from `/auth/status` without displaying token
@@ -46,6 +69,13 @@ Current scope:
 - Structured recommendation rendering from fixture-only local summaries,
   including score, rationale, estimated amount, evidence count, and
   card-linked spend review items that never execute card actions.
+- Migrated shadcn-style surfaces include Status metrics, Linear/Storage list
+  rows, command rows, payload text inputs, payload service select, dry-run
+  preview dialog, dry-run actions, Connector
+  readiness cards, Agent Cluster cards, Finance/Purchases read-only dashboard
+  cards, Household result cards, Optimize recommendation cards, and dry-run
+  preview actions; all keep the existing
+  daemon/offline snapshot contracts.
 - User, Spouse, and Household fixture scope switching.
 - Dry-run preview client for `/intent`; command buttons always send
   `execute=false`, even though the daemon has a separately gated execution
@@ -65,3 +95,12 @@ cd apps/flutter
 flutter test
 flutter analyze
 ```
+
+Next UI migration order:
+
+1. Keep `ShadApp.custom` while Material tabs, scaffold, and tests remain stable;
+   see `docs/flutter-navigation-chrome-decision.md`.
+2. Move future read-only cards to shared shadcn wrappers, then revisit
+   scaffold/tab chrome only after the navigation replacement gate is met.
+3. Add focused widget tests before introducing additional interactive shadcn
+   controls such as menus, sheets, or table-like views.

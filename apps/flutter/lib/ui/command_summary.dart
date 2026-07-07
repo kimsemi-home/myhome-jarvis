@@ -12,16 +12,16 @@ class CommandSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
+    final shad = ShadTheme.of(context);
     return Row(
       children: [
-        Icon(command.icon, color: colors.primary),
+        Icon(command.icon, color: shad.colorScheme.primary),
         const SizedBox(width: 16),
         Expanded(child: CommandSummaryText(command: command)),
-        IconButton(
+        JarvisIconAction(
           tooltip: 'Dry-run',
+          icon: Icons.play_arrow,
           onPressed: onDryRun,
-          icon: const Icon(Icons.play_arrow),
         ),
       ],
     );

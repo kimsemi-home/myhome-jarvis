@@ -36,7 +36,7 @@ class HouseholdScopeBody extends StatelessWidget {
                 'Finance net: ${selected.financeNetMinorUnits} ${selected.currency}',
             subtitle: '${selected.financeRecords} records',
           ),
-          const Divider(height: 1),
+          const SizedBox(height: 8),
           HouseholdScopeTile(
             icon: Icons.shopping_bag_outlined,
             title:
