@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:myhome_jarvis_app/daemon_client.dart';
 import 'package:myhome_jarvis_app/snapshot.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
+part 'ui/shadcn_theme.dart';
+part 'ui/shadcn_components.dart';
+part 'ui/shadcn_actions.dart';
 part 'ui/home.dart';
 part 'ui/scaffold.dart';
 part 'ui/status.dart';
@@ -54,17 +58,18 @@ class JarvisApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'myhome-jarvis',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF2F6F5E),
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-      ),
-      home: JarvisHome(client: client),
+    return ShadApp.custom(
+      theme: JarvisShadTheme.light,
+      appBuilder: (context) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'myhome-jarvis',
+          theme: JarvisShadTheme.material(context),
+          home: JarvisHome(client: client),
+          builder: (_, child) => ShadAppBuilder(child: child),
+          scrollBehavior: const ShadScrollBehavior(),
+        );
+      },
     );
   }
 }

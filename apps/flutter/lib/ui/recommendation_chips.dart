@@ -7,20 +7,14 @@ class RecommendationChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        Chip(
-          label: Text(
-            _moneyText(
-              recommendation.estimatedMonthlyMinorUnits,
-              recommendation.currency,
-            ),
-          ),
+    return JarvisBadgeWrap(
+      labels: [
+        _moneyText(
+          recommendation.estimatedMonthlyMinorUnits,
+          recommendation.currency,
         ),
-        Chip(label: Text('${recommendation.evidenceCount} evidence')),
-        Chip(label: Text(recommendation.kind)),
+        '${recommendation.evidenceCount} evidence',
+        recommendation.kind,
       ],
     );
   }

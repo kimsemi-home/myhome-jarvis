@@ -7,12 +7,6 @@ class CategoryChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        for (final category in categories) Chip(label: Text(category)),
-      ],
-    );
+    return JarvisBadgeWrap(labels: categories);
   }
 }

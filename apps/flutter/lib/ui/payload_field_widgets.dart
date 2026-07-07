@@ -21,19 +21,26 @@ class PayloadServiceField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      initialValue: service ?? options.first,
-      isExpanded: true,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        isDense: true,
-        labelText: 'service',
-      ),
-      items: [
-        for (final option in options)
-          DropdownMenuItem(value: option, child: Text(option)),
+    final selected = service ?? options.first;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('service', style: Theme.of(context).textTheme.labelMedium),
+        const SizedBox(height: 6),
+        ShadSelect<String>(
+          key: const Key('payload-field-service'),
+          initialValue: selected,
+          minWidth: double.infinity,
+          maxWidth: double.infinity,
+          placeholder: const Text('service'),
+          selectedOptionBuilder: (context, value) => Text(value),
+          options: [
+            for (final option in options)
+              ShadOption(value: option, child: Text(option)),
+          ],
+          onChanged: onChanged,
+        ),
       ],
-      onChanged: onChanged,
     );
   }
 }
@@ -46,16 +53,20 @@ class PayloadTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        isDense: true,
-        labelText: field,
-      ),
-      keyboardType: _numericPayloadField(field)
-          ? TextInputType.number
-          : TextInputType.text,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(field, style: Theme.of(context).textTheme.labelMedium),
+        const SizedBox(height: 6),
+        ShadInput(
+          key: Key('payload-field-$field'),
+          controller: controller,
+          placeholder: Text(field),
+          keyboardType: _numericPayloadField(field)
+              ? TextInputType.number
+              : TextInputType.text,
+        ),
+      ],
     );
   }
 }

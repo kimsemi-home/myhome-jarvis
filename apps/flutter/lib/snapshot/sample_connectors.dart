@@ -36,4 +36,21 @@ const _sampleConnectors = [
     nextStep:
         'Extend local purchase fixtures and avoid scraping/cookie capture.',
   ),
+  ConnectorReadiness(
+    key: 'external-evidence-lake',
+    label: 'External evidence lake',
+    category: 'public_evidence_boundary',
+    status: 'bootstrap',
+    fixtureMode: true,
+    dataClasses: ['context_pack', 'ui_status_metadata', 'validation_summary'],
+    allowedOperations: ['read_public_fixture', 'show_status', 'link_upstream'],
+    forbiddenOperations: [
+      'raw_payload_import',
+      'credential_request',
+      'private_archive',
+      'collector_write',
+    ],
+    nextStep:
+        'Render public status only from the evidence-lake UI metadata fixture.',
+  ),
 ];

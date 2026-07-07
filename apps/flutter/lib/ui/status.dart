@@ -30,38 +30,31 @@ class MetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(color: colors.outlineVariant),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Icon(metric.icon, color: colors.primary),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    metric.label,
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    metric.value,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ],
-              ),
+    final shad = ShadTheme.of(context);
+    return JarvisSurface(
+      child: Row(
+        children: [
+          Icon(metric.icon, color: shad.colorScheme.primary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  metric.label,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  metric.value,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

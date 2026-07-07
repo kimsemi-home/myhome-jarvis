@@ -24,16 +24,31 @@ Future<void> openTab(WidgetTester tester, String label) async {
 }
 
 Future<void> scrollCommandIntoView(WidgetTester tester, String name) async {
+  final commandList = find
+      .descendant(
+        of: find.byKey(const Key('commands-list')),
+        matching: find.byType(Scrollable),
+      )
+      .first;
   await tester.scrollUntilVisible(
     find.text(name),
     240,
-    scrollable: find.descendant(
-      of: find.byType(CommandsView),
-      matching: find.byWidgetPredicate(
-        (widget) =>
-            widget is Scrollable && widget.axisDirection == AxisDirection.down,
-      ),
-    ),
+    scrollable: commandList,
+  );
+  await tester.pumpAndSettle();
+}
+
+Future<void> scrollConnectorIntoView(WidgetTester tester, String label) async {
+  final connectorsList = find
+      .descendant(
+        of: find.byKey(const Key('connectors-list')),
+        matching: find.byType(Scrollable),
+      )
+      .first;
+  await tester.scrollUntilVisible(
+    find.text(label),
+    240,
+    scrollable: connectorsList,
   );
   await tester.pumpAndSettle();
 }

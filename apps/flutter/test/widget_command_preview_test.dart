@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myhome_jarvis_app/main.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'widget_helpers.dart';
 
@@ -13,6 +14,7 @@ void main() {
 
     expect(find.text('Dry-run plan'), findsOneWidget);
     expect(find.textContaining('mhj command open-youtube'), findsOneWidget);
+    expect(find.byType(ShadDialog), findsOneWidget);
     expect(find.text('Close'), findsOneWidget);
   });
 
@@ -20,7 +22,7 @@ void main() {
     await openCommandsTab(tester);
     await scrollCommandIntoView(tester, 'volume-set');
 
-    await tester.enterText(find.widgetWithText(TextField, 'level'), '42');
+    await tester.enterText(_payloadEditable('level'), '42');
     final volumeSetRow = find.ancestor(
       of: find.text('volume-set'),
       matching: find.byType(CommandRow),
@@ -35,4 +37,11 @@ void main() {
       findsOneWidget,
     );
   });
+}
+
+Finder _payloadEditable(String field) {
+  return find.descendant(
+    of: find.byKey(Key('payload-field-$field')),
+    matching: find.byType(EditableText),
+  );
 }
