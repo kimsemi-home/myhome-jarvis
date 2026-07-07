@@ -24,29 +24,3 @@ class RecurringCandidatesSection extends StatelessWidget {
     );
   }
 }
-
-class RecurringCandidateTile extends StatelessWidget {
-  const RecurringCandidateTile(this.candidate, {super.key});
-
-  final RecurringPurchase candidate;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          leading: const Icon(Icons.repeat_outlined),
-          title: Text(candidate.itemName),
-          subtitle: Text(
-            '${candidate.merchantName} / ${candidate.purchaseCount} purchases / ${candidate.latestPurchasedAt}',
-          ),
-          trailing: Text(
-            _moneyText(candidate.latestTotalMinorUnits, candidate.currency),
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
-        ),
-        const Divider(height: 1),
-      ],
-    );
-  }
-}

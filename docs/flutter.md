@@ -73,8 +73,8 @@ Current scope:
   rows, command rows, payload text inputs, payload service select, dry-run
   preview dialog, dry-run actions, Connector
   readiness cards, Agent Cluster cards, Finance/Purchases read-only dashboard
-  cards, Household result cards, Optimize recommendation cards, and dry-run
-  preview actions; all keep the existing
+  cards, Purchase recurring-candidate cards, Household result cards, Optimize
+  recommendation cards, and dry-run preview actions; all keep the existing
   daemon/offline snapshot contracts.
 - User, Spouse, and Household fixture scope switching.
 - Dry-run preview client for `/intent`; command buttons always send
@@ -101,6 +101,8 @@ Next UI migration order:
 1. Keep `ShadApp.custom` while Material tabs, scaffold, and tests remain stable;
    see `docs/flutter-navigation-chrome-decision.md`.
 2. Move future read-only cards to shared shadcn wrappers, then revisit
-   scaffold/tab chrome only after the navigation replacement gate is met.
+   scaffold/tab chrome only after the documented navigation replacement gate is
+   fully met. The dashboard-test part of that gate is pinned by
+   `apps/flutter/test/widget_finance_purchases_test.dart`.
 3. Add focused widget tests before introducing additional interactive shadcn
    controls such as menus, sheets, or table-like views.

@@ -27,6 +27,9 @@ uses `root: "."` so default CLI output does not expose the local checkout path.
 The executable SSOT records this current-content scan contract in
 `generated/security.generated.json`, and Go tests fail if that generated policy
 drifts away from the scanner behavior.
+Ignored Flutter tool metadata such as `.flutter-plugins-dependencies` is
+skipped because it is generated locally and can contain absolute pub-cache
+paths after `flutter test` or `flutter analyze`.
 
 `mhj security history` scans reachable Git commits before public pushes. It
 checks historical file paths, historical file contents, and commit metadata for

@@ -18,6 +18,7 @@ part 'ui/finance_owner_section.dart';
 part 'ui/purchases.dart';
 part 'ui/purchase_metrics_grid.dart';
 part 'ui/purchase_sections.dart';
+part 'ui/purchase_candidate_tile.dart';
 part 'ui/purchase_owner_section.dart';
 part 'ui/category_chips.dart';
 part 'ui/optimize_view.dart';
@@ -44,9 +45,7 @@ part 'ui/household.dart';
 part 'ui/household_scope_body.dart';
 part 'ui/household_scope_tile.dart';
 
-void main() {
-  runApp(JarvisApp(client: DaemonSnapshotClient.local()));
-}
+void main() => runApp(JarvisApp(client: DaemonSnapshotClient.local()));
 
 class JarvisApp extends StatelessWidget {
   const JarvisApp({

@@ -14,6 +14,15 @@ func shouldSkipDir(name string) bool {
 	}
 }
 
+func shouldSkipFile(rel string) bool {
+	switch filepath.Base(rel) {
+	case ".flutter-plugins", ".flutter-plugins-dependencies", ".packages":
+		return true
+	default:
+		return false
+	}
+}
+
 func checkPath(rel string, report *Report) {
 	base := strings.ToLower(filepath.Base(rel))
 	ext := strings.ToLower(filepath.Ext(rel))

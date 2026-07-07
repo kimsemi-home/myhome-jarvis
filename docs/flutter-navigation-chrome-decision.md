@@ -50,3 +50,6 @@ the bridge:
   current navigation chrome.
 - `JarvisIconAction` and `ShadIconButton` keep the refresh action on the shadcn
   component path.
+- `apps/flutter/test/widget_finance_purchases_test.dart` pins one dashboard
+  gate by asserting Finance/Purchases shadcn surfaces, badges, and visible
+  dashboard states.
