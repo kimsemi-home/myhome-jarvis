@@ -70,6 +70,9 @@ Every tab should keep these states explicit and user-visible when relevant:
   before changing navigation chrome.
 - Treat Connectors as the first low-risk shadcn pilot tab; the decision and
   test target are documented in `docs/flutter-shadcn-low-risk-pilot.md`.
+- Keep dashboard migration evidence focused: Finance/Purchases must continue
+  mounting `JarvisSurface` and `ShadBadge` in
+  `apps/flutter/test/widget_finance_purchases_test.dart`.
 - Add focused widget tests before introducing new interactive shadcn controls.
 - Keep daemon endpoint contracts and redaction behavior unchanged during UI
   migration.

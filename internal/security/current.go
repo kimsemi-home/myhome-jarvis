@@ -31,6 +31,9 @@ func checkCurrentEntry(root string, path string, entry fs.DirEntry, walkErr erro
 	if entry.IsDir() {
 		return checkCurrentDir(entry, rel, report)
 	}
+	if shouldSkipFile(rel) {
+		return nil
+	}
 	checkPath(rel, report)
 	if shouldScanFileContent(rel) {
 		return checkFileContent(path, rel, report)

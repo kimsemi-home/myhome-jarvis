@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:myhome_jarvis_app/main.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'widget_helpers.dart';
 
@@ -7,6 +9,9 @@ void main() {
     await pumpJarvis(tester);
 
     await openTab(tester, 'Finance');
+    expect(find.byType(FinanceMetricTile), findsNWidgets(6));
+    expect(find.byType(JarvisSurface), findsWidgets);
+    expect(find.byType(ShadBadge), findsWidgets);
     expect(find.text('Net'), findsOneWidget);
     expect(find.text('4346800 KRW'), findsOneWidget);
     expect(find.text('Subscriptions'), findsOneWidget);
@@ -18,6 +23,10 @@ void main() {
     expect(find.text('Categories'), findsOneWidget);
 
     await openTab(tester, 'Purchases');
+    expect(find.byType(FinanceMetricTile), findsNWidgets(3));
+    expect(find.byType(RecurringCandidateTile), findsOneWidget);
+    expect(find.byType(JarvisSurface), findsWidgets);
+    expect(find.byType(ShadBadge), findsWidgets);
     expect(find.text('Spend'), findsOneWidget);
     expect(find.text('26800 KRW'), findsOneWidget);
     expect(find.text('Recurring Candidates'), findsOneWidget);

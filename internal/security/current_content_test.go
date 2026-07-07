@@ -51,3 +51,18 @@ func TestCheckRejectsSecretLiteralInCurrentContent(t *testing.T) {
 		}
 	}
 }
+
+func TestCheckSkipsFlutterGeneratedPluginMetadata(t *testing.T) {
+	root := t.TempDir()
+	privatePath := "/" + "Users" + "/" + strings.Join([]string{"al", "ice"}, "") + "/.pub-cache/plugin"
+	if err := os.WriteFile(filepath.Join(root, ".flutter-plugins-dependencies"), []byte(privatePath), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	report, err := Check(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !report.OK {
+		t.Fatalf("expected Flutter generated metadata to be skipped, got %+v", report.Findings)
+	}
+}
