@@ -37,6 +37,7 @@ part 'ui/agent_cluster_tile.dart';
 part 'ui/connector_tile.dart';
 part 'ui/recommendation_tile.dart';
 part 'ui/recommendation_parts.dart';
+part 'ui/recommendation_state_badges.dart';
 part 'ui/recommendation_chips.dart';
 part 'ui/commands_view.dart';
 part 'ui/command_row.dart';
