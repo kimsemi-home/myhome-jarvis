@@ -18,11 +18,11 @@ extension PurchaseDashboardStateLabel on PurchaseDashboardState {
   };
 
   JarvisBadgeTone get tone => switch (this) {
-    PurchaseDashboardState.summaryOnly => JarvisBadgeTone.outline,
-    PurchaseDashboardState.fixtureOnly => JarvisBadgeTone.outline,
-    PurchaseDashboardState.verifiedMetadata => JarvisBadgeTone.primary,
-    PurchaseDashboardState.recurringCandidate => JarvisBadgeTone.secondary,
-    PurchaseDashboardState.empty => JarvisBadgeTone.outline,
+    PurchaseDashboardState.summaryOnly => JarvisBadgeTone.muted,
+    PurchaseDashboardState.fixtureOnly => JarvisBadgeTone.muted,
+    PurchaseDashboardState.verifiedMetadata => JarvisBadgeTone.success,
+    PurchaseDashboardState.recurringCandidate => JarvisBadgeTone.warning,
+    PurchaseDashboardState.empty => JarvisBadgeTone.muted,
   };
 }
 

@@ -14,7 +14,7 @@ class RecommendationStateBadges extends StatelessWidget {
         const JarvisBadge('review-only', tone: JarvisBadgeTone.outline),
         JarvisBadge(_scoreState, tone: _scoreTone),
         if (recommendation.evidenceCount > 0)
-          const JarvisBadge('evidence-backed', tone: JarvisBadgeTone.primary),
+          const JarvisBadge('evidence-backed', tone: JarvisBadgeTone.success),
       ],
     );
   }
@@ -31,11 +31,11 @@ class RecommendationStateBadges extends StatelessWidget {
 
   JarvisBadgeTone get _scoreTone {
     if (recommendation.score >= 80) {
-      return JarvisBadgeTone.secondary;
+      return JarvisBadgeTone.warning;
     }
     if (recommendation.score >= 60) {
-      return JarvisBadgeTone.primary;
+      return JarvisBadgeTone.success;
     }
-    return JarvisBadgeTone.outline;
+    return JarvisBadgeTone.muted;
   }
 }

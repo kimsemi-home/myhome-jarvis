@@ -23,7 +23,7 @@ class ConnectorTile extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
-              JarvisBadge(connector.status, tone: JarvisBadgeTone.secondary),
+              JarvisBadge(connector.status, tone: connector.statusTone),
             ],
           ),
           const SizedBox(height: 8),
