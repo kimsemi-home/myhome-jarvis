@@ -77,6 +77,10 @@ Every tab should keep these states explicit and user-visible when relevant:
 - Add or change colors through `JarvisAstryxTokens` or a semantic wrapper first
   so future agents can read the visual system without hunting for raw hex
   values.
+- Status metric tiles derive `blocked`, `warning`, `verified`, `local`, and
+  `observed` badges in `apps/flutter/lib/ui/status_metric_state*.dart`; keep
+  new status states there so agents can read screen state without parsing raw
+  copy.
 - Treat Connectors as the first low-risk shadcn pilot tab; the decision and
   test target are documented in `docs/flutter-shadcn-low-risk-pilot.md`.
 - Keep dashboard migration evidence focused: Finance/Purchases must continue

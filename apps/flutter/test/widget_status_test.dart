@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:myhome_jarvis_app/main.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'widget_helpers.dart';
 
@@ -27,8 +29,14 @@ void main() {
     expect(find.text('5 roles gated'), findsOneWidget);
     expect(find.text('Codex Cost'), findsOneWidget);
     expect(find.text('0 units'), findsOneWidget);
+    expect(find.byKey(const Key('status-grid')), findsOneWidget);
+    expect(find.byType(JarvisSurface), findsWidgets);
+    expect(find.byType(ShadBadge), findsWidgets);
+    expect(find.text('warning'), findsWidgets);
+    expect(find.text('local'), findsWidgets);
+    expect(find.text('verified'), findsWidgets);
 
-    await tester.drag(find.byType(GridView).first, const Offset(0, -260));
+    await tester.drag(find.byType(GridView).first, const Offset(0, -520));
     await tester.pumpAndSettle();
 
     expect(find.text('Learning'), findsOneWidget);
@@ -39,6 +47,7 @@ void main() {
     expect(find.text('Local'), findsWidgets);
     expect(find.text('Authority Gate'), findsOneWidget);
     expect(find.text('6 blocked'), findsOneWidget);
+    expect(find.text('blocked'), findsWidgets);
     expect(find.text('Review Capacity'), findsOneWidget);
     expect(find.text('Available'), findsOneWidget);
     expect(find.byIcon(Icons.refresh), findsOneWidget);

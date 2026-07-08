@@ -5,13 +5,17 @@ import 'package:myhome_jarvis_app/daemon_client.dart';
 import 'package:myhome_jarvis_app/snapshot.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
+part 'ui/app.dart';
 part 'ui/astryx_theme.dart';
 part 'ui/shadcn_theme.dart';
 part 'ui/shadcn_components.dart';
 part 'ui/shadcn_actions.dart';
+part 'ui/status_metric_state.dart';
+part 'ui/status_metric_state_rules.dart';
 part 'ui/home.dart';
 part 'ui/scaffold.dart';
 part 'ui/status.dart';
+part 'ui/status_metric_tile.dart';
 part 'ui/finance.dart';
 part 'ui/finance_metrics_grid.dart';
 part 'ui/finance_metric_tile.dart';
@@ -47,29 +51,3 @@ part 'ui/household_scope_body.dart';
 part 'ui/household_scope_tile.dart';
 
 void main() => runApp(JarvisApp(client: DaemonSnapshotClient.local()));
-
-class JarvisApp extends StatelessWidget {
-  const JarvisApp({
-    super.key,
-    this.client = const StaticSnapshotClient(JarvisSnapshot.sample),
-  });
-
-  final JarvisClient client;
-
-  @override
-  Widget build(BuildContext context) {
-    return ShadApp.custom(
-      theme: JarvisShadTheme.light,
-      appBuilder: (context) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'myhome-jarvis',
-          theme: JarvisShadTheme.material(context),
-          home: JarvisHome(client: client),
-          builder: (_, child) => ShadAppBuilder(child: child),
-          scrollBehavior: const ShadScrollBehavior(),
-        );
-      },
-    );
-  }
-}
