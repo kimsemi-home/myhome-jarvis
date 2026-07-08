@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myhome_jarvis_app/main.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -12,6 +13,11 @@ void main() {
     expect(find.byType(FinanceMetricTile), findsNWidgets(6));
     expect(find.byType(JarvisSurface), findsWidgets);
     expect(find.byType(ShadBadge), findsWidgets);
+    expect(find.text('summary-only'), findsOneWidget);
+    expect(find.text('verified metadata'), findsOneWidget);
+    expect(find.text('card-linked review'), findsOneWidget);
+    expect(find.text('household scoped'), findsOneWidget);
+    expect(find.text('owner scoped'), findsOneWidget);
     expect(find.text('Net'), findsOneWidget);
     expect(find.text('4346800 KRW'), findsOneWidget);
     expect(find.text('Subscriptions'), findsOneWidget);
@@ -20,6 +26,8 @@ void main() {
     expect(find.text('2 / 153200 KRW'), findsOneWidget);
     expect(find.text('Owner Breakdown'), findsOneWidget);
     expect(find.text('Household net'), findsOneWidget);
+    await tester.drag(find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
     expect(find.text('Categories'), findsOneWidget);
 
     await openTab(tester, 'Purchases');
@@ -27,6 +35,11 @@ void main() {
     expect(find.byType(RecurringCandidateTile), findsOneWidget);
     expect(find.byType(JarvisSurface), findsWidgets);
     expect(find.byType(ShadBadge), findsWidgets);
+    expect(find.text('summary-only'), findsOneWidget);
+    expect(find.text('verified metadata'), findsOneWidget);
+    expect(find.text('recurring candidate'), findsOneWidget);
+    expect(find.text('household scoped'), findsOneWidget);
+    expect(find.text('owner scoped'), findsOneWidget);
     expect(find.text('Spend'), findsOneWidget);
     expect(find.text('26800 KRW'), findsOneWidget);
     expect(find.text('Recurring Candidates'), findsOneWidget);

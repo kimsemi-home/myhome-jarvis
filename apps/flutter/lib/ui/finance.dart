@@ -11,6 +11,8 @@ class FinanceView extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          FinanceDashboardStateBadges(dashboard: dashboard),
+          const SizedBox(height: 12),
           FinanceMetricsGrid(dashboard: dashboard),
           const SizedBox(height: 20),
           FinanceOwnerSection(owners: dashboard.owners),
