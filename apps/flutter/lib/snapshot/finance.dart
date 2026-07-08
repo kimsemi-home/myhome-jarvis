@@ -33,6 +33,7 @@ class FinanceDashboard {
     required this.cardDebitCount,
     required this.categories,
     required this.owners,
+    this.fixtureOnly = false,
   });
 
   final int records;
@@ -46,4 +47,5 @@ class FinanceDashboard {
   final int cardDebitCount;
   final List<String> categories;
   final List<FinanceOwner> owners;
+  final bool fixtureOnly;
 }

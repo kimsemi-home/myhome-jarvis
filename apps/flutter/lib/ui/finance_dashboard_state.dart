@@ -2,6 +2,7 @@ part of '../main.dart';
 
 enum FinanceDashboardState {
   summaryOnly,
+  fixtureOnly,
   verifiedMetadata,
   cardLinkedReview,
   empty,
@@ -10,6 +11,7 @@ enum FinanceDashboardState {
 extension FinanceDashboardStateLabel on FinanceDashboardState {
   String get label => switch (this) {
     FinanceDashboardState.summaryOnly => 'summary-only',
+    FinanceDashboardState.fixtureOnly => 'fixture-only',
     FinanceDashboardState.verifiedMetadata => 'verified metadata',
     FinanceDashboardState.cardLinkedReview => 'card-linked review',
     FinanceDashboardState.empty => 'empty',
@@ -17,6 +19,7 @@ extension FinanceDashboardStateLabel on FinanceDashboardState {
 
   JarvisBadgeTone get tone => switch (this) {
     FinanceDashboardState.summaryOnly => JarvisBadgeTone.outline,
+    FinanceDashboardState.fixtureOnly => JarvisBadgeTone.outline,
     FinanceDashboardState.verifiedMetadata => JarvisBadgeTone.primary,
     FinanceDashboardState.cardLinkedReview => JarvisBadgeTone.secondary,
     FinanceDashboardState.empty => JarvisBadgeTone.outline,
@@ -26,6 +29,7 @@ extension FinanceDashboardStateLabel on FinanceDashboardState {
 extension FinanceDashboardStateRules on FinanceDashboard {
   List<FinanceDashboardState> get dashboardStates => [
     FinanceDashboardState.summaryOnly,
+    if (fixtureOnly) FinanceDashboardState.fixtureOnly,
     if (records == 0)
       FinanceDashboardState.empty
     else

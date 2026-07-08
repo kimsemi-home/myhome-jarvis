@@ -2,6 +2,7 @@ part of '../snapshot.dart';
 
 const _sampleFinanceDashboard = FinanceDashboard(
   records: 3,
+  fixtureOnly: true,
   currency: 'KRW',
   creditMinorUnits: 4500000,
   debitMinorUnits: 153200,

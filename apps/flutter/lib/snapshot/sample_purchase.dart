@@ -2,6 +2,7 @@ part of '../snapshot.dart';
 
 const _samplePurchaseDashboard = PurchaseDashboard(
   records: 3,
+  fixtureOnly: true,
   currency: 'KRW',
   totalSpendMinorUnits: 26800,
   recurringCandidateCount: 1,
