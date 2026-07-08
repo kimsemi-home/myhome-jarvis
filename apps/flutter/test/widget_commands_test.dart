@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:myhome_jarvis_app/main.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'widget_helpers.dart';
@@ -16,8 +17,13 @@ void main() {
       'open-wavve',
       'open-coupang-play',
     ]) {
+      await scrollCommandIntoView(tester, command);
       expect(find.text(command), findsOneWidget);
     }
+    expect(find.byType(JarvisSurface), findsWidgets);
+    expect(find.byType(ShadBadge), findsWidgets);
+    expect(find.text('dry-run'), findsWidgets);
+    expect(find.text('execute blocked'), findsWidgets);
 
     for (final field in const [
       ('open-youtube-search', 'query'),
@@ -26,6 +32,7 @@ void main() {
       await scrollCommandIntoView(tester, field.$1);
       expect(find.text(field.$1), findsOneWidget);
       expect(find.byKey(Key('payload-field-${field.$2}')), findsOneWidget);
+      expect(find.text('payload editable'), findsWidgets);
     }
 
     await scrollCommandIntoView(tester, 'open-ott');

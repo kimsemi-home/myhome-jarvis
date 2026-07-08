@@ -39,8 +39,10 @@ class CommandSummaryText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(command.name, style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 6),
+        CommandStateBadges(command: command),
         if (command.payloadFields.isEmpty) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           Text(
             command.payload,
             maxLines: 1,

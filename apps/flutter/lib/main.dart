@@ -39,6 +39,7 @@ part 'ui/commands_view.dart';
 part 'ui/command_row.dart';
 part 'ui/command_row_state.dart';
 part 'ui/command_row_content.dart';
+part 'ui/command_state_badges.dart';
 part 'ui/command_payload_state.dart';
 part 'ui/command_summary.dart';
 part 'ui/payload_fields_editor.dart';

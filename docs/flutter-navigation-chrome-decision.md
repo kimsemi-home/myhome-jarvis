@@ -59,6 +59,9 @@ the bridge:
   component path.
 - `apps/flutter/test/widget_status_test.dart` pins the Status tab by asserting
   shadcn surfaces, badges, and user-visible status states.
+- `apps/flutter/test/widget_commands_test.dart` pins the Commands tab by
+  asserting shadcn surfaces, badges, dry-run state, blocked execution state,
+  editable payload fields, selects, and inputs.
 - `apps/flutter/test/widget_finance_purchases_test.dart` pins one dashboard
   gate by asserting Finance/Purchases shadcn surfaces, badges, and visible
   dashboard states.
