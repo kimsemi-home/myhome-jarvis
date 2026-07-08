@@ -7,13 +7,13 @@ class AgentClusterTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shad = ShadTheme.of(context);
+    final state = signal.clusterState;
     return JarvisSurface(
       padding: const EdgeInsets.all(14),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.account_tree_outlined, color: shad.colorScheme.primary),
+          Icon(Icons.account_tree_outlined, color: state.iconColor),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -27,7 +27,7 @@ class AgentClusterTile extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
-                    JarvisBadge(signal.status, tone: JarvisBadgeTone.secondary),
+                    JarvisBadge(state.label, tone: state.tone),
                   ],
                 ),
                 if (signal.evidence.isNotEmpty) ...[
