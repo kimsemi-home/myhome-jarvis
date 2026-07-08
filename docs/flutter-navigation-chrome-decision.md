@@ -62,6 +62,9 @@ the bridge:
 - `apps/flutter/test/widget_commands_test.dart` pins the Commands tab by
   asserting shadcn surfaces, badges, dry-run state, blocked execution state,
   editable payload fields, selects, and inputs.
+- `apps/flutter/test/widget_integrations_test.dart` pins Linear and Storage
+  shadcn surfaces, badges, queued/verified state, local fixture state, and
+  storage format state.
 - `apps/flutter/test/widget_finance_purchases_test.dart` pins one dashboard
   gate by asserting Finance/Purchases shadcn surfaces, badges, and visible
   dashboard states.
