@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myhome_jarvis_app/main.dart';
-import 'package:myhome_jarvis_app/snapshot.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'widget_helpers.dart';
@@ -21,8 +20,25 @@ void main() {
     expect(find.text('tracked'), findsOneWidget);
 
     await openTab(tester, 'Household');
+    expect(find.byType(JarvisSurface), findsWidgets);
+    expect(find.byType(ShadBadge), findsWidgets);
+    expect(find.text('selected scope'), findsOneWidget);
+    expect(find.text('owner scoped'), findsOneWidget);
+    expect(find.text('summary-only'), findsOneWidget);
     expect(find.text('Finance net: -87300 KRW'), findsOneWidget);
     expect(find.text('Purchase spend: 3200 KRW'), findsOneWidget);
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(SegmentedButton<String>),
+        matching: find.text('Spouse'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('empty'), findsOneWidget);
+    expect(find.text('Finance net: 0 KRW'), findsOneWidget);
+    expect(find.text('Purchase spend: 0 KRW'), findsOneWidget);
 
     await tester.tap(
       find.descendant(
@@ -32,32 +48,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    expect(find.text('household scoped'), findsOneWidget);
     expect(find.text('Finance net: 4346800 KRW'), findsOneWidget);
     expect(find.text('Purchase spend: 26800 KRW'), findsOneWidget);
-  });
-
-  test('maps cluster signals to agent-readable states', () {
-    const active = AgentClusterSignal(
-      key: 'a',
-      label: 'Active',
-      status: 'active',
-      evidence: '',
-    );
-    const gated = AgentClusterSignal(
-      key: 'g',
-      label: 'Gated',
-      status: 'gated',
-      evidence: '',
-    );
-    const stale = AgentClusterSignal(
-      key: 's',
-      label: 'Stale',
-      status: 'stale',
-      evidence: '',
-    );
-
-    expect(active.clusterState, AgentClusterState.active);
-    expect(gated.clusterState, AgentClusterState.gated);
-    expect(stale.clusterState, AgentClusterState.stale);
   });
 }

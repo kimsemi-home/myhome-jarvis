@@ -66,7 +66,8 @@ the bridge:
   shadcn surfaces, badges, queued/verified state, local fixture state, and
   storage format state.
 - `apps/flutter/test/widget_cluster_household_test.dart` pins Cluster shadcn
-  surfaces, badges, and active/gated/tracked state tones.
+  surfaces, badges, active/gated/tracked state tones, and Household scope
+  badges.
 - `apps/flutter/test/widget_optimize_test.dart` pins Optimize shadcn surfaces,
   review-only state, score-state badges, and evidence-backed state.
 - `apps/flutter/test/widget_finance_purchases_test.dart` pins one dashboard

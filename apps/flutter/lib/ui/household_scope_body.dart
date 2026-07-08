@@ -30,8 +30,11 @@ class HouseholdScopeBody extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
+          HouseholdScopeStateBadges(scope: selected),
+          const SizedBox(height: 16),
           HouseholdScopeTile(
             icon: Icons.account_balance_wallet_outlined,
+            iconColor: selected.stateColor,
             title:
                 'Finance net: ${selected.financeNetMinorUnits} ${selected.currency}',
             subtitle: '${selected.financeRecords} records',
@@ -39,6 +42,7 @@ class HouseholdScopeBody extends StatelessWidget {
           const SizedBox(height: 8),
           HouseholdScopeTile(
             icon: Icons.shopping_bag_outlined,
+            iconColor: selected.stateColor,
             title:
                 'Purchase spend: ${selected.purchaseSpendMinorUnits} ${selected.currency}',
             subtitle: '${selected.purchaseRecords} records',

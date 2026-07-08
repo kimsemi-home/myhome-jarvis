@@ -52,6 +52,7 @@ part 'ui/command_payload.dart';
 part 'ui/formatters.dart';
 part 'ui/command_plan.dart';
 part 'ui/household.dart';
+part 'ui/household_scope_state.dart';
 part 'ui/household_scope_body.dart';
 part 'ui/household_scope_tile.dart';
 
