@@ -49,7 +49,7 @@ class _RecurringCandidateBody extends StatelessWidget {
         const SizedBox(height: 8),
         JarvisBadge(
           '${candidate.purchaseCount} purchases',
-          tone: JarvisBadgeTone.secondary,
+          tone: JarvisBadgeTone.warning,
         ),
       ],
     );

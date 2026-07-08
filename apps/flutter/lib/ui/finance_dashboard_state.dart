@@ -18,11 +18,11 @@ extension FinanceDashboardStateLabel on FinanceDashboardState {
   };
 
   JarvisBadgeTone get tone => switch (this) {
-    FinanceDashboardState.summaryOnly => JarvisBadgeTone.outline,
-    FinanceDashboardState.fixtureOnly => JarvisBadgeTone.outline,
-    FinanceDashboardState.verifiedMetadata => JarvisBadgeTone.primary,
-    FinanceDashboardState.cardLinkedReview => JarvisBadgeTone.secondary,
-    FinanceDashboardState.empty => JarvisBadgeTone.outline,
+    FinanceDashboardState.summaryOnly => JarvisBadgeTone.muted,
+    FinanceDashboardState.fixtureOnly => JarvisBadgeTone.muted,
+    FinanceDashboardState.verifiedMetadata => JarvisBadgeTone.success,
+    FinanceDashboardState.cardLinkedReview => JarvisBadgeTone.warning,
+    FinanceDashboardState.empty => JarvisBadgeTone.muted,
   };
 }
 

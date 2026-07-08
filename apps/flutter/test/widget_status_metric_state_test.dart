@@ -30,5 +30,9 @@ void main() {
     expect(blocked.statusState, StatusMetricState.blocked);
     expect(verified.statusState, StatusMetricState.verified);
     expect(local.statusState, StatusMetricState.local);
+    expect(StatusMetricState.warning.badgeTone, JarvisBadgeTone.warning);
+    expect(StatusMetricState.blocked.badgeTone, JarvisBadgeTone.destructive);
+    expect(StatusMetricState.verified.badgeTone, JarvisBadgeTone.success);
+    expect(StatusMetricState.local.badgeTone, JarvisBadgeTone.muted);
   });
 }

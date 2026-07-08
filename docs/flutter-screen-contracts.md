@@ -77,6 +77,12 @@ Every tab should keep these states explicit and user-visible when relevant:
 - Add or change colors through `JarvisAstryxTokens` or a semantic wrapper first
   so future agents can read the visual system without hunting for raw hex
   values.
+- Use semantic `JarvisBadgeTone` values for status meaning before falling back
+  to raw shadcn variants: `success` for verified/ready states, `warning` for
+  review or gated states, `destructive` for blocked/error states, and `muted`
+  for local, fixture, empty, or observed metadata. These tones map through
+  `apps/flutter/lib/ui/badge_tone.dart` to Astryx success, warning, error, and
+  muted tokens.
 - Status metric tiles derive `blocked`, `warning`, `verified`, `local`, and
   `observed` badges in `apps/flutter/lib/ui/status_metric_state*.dart`; keep
   new status states there so agents can read screen state without parsing raw

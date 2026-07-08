@@ -52,4 +52,12 @@ void main() {
     expect(find.text('Finance net: 4346800 KRW'), findsOneWidget);
     expect(find.text('Purchase spend: 26800 KRW'), findsOneWidget);
   });
+
+  test('maps household scope states to semantic badge tones', () {
+    expect(HouseholdScopeState.selected.tone, JarvisBadgeTone.success);
+    expect(HouseholdScopeState.ownerScoped.tone, JarvisBadgeTone.success);
+    expect(HouseholdScopeState.householdScoped.tone, JarvisBadgeTone.success);
+    expect(HouseholdScopeState.summaryOnly.tone, JarvisBadgeTone.muted);
+    expect(HouseholdScopeState.empty.tone, JarvisBadgeTone.warning);
+  });
 }

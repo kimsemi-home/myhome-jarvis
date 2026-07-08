@@ -10,9 +10,9 @@ extension OwnerScopeStateLabel on OwnerScopeState {
   };
 
   JarvisBadgeTone get tone => switch (this) {
-    OwnerScopeState.ownerScoped => JarvisBadgeTone.secondary,
-    OwnerScopeState.householdScoped => JarvisBadgeTone.secondary,
-    OwnerScopeState.empty => JarvisBadgeTone.outline,
+    OwnerScopeState.ownerScoped => JarvisBadgeTone.success,
+    OwnerScopeState.householdScoped => JarvisBadgeTone.success,
+    OwnerScopeState.empty => JarvisBadgeTone.warning,
   };
 }
 

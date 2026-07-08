@@ -12,7 +12,7 @@ class CommandStateBadges extends StatelessWidget {
       runSpacing: 6,
       children: [
         const JarvisBadge('dry-run', tone: JarvisBadgeTone.outline),
-        const JarvisBadge('execute blocked', tone: JarvisBadgeTone.secondary),
+        const JarvisBadge('execute blocked', tone: JarvisBadgeTone.warning),
         if (command.payloadFields.isNotEmpty)
           const JarvisBadge('payload editable', tone: JarvisBadgeTone.outline),
       ],

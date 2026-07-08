@@ -13,10 +13,10 @@ extension StatusMetricStateUi on StatusMetricState {
 
   JarvisBadgeTone get badgeTone => switch (this) {
     StatusMetricState.blocked => JarvisBadgeTone.destructive,
-    StatusMetricState.warning => JarvisBadgeTone.secondary,
-    StatusMetricState.verified => JarvisBadgeTone.primary,
-    StatusMetricState.local => JarvisBadgeTone.outline,
-    StatusMetricState.observed => JarvisBadgeTone.outline,
+    StatusMetricState.warning => JarvisBadgeTone.warning,
+    StatusMetricState.verified => JarvisBadgeTone.success,
+    StatusMetricState.local => JarvisBadgeTone.muted,
+    StatusMetricState.observed => JarvisBadgeTone.muted,
   };
 
   Color get iconColor => switch (this) {

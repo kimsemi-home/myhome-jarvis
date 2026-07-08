@@ -11,9 +11,9 @@ extension AgentClusterStateUi on AgentClusterState {
   };
 
   JarvisBadgeTone get tone => switch (this) {
-    AgentClusterState.active => JarvisBadgeTone.primary,
-    AgentClusterState.gated => JarvisBadgeTone.secondary,
-    AgentClusterState.tracked => JarvisBadgeTone.outline,
+    AgentClusterState.active => JarvisBadgeTone.success,
+    AgentClusterState.gated => JarvisBadgeTone.warning,
+    AgentClusterState.tracked => JarvisBadgeTone.muted,
     AgentClusterState.stale => JarvisBadgeTone.destructive,
   };
 

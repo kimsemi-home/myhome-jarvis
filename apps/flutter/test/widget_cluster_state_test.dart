@@ -26,5 +26,9 @@ void main() {
     expect(active.clusterState, AgentClusterState.active);
     expect(gated.clusterState, AgentClusterState.gated);
     expect(stale.clusterState, AgentClusterState.stale);
+    expect(AgentClusterState.active.tone, JarvisBadgeTone.success);
+    expect(AgentClusterState.gated.tone, JarvisBadgeTone.warning);
+    expect(AgentClusterState.tracked.tone, JarvisBadgeTone.muted);
+    expect(AgentClusterState.stale.tone, JarvisBadgeTone.destructive);
   });
 }

@@ -22,13 +22,13 @@ extension SimpleListItemStateUi on SimpleListItemState {
   };
 
   JarvisBadgeTone get tone => switch (this) {
-    SimpleListItemState.offline => JarvisBadgeTone.secondary,
-    SimpleListItemState.synced => JarvisBadgeTone.primary,
-    SimpleListItemState.queued => JarvisBadgeTone.outline,
-    SimpleListItemState.configured => JarvisBadgeTone.primary,
-    SimpleListItemState.localFixture => JarvisBadgeTone.outline,
-    SimpleListItemState.verified => JarvisBadgeTone.primary,
-    SimpleListItemState.format => JarvisBadgeTone.outline,
+    SimpleListItemState.offline => JarvisBadgeTone.warning,
+    SimpleListItemState.synced => JarvisBadgeTone.success,
+    SimpleListItemState.queued => JarvisBadgeTone.warning,
+    SimpleListItemState.configured => JarvisBadgeTone.success,
+    SimpleListItemState.localFixture => JarvisBadgeTone.muted,
+    SimpleListItemState.verified => JarvisBadgeTone.success,
+    SimpleListItemState.format => JarvisBadgeTone.muted,
   };
 }
 

@@ -18,11 +18,11 @@ extension HouseholdScopeStateLabel on HouseholdScopeState {
   };
 
   JarvisBadgeTone get tone => switch (this) {
-    HouseholdScopeState.selected => JarvisBadgeTone.primary,
-    HouseholdScopeState.ownerScoped => JarvisBadgeTone.secondary,
-    HouseholdScopeState.householdScoped => JarvisBadgeTone.secondary,
-    HouseholdScopeState.summaryOnly => JarvisBadgeTone.outline,
-    HouseholdScopeState.empty => JarvisBadgeTone.outline,
+    HouseholdScopeState.selected => JarvisBadgeTone.success,
+    HouseholdScopeState.ownerScoped => JarvisBadgeTone.success,
+    HouseholdScopeState.householdScoped => JarvisBadgeTone.success,
+    HouseholdScopeState.summaryOnly => JarvisBadgeTone.muted,
+    HouseholdScopeState.empty => JarvisBadgeTone.warning,
   };
 }
 
