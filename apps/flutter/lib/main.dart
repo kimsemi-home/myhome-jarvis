@@ -32,6 +32,7 @@ part 'ui/agent_cluster_view.dart';
 part 'ui/simple_lists.dart';
 part 'ui/simple_list_state.dart';
 part 'ui/simple_list_tile.dart';
+part 'ui/agent_cluster_state.dart';
 part 'ui/agent_cluster_tile.dart';
 part 'ui/connector_tile.dart';
 part 'ui/recommendation_tile.dart';

@@ -87,6 +87,8 @@ Every tab should keep these states explicit and user-visible when relevant:
 - Linear and Storage list items derive `offline`, `synced`, `queued`,
   `configured`, `local fixture`, `verified`, and `format` badges in
   `apps/flutter/lib/ui/simple_list_state.dart`.
+- Cluster signals derive `active`, `gated`, `tracked`, and `stale` badge tones
+  in `apps/flutter/lib/ui/agent_cluster_state.dart`.
 - Treat Connectors as the first low-risk shadcn pilot tab; the decision and
   test target are documented in `docs/flutter-shadcn-low-risk-pilot.md`.
 - Keep dashboard migration evidence focused: Finance/Purchases must continue
