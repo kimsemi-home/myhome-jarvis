@@ -7,7 +7,6 @@ class PurchaseOwnerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shad = ShadTheme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -18,7 +17,10 @@ class PurchaseOwnerSection extends StatelessWidget {
             padding: const EdgeInsets.all(14),
             child: Row(
               children: [
-                Icon(Icons.person_outline, color: shad.colorScheme.primary),
+                Icon(
+                  Icons.person_outline,
+                  color: ownerScopeColor(owner.owner, owner.records),
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -26,7 +28,18 @@ class PurchaseOwnerSection extends StatelessWidget {
                     children: [
                       Text('${_title(owner.owner)} spend'),
                       const SizedBox(height: 6),
-                      JarvisBadge('${owner.records} purchases'),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          JarvisBadge('${owner.records} purchases'),
+                          for (final state in ownerScopeStates(
+                            owner.owner,
+                            owner.records,
+                          ))
+                            JarvisBadge(state.label, tone: state.tone),
+                        ],
+                      ),
                     ],
                   ),
                 ),

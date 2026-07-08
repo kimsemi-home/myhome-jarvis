@@ -11,6 +11,8 @@ class PurchasesView extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          PurchaseDashboardStateBadges(dashboard: dashboard),
+          const SizedBox(height: 12),
           PurchaseMetricsGrid(dashboard: dashboard),
           RecurringCandidatesSection(candidates: dashboard.recurringCandidates),
           const SizedBox(height: 20),

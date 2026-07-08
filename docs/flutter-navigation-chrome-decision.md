@@ -71,5 +71,5 @@ the bridge:
 - `apps/flutter/test/widget_optimize_test.dart` pins Optimize shadcn surfaces,
   review-only state, score-state badges, and evidence-backed state.
 - `apps/flutter/test/widget_finance_purchases_test.dart` pins one dashboard
-  gate by asserting Finance/Purchases shadcn surfaces, badges, and visible
-  dashboard states.
+  gate by asserting Finance/Purchases shadcn surfaces, badges, visible
+  dashboard states, and owner-scope badges.
