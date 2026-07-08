@@ -84,6 +84,9 @@ Every tab should keep these states explicit and user-visible when relevant:
 - Command rows expose `dry-run`, `execute blocked`, and `payload editable`
   badges in `apps/flutter/lib/ui/command_state_badges.dart`; keep command
   execution state visible instead of relying only on the preview button.
+- Linear and Storage list items derive `offline`, `synced`, `queued`,
+  `configured`, `local fixture`, `verified`, and `format` badges in
+  `apps/flutter/lib/ui/simple_list_state.dart`.
 - Treat Connectors as the first low-risk shadcn pilot tab; the decision and
   test target are documented in `docs/flutter-shadcn-low-risk-pilot.md`.
 - Keep dashboard migration evidence focused: Finance/Purchases must continue
