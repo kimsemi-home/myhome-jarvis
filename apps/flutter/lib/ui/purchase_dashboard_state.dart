@@ -2,6 +2,7 @@ part of '../main.dart';
 
 enum PurchaseDashboardState {
   summaryOnly,
+  fixtureOnly,
   verifiedMetadata,
   recurringCandidate,
   empty,
@@ -10,6 +11,7 @@ enum PurchaseDashboardState {
 extension PurchaseDashboardStateLabel on PurchaseDashboardState {
   String get label => switch (this) {
     PurchaseDashboardState.summaryOnly => 'summary-only',
+    PurchaseDashboardState.fixtureOnly => 'fixture-only',
     PurchaseDashboardState.verifiedMetadata => 'verified metadata',
     PurchaseDashboardState.recurringCandidate => 'recurring candidate',
     PurchaseDashboardState.empty => 'empty',
@@ -17,6 +19,7 @@ extension PurchaseDashboardStateLabel on PurchaseDashboardState {
 
   JarvisBadgeTone get tone => switch (this) {
     PurchaseDashboardState.summaryOnly => JarvisBadgeTone.outline,
+    PurchaseDashboardState.fixtureOnly => JarvisBadgeTone.outline,
     PurchaseDashboardState.verifiedMetadata => JarvisBadgeTone.primary,
     PurchaseDashboardState.recurringCandidate => JarvisBadgeTone.secondary,
     PurchaseDashboardState.empty => JarvisBadgeTone.outline,
@@ -26,6 +29,7 @@ extension PurchaseDashboardStateLabel on PurchaseDashboardState {
 extension PurchaseDashboardStateRules on PurchaseDashboard {
   List<PurchaseDashboardState> get dashboardStates => [
     PurchaseDashboardState.summaryOnly,
+    if (fixtureOnly) PurchaseDashboardState.fixtureOnly,
     if (records == 0)
       PurchaseDashboardState.empty
     else

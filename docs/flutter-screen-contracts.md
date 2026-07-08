@@ -85,8 +85,9 @@ Every tab should keep these states explicit and user-visible when relevant:
   badges in `apps/flutter/lib/ui/command_state_badges.dart`; keep command
   execution state visible instead of relying only on the preview button.
 - Finance and Purchases dashboard summaries derive `summary-only`,
-  `verified metadata`, `card-linked review`, `recurring candidate`, and
-  owner-scope badges in `apps/flutter/lib/ui/finance_dashboard_state.dart`,
+  `fixture-only`, `verified metadata`, `card-linked review`,
+  `recurring candidate`, and owner-scope badges in
+  `apps/flutter/lib/ui/finance_dashboard_state.dart`,
   `apps/flutter/lib/ui/purchase_dashboard_state.dart`, and
   `apps/flutter/lib/ui/owner_scope_state.dart`.
 - Linear and Storage list items derive `offline`, `synced`, `queued`,

@@ -14,6 +14,7 @@ void main() {
     expect(find.byType(JarvisSurface), findsWidgets);
     expect(find.byType(ShadBadge), findsWidgets);
     expect(find.text('summary-only'), findsOneWidget);
+    expect(find.text('fixture-only'), findsOneWidget);
     expect(find.text('verified metadata'), findsOneWidget);
     expect(find.text('card-linked review'), findsOneWidget);
     expect(find.text('household scoped'), findsOneWidget);
@@ -36,6 +37,7 @@ void main() {
     expect(find.byType(JarvisSurface), findsWidgets);
     expect(find.byType(ShadBadge), findsWidgets);
     expect(find.text('summary-only'), findsOneWidget);
+    expect(find.text('fixture-only'), findsOneWidget);
     expect(find.text('verified metadata'), findsOneWidget);
     expect(find.text('recurring candidate'), findsOneWidget);
     expect(find.text('household scoped'), findsOneWidget);

@@ -44,6 +44,7 @@ class PurchaseDashboard {
     required this.recurringCandidates,
     required this.categories,
     required this.owners,
+    this.fixtureOnly = false,
   });
 
   final int records;
@@ -53,4 +54,5 @@ class PurchaseDashboard {
   final List<RecurringPurchase> recurringCandidates;
   final List<String> categories;
   final List<PurchaseOwner> owners;
+  final bool fixtureOnly;
 }

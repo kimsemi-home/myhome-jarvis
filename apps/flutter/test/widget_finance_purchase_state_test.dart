@@ -7,6 +7,7 @@ void main() {
     final states = JarvisSnapshot.sample.financeDashboard.dashboardStates;
 
     expect(states, contains(FinanceDashboardState.summaryOnly));
+    expect(states, contains(FinanceDashboardState.fixtureOnly));
     expect(states, contains(FinanceDashboardState.verifiedMetadata));
     expect(states, contains(FinanceDashboardState.cardLinkedReview));
   });
@@ -15,6 +16,7 @@ void main() {
     final states = JarvisSnapshot.sample.purchaseDashboard.dashboardStates;
 
     expect(states, contains(PurchaseDashboardState.summaryOnly));
+    expect(states, contains(PurchaseDashboardState.fixtureOnly));
     expect(states, contains(PurchaseDashboardState.verifiedMetadata));
     expect(states, contains(PurchaseDashboardState.recurringCandidate));
   });

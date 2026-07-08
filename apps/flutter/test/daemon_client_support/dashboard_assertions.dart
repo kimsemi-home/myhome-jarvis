@@ -8,6 +8,7 @@ void expectDomainDashboards(JarvisSnapshot snapshot) {
 }
 
 void expectPurchaseDashboard(JarvisSnapshot snapshot) {
+  expect(snapshot.purchaseDashboard.fixtureOnly, isFalse);
   expect(snapshot.purchaseDashboard.totalSpendMinorUnits, 26800);
   expect(snapshot.purchaseDashboard.recurringCandidateCount, 1);
   expect(snapshot.purchaseDashboard.categories, contains('grocery'));
@@ -21,6 +22,7 @@ void expectPurchaseDashboard(JarvisSnapshot snapshot) {
 }
 
 void expectFinanceDashboard(JarvisSnapshot snapshot) {
+  expect(snapshot.financeDashboard.fixtureOnly, isFalse);
   expect(snapshot.financeDashboard.netMinorUnits, 4346800);
   expect(snapshot.financeDashboard.subscriptionMinorUnits, 65900);
   expect(snapshot.financeDashboard.cardDebitCount, 2);
