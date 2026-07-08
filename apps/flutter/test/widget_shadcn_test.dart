@@ -18,6 +18,13 @@ void main() {
     expect(find.byType(TabBarView), findsOneWidget);
     expect(find.byType(JarvisIconAction), findsOneWidget);
     expect(find.byType(JarvisSurface), findsWidgets);
+
+    final context = tester.element(find.byType(MaterialApp));
+    final shad = ShadTheme.of(context);
+    expect(shad.colorScheme.background, JarvisAstryxTokens.backgroundBody);
+    expect(shad.colorScheme.foreground, JarvisAstryxTokens.textPrimary);
+    expect(shad.colorScheme.primary, JarvisAstryxTokens.accent);
+    expect(shad.radius, const BorderRadius.all(JarvisAstryxTokens.radius));
     for (final label in [
       'Status',
       'Commands',
@@ -58,7 +65,6 @@ void main() {
     expect(find.byType(ShadBadge), findsWidgets);
 
     await openTab(tester, 'Connectors');
-
     expect(find.byType(ShadBadge), findsWidgets);
     expect(find.text('fixture-only'), findsWidgets);
 

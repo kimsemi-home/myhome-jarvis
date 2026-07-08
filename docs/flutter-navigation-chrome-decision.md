@@ -14,6 +14,11 @@ navigation shell should move only after a later pass can replace it without
 changing tab semantics, daemon snapshot loading, redaction boundaries, or
 widget-test coverage.
 
+Meta Astryx is the design-system reference for the shadcn token bridge. Because
+Astryx is currently React/StyleX based, the Flutter app mirrors its neutral
+theme values into `JarvisAstryxTokens` instead of importing Astryx npm packages
+at runtime.
+
 ## Why This Stays Material For Now
 
 - The existing tab shell is stable and already maps directly to the
@@ -46,6 +51,8 @@ Revisit navigation chrome only when all of these are true:
 the bridge:
 
 - `ShadApp` and `ShadAppBuilder` mount at the app root.
+- `JarvisShadTheme` resolves its core shadcn colors and radius from
+  `JarvisAstryxTokens`.
 - `MaterialApp`, `Scaffold`, `AppBar`, `TabBar`, and `TabBarView` remain the
   current navigation chrome.
 - `JarvisIconAction` and `ShadIconButton` keep the refresh action on the shadcn

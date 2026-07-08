@@ -16,6 +16,14 @@ Current scope:
   [`nank1ro/flutter-shadcn-ui`](https://github.com/nank1ro/flutter-shadcn-ui).
 - Shared shadcn-style theme, surface, and badge wrappers live in the Flutter UI
   layer so AI agents can inspect tokens and migrated components directly.
+- Meta Astryx is used as an agent-readable design-system reference, not as a
+  Flutter runtime dependency. The Astryx neutral token bridge lives in
+  `apps/flutter/lib/ui/astryx_theme.dart`, and `JarvisShadTheme` maps those
+  tokens into `shadcn_ui` plus Material interop.
+- Astryx references for follow-up agent work:
+  [Astryx design system](https://astryx.atmeta.com/),
+  [Astryx GitHub](https://github.com/facebook/astryx), and
+  [`@astryxdesign/theme-neutral`](https://github.com/facebook/astryx/tree/main/packages/themes/neutral).
 - Screen contracts for agent-readable migration work live in
   [`docs/flutter-screen-contracts.md`](flutter-screen-contracts.md).
 - The low-risk shadcn pilot decision lives in
@@ -76,6 +84,8 @@ Current scope:
   cards, Purchase recurring-candidate cards, Household result cards, Optimize
   recommendation cards, and dry-run preview actions; all keep the existing
   daemon/offline snapshot contracts.
+- The root shadcn theme now resolves background, foreground, primary, radius,
+  and shared surface tokens from the Astryx neutral bridge.
 - User, Spouse, and Household fixture scope switching.
 - Dry-run preview client for `/intent`; command buttons always send
   `execute=false`, even though the daemon has a separately gated execution
@@ -106,3 +116,5 @@ Next UI migration order:
    `apps/flutter/test/widget_finance_purchases_test.dart`.
 3. Add focused widget tests before introducing additional interactive shadcn
    controls such as menus, sheets, or table-like views.
+4. When adding visual tokens, add them to `JarvisAstryxTokens` or a semantic
+   wrapper first; do not scatter one-off hex colors through screen widgets.

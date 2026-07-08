@@ -1,36 +1,36 @@
 part of '../main.dart';
 
 class JarvisShadTheme {
-  static const primary = Color(0xFF176B5B);
-  static const accent = Color(0xFF2F6F5E);
-  static const background = Color(0xFFF8FAF7);
-  static const foreground = Color(0xFF18211F);
-  static const muted = Color(0xFFEFF4F1);
-  static const border = Color(0xFFD8E2DE);
-  static const destructive = Color(0xFFBA3A3A);
+  static const primary = JarvisAstryxTokens.accent;
+  static const accent = JarvisAstryxTokens.tealMuted;
+  static const background = JarvisAstryxTokens.backgroundBody;
+  static const foreground = JarvisAstryxTokens.textPrimary;
+  static const muted = JarvisAstryxTokens.backgroundMuted;
+  static const border = JarvisAstryxTokens.border;
+  static const destructive = JarvisAstryxTokens.error;
 
   static ShadThemeData get light {
     return ShadThemeData(
       colorScheme: const ShadNeutralColorScheme.light(
         background: background,
         foreground: foreground,
-        card: Color(0xFFFFFFFF),
+        card: JarvisAstryxTokens.backgroundCard,
         cardForeground: foreground,
         primary: primary,
-        primaryForeground: Color(0xFFFFFFFF),
+        primaryForeground: JarvisAstryxTokens.onAccent,
         secondary: muted,
         secondaryForeground: foreground,
         muted: muted,
-        mutedForeground: Color(0xFF60706B),
-        accent: Color(0xFFE4EFEA),
+        mutedForeground: JarvisAstryxTokens.textSecondary,
+        accent: accent,
         accentForeground: foreground,
         destructive: destructive,
         border: border,
         input: border,
-        ring: accent,
-        selection: Color(0xFFBFE6D7),
+        ring: primary,
+        selection: JarvisAstryxTokens.tealMuted,
       ),
-      radius: const BorderRadius.all(Radius.circular(8)),
+      radius: const BorderRadius.all(JarvisAstryxTokens.radius),
     );
   }
 

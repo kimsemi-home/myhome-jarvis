@@ -5,6 +5,7 @@ import 'package:myhome_jarvis_app/daemon_client.dart';
 import 'package:myhome_jarvis_app/snapshot.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
+part 'ui/astryx_theme.dart';
 part 'ui/shadcn_theme.dart';
 part 'ui/shadcn_components.dart';
 part 'ui/shadcn_actions.dart';
