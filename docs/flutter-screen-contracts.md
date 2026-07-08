@@ -81,6 +81,9 @@ Every tab should keep these states explicit and user-visible when relevant:
   `observed` badges in `apps/flutter/lib/ui/status_metric_state*.dart`; keep
   new status states there so agents can read screen state without parsing raw
   copy.
+- Command rows expose `dry-run`, `execute blocked`, and `payload editable`
+  badges in `apps/flutter/lib/ui/command_state_badges.dart`; keep command
+  execution state visible instead of relying only on the preview button.
 - Treat Connectors as the first low-risk shadcn pilot tab; the decision and
   test target are documented in `docs/flutter-shadcn-low-risk-pilot.md`.
 - Keep dashboard migration evidence focused: Finance/Purchases must continue
