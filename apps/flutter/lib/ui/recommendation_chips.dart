@@ -7,14 +7,21 @@ class RecommendationChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return JarvisBadgeWrap(
-      labels: [
-        _moneyText(
-          recommendation.estimatedMonthlyMinorUnits,
-          recommendation.currency,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RecommendationStateBadges(recommendation: recommendation),
+        const SizedBox(height: 8),
+        JarvisBadgeWrap(
+          labels: [
+            _moneyText(
+              recommendation.estimatedMonthlyMinorUnits,
+              recommendation.currency,
+            ),
+            '${recommendation.evidenceCount} evidence',
+            recommendation.kind,
+          ],
         ),
-        '${recommendation.evidenceCount} evidence',
-        recommendation.kind,
       ],
     );
   }

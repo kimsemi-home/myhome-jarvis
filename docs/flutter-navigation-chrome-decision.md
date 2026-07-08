@@ -67,6 +67,8 @@ the bridge:
   storage format state.
 - `apps/flutter/test/widget_cluster_household_test.dart` pins Cluster shadcn
   surfaces, badges, and active/gated/tracked state tones.
+- `apps/flutter/test/widget_optimize_test.dart` pins Optimize shadcn surfaces,
+  review-only state, score-state badges, and evidence-backed state.
 - `apps/flutter/test/widget_finance_purchases_test.dart` pins one dashboard
   gate by asserting Finance/Purchases shadcn surfaces, badges, and visible
   dashboard states.

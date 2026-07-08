@@ -89,6 +89,8 @@ Every tab should keep these states explicit and user-visible when relevant:
   `apps/flutter/lib/ui/simple_list_state.dart`.
 - Cluster signals derive `active`, `gated`, `tracked`, and `stale` badge tones
   in `apps/flutter/lib/ui/agent_cluster_state.dart`.
+- Optimize recommendation cards expose `review-only`, score-state, and
+  `evidence-backed` badges in `apps/flutter/lib/ui/recommendation_state_badges.dart`.
 - Treat Connectors as the first low-risk shadcn pilot tab; the decision and
   test target are documented in `docs/flutter-shadcn-low-risk-pilot.md`.
 - Keep dashboard migration evidence focused: Finance/Purchases must continue
