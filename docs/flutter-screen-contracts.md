@@ -8,6 +8,12 @@ Material shell in `ShadApp.custom`, and `JarvisHome` loads a `JarvisSnapshot`.
 If the daemon load fails, the UI must render `JarvisSnapshot.offlineFallback()`
 instead of exposing errors or local paths.
 
+Shared visual tokens start in `apps/flutter/lib/ui/astryx_theme.dart`. The
+file mirrors the public Meta Astryx neutral theme into Flutter constants, and
+`apps/flutter/lib/ui/shadcn_theme.dart` maps those constants into
+`ShadThemeData` plus Material interop. Astryx remains a design-system/token
+reference for Flutter, not a runtime package dependency.
+
 ## Shared Snapshot
 
 Authoritative UI input:
@@ -68,6 +74,9 @@ Every tab should keep these states explicit and user-visible when relevant:
   `docs/flutter-navigation-chrome-decision.md`.
 - Move screen contents behind shared wrappers in `apps/flutter/lib/ui/shadcn_components.dart`
   before changing navigation chrome.
+- Add or change colors through `JarvisAstryxTokens` or a semantic wrapper first
+  so future agents can read the visual system without hunting for raw hex
+  values.
 - Treat Connectors as the first low-risk shadcn pilot tab; the decision and
   test target are documented in `docs/flutter-shadcn-low-risk-pilot.md`.
 - Keep dashboard migration evidence focused: Finance/Purchases must continue
