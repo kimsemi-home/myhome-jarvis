@@ -9,52 +9,16 @@ class StatusView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: GridView.builder(
+        key: const Key('status-grid'),
         padding: const EdgeInsets.all(16),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 320,
-          mainAxisExtent: 112,
+          mainAxisExtent: 128,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
         ),
         itemCount: metrics.length,
         itemBuilder: (context, index) => MetricTile(metric: metrics[index]),
-      ),
-    );
-  }
-}
-
-class MetricTile extends StatelessWidget {
-  const MetricTile({super.key, required this.metric});
-
-  final SystemMetric metric;
-
-  @override
-  Widget build(BuildContext context) {
-    final shad = ShadTheme.of(context);
-    return JarvisSurface(
-      child: Row(
-        children: [
-          Icon(metric.icon, color: shad.colorScheme.primary),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  metric.label,
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  metric.value,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

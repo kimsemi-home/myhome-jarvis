@@ -57,6 +57,8 @@ the bridge:
   current navigation chrome.
 - `JarvisIconAction` and `ShadIconButton` keep the refresh action on the shadcn
   component path.
+- `apps/flutter/test/widget_status_test.dart` pins the Status tab by asserting
+  shadcn surfaces, badges, and user-visible status states.
 - `apps/flutter/test/widget_finance_purchases_test.dart` pins one dashboard
   gate by asserting Finance/Purchases shadcn surfaces, badges, and visible
   dashboard states.
