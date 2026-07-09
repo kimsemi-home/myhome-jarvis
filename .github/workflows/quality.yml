@@ -15,7 +15,7 @@ permissions:
 
 env:
   GO_VERSION: "1.26.2"
-  FLUTTER_VERSION: "3.44.2"
+  FLUTTER_VERSION: "3.44.5"
   RUST_TOOLCHAIN: "1.96.0"
   LISP: "sbcl-bin"
   UNIT_CACHE_VERSION: "v1"

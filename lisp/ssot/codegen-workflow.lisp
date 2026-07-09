@@ -31,7 +31,7 @@
   (wf stream "")
   (wf stream "env:")
   (wf stream "  GO_VERSION: \"~A\"" (getf *project* :go_version))
-  (wf stream "  FLUTTER_VERSION: \"3.44.2\"")
+  (wf stream "  FLUTTER_VERSION: \"3.44.5\"")
   (wf stream "  RUST_TOOLCHAIN: \"1.96.0\"")
   (wf stream "  LISP: \"sbcl-bin\"")
   (wf stream "  UNIT_CACHE_VERSION: \"v1\"")
