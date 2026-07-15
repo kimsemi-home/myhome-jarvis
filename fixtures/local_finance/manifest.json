@@ -1,0 +1,70 @@
+{
+  "schema_version": "myhome.local-finance-evidence-manifest/v1",
+  "month": "2026-07",
+  "external_writes_enabled": false,
+  "receipts": [
+    {
+      "schema_version": "myhome.indirect-evidence/v1",
+      "component": "ledger",
+      "capability": "monthly-credit-summary",
+      "execution_mode": "fixture_only",
+      "external_writes_enabled": false,
+      "artifact_hash": "565a8f437618928aa15d1b51d5ea2f22360b84a7be77cdb83ce9f2cf59b1756b",
+      "checks": [
+        "credit-refund-normalized",
+        "deterministic-import-dedup",
+        "monthly-card-spend-reconciled",
+        "private-data-boundary-preserved"
+      ],
+      "receipt_hash": "eb9c42846a632a461a826b2fcb4cba637f33ba97a1245639a28a7dcbad3e53b3"
+    },
+    {
+      "schema_version": "myhome.indirect-evidence/v1",
+      "component": "portfolio",
+      "capability": "read-only-holdings-snapshot",
+      "execution_mode": "fixture_only",
+      "external_writes_enabled": false,
+      "artifact_hash": "212d61addf2728d93df88f7ee6fdc47927ea82d9aa42375101a86ffa8fe54860",
+      "checks": [
+        "aggregate-only-ledger-boundary",
+        "official-response-shape-parsed",
+        "order-endpoint-absent",
+        "snapshot-reconciliation-preserved"
+      ],
+      "receipt_hash": "1e50e4457430e81986e8dda4f3167bf8c319d4240da160d9a7878b28c27ab62f"
+    },
+    {
+      "schema_version": "myhome.indirect-evidence/v1",
+      "component": "revenue",
+      "capability": "youtube-monthly-revenue",
+      "execution_mode": "fixture_only",
+      "external_writes_enabled": false,
+      "artifact_hash": "0829beef283a81125736f249f279ba2c0676987f13e372e7e5a3d1037694f48a",
+      "checks": [
+        "channel-identity-bound",
+        "cost-attribution-reconciled",
+        "estimated-revenue-normalized",
+        "month-replacement-idempotent"
+      ],
+      "receipt_hash": "b4f573269c6ce6ad91a58736155886deec952a29c3fffdbb2be1b51a56297249"
+    },
+    {
+      "schema_version": "myhome.indirect-evidence/v1",
+      "component": "shorts",
+      "capability": "youtube-private-upload-plan",
+      "execution_mode": "plan_only",
+      "external_writes_enabled": false,
+      "artifact_hash": "4e40a8c644baa1d5860eaf33fa132e93d1ffa414a650ef9c4eae1bac82363025",
+      "checks": [
+        "action-consent-bound",
+        "external-write-surface-absent",
+        "oauth-pkce-plan-only",
+        "quota-snapshot-sealed",
+        "resumable-chunks-contiguous",
+        "revocation-append-only"
+      ],
+      "receipt_hash": "feb3fee4c5f74e2037a82ffcbef1c11ab2dd40d20702b051bd2b118b64c46e2a"
+    }
+  ],
+  "aggregate_hash": "8c9dffbc51f04680330d864d72b761876dafc4c454ce889d277a3e9237c9d323"
+}

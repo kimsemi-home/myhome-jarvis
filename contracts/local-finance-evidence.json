@@ -1,0 +1,14 @@
+{
+  "schema_version": "myhome.local-finance-evidence-contract/v1",
+  "manifest_schema": "myhome.local-finance-evidence-manifest/v1",
+  "receipt_schema": "myhome.indirect-evidence/v1",
+  "required_components": {
+    "ledger": "monthly-credit-summary",
+    "portfolio": "read-only-holdings-snapshot",
+    "revenue": "youtube-monthly-revenue",
+    "shorts": "youtube-private-upload-plan"
+  },
+  "allowed_execution_modes": ["fixture_only", "plan_only"],
+  "external_writes_enabled": false,
+  "hash_algorithm": "sha256"
+}

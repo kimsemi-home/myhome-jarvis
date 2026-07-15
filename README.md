@@ -37,6 +37,7 @@ go run ./cmd/mhj agent-cluster status
 go run ./cmd/mhj learning status
 go run ./cmd/mhj evidence status
 go run ./cmd/mhj evidence-quality status
+go run ./cmd/mhj local-finance evidence
 go run ./cmd/mhj review status
 go run ./cmd/mhj confidence status
 go run ./cmd/mhj authority status
@@ -85,6 +86,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/learning`: private observation ledger and redacted learning status.
 - `internal/evidence`: private Evidence Graph summarization and redacted status.
 - `internal/evidencequality`: private evidence quality snapshot assessor and redacted reassessment debt status.
+- `internal/localfinanceevidence`: public fixture receipt and aggregate-hash verification.
 - `internal/review`: private human review capacity queue and redacted status.
 - `internal/confidence`: external confidence cap status over local evidence.
 - `internal/authority`: public-safe Reasoning RBAC and Domain ABAC status gate.
