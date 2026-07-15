@@ -39,14 +39,14 @@
       "capability": "youtube-monthly-revenue",
       "execution_mode": "fixture_only",
       "external_writes_enabled": false,
-      "artifact_hash": "0829beef283a81125736f249f279ba2c0676987f13e372e7e5a3d1037694f48a",
+      "artifact_hash": "0ea2a33c9e8d65bdfd49ecd8c407ad618c315addb7ffb2d2f1c98c64f67fd4f1",
       "checks": [
         "channel-identity-bound",
         "cost-attribution-reconciled",
         "estimated-revenue-normalized",
         "month-replacement-idempotent"
       ],
-      "receipt_hash": "b4f573269c6ce6ad91a58736155886deec952a29c3fffdbb2be1b51a56297249"
+      "receipt_hash": "6007afbd6476e64acc89b8ee6e691d0b04ec76afb9be28a667234ee865a8c57d"
     },
     {
       "schema_version": "myhome.indirect-evidence/v1",
@@ -92,5 +92,5 @@
       "report_hash": "a913f1b9498e45873d2a93ad29b42ab1f3a0b497b2495a55577c692a4c2a5ed3"
     }
   ],
-  "aggregate_hash": "691d36575903139b5121f21f3d07f512c5c483fb28290fa6cf04d2f1f822b67e"
+  "aggregate_hash": "eaae50dfd29902758d81eb6b8c6863070ecfadfe7039728292d545cda33ff02e"
 }
