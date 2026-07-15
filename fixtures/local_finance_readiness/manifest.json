@@ -1,0 +1,68 @@
+{
+  "schema_version": "myhome.local-finance-readiness-manifest/v1",
+  "execution_mode": "plan_only",
+  "credentials_read": false,
+  "external_network_enabled": false,
+  "external_writes_enabled": false,
+  "install_allowed": false,
+  "timezone": "Asia/Seoul",
+  "plans": [
+    {
+      "component": "ledger",
+      "path": "plans/ledger.json",
+      "artifact_sha256": "5d39ac346ced48968f4f3347918234ae841df3e1205896ce94a394d102895d33",
+      "plan_hash": "563ca930f75fe5d8728dec343f18d54bbe106a2024cf0c42e7b0f4f63d26fdbd"
+    },
+    {
+      "component": "portfolio",
+      "path": "plans/portfolio.json",
+      "artifact_sha256": "598f2a43bf139db3b26d81696a0caf77396fa9b626c7b55e65a77cccb89c334a",
+      "plan_hash": "90754d362870773fb1da0beb50d5ef0a54a51baa3087b4b7ca3b30084504782e"
+    },
+    {
+      "component": "revenue",
+      "path": "plans/revenue.json",
+      "artifact_sha256": "0ee6b2b2477d18263adf78cac1e19e59eaeb1b891d11672562f703c16998dc77",
+      "plan_hash": "5c4b50dbbfbfdd73841f378370ff836352bb0c94e50643953a92de69e66f8601"
+    }
+  ],
+  "stages": [
+    {
+      "position": 1,
+      "component": "ledger",
+      "day": 2,
+      "hour": 7,
+      "minute": 0,
+      "depends_on": [],
+      "action": "collect-monthly"
+    },
+    {
+      "position": 2,
+      "component": "portfolio",
+      "day": 3,
+      "hour": 7,
+      "minute": 20,
+      "depends_on": ["ledger"],
+      "action": "collect-monthly"
+    },
+    {
+      "position": 3,
+      "component": "revenue",
+      "day": 5,
+      "hour": 7,
+      "minute": 40,
+      "depends_on": ["ledger", "portfolio"],
+      "action": "collect-monthly"
+    },
+    {
+      "position": 4,
+      "component": "jarvis",
+      "day": 5,
+      "hour": 8,
+      "minute": 0,
+      "depends_on": ["ledger", "portfolio", "revenue"],
+      "action": "verify-indirect-evidence"
+    }
+  ],
+  "aggregate_hash": "c785ed3d1f550b73db657b672c0e3d002c8fe1054603184e99480e923f8f2437"
+}

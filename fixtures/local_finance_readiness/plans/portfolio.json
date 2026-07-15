@@ -1,0 +1,85 @@
+{
+  "schema_version": "myhome.connection-readiness-plan/v1",
+  "component": "portfolio",
+  "execution_mode": "plan_only",
+  "credentials_read": false,
+  "external_network_enabled": false,
+  "external_writes_enabled": false,
+  "install_allowed": false,
+  "public_config_source": "config/portfolio.json",
+  "keychain_handles": [
+    {
+      "service": "myhome-ledger",
+      "account": "local-reader-token"
+    },
+    {
+      "service": "myhome-portfolio-lab",
+      "account": "dart-api-key"
+    },
+    {
+      "service": "myhome-portfolio-lab",
+      "account": "kis-account-number"
+    },
+    {
+      "service": "myhome-portfolio-lab",
+      "account": "kis-app-key"
+    },
+    {
+      "service": "myhome-portfolio-lab",
+      "account": "kis-app-secret"
+    },
+    {
+      "service": "myhome-portfolio-lab",
+      "account": "kis-product-code"
+    },
+    {
+      "service": "myhome-portfolio-lab",
+      "account": "krx-auth-key"
+    },
+    {
+      "service": "myhome-portfolio-lab",
+      "account": "local-reader-token"
+    }
+  ],
+  "oauth_scopes": [],
+  "official_hosts": [
+    "data-dbg.krx.co.kr",
+    "openapi.koreainvestment.com:9443",
+    "opendart.fss.or.kr"
+  ],
+  "local_dependencies": [
+    "http://127.0.0.1:8171"
+  ],
+  "enabled_collectors": [],
+  "deferred_collectors": [
+    "dart-disclosures",
+    "kis-readonly-holdings",
+    "krx-market-data"
+  ],
+  "monthly_schedule": {
+    "day": 3,
+    "hour": 7,
+    "minute": 20,
+    "timezone": "Asia/Seoul"
+  },
+  "launchd": {
+    "template_path": "ops/launchd/com.kimsemi.myhome-portfolio.monthly.plist.template",
+    "label": "com.kimsemi.myhome-portfolio.monthly",
+    "program_arguments": [
+      "__BINARY__",
+      "collect",
+      "monthly"
+    ]
+  },
+  "checks": [
+    "credentials-not-read",
+    "external-network-disabled",
+    "external-writes-disabled",
+    "launchd-not-installed",
+    "official-hosts-pinned",
+    "order-endpoint-absent",
+    "private-config-ignored"
+  ],
+  "template_hash": "d8bc36a1aedb4e2a212c3610862fd52c23d18203407bc07ebc124e27e2a440b5",
+  "plan_hash": "90754d362870773fb1da0beb50d5ef0a54a51baa3087b4b7ca3b30084504782e"
+}

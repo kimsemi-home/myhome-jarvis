@@ -1,0 +1,14 @@
+{
+  "schema_version": "myhome.local-finance-readiness-contract/v1",
+  "manifest_schema": "myhome.local-finance-readiness-manifest/v1",
+  "plan_schema": "myhome.connection-readiness-plan/v1",
+  "required_components": ["ledger", "portfolio", "revenue"],
+  "execution_mode": "plan_only",
+  "credentials_read": false,
+  "external_network_enabled": false,
+  "external_writes_enabled": false,
+  "install_allowed": false,
+  "timezone": "Asia/Seoul",
+  "required_stage_order": ["ledger", "portfolio", "revenue", "jarvis"],
+  "hash_algorithm": "sha256"
+}
