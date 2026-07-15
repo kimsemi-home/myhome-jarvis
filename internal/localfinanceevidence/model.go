@@ -2,7 +2,7 @@ package localfinanceevidence
 
 const (
 	ReceiptSchema  = "myhome.indirect-evidence/v1"
-	ManifestSchema = "myhome.local-finance-evidence-manifest/v3"
+	ManifestSchema = "myhome.local-finance-evidence-manifest/v4"
 )
 
 type Receipt struct {

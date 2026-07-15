@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.local-finance-evidence-manifest/v3",
+  "schema_version": "myhome.local-finance-evidence-manifest/v4",
   "month": "2026-07",
   "external_writes_enabled": false,
   "receipts": [
@@ -82,7 +82,15 @@
       "path": "proofs/portfolio-holdings-loopback.json",
       "artifact_sha256": "d64ff12064a739e8e7f3fc59eec9d060371c3d67169f116fa373ccc48658efc2",
       "report_hash": "afbb35fcf06e22e7d6ab108562c50d297db65efebaa98eca3dee3d57f2715c51"
+    },
+    {
+      "component": "revenue",
+      "capability": "youtube-revenue-collection-rehearsal",
+      "proof_schema": "myhome.revenue-youtube-analytics-rehearsal/v1",
+      "path": "proofs/revenue-youtube-loopback.json",
+      "artifact_sha256": "8e7aad75d1c940b20edde9181e28fef79d5f7b6c88225d310b3263da8e7ac83d",
+      "report_hash": "a913f1b9498e45873d2a93ad29b42ab1f3a0b497b2495a55577c692a4c2a5ed3"
     }
   ],
-  "aggregate_hash": "10e1be07e81d209dec9dad74e5bbd5df96f4bd94562b617fd1c27f547c458b90"
+  "aggregate_hash": "691d36575903139b5121f21f3d07f512c5c483fb28290fa6cf04d2f1f822b67e"
 }

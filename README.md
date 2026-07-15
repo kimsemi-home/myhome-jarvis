@@ -87,7 +87,7 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/learning`: private observation ledger and redacted learning status.
 - `internal/evidence`: private Evidence Graph summarization and redacted status.
 - `internal/evidencequality`: private evidence quality snapshot assessor and redacted reassessment debt status.
-- `internal/localfinanceevidence`: public fixture receipts plus Ledger and Portfolio loopback execution-proof verification.
+- `internal/localfinanceevidence`: public fixture receipts plus Ledger, Portfolio, and Revenue loopback execution-proof verification.
 - `internal/localfinancereadiness`: source-plan hash verification and fail-closed monthly finance DAG.
 - `internal/review`: private human review capacity queue and redacted status.
 - `internal/confidence`: external confidence cap status over local evidence.
