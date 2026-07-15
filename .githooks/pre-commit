@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+go run ./cmd/shortsctl docs check
+go run ./cmd/shortsctl trace staged
+go run ./cmd/mhj security check

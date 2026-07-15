@@ -24,10 +24,10 @@
 	                 "test -s generated/context_pack.generated.json" "test -s generated/media_readiness.generated.json" "test -s generated/merge_evidence.generated.json" "test -s generated/monetization.generated.json" "test -s generated/external_evidence.generated.json" "test -s generated/repo_factory.generated.json"
 	                 "git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md"))
     (:id "go" :name "Go daemon and CLI" :kind "unit-test"
-     :timeout 10 :setup "go" :cache "go"
-     :hash_inputs #(".github/workflows/quality.yml" ".go-version"
-                    "rust-toolchain.toml" "go.mod" "go.sum" "cmd/**/*.go"
+     :timeout 10 :setup "go" :cache "go" :history t
+	     :hash_inputs #(".github/workflows/quality.yml" ".go-version" "rust-toolchain.toml" "go.mod" "go.sum" "cmd/**/*.go"
                     "internal/**/*.go" ".mhj/**" ".codex/**" "generated/*.json"
+                    "contracts/**" "fixtures/**" "docs-src/**" "docs/shorts-factory.md" "traceability.json"
                     "generated/github_quality_workflow.generated.yml")
      :commands #("go run ./cmd/mhj ci verify" "go run ./cmd/mhj ci-cache status"
                  "go run ./cmd/mhj verification verify"
@@ -35,7 +35,7 @@
                  "go run ./cmd/mhj pdca status"
                  "go run ./cmd/mhj control-plane verify"
                  "go run ./cmd/mhj toolchain verify"
-                 "go run ./cmd/mhj code-shape status"
+	                 "go run ./cmd/mhj code-shape status" "go run ./cmd/shortsctl verify" "go run ./cmd/shortsctl trace ci"
                  "go run ./cmd/mhj harness home"
                  "go run ./cmd/mhj harness finance"
                  "go run ./cmd/mhj harness commerce"
