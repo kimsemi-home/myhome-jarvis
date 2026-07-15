@@ -66,6 +66,8 @@ go:
     - go run ./cmd/mhj control-plane verify
     - go run ./cmd/mhj toolchain verify
     - go run ./cmd/mhj code-shape status
+    - go run ./cmd/shortsctl verify
+    - go run ./cmd/shortsctl trace ci
     - go run ./cmd/mhj harness home
     - go run ./cmd/mhj harness finance
     - go run ./cmd/mhj harness commerce

@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 env:
-  GO_VERSION: "1.26.2"
+  GO_VERSION: "1.26.5"
   FLUTTER_VERSION: "3.44.2"
   RUST_TOOLCHAIN: "1.96.0"
   LISP: "sbcl-bin"
@@ -112,12 +112,14 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - name: Restore Go daemon and CLI unit cache
         id: unit-cache
         uses: actions/cache/restore@v5
         with:
           path: .github/unit-cache/go
-          key: go-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'go.mod', 'go.sum', 'cmd/**/*.go', 'internal/**/*.go', '.mhj/**', '.codex/**', 'generated/*.json', 'generated/github_quality_workflow.generated.yml') }}
+          key: go-${{ runner.os }}-${{ env.UNIT_CACHE_VERSION }}-${{ hashFiles('.github/workflows/quality.yml', '.go-version', 'rust-toolchain.toml', 'go.mod', 'go.sum', 'cmd/**/*.go', 'internal/**/*.go', '.mhj/**', '.codex/**', 'generated/*.json', 'contracts/**', 'fixtures/**', 'docs-src/**', 'docs/shorts-factory.md', 'traceability.json', 'generated/github_quality_workflow.generated.yml') }}
       - name: Report Go daemon and CLI cache hit
         if: steps.unit-cache.outputs.cache-hit == 'true'
         run: echo "Go daemon and CLI unchanged for this unit hash."
@@ -139,6 +141,8 @@ jobs:
           go run ./cmd/mhj control-plane verify
           go run ./cmd/mhj toolchain verify
           go run ./cmd/mhj code-shape status
+          go run ./cmd/shortsctl verify
+          go run ./cmd/shortsctl trace ci
           go run ./cmd/mhj harness home
           go run ./cmd/mhj harness finance
           go run ./cmd/mhj harness commerce
