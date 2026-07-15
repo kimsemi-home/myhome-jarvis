@@ -16,7 +16,7 @@ func shouldSkipDir(name string) bool {
 
 func shouldSkipFile(rel string) bool {
 	switch filepath.Base(rel) {
-	case ".flutter-plugins", ".flutter-plugins-dependencies", ".packages":
+	case ".git", ".flutter-plugins", ".flutter-plugins-dependencies", ".packages":
 		return true
 	default:
 		return false

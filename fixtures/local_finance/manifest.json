@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.local-finance-evidence-manifest/v1",
+  "schema_version": "myhome.local-finance-evidence-manifest/v2",
   "month": "2026-07",
   "external_writes_enabled": false,
   "receipts": [
@@ -66,5 +66,15 @@
       "receipt_hash": "feb3fee4c5f74e2037a82ffcbef1c11ab2dd40d20702b051bd2b118b64c46e2a"
     }
   ],
-  "aggregate_hash": "8c9dffbc51f04680330d864d72b761876dafc4c454ce889d277a3e9237c9d323"
+  "execution_proofs": [
+    {
+      "component": "ledger",
+      "capability": "credit-collection-rehearsal",
+      "proof_schema": "myhome.ledger-credit-collection-rehearsal/v1",
+      "path": "proofs/ledger-credit-loopback.json",
+      "artifact_sha256": "a75935318545e79234a0b83cf3fedfe3fbf55ff90e4304115e23bd24bee264c4",
+      "report_hash": "f05b8ccfb85d676dab71a2faac8f03c0963cbc1f32264fbfac86b7e50d8bf5fb"
+    }
+  ],
+  "aggregate_hash": "de29be8cee8b678a8eb049c8885c4b4dbd5b8932bf746fbd8bb510982bdbb000"
 }

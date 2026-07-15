@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"path/filepath"
 )
 
 func Read(path string) (Manifest, error) {
@@ -23,6 +24,9 @@ func Read(path string) (Manifest, error) {
 		return Manifest{}, errors.New("manifest must contain one JSON value")
 	}
 	if err := Validate(manifest); err != nil {
+		return Manifest{}, err
+	}
+	if err := validateProofFiles(filepath.Dir(path), manifest.Month, manifest.ExecutionProofs); err != nil {
 		return Manifest{}, err
 	}
 	return manifest, nil

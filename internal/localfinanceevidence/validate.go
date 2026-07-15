@@ -18,7 +18,8 @@ var requiredCapabilities = map[string]string{
 func Validate(manifest Manifest) error {
 	if manifest.SchemaVersion != ManifestSchema ||
 		!regexp.MustCompile(`^\d{4}-\d{2}$`).MatchString(manifest.Month) ||
-		manifest.ExternalWritesEnabled || len(manifest.Receipts) != len(requiredCapabilities) {
+		manifest.ExternalWritesEnabled || len(manifest.Receipts) != len(requiredCapabilities) ||
+		validateProofRefs(manifest.ExecutionProofs) != nil {
 		return errors.New("local finance evidence manifest is invalid")
 	}
 	seen := map[string]bool{}

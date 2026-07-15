@@ -26,6 +26,13 @@ func aggregateHash(manifest Manifest) string {
 	for _, receipt := range receipts {
 		values = append(values, receipt.Component+"\x00"+receipt.ReceiptHash)
 	}
+	proofs := append([]ProofRef{}, manifest.ExecutionProofs...)
+	sort.Slice(proofs, func(i, j int) bool {
+		return proofs[i].Component+proofs[i].Capability < proofs[j].Component+proofs[j].Capability
+	})
+	for _, proof := range proofs {
+		values = append(values, "proof\x00"+proof.Component+"\x00"+proof.Capability+"\x00"+proof.ArtifactSHA256+"\x00"+proof.ReportHash)
+	}
 	return digest(strings.Join(values, "\n"))
 }
 

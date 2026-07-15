@@ -1,0 +1,81 @@
+{
+  "schema_version": "myhome.ledger-credit-collection-rehearsal/v1",
+  "execution_mode": "loopback_emulation",
+  "loopback_only": true,
+  "credentials_read": false,
+  "external_network": false,
+  "external_writes": false,
+  "month": "2026-07",
+  "attachment_content_hash": "a1572578f5f7913a047ab043388d92a5fdda5e112a8e3949cfc27a15d3409f81",
+  "first_gmail_sync": {
+    "schema_version": "myhome.ledger-gmail-sync/v1",
+    "sources": 1,
+    "messages_inspected": 3,
+    "allowed_messages": 2,
+    "attachments_written": 1,
+    "duplicates": 1,
+    "previously_processed": 0,
+    "receipts_written": 2,
+    "retries": 1
+  },
+  "first_inbox_watch": {
+    "files": 1,
+    "inserted": 3,
+    "duplicates": 0
+  },
+  "replay_gmail_sync": {
+    "schema_version": "myhome.ledger-gmail-sync/v1",
+    "sources": 1,
+    "messages_inspected": 3,
+    "allowed_messages": 2,
+    "attachments_written": 0,
+    "duplicates": 2,
+    "previously_processed": 2,
+    "receipts_written": 0,
+    "retries": 0
+  },
+  "replay_inbox_watch": {
+    "files": 0,
+    "inserted": 0,
+    "duplicates": 0
+  },
+  "archive_fallback_gmail_sync": {
+    "schema_version": "myhome.ledger-gmail-sync/v1",
+    "sources": 1,
+    "messages_inspected": 3,
+    "allowed_messages": 2,
+    "attachments_written": 0,
+    "duplicates": 2,
+    "previously_processed": 0,
+    "receipts_written": 2,
+    "retries": 0
+  },
+  "archive_fallback_inbox_watch": {
+    "files": 0,
+    "inserted": 0,
+    "duplicates": 0
+  },
+  "monthly_reconciliation": {
+    "transaction_count": 3,
+    "card_spend_minor": 20900,
+    "card_refund_minor": 2200,
+    "net_card_spend_minor": 18700,
+    "reconciled": true
+  },
+  "emulator_metrics": {
+    "list_requests": 6,
+    "message_requests": 9,
+    "attachment_requests": 5,
+    "injected_failures": 1
+  },
+  "checks": [
+    "allowed-sender-enforced",
+    "append-only-receipts-validated",
+    "archive-dedup-enforced",
+    "bounded-retry-recovered",
+    "credit-refunds-netted",
+    "idempotent-replay",
+    "loopback-origin-enforced"
+  ],
+  "report_hash": "f05b8ccfb85d676dab71a2faac8f03c0963cbc1f32264fbfac86b7e50d8bf5fb"
+}
