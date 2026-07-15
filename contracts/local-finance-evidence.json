@@ -1,6 +1,6 @@
 {
-  "schema_version": "myhome.local-finance-evidence-contract/v4",
-  "manifest_schema": "myhome.local-finance-evidence-manifest/v4",
+  "schema_version": "myhome.local-finance-evidence-contract/v5",
+  "manifest_schema": "myhome.local-finance-evidence-manifest/v5",
   "receipt_schema": "myhome.indirect-evidence/v1",
   "required_components": {
     "ledger": "monthly-credit-summary",
@@ -12,14 +12,16 @@
   "required_execution_proofs": {
     "ledger": "credit-collection-rehearsal",
     "portfolio": "readonly-collection-rehearsal",
-    "revenue": "youtube-revenue-collection-rehearsal"
+    "revenue": "youtube-revenue-collection-rehearsal",
+    "finance-operator": "monthly-orchestration-rehearsal"
   },
   "execution_proof_schemas": {
     "ledger": "myhome.ledger-credit-collection-rehearsal/v1",
     "portfolio": "myhome.portfolio-readonly-collection-rehearsal/v1",
-    "revenue": "myhome.revenue-youtube-analytics-rehearsal/v1"
+    "revenue": "myhome.revenue-youtube-analytics-rehearsal/v1",
+    "finance-operator": "myhome.finance-operator-monthly-rehearsal/v1"
   },
-  "allowed_execution_proof_modes": ["loopback_emulation", "ipv4_loopback"],
+  "allowed_execution_proof_modes": ["loopback_emulation", "ipv4_loopback", "local_subprocess_emulation"],
   "external_writes_enabled": false,
   "hash_algorithm": "sha256"
 }

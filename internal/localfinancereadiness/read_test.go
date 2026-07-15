@@ -16,7 +16,7 @@ func TestFixtureReadinessManifestValidates(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(manifest.Plans) != 3 || len(manifest.Stages) != 4 || manifest.Stages[3].Component != "jarvis" {
+	if len(manifest.Plans) != 4 || len(manifest.Stages) != 5 || manifest.Stages[3].Component != "finance-operator" || manifest.Stages[4].Component != "jarvis" {
 		t.Fatalf("unexpected manifest: %#v", manifest)
 	}
 }
@@ -48,5 +48,17 @@ func TestOutOfOrderStageFails(t *testing.T) {
 	manifest.AggregateHash = aggregateHash(manifest)
 	if Validate(manifest) == nil {
 		t.Fatal("out-of-order stage was accepted")
+	}
+}
+
+func TestDirectChildSchedulesFail(t *testing.T) {
+	manifest, err := Read(fixturePath("manifest.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	manifest.DirectChildSchedulesEnabled = true
+	manifest.AggregateHash = aggregateHash(manifest)
+	if Validate(manifest) == nil {
+		t.Fatal("direct child schedules were accepted")
 	}
 }

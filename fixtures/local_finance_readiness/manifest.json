@@ -1,11 +1,13 @@
 {
-  "schema_version": "myhome.local-finance-readiness-manifest/v1",
+  "schema_version": "myhome.local-finance-readiness-manifest/v2",
   "execution_mode": "plan_only",
   "credentials_read": false,
   "external_network_enabled": false,
   "external_writes_enabled": false,
   "install_allowed": false,
   "timezone": "Asia/Seoul",
+  "execution_owner": "finance-operator",
+  "direct_child_schedules_enabled": false,
   "plans": [
     {
       "component": "ledger",
@@ -24,45 +26,65 @@
       "path": "plans/revenue.json",
       "artifact_sha256": "0ee6b2b2477d18263adf78cac1e19e59eaeb1b891d11672562f703c16998dc77",
       "plan_hash": "5c4b50dbbfbfdd73841f378370ff836352bb0c94e50643953a92de69e66f8601"
+    },
+    {
+      "component": "finance-operator",
+      "path": "plans/operator.json",
+      "artifact_sha256": "d06926c1b59253426a2f27ad4c715854ab6db2d275c30af221011c99e42b3f69",
+      "plan_hash": "c316b974597e88913a1c2e34e7982ecffc9ca7aa52bc2e291751fcec859dd37d"
     }
   ],
   "stages": [
     {
       "position": 1,
       "component": "ledger",
+      "executor": "finance-operator",
       "day": 2,
-      "hour": 7,
-      "minute": 0,
+      "hour": 8,
+      "minute": 10,
       "depends_on": [],
       "action": "collect-monthly"
     },
     {
       "position": 2,
       "component": "portfolio",
+      "executor": "finance-operator",
       "day": 3,
-      "hour": 7,
-      "minute": 20,
+      "hour": 8,
+      "minute": 10,
       "depends_on": ["ledger"],
       "action": "collect-monthly"
     },
     {
       "position": 3,
       "component": "revenue",
+      "executor": "finance-operator",
       "day": 5,
-      "hour": 7,
-      "minute": 40,
+      "hour": 8,
+      "minute": 10,
       "depends_on": ["ledger", "portfolio"],
       "action": "collect-monthly"
     },
     {
       "position": 4,
-      "component": "jarvis",
+      "component": "finance-operator",
+      "executor": "finance-operator",
       "day": 5,
       "hour": 8,
-      "minute": 0,
+      "minute": 10,
       "depends_on": ["ledger", "portfolio", "revenue"],
+      "action": "aggregate-monthly-snapshot"
+    },
+    {
+      "position": 5,
+      "component": "jarvis",
+      "executor": "jarvis",
+      "day": 5,
+      "hour": 10,
+      "minute": 0,
+      "depends_on": ["finance-operator"],
       "action": "verify-indirect-evidence"
     }
   ],
-  "aggregate_hash": "c785ed3d1f550b73db657b672c0e3d002c8fe1054603184e99480e923f8f2437"
+  "aggregate_hash": "2f3e540534592bbd4a3774b68d6147463c6387b0d849903f21cbc9846677cd80"
 }

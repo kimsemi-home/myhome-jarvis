@@ -1,6 +1,6 @@
 # Local finance evidence
 
-The local finance evidence manifest proves four indirect capabilities and three
+The local finance evidence manifest proves four indirect capabilities and four
 execution rehearsals without account credentials or external writes:
 
 - ledger: deterministic monthly credit summary from a public fixture;
@@ -16,6 +16,9 @@ execution rehearsals without account credentials or external writes:
 - revenue collection: the production YouTube channel lookup and monetary
   Analytics day/video queries exercised against exact IPv4 loopback, followed
   by atomic SQLite replacement, cost replay, and aggregate-only Ledger replay.
+- finance operator: the production subprocess, retry, checkpoint, next-day
+  resume, completed-stage skip, aggregate-only snapshot, and replay paths
+  exercised with three local child emulators.
 
 Run the bundled proof with:
 
@@ -23,10 +26,11 @@ Run the bundled proof with:
 go run ./cmd/mhj local-finance evidence
 ```
 
-Each producer hashes its deterministic artifact and seals a receipt. The Ledger
-Ledger, Portfolio, and Revenue rehearsals are copied as complete reports with
-both file SHA-256 and internal report hash references. Jarvis recomputes every
-receipt and report hash, requires the exact component/capability set, and then
+Each producer hashes its deterministic artifact and seals a receipt. The
+Ledger, Portfolio, Revenue, and Finance Operator rehearsals are copied as
+complete reports with both file SHA-256 and internal report hash references.
+Jarvis recomputes every receipt and report hash, requires the exact
+component/capability set, and then
 verifies an aggregate hash bound to the manifest month. Unknown JSON fields,
 extra JSON values, missing components, hash changes, and any enabled external
 write fail closed.
@@ -46,6 +50,13 @@ contracts, one bounded retry after an injected 503, two stable daily and video
 rows after full-month replacement, idempotent cost import, and one idempotent
 aggregate-only Ledger event. Its synthetic estimated result is KRW 8,300 gross
 minus KRW 2,000 cost, for KRW 6,300 net.
+
+The Finance Operator rehearsal verifies the real child exit-code convention,
+three-attempt bound, day-2/day-3/day-5 catch-up order, next-day failure resume,
+completed-stage skip, one aggregate-only snapshot, and idempotent replay. The
+snapshot reconciles KRW 18,700 net card spend, KRW 6,300 net tracked income,
+KRW -12,400 tracked surplus, and KRW 200,000 total assets without persisting
+raw child output.
 
 The checked-in manifest contains public synthetic data only. It is deployment
 evidence for the indirect implementation, not proof of a live bank, broker, or

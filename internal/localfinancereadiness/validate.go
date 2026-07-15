@@ -12,7 +12,8 @@ var hashPattern = regexp.MustCompile(`^[a-f0-9]{64}$`)
 func Validate(value Manifest) error {
 	if value.SchemaVersion != ManifestSchema || value.ExecutionMode != "plan_only" ||
 		value.CredentialsRead || value.ExternalNetworkEnabled || value.ExternalWritesEnabled ||
-		value.InstallAllowed || value.Timezone != "Asia/Seoul" || len(value.Plans) != 3 || len(value.Stages) != 4 {
+		value.InstallAllowed || value.Timezone != "Asia/Seoul" || value.ExecutionOwner != "finance-operator" ||
+		value.DirectChildSchedulesEnabled || len(value.Plans) != 4 || len(value.Stages) != 5 {
 		return errors.New("local finance readiness manifest enables execution or is incomplete")
 	}
 	seen := map[string]bool{}
@@ -25,12 +26,12 @@ func Validate(value Manifest) error {
 		}
 		seen[ref.Component] = true
 	}
-	if len(seen) != 3 || validateStages(value.Stages) != nil || value.AggregateHash != aggregateHash(value) {
+	if len(seen) != 4 || validateStages(value.Stages) != nil || value.AggregateHash != aggregateHash(value) {
 		return errors.New("local finance readiness DAG or aggregate hash is invalid")
 	}
 	return nil
 }
 
 func expectedComponent(value string) bool {
-	return value == "ledger" || value == "portfolio" || value == "revenue"
+	return value == "ledger" || value == "portfolio" || value == "revenue" || value == "finance-operator"
 }

@@ -1,19 +1,24 @@
 # Local finance connection readiness
 
-`mhj local-finance readiness` validates the three real-connection preparation
-plans without activating any connector. The default manifest and source plans
-live under `fixtures/local_finance_readiness/`.
+`mhj local-finance readiness` validates the three collector connection plans
+and the Finance Operator execution plan without activating any connector. The
+default manifest and source plans live under `fixtures/local_finance_readiness/`.
 
 The verifier fails closed unless all of the following remain true:
 
-- Ledger, Portfolio, and Revenue plans are `plan_only` and hash-sealed.
+- Ledger, Portfolio, Revenue, and Finance Operator plans are `plan_only` and
+  hash-sealed.
 - Credentials, external networking, external writes, and service installation
   are all disabled.
-- Each plan names only a public configuration source and read-only OAuth scope.
+- Each plan names only a public configuration source; collector OAuth scopes,
+  when present, are read-only.
 - The copied plan artifact SHA-256 and its canonical internal `plan_hash` both
   match.
-- The monthly DAG is Ledger on day 2 at 07:00, Portfolio on day 3 at 07:20,
-  Revenue on day 5 at 07:40, then Jarvis evidence verification at 08:00 KST.
+- Direct child schedules are disabled; Finance Operator is the sole execution
+  owner through one uninstalled daily 08:10 KST launchd template.
+- The operator catches up Ledger on day 2, Portfolio on day 3, Revenue and the
+  unified snapshot on day 5, then Jarvis evidence verification follows at
+  10:00 KST.
 
 This proves configuration and ordering only. It does not inspect Keychain,
 private connection overrides, databases, account identities, or live service

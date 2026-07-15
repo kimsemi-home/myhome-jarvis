@@ -1,0 +1,63 @@
+{
+  "schema_version": "myhome.finance-operator-readiness-plan/v1",
+  "component": "finance-operator",
+  "execution_mode": "plan_only",
+  "credentials_read": false,
+  "external_network_enabled": false,
+  "external_writes_enabled": false,
+  "install_allowed": false,
+  "public_config_source": "config/operator.json",
+  "keychain_service": "myhome-finance-operator",
+  "api_token_account": "local-reader-token",
+  "timezone": "Asia/Seoul",
+  "daily_schedule": {
+    "hour": 8,
+    "minute": 10
+  },
+  "stages": [
+    {
+      "component": "ledger",
+      "binary_path": "__LEDGERCTL__",
+      "working_directory": "__LEDGER_ROOT__",
+      "due_day": 2,
+      "binary_sha256": "__LEDGERCTL_SHA256__"
+    },
+    {
+      "component": "portfolio",
+      "binary_path": "__PORTFOLIOCTL__",
+      "working_directory": "__PORTFOLIO_ROOT__",
+      "due_day": 3,
+      "binary_sha256": "__PORTFOLIOCTL_SHA256__"
+    },
+    {
+      "component": "revenue",
+      "binary_path": "__REVENUECTL__",
+      "working_directory": "__REVENUE_ROOT__",
+      "due_day": 5,
+      "binary_sha256": "__REVENUECTL_SHA256__"
+    }
+  ],
+  "launchd": {
+    "template_path": "ops/launchd/com.kimsemi.myhome-finance-operator.daily.plist.template",
+    "label": "com.kimsemi.myhome-finance-operator.daily",
+    "program_arguments": [
+      "__FINOPCTL__",
+      "run",
+      "due"
+    ],
+    "template_hash": "1cac62a1b03adf16702d81e74b94800a539a9e6450733834c3ad43b3e6bd3b61"
+  },
+  "checks": [
+    "ambient-environment-sanitized",
+    "bounded-child-retry",
+    "child-argv-fixed",
+    "credentials-not-read",
+    "daily-catch-up-enabled",
+    "external-network-disabled",
+    "external-writes-disabled",
+    "launchd-not-installed",
+    "private-config-ignored",
+    "stage-order-fixed"
+  ],
+  "plan_hash": "c316b974597e88913a1c2e34e7982ecffc9ca7aa52bc2e291751fcec859dd37d"
+}

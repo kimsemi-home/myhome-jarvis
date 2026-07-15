@@ -1,8 +1,9 @@
 package localfinancereadiness
 
 const (
-	ManifestSchema = "myhome.local-finance-readiness-manifest/v1"
-	PlanSchema     = "myhome.connection-readiness-plan/v1"
+	ManifestSchema     = "myhome.local-finance-readiness-manifest/v2"
+	PlanSchema         = "myhome.connection-readiness-plan/v1"
+	OperatorPlanSchema = "myhome.finance-operator-readiness-plan/v1"
 )
 
 type Ref struct {
@@ -15,6 +16,7 @@ type Ref struct {
 type Stage struct {
 	Position  int      `json:"position"`
 	Component string   `json:"component"`
+	Executor  string   `json:"executor"`
 	Day       int      `json:"day"`
 	Hour      int      `json:"hour"`
 	Minute    int      `json:"minute"`
@@ -23,16 +25,18 @@ type Stage struct {
 }
 
 type Manifest struct {
-	SchemaVersion          string  `json:"schema_version"`
-	ExecutionMode          string  `json:"execution_mode"`
-	CredentialsRead        bool    `json:"credentials_read"`
-	ExternalNetworkEnabled bool    `json:"external_network_enabled"`
-	ExternalWritesEnabled  bool    `json:"external_writes_enabled"`
-	InstallAllowed         bool    `json:"install_allowed"`
-	Timezone               string  `json:"timezone"`
-	Plans                  []Ref   `json:"plans"`
-	Stages                 []Stage `json:"stages"`
-	AggregateHash          string  `json:"aggregate_hash"`
+	SchemaVersion               string  `json:"schema_version"`
+	ExecutionMode               string  `json:"execution_mode"`
+	CredentialsRead             bool    `json:"credentials_read"`
+	ExternalNetworkEnabled      bool    `json:"external_network_enabled"`
+	ExternalWritesEnabled       bool    `json:"external_writes_enabled"`
+	InstallAllowed              bool    `json:"install_allowed"`
+	Timezone                    string  `json:"timezone"`
+	ExecutionOwner              string  `json:"execution_owner"`
+	DirectChildSchedulesEnabled bool    `json:"direct_child_schedules_enabled"`
+	Plans                       []Ref   `json:"plans"`
+	Stages                      []Stage `json:"stages"`
+	AggregateHash               string  `json:"aggregate_hash"`
 }
 
 type Plan struct {

@@ -37,6 +37,13 @@ func verifyPlan(base string, ref Ref) error {
 	if digest(body) != ref.ArtifactSHA256 {
 		return fmt.Errorf("artifact SHA-256 mismatch")
 	}
+	if ref.Component == "finance-operator" {
+		plan, err := decodeOne[OperatorPlan](bytes.NewReader(body))
+		if err != nil {
+			return err
+		}
+		return validateOperatorPlan(plan, ref)
+	}
 	plan, err := decodeOne[Plan](bytes.NewReader(body))
 	if err != nil {
 		return err
