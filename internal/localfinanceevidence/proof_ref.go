@@ -7,18 +7,30 @@ import (
 )
 
 const creditProofSchema = "myhome.ledger-credit-collection-rehearsal/v1"
+const portfolioProofSchema = "myhome.portfolio-readonly-collection-rehearsal/v1"
+
+var requiredProofs = map[string]struct {
+	capability string
+	schema     string
+}{
+	"ledger":    {"credit-collection-rehearsal", creditProofSchema},
+	"portfolio": {"readonly-collection-rehearsal", portfolioProofSchema},
+}
 
 func validateProofRefs(refs []ProofRef) error {
-	if len(refs) != 1 {
-		return errors.New("one Ledger credit execution proof is required")
+	if len(refs) != len(requiredProofs) {
+		return errors.New("Ledger and Portfolio execution proofs are required")
 	}
-	ref := refs[0]
-	clean := filepath.Clean(ref.Path)
-	if ref.Component != "ledger" || ref.Capability != "credit-collection-rehearsal" ||
-		ref.ProofSchema != creditProofSchema || filepath.IsAbs(ref.Path) || clean == ".." ||
-		strings.HasPrefix(clean, ".."+string(filepath.Separator)) ||
-		!hashPattern.MatchString(ref.ArtifactSHA256) || !hashPattern.MatchString(ref.ReportHash) {
-		return errors.New("Ledger credit execution proof reference is invalid")
+	seen := map[string]bool{}
+	for _, ref := range refs {
+		expected, ok := requiredProofs[ref.Component]
+		clean := filepath.Clean(ref.Path)
+		if !ok || seen[ref.Component] || ref.Capability != expected.capability || ref.ProofSchema != expected.schema ||
+			filepath.IsAbs(ref.Path) || clean == ".." || strings.HasPrefix(clean, ".."+string(filepath.Separator)) ||
+			!hashPattern.MatchString(ref.ArtifactSHA256) || !hashPattern.MatchString(ref.ReportHash) {
+			return errors.New("local finance execution proof reference is invalid")
+		}
+		seen[ref.Component] = true
 	}
 	return nil
 }

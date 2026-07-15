@@ -1,6 +1,6 @@
 {
-  "schema_version": "myhome.local-finance-evidence-contract/v2",
-  "manifest_schema": "myhome.local-finance-evidence-manifest/v2",
+  "schema_version": "myhome.local-finance-evidence-contract/v3",
+  "manifest_schema": "myhome.local-finance-evidence-manifest/v3",
   "receipt_schema": "myhome.indirect-evidence/v1",
   "required_components": {
     "ledger": "monthly-credit-summary",
@@ -10,10 +10,12 @@
   },
   "allowed_execution_modes": ["fixture_only", "plan_only"],
   "required_execution_proofs": {
-    "ledger": "credit-collection-rehearsal"
+    "ledger": "credit-collection-rehearsal",
+    "portfolio": "readonly-collection-rehearsal"
   },
   "execution_proof_schemas": {
-    "ledger": "myhome.ledger-credit-collection-rehearsal/v1"
+    "ledger": "myhome.ledger-credit-collection-rehearsal/v1",
+    "portfolio": "myhome.portfolio-readonly-collection-rehearsal/v1"
   },
   "allowed_execution_proof_modes": ["loopback_emulation"],
   "external_writes_enabled": false,

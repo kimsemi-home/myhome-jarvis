@@ -1,0 +1,55 @@
+{
+  "schema_version": "myhome.portfolio-readonly-collection-rehearsal/v1",
+  "execution_mode": "loopback_emulation",
+  "loopback_only": true,
+  "credentials_read": false,
+  "external_network": false,
+  "external_writes": false,
+  "financial_actions": false,
+  "month": "2026-07",
+  "kis_readonly_sync": {
+    "method": "GET",
+    "path": "/uapi/domestic-stock/v1/trading/inquire-balance",
+    "transaction_id": "TTTC8434R",
+    "retries": 1,
+    "holding_count": 1
+  },
+  "local_store_replay": {
+    "first_snapshot_count": 1,
+    "replay_snapshot_count": 1
+  },
+  "ledger_aggregate_replay": {
+    "first_inserted": true,
+    "replay_inserted": false,
+    "fingerprint_matched": true,
+    "aggregate_only": true
+  },
+  "monthly_reconciliation": {
+    "cash_minor": 50000,
+    "securities_value_minor": 150000,
+    "holding_value_minor": 150000,
+    "profit_loss_minor": 10000,
+    "total_value_minor": 200000,
+    "reconciled": true
+  },
+  "emulator_metrics": {
+    "token_requests": 1,
+    "balance_requests": 2,
+    "ledger_requests": 2,
+    "injected_failures": 1,
+    "order_requests": 0,
+    "forbidden_requests": 0
+  },
+  "checks": [
+    "aggregate-only-ledger-boundary",
+    "bounded-retry-recovered",
+    "exact-ipv4-loopback-origin",
+    "financial-actions-disabled",
+    "ledger-replay-idempotent",
+    "order-requests-zero",
+    "readonly-balance-contract",
+    "snapshot-reconciliation-preserved",
+    "sqlite-replay-idempotent"
+  ],
+  "report_hash": "afbb35fcf06e22e7d6ab108562c50d297db65efebaa98eca3dee3d57f2715c51"
+}
