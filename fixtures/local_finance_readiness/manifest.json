@@ -18,8 +18,8 @@
     {
       "component": "portfolio",
       "path": "plans/portfolio.json",
-      "artifact_sha256": "598f2a43bf139db3b26d81696a0caf77396fa9b626c7b55e65a77cccb89c334a",
-      "plan_hash": "90754d362870773fb1da0beb50d5ef0a54a51baa3087b4b7ca3b30084504782e"
+      "artifact_sha256": "6d8029a0ed3abcb13265253020082a6947f24116317b62db9d18c0733f06a1dd",
+      "plan_hash": "7a055884449e77ef196e17eb69bfaef80d510dec36b41310e47975f72840d51a"
     },
     {
       "component": "revenue",
@@ -86,5 +86,5 @@
       "action": "verify-indirect-evidence"
     }
   ],
-  "aggregate_hash": "2f504be0ae1b3e6e6f48bd86f198792797e0a0766054c377a40bb4a15689751c"
+  "aggregate_hash": "92b75dff3e86a10d5e2d87b6345e9bb109cb3a62635b0febc0a79806689aa685"
 }

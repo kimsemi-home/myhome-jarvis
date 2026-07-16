@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.portfolio-readonly-collection-rehearsal/v1",
+  "schema_version": "myhome.portfolio-readonly-collection-rehearsal/v2",
   "execution_mode": "loopback_emulation",
   "loopback_only": true,
   "credentials_read": false,
@@ -7,6 +7,21 @@
   "external_writes": false,
   "financial_actions": false,
   "month": "2026-07",
+  "kis_token_boundary": {
+    "schema_version": "myhome.portfolio-kis-token-rehearsal/v1",
+    "execution_mode": "loopback_emulation",
+    "loopback_only": true,
+    "credentials_read": false,
+    "external_network": false,
+    "external_writes": false,
+    "client_credentials_exchange": true,
+    "token_contract_validated": true,
+    "official_token_endpoint_allowed": true,
+    "official_origin_pinned": true,
+    "order_path_rejected": true,
+    "redirect_rejected": true,
+    "oversized_response_rejected": true
+  },
   "kis_readonly_sync": {
     "method": "GET",
     "path": "/uapi/domestic-stock/v1/trading/inquire-balance",
@@ -33,12 +48,14 @@
     "reconciled": true
   },
   "emulator_metrics": {
-    "token_requests": 1,
+    "token_requests": 2,
     "balance_requests": 2,
     "ledger_requests": 2,
     "injected_failures": 1,
     "order_requests": 0,
-    "forbidden_requests": 0
+    "forbidden_requests": 0,
+    "redirect_requests": 1,
+    "oversized_requests": 1
   },
   "checks": [
     "aggregate-only-ledger-boundary",
@@ -47,9 +64,14 @@
     "financial-actions-disabled",
     "ledger-replay-idempotent",
     "order-requests-zero",
+    "kis-order-path-rejected",
+    "kis-token-contract-validated",
+    "kis-token-origin-pinned",
+    "kis-token-redirect-rejected",
+    "kis-token-response-bounded",
     "readonly-balance-contract",
     "snapshot-reconciliation-preserved",
     "sqlite-replay-idempotent"
   ],
-  "report_hash": "afbb35fcf06e22e7d6ab108562c50d297db65efebaa98eca3dee3d57f2715c51"
+  "report_hash": "4ad3677cc2c488d7fef9e526dc9134d0250983ef2e077bf03567e9332f53ce03"
 }

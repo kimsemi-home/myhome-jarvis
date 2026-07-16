@@ -16,4 +16,6 @@ type PortfolioMetrics struct {
 	InjectedFailures  int `json:"injected_failures"`
 	OrderRequests     int `json:"order_requests"`
 	ForbiddenRequests int `json:"forbidden_requests"`
+	RedirectRequests  int `json:"redirect_requests"`
+	OversizedRequests int `json:"oversized_requests"`
 }

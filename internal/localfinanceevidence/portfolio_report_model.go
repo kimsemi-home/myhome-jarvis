@@ -9,6 +9,7 @@ type PortfolioReport struct {
 	ExternalWrites   bool                    `json:"external_writes"`
 	FinancialActions bool                    `json:"financial_actions"`
 	Month            string                  `json:"month"`
+	Token            PortfolioTokenBoundary  `json:"kis_token_boundary"`
 	KIS              PortfolioKIS            `json:"kis_readonly_sync"`
 	Store            PortfolioStore          `json:"local_store_replay"`
 	Ledger           PortfolioLedger         `json:"ledger_aggregate_replay"`
@@ -16,6 +17,22 @@ type PortfolioReport struct {
 	Emulator         PortfolioMetrics        `json:"emulator_metrics"`
 	Checks           []string                `json:"checks"`
 	ReportHash       string                  `json:"report_hash"`
+}
+
+type PortfolioTokenBoundary struct {
+	SchemaVersion                string `json:"schema_version"`
+	ExecutionMode                string `json:"execution_mode"`
+	LoopbackOnly                 bool   `json:"loopback_only"`
+	CredentialsRead              bool   `json:"credentials_read"`
+	ExternalNetwork              bool   `json:"external_network"`
+	ExternalWrites               bool   `json:"external_writes"`
+	ClientCredentialsExchange    bool   `json:"client_credentials_exchange"`
+	TokenContractValidated       bool   `json:"token_contract_validated"`
+	OfficialTokenEndpointAllowed bool   `json:"official_token_endpoint_allowed"`
+	OfficialOriginPinned         bool   `json:"official_origin_pinned"`
+	OrderPathRejected            bool   `json:"order_path_rejected"`
+	RedirectRejected             bool   `json:"redirect_rejected"`
+	OversizedResponseRejected    bool   `json:"oversized_response_rejected"`
 }
 
 type PortfolioKIS struct {

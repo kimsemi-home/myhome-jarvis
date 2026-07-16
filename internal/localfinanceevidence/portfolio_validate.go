@@ -14,13 +14,21 @@ func validatePortfolioReport(value PortfolioReport, month string, ref ProofRef) 
 		value.KIS.Retries != 1 || value.KIS.HoldingCount < 1 || !requiredPortfolioChecks(value.Checks) {
 		return errors.New("Portfolio execution proof boundary is invalid")
 	}
+	token := value.Token
+	if token.SchemaVersion != "myhome.portfolio-kis-token-rehearsal/v1" || token.ExecutionMode != "loopback_emulation" ||
+		!token.LoopbackOnly || token.CredentialsRead || token.ExternalNetwork || token.ExternalWrites ||
+		!token.ClientCredentialsExchange || !token.TokenContractValidated || !token.OfficialTokenEndpointAllowed ||
+		!token.OfficialOriginPinned || !token.OrderPathRejected || !token.RedirectRejected || !token.OversizedResponseRejected {
+		return errors.New("Portfolio KIS token proof boundary is invalid")
+	}
 	if value.Store.FirstSnapshotCount != 1 || value.Store.ReplaySnapshotCount != 1 ||
 		!value.Ledger.FirstInserted || value.Ledger.ReplayInserted || !value.Ledger.FingerprintMatched || !value.Ledger.AggregateOnly {
 		return errors.New("Portfolio execution proof idempotency is invalid")
 	}
 	metrics := value.Emulator
-	if metrics.TokenRequests != 1 || metrics.BalanceRequests != 2 || metrics.LedgerRequests != 2 ||
-		metrics.InjectedFailures != 1 || metrics.OrderRequests != 0 || metrics.ForbiddenRequests != 0 {
+	if metrics.TokenRequests != 2 || metrics.BalanceRequests != 2 || metrics.LedgerRequests != 2 ||
+		metrics.InjectedFailures != 1 || metrics.OrderRequests != 0 || metrics.ForbiddenRequests != 0 ||
+		metrics.RedirectRequests != 1 || metrics.OversizedRequests != 1 {
 		return errors.New("Portfolio execution proof metrics are invalid")
 	}
 	monthly := value.Monthly
@@ -38,7 +46,7 @@ func validatePortfolioReport(value PortfolioReport, month string, ref ProofRef) 
 }
 
 func requiredPortfolioChecks(checks []string) bool {
-	required := []string{"aggregate-only-ledger-boundary", "bounded-retry-recovered", "exact-ipv4-loopback-origin", "financial-actions-disabled", "ledger-replay-idempotent", "order-requests-zero", "readonly-balance-contract", "snapshot-reconciliation-preserved", "sqlite-replay-idempotent"}
+	required := []string{"aggregate-only-ledger-boundary", "bounded-retry-recovered", "exact-ipv4-loopback-origin", "financial-actions-disabled", "ledger-replay-idempotent", "order-requests-zero", "kis-order-path-rejected", "kis-token-contract-validated", "kis-token-origin-pinned", "kis-token-redirect-rejected", "kis-token-response-bounded", "readonly-balance-contract", "snapshot-reconciliation-preserved", "sqlite-replay-idempotent"}
 	if len(checks) != len(required) {
 		return false
 	}

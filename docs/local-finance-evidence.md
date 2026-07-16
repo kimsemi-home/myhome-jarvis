@@ -43,8 +43,10 @@ filtering, append-only attachment receipts, idempotent replay, archive hash
 fallback after receipt loss, and a reconciled July result of KRW 20,900 in
 purchases, KRW 2,200 in refunds, and KRW 18,700 net card spend.
 
-The Portfolio rehearsal verifies one bounded retry after an injected 503, the
-official read-only balance path and transaction ID, one idempotent SQLite
+The Portfolio rehearsal verifies the client-credentials token contract, exact
+official KIS origin and token endpoint, order-path rejection, redirect
+rejection, bounded token responses, one bounded retry after an injected 503,
+the official read-only balance path and transaction ID, one idempotent SQLite
 snapshot, one idempotent aggregate-only Ledger event, zero order requests, and
 a reconciled KRW 50,000 cash + KRW 150,000 securities = KRW 200,000 total.
 
