@@ -1,6 +1,6 @@
 {
-  "schema_version": "myhome.local-finance-evidence-contract/v9",
-  "manifest_schema": "myhome.local-finance-evidence-manifest/v11",
+  "schema_version": "myhome.local-finance-evidence-contract/v10",
+  "manifest_schema": "myhome.local-finance-evidence-manifest/v12",
   "receipt_schema": "myhome.indirect-evidence/v1",
   "required_components": {
     "ledger": "monthly-credit-summary",
@@ -24,7 +24,7 @@
     "revenue": "myhome.revenue-youtube-analytics-rehearsal/v2",
     "finance-operator": "myhome.finance-operator-monthly-rehearsal/v1",
     "shorts": "shorts.youtube-loopback-fixture-report/v2",
-    "shorts-activation": "shorts.youtube-activation-boundary-rehearsal/v1"
+    "shorts-activation": "shorts.youtube-activation-boundary-rehearsal/v2"
   },
   "allowed_execution_proof_modes": ["loopback_emulation", "loopback_fake_runner", "ipv4_loopback", "local_subprocess_emulation"],
   "external_writes_enabled": false,

@@ -27,9 +27,10 @@ execution rehearsals without account credentials or external writes:
 - shorts upload: authorization-code/PKCE and refresh-token forms, authenticated
   channel lookup, canonical private metadata, bounded resumable recovery, and
   state-store replay exercised against one exact-loopback emulator.
-- shorts activation: a random-port one-shot callback receiver and readiness-plan-
-  bound Keychain command adapter exercised through a fake runner. Runtime
-  entrypoints, real Keychain execution, credentials, browser launch, external
+- shorts activation: a random-port one-shot callback receiver plus readiness-
+  bound system-browser and Keychain adapters exercised through fake runners.
+  Success, wrong state, user denial, and browser-launch failure are rehearsed;
+  runtime entrypoints, real browser/Keychain execution, credentials, external
   network, and writes remain disabled.
 
 Run the bundled proof with:
@@ -88,11 +89,20 @@ removing either check still fails the manifest contract.
 
 The separate Shorts activation proof requires exact IPv4 callback host, path,
 random-port, one-shot, duplicate-denial, cancellation, and query-bound checks.
-It also requires a fake Keychain runner, three exact command shapes, no secret
-value in argv, default/expired/unlisted/network permit denial, readiness-plan
-binding, caller-side material zeroing, and no committed runtime activation
-entrypoint. Jarvis rejects unsafe booleans even if an attacker recomputes both
-the report and manifest hashes.
+Authorization must be created after binding and handed only to the official
+Google origin through an exact fake `/usr/bin/open -u` command. The short-lived
+permit binds the readiness plan, authorization URL, state, and redirect; the
+four-path rehearsal proves wrong-state and denial produce no token-exchange
+plan, successful PKCE remains plan-only, and launch failure yields a manual URL
+only in memory. No URL, state, code, or PKCE material enters JSON evidence.
+Google device flow remains deferred because its documented YouTube scope list
+does not include `youtube.upload`.
+
+The proof also requires a fake Keychain runner, three exact command shapes, no
+secret value in argv, default/expired/unlisted/network permit denial, readiness-
+plan binding, caller-side material zeroing, and no committed runtime activation
+entrypoint. Jarvis rejects unsafe browser or Keychain booleans even if an
+attacker recomputes both the report and manifest hashes.
 
 The checked-in manifest contains public synthetic data only. It is deployment
 evidence for the indirect implementation, not proof of a live bank, broker, or

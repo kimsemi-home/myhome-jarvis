@@ -27,7 +27,7 @@ func TestRehashedUnsafeShortsActivationProofFails(t *testing.T) {
 	if err := json.Unmarshal(body, &report); err != nil {
 		t.Fatal(err)
 	}
-	report.Keychain.ActualKeychainExecuted = true
+	report.Browser.ActualBrowserLaunched = true
 	report.ReportHash = ""
 	unsigned, err := json.Marshal(report)
 	if err != nil {
@@ -40,6 +40,6 @@ func TestRehashedUnsafeShortsActivationProofFails(t *testing.T) {
 		t.Fatal(err)
 	}
 	if err := validateProofBody(tampered, manifest.Month, ref); err == nil {
-		t.Fatal("accepted rehashed activation proof after real Keychain execution was enabled")
+		t.Fatal("accepted rehashed activation proof after real browser execution was claimed")
 	}
 }

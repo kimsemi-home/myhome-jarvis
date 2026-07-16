@@ -9,6 +9,7 @@ type ShortsActivationReport struct {
 	ExternalWrites             bool                     `json:"external_writes"`
 	RuntimeEntrypointsInactive bool                     `json:"runtime_entrypoints_inactive"`
 	Callback                   ShortsActivationCallback `json:"callback_receiver"`
+	Browser                    ShortsActivationBrowser  `json:"browser_handoff"`
 	Keychain                   ShortsActivationKeychain `json:"keychain_adapter"`
 	Checks                     []string                 `json:"checks"`
 	ReportHash                 string                   `json:"report_hash"`

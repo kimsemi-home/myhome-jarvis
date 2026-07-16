@@ -1,5 +1,5 @@
 {
-  "schema_version": "shorts.youtube-activation-boundary-rehearsal/v1",
+  "schema_version": "shorts.youtube-activation-boundary-rehearsal/v2",
   "execution_mode": "loopback_fake_runner",
   "loopback_only": true,
   "credentials_read": false,
@@ -19,6 +19,28 @@
     "raw_code_reported": false,
     "external_network_requested": false
   },
+  "browser_handoff": {
+    "executable": "/usr/bin/open",
+    "fake_runner": true,
+    "actual_browser_launched": false,
+    "commands_validated": 4,
+    "bound_before_authorization": true,
+    "authorization_origin_pinned": true,
+    "redirect_bound": true,
+    "system_browser_only": true,
+    "external_network_permit_required": true,
+    "default_permit_denied": true,
+    "state_validated": true,
+    "wrong_state_rejected": true,
+    "pkce_exchange_plan_bound": true,
+    "token_exchange_plan_only": true,
+    "user_denial_handled": true,
+    "launch_failure_fallback": true,
+    "fallback_url_reported": false,
+    "raw_authorization_url_reported": false,
+    "raw_state_reported": false,
+    "raw_code_reported": false
+  },
   "keychain_adapter": {
     "executable": "/usr/bin/security",
     "fake_runner": true,
@@ -35,6 +57,11 @@
     "returned_material_zeroed": true
   },
   "checks": [
+    "authorization-created-after-bind",
+    "browser-command-exact",
+    "browser-fake-runner-only",
+    "browser-launch-fallback-bounded",
+    "browser-user-denial-no-exchange",
     "callback-cancellation-closes-listener",
     "callback-exact-host-path-query",
     "callback-invalid-attempts-non-consuming",
@@ -50,7 +77,12 @@
     "keychain-permit-expiry-enforced",
     "keychain-readiness-plan-bound",
     "keychain-reference-scope-enforced",
-    "runtime-entrypoints-inactive"
+    "oauth-pkce-exchange-plan-bound",
+    "oauth-state-mismatch-rejected",
+    "raw-authorization-material-not-reported",
+    "runtime-entrypoints-inactive",
+    "system-browser-not-embedded",
+    "token-exchange-plan-only"
   ],
-  "report_hash": "7d45183f1a8f1e4d8920864198fc68b54f60abd90e7a48d6c6e8e433a47c709a"
+  "report_hash": "6cc88a81c5fa51c3c32612a544c76552205fc65a10478c0869fb96760519cf2a"
 }

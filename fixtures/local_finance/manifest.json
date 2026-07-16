@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.local-finance-evidence-manifest/v11",
+  "schema_version": "myhome.local-finance-evidence-manifest/v12",
   "month": "2026-07",
   "external_writes_enabled": false,
   "receipts": [
@@ -114,11 +114,11 @@
     {
       "component": "shorts-activation",
       "capability": "youtube-activation-boundary-rehearsal",
-      "proof_schema": "shorts.youtube-activation-boundary-rehearsal/v1",
+      "proof_schema": "shorts.youtube-activation-boundary-rehearsal/v2",
       "path": "proofs/shorts-youtube-activation.json",
-      "artifact_sha256": "d6b8f70abd4f5f59032844642951439c01f61212b585e8cb3cc85abbb064b67a",
-      "report_hash": "7d45183f1a8f1e4d8920864198fc68b54f60abd90e7a48d6c6e8e433a47c709a"
+      "artifact_sha256": "d6102db83d47ddf334025cd2eed97b00faa5bf21cbc2b874e36d195fbe73d235",
+      "report_hash": "6cc88a81c5fa51c3c32612a544c76552205fc65a10478c0869fb96760519cf2a"
     }
   ],
-  "aggregate_hash": "19ea81f6ccbf687374f35c57bb933e671103324bc86d694695010e868e8770b4"
+  "aggregate_hash": "ea78b83c8d553d71a17f27f82d66e22f1dfd31b1a53c822a17743afc4435e4c2"
 }
