@@ -1,6 +1,6 @@
 # Local finance evidence
 
-The local finance evidence manifest proves four indirect capabilities and five
+The local finance evidence manifest proves four indirect capabilities and six
 execution rehearsals without account credentials or external writes:
 
 - ledger: deterministic monthly credit summary from a public fixture;
@@ -27,6 +27,10 @@ execution rehearsals without account credentials or external writes:
 - shorts upload: authorization-code/PKCE and refresh-token forms, authenticated
   channel lookup, canonical private metadata, bounded resumable recovery, and
   state-store replay exercised against one exact-loopback emulator.
+- shorts activation: a random-port one-shot callback receiver and readiness-plan-
+  bound Keychain command adapter exercised through a fake runner. Runtime
+  entrypoints, real Keychain execution, credentials, browser launch, external
+  network, and writes remain disabled.
 
 Run the bundled proof with:
 
@@ -35,7 +39,8 @@ go run ./cmd/mhj local-finance evidence
 ```
 
 Each producer hashes its deterministic artifact and seals a receipt. The
-Ledger, Portfolio, Revenue, Finance Operator, and Shorts rehearsals are copied as
+Ledger, Portfolio, Revenue, Finance Operator, Shorts upload, and Shorts
+activation rehearsals are copied as
 complete reports with both file SHA-256 and internal report hash references.
 Jarvis recomputes every receipt and report hash, requires the exact
 component/capability set, and then
@@ -80,6 +85,14 @@ runner replay that creates no additional session, probe, chunk, or video.
 Jarvis also requires the Shorts indirect receipt to contain both the random-port
 callback and sealed connection-readiness checks; recomputing a receipt after
 removing either check still fails the manifest contract.
+
+The separate Shorts activation proof requires exact IPv4 callback host, path,
+random-port, one-shot, duplicate-denial, cancellation, and query-bound checks.
+It also requires a fake Keychain runner, three exact command shapes, no secret
+value in argv, default/expired/unlisted/network permit denial, readiness-plan
+binding, caller-side material zeroing, and no committed runtime activation
+entrypoint. Jarvis rejects unsafe booleans even if an attacker recomputes both
+the report and manifest hashes.
 
 The checked-in manifest contains public synthetic data only. It is deployment
 evidence for the indirect implementation, not proof of a live bank, broker, or

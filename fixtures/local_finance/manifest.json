@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.local-finance-evidence-manifest/v10",
+  "schema_version": "myhome.local-finance-evidence-manifest/v11",
   "month": "2026-07",
   "external_writes_enabled": false,
   "receipts": [
@@ -110,7 +110,15 @@
       "path": "proofs/shorts-youtube-loopback.json",
       "artifact_sha256": "ff37ca507ad9f1735c4a553d31c652d580fe3d3b1c2c0746d114909e08d03b6d",
       "report_hash": "029366a4ddfc6bfd9f6f1dc700cb2f4ba0ef6d2dae67da175c1235c314b2c44d"
+    },
+    {
+      "component": "shorts-activation",
+      "capability": "youtube-activation-boundary-rehearsal",
+      "proof_schema": "shorts.youtube-activation-boundary-rehearsal/v1",
+      "path": "proofs/shorts-youtube-activation.json",
+      "artifact_sha256": "d6b8f70abd4f5f59032844642951439c01f61212b585e8cb3cc85abbb064b67a",
+      "report_hash": "7d45183f1a8f1e4d8920864198fc68b54f60abd90e7a48d6c6e8e433a47c709a"
     }
   ],
-  "aggregate_hash": "10a904887fde9cc3f7c9841c032b80e8aa8e7b7885df7fc1656ae5fe079bb0fa"
+  "aggregate_hash": "19ea81f6ccbf687374f35c57bb933e671103324bc86d694695010e868e8770b4"
 }
