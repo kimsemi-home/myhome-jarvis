@@ -17,12 +17,13 @@ var requiredProofs = map[string]struct {
 	capability string
 	schema     string
 }{
-	"ledger":            {"credit-collection-rehearsal", creditProofSchema},
-	"portfolio":         {"readonly-collection-rehearsal", portfolioProofSchema},
-	"revenue":           {"youtube-revenue-collection-rehearsal", revenueProofSchema},
-	"finance-operator":  {"monthly-orchestration-rehearsal", operatorProofSchema},
-	"shorts":            {"youtube-private-upload-rehearsal", shortsProofSchema},
-	"shorts-activation": {"youtube-activation-boundary-rehearsal", shortsActivationProofSchema},
+	"ledger":             {"credit-collection-rehearsal", creditProofSchema},
+	"ledger-batch-apply": {"credit-batch-apply-rehearsal", creditBatchApplyProofSchema},
+	"portfolio":          {"readonly-collection-rehearsal", portfolioProofSchema},
+	"revenue":            {"youtube-revenue-collection-rehearsal", revenueProofSchema},
+	"finance-operator":   {"monthly-orchestration-rehearsal", operatorProofSchema},
+	"shorts":             {"youtube-private-upload-rehearsal", shortsProofSchema},
+	"shorts-activation":  {"youtube-activation-boundary-rehearsal", shortsActivationProofSchema},
 }
 
 func validateProofRefs(refs []ProofRef) error {

@@ -78,6 +78,16 @@ content or identities, path traversal, symlink root escape, and source-byte
 mutations are required attack cases. Unsafe balance or batch claims still fail
 after the preview, batch, nested template, and outer hashes are recomputed.
 
+The separate Ledger batch-apply proof remains fixture-only and writes only to
+ephemeral SQLite databases. Jarvis independently recomputes the approval
+challenge, plan, approval, per-statement apply-set, first-apply, replay, and
+outer report hashes. It requires the exact manifest, preview-set, and batch
+hashes; five inserted rows on the first apply; five duplicates on replay;
+pre-write stale/denied approval rejection; and zero accounts, transactions,
+import runs, templates, or category suggestions after an injected later-file
+failure. Rehashing the full hierarchy for another batch or claiming a partial
+rollback still fails validation.
+
 The Portfolio rehearsal verifies the client-credentials token contract, exact
 official KIS origin and token endpoint, order-path rejection, redirect
 rejection, bounded token responses, one bounded retry after an injected 503,

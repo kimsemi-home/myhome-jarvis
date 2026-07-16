@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.local-finance-evidence-manifest/v15",
+  "schema_version": "myhome.local-finance-evidence-manifest/v16",
   "month": "2026-07",
   "external_writes_enabled": false,
   "receipts": [
@@ -72,6 +72,14 @@
   ],
   "execution_proofs": [
     {
+      "component": "ledger-batch-apply",
+      "capability": "credit-batch-apply-rehearsal",
+      "proof_schema": "myhome.ledger-credit-batch-apply-rehearsal/v1",
+      "path": "proofs/ledger-credit-batch-apply.json",
+      "artifact_sha256": "bbc4c64279e10e96ea41ba147a2e31d62273fc7309e015a2753a300d04bf0b45",
+      "report_hash": "21a1c43c311fa0b06f46bd4c62d82a9eb0970c80cc690331e11e0d6e677061b4"
+    },
+    {
       "component": "ledger",
       "capability": "credit-collection-rehearsal",
       "proof_schema": "myhome.ledger-credit-collection-rehearsal/v5",
@@ -120,5 +128,5 @@
       "report_hash": "6cc88a81c5fa51c3c32612a544c76552205fc65a10478c0869fb96760519cf2a"
     }
   ],
-  "aggregate_hash": "a6318eae8f2731371034e0242f8396747dea98e904d5d7d35103662074014558"
+  "aggregate_hash": "cc770843c72a6f42888d62d1cec0db7bac16318e99e6446a290c2062c418f17f"
 }

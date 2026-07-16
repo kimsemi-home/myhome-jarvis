@@ -12,6 +12,12 @@ func validateProofBody(body []byte, month string, ref ProofRef) error {
 	decoder.DisallowUnknownFields()
 	var validateErr error
 	switch ref.ProofSchema {
+	case creditBatchApplyProofSchema:
+		var report CreditBatchApplyRehearsal
+		if err := decoder.Decode(&report); err != nil {
+			return err
+		}
+		validateErr = validateCreditBatchApplyRehearsal(report, ref)
 	case creditProofSchema:
 		var report CreditReport
 		if err := decoder.Decode(&report); err != nil {
