@@ -70,9 +70,13 @@
     "external-network-disabled",
     "external-writes-disabled",
     "launchd-not-installed",
+    "oauth-callback-exact",
+    "oauth-official-origin-pinned",
+    "oauth-redirect-disabled",
+    "oauth-response-bounded",
     "oauth-scopes-readonly",
     "private-config-ignored"
   ],
   "template_hash": "2aa39c5d934607d813077d8188f57aaf6558ec7e6cb96d4ecb9d326a9cc29c2d",
-  "plan_hash": "5c4b50dbbfbfdd73841f378370ff836352bb0c94e50643953a92de69e66f8601"
+  "plan_hash": "9d90f56c4127d8469bd4921cbb58dcf27ff1a137ed44c3bba1e6f6b0b25ab9b3"
 }

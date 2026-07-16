@@ -30,10 +30,30 @@ func validatePlan(value Plan, ref Ref) error {
 	if value.Component == "ledger" && !validLedgerOAuthBoundary(value) {
 		return errors.New("Ledger OAuth readiness boundary is incomplete")
 	}
+	if value.Component == "revenue" && !validRevenueOAuthBoundary(value) {
+		return errors.New("Revenue OAuth readiness boundary is incomplete")
+	}
 	if !hashPattern.MatchString(value.TemplateHash) || value.PlanHash != ref.PlanHash || value.PlanHash != planHash(value) {
 		return errors.New("plan hash is invalid")
 	}
 	return nil
+}
+
+func validRevenueOAuthBoundary(value Plan) bool {
+	if !slices.Equal(value.OAuthScopes, []string{"https://www.googleapis.com/auth/youtube.readonly", "https://www.googleapis.com/auth/yt-analytics-monetary.readonly"}) {
+		return false
+	}
+	for _, host := range []string{"accounts.google.com", "oauth2.googleapis.com", "www.googleapis.com", "youtubeanalytics.googleapis.com"} {
+		if !slices.Contains(value.OfficialHosts, host) {
+			return false
+		}
+	}
+	for _, check := range []string{"oauth-callback-exact", "oauth-official-origin-pinned", "oauth-redirect-disabled", "oauth-response-bounded"} {
+		if !slices.Contains(value.Checks, check) {
+			return false
+		}
+	}
+	return true
 }
 
 func validLedgerOAuthBoundary(value Plan) bool {

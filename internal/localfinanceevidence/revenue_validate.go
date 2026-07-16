@@ -13,6 +13,13 @@ func validateRevenueReport(value RevenueReport, month string, ref ProofRef) erro
 		value.ChannelWritesEnabled || value.ServiceInstalled || !value.ChannelIdentityBound || value.ReportHash != ref.ReportHash {
 		return errors.New("Revenue execution proof boundary is invalid")
 	}
+	if value.OAuth.SchemaVersion != "myhome.revenue-google-oauth-token-rehearsal/v1" || value.OAuth.ExecutionMode != "loopback_emulation" ||
+		!value.OAuth.LoopbackOnly || value.OAuth.CredentialsRead || value.OAuth.ExternalNetwork || value.OAuth.ExternalWrites ||
+		!value.OAuth.AuthorizationCodeExchange || !value.OAuth.RefreshTokenExchange || !value.OAuth.OfficialOriginPinned ||
+		!value.OAuth.RedirectRejected || !value.OAuth.OversizedResponseRejected || value.OAuth.TokenRequests != 2 ||
+		value.OAuth.RedirectRequests != 1 || value.OAuth.OversizedRequests != 1 {
+		return errors.New("Revenue OAuth execution proof boundary is invalid")
+	}
 	if value.DailyRows != 2 || value.VideoRows != 2 || value.PersistedDailyRows != 2 || value.PersistedVideoRows != 2 ||
 		value.CostRows != 2 || value.CostReplayDuplicates != 2 || value.GrossMinor != 8300 || value.CostMinor != 2000 ||
 		value.NetMinor != 6300 || value.GrossMinor-value.CostMinor != value.NetMinor || value.Views != 6800 ||
@@ -38,7 +45,7 @@ func validateRevenueReport(value RevenueReport, month string, ref ProofRef) erro
 }
 
 func requiredRevenueChecks(checks []string) bool {
-	required := []string{"aggregate-only-ledger-event", "bound-channel-identity", "bounded-retry-after-503", "cost-attribution-idempotent", "exact-ipv4-loopback", "ledger-fingerprint-replay", "monetary-readonly-query", "monthly-replacement-idempotent", "proxy-and-redirect-disabled", "youtube-channel-write-absent"}
+	required := []string{"aggregate-only-ledger-event", "bound-channel-identity", "bounded-retry-after-503", "cost-attribution-idempotent", "exact-ipv4-loopback", "ledger-fingerprint-replay", "monetary-readonly-query", "monthly-replacement-idempotent", "oauth-official-origin-pinned", "oauth-redirect-rejected", "oauth-response-bounded", "oauth-token-contract-validated", "proxy-and-redirect-disabled", "youtube-channel-write-absent"}
 	if len(checks) != len(required) {
 		return false
 	}

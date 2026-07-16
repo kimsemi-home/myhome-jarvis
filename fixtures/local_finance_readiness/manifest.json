@@ -24,8 +24,8 @@
     {
       "component": "revenue",
       "path": "plans/revenue.json",
-      "artifact_sha256": "0ee6b2b2477d18263adf78cac1e19e59eaeb1b891d11672562f703c16998dc77",
-      "plan_hash": "5c4b50dbbfbfdd73841f378370ff836352bb0c94e50643953a92de69e66f8601"
+      "artifact_sha256": "a3381bc20ca0e0718095e6102b126a74965611dc18f53a01104555344d94d9dd",
+      "plan_hash": "9d90f56c4127d8469bd4921cbb58dcf27ff1a137ed44c3bba1e6f6b0b25ab9b3"
     },
     {
       "component": "finance-operator",
@@ -86,5 +86,5 @@
       "action": "verify-indirect-evidence"
     }
   ],
-  "aggregate_hash": "c8ed013883d268c096e03471557fdb054d5bbbd74ff785d8b2eb31af6dacc01e"
+  "aggregate_hash": "2f504be0ae1b3e6e6f48bd86f198792797e0a0766054c377a40bb4a15689751c"
 }

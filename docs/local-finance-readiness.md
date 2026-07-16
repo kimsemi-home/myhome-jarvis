@@ -12,6 +12,8 @@ The verifier fails closed unless all of the following remain true:
   are all disabled.
 - Each plan names only a public configuration source; collector OAuth scopes,
   when present, are read-only.
+- Ledger and Revenue plans additionally prove exact callback, official OAuth
+  host, redirect-disabled, response-bounded, and least-scope token boundaries.
 - The copied plan artifact SHA-256 and its canonical internal `plan_hash` both
   match.
 - Direct child schedules are disabled; Finance Operator is the sole execution

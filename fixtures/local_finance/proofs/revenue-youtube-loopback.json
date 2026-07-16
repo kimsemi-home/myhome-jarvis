@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.revenue-youtube-analytics-rehearsal/v1",
+  "schema_version": "myhome.revenue-youtube-analytics-rehearsal/v2",
   "component": "revenue",
   "execution_mode": "ipv4_loopback",
   "month": "2026-07",
@@ -13,6 +13,22 @@
   "channel_writes_enabled": false,
   "service_installed": false,
   "channel_identity_bound": true,
+  "oauth_token_boundary": {
+    "schema_version": "myhome.revenue-google-oauth-token-rehearsal/v1",
+    "execution_mode": "loopback_emulation",
+    "loopback_only": true,
+    "credentials_read": false,
+    "external_network": false,
+    "external_writes": false,
+    "authorization_code_exchange": true,
+    "refresh_token_exchange": true,
+    "official_origin_pinned": true,
+    "redirect_rejected": true,
+    "oversized_response_rejected": true,
+    "token_requests": 2,
+    "redirect_requests": 1,
+    "oversized_requests": 1
+  },
   "daily_rows": 2,
   "video_rows": 2,
   "persisted_daily_rows": 2,
@@ -46,8 +62,12 @@
     "ledger-fingerprint-replay",
     "monetary-readonly-query",
     "monthly-replacement-idempotent",
+    "oauth-official-origin-pinned",
+    "oauth-redirect-rejected",
+    "oauth-response-bounded",
+    "oauth-token-contract-validated",
     "proxy-and-redirect-disabled",
     "youtube-channel-write-absent"
   ],
-  "report_hash": "a913f1b9498e45873d2a93ad29b42ab1f3a0b497b2495a55577c692a4c2a5ed3"
+  "report_hash": "c5ca6ec3de490614812d9f18976275779d0461663df889d07fffd17fe778d88a"
 }

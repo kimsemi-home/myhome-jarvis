@@ -13,9 +13,10 @@ execution rehearsals without account credentials or external writes:
 - portfolio collection: the production KIS token and read-only balance path
   exercised against an exact IPv4-loopback emulator, followed by temporary
   SQLite persistence and aggregate-only Ledger publication.
-- revenue collection: the production YouTube channel lookup and monetary
-  Analytics day/video queries exercised against exact IPv4 loopback, followed
-  by atomic SQLite replacement, cost replay, and aggregate-only Ledger replay.
+- revenue collection: the production Google OAuth token, YouTube channel
+  lookup, and monetary Analytics day/video query contracts exercised against
+  exact IPv4 loopback, followed by atomic SQLite replacement, cost replay, and
+  aggregate-only Ledger replay.
 - finance operator: the production subprocess, retry, checkpoint, next-day
   resume, completed-stage skip, aggregate-only snapshot, and replay paths
   exercised with three local child emulators.
@@ -47,11 +48,13 @@ official read-only balance path and transaction ID, one idempotent SQLite
 snapshot, one idempotent aggregate-only Ledger event, zero order requests, and
 a reconciled KRW 50,000 cash + KRW 150,000 securities = KRW 200,000 total.
 
-The Revenue rehearsal verifies the bound-channel and monetary read-only query
-contracts, one bounded retry after an injected 503, two stable daily and video
-rows after full-month replacement, idempotent cost import, and one idempotent
-aggregate-only Ledger event. Its synthetic estimated result is KRW 8,300 gross
-minus KRW 2,000 cost, for KRW 6,300 net.
+The Revenue rehearsal verifies PKCE authorization-code and refresh-token
+contracts for the exact two read-only scopes, official token-origin pinning,
+redirect rejection, a 1 MiB OAuth response bound, the bound-channel and
+monetary read-only query contracts, one bounded retry after an injected 503,
+two stable daily and video rows after full-month replacement, idempotent cost
+import, and one idempotent aggregate-only Ledger event. Its synthetic estimated
+result is KRW 8,300 gross minus KRW 2,000 cost, for KRW 6,300 net.
 
 The Finance Operator rehearsal verifies the real child exit-code convention,
 three-attempt bound, day-2/day-3/day-5 catch-up order, next-day failure resume,

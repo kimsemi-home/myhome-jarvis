@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.local-finance-evidence-manifest/v6",
+  "schema_version": "myhome.local-finance-evidence-manifest/v7",
   "month": "2026-07",
   "external_writes_enabled": false,
   "receipts": [
@@ -86,10 +86,10 @@
     {
       "component": "revenue",
       "capability": "youtube-revenue-collection-rehearsal",
-      "proof_schema": "myhome.revenue-youtube-analytics-rehearsal/v1",
+      "proof_schema": "myhome.revenue-youtube-analytics-rehearsal/v2",
       "path": "proofs/revenue-youtube-loopback.json",
-      "artifact_sha256": "8e7aad75d1c940b20edde9181e28fef79d5f7b6c88225d310b3263da8e7ac83d",
-      "report_hash": "a913f1b9498e45873d2a93ad29b42ab1f3a0b497b2495a55577c692a4c2a5ed3"
+      "artifact_sha256": "e3c63502dfc36fe48b8c4254a0d569d65f699611d5aca35693817f63d7997d87",
+      "report_hash": "c5ca6ec3de490614812d9f18976275779d0461663df889d07fffd17fe778d88a"
     },
     {
       "component": "finance-operator",
@@ -100,5 +100,5 @@
       "report_hash": "c5ae49b386b5b7e78a90bef22a7b56447cbf996a9da9647b60596fd9c770056c"
     }
   ],
-  "aggregate_hash": "87fe4262c6f9a3c8927aa265c61e49210ca9491280044a514a49912f620c6e87"
+  "aggregate_hash": "c53b5c912b7c122498b1982e7aa852c7e411cdb044cd74a1b3ce648aa77112d6"
 }
