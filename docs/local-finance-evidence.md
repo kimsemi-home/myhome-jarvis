@@ -68,9 +68,15 @@ The nested onboarding proof adds two independently hash-validated read-only
 previews. Jarvis requires each preview to select exactly one versioned profile,
 bind its source/profile/fingerprint hashes and purchase/refund totals to the
 subsequent import, omit raw rows, and become import-ready only after expected
-totals reconcile. Ambiguous catalogs, unsupported statements, mismatched
-totals, and source-byte mutations are required attack cases; disabling any one
-and recomputing both nested and outer hashes still fails consumer validation.
+totals and the credit-liability opening/closing balance equation reconcile.
+
+Jarvis also validates the batch preview independently: two sorted source-name
+hashes, two unique source and fingerprint sets, no raw filenames or rows, exact
+manifest and preview-set hashes, and a recomputed batch hash. Ambiguous
+catalogs, unsupported statements, mismatched totals or balances, duplicate
+content or identities, path traversal, symlink root escape, and source-byte
+mutations are required attack cases. Unsafe balance or batch claims still fail
+after the preview, batch, nested template, and outer hashes are recomputed.
 
 The Portfolio rehearsal verifies the client-credentials token contract, exact
 official KIS origin and token endpoint, order-path rejection, redirect

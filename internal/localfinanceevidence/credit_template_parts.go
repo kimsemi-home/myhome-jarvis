@@ -28,7 +28,9 @@ func validateCreditTemplateParts(value CreditTemplateReport) error {
 
 func requiredCreditTemplateChecks() []string {
 	return []string{
-		"ambiguous-profile-denied", "append-only-category-history", "classification-suggestion-only", "cross-version-source-id-dedup",
+		"ambiguous-profile-denied", "append-only-category-history", "balance-convention-explicit", "balance-reconciliation-gates-import",
+		"batch-duplicate-content-denied", "batch-duplicate-identity-denied", "batch-filenames-hashed", "batch-path-traversal-denied",
+		"batch-preview-hash-sealed", "batch-root-containment-enforced", "classification-suggestion-only", "cross-version-source-id-dedup",
 		"deterministic-fingerprint-set", "immutable-template-version-registry", "profile-hashes-distinct",
 		"profile-auto-detected", "preview-hash-sealed", "raw-rows-not-reported", "reconciliation-gates-import",
 		"source-hashes-bound", "source-mutation-rebound", "stable-identity-conflict-denied",

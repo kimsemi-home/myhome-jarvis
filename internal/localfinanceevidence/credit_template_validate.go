@@ -5,7 +5,7 @@ import (
 	"errors"
 )
 
-const creditTemplateProofSchema = "myhome.ledger-credit-import-template-rehearsal/v2"
+const creditTemplateProofSchema = "myhome.ledger-credit-import-template-rehearsal/v3"
 
 func validateCreditTemplateReport(value CreditTemplateReport, month string) error {
 	if value.SchemaVersion != creditTemplateProofSchema || value.ExecutionMode != "fixture_only" ||
