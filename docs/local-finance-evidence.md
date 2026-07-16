@@ -8,7 +8,9 @@ execution rehearsals without account credentials or external writes:
 - revenue: monthly YouTube revenue and local cost reconciliation from fixtures;
 - shorts: a private-upload plan whose production runtime boundary remains
   plan-only, paired with an exact-loopback OAuth, channel-binding, and resumable
-  private-upload rehearsal.
+  private-upload rehearsal. Its sealed connection-readiness contract covers a
+  desktop OAuth client, random callback port, twenty Keychain-backed slots,
+  private state roots, and explicit activation while account binding stays off.
 - ledger credit collection: the production OAuth token and Gmail attachment
   paths exercised against exact IPv4-loopback emulators, followed by private
   inbox import and monthly SQLite reconciliation.
@@ -75,6 +77,9 @@ and channel origins, one authenticated channel-binding hash, redirect and
 oversized-response denial, private canonical metadata with subscriber
 notifications disabled, one injected resumable-upload interruption, and a new
 runner replay that creates no additional session, probe, chunk, or video.
+Jarvis also requires the Shorts indirect receipt to contain both the random-port
+callback and sealed connection-readiness checks; recomputing a receipt after
+removing either check still fails the manifest contract.
 
 The checked-in manifest contains public synthetic data only. It is deployment
 evidence for the indirect implementation, not proof of a live bank, broker, or

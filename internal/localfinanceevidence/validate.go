@@ -3,6 +3,7 @@ package localfinanceevidence
 import (
 	"errors"
 	"regexp"
+	"slices"
 	"sort"
 )
 
@@ -44,6 +45,9 @@ func validateReceipt(receipt Receipt) error {
 		receipt.ExternalWritesEnabled || !hashPattern.MatchString(receipt.ArtifactHash) ||
 		len(checks) == 0 || receipt.ReceiptHash != receiptHash(receipt) {
 		return errors.New("indirect evidence receipt is invalid")
+	}
+	if receipt.Component == "shorts" && !slices.Equal(checks, requiredShortsReceiptChecks()) {
+		return errors.New("Shorts indirect evidence receipt checks are incomplete")
 	}
 	return nil
 }

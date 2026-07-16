@@ -1,6 +1,6 @@
 {
-  "schema_version": "myhome.local-finance-evidence-contract/v7",
-  "manifest_schema": "myhome.local-finance-evidence-manifest/v9",
+  "schema_version": "myhome.local-finance-evidence-contract/v8",
+  "manifest_schema": "myhome.local-finance-evidence-manifest/v10",
   "receipt_schema": "myhome.indirect-evidence/v1",
   "required_components": {
     "ledger": "monthly-credit-summary",
@@ -9,6 +9,7 @@
     "shorts": "youtube-private-upload-plan"
   },
   "allowed_execution_modes": ["fixture_only", "plan_only"],
+  "shorts_required_receipt_checks": ["action-consent-bound", "callback-random-port-planned", "channel-identity-endpoint-pinned", "connection-readiness-plan-sealed", "external-write-surface-absent", "notify-subscribers-disabled", "oauth-pkce-plan-only", "quota-snapshot-sealed", "resumable-chunks-contiguous", "revocation-append-only"],
   "required_execution_proofs": {
     "ledger": "credit-collection-rehearsal",
     "portfolio": "readonly-collection-rehearsal",

@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.local-finance-evidence-manifest/v9",
+  "schema_version": "myhome.local-finance-evidence-manifest/v10",
   "month": "2026-07",
   "external_writes_enabled": false,
   "receipts": [
@@ -54,10 +54,12 @@
       "capability": "youtube-private-upload-plan",
       "execution_mode": "plan_only",
       "external_writes_enabled": false,
-      "artifact_hash": "4cd6487beba04b77b8b434a4e3ae55c65d9272526cd411af23218eaadcbb58fe",
+      "artifact_hash": "d47945186b756da3ddc177a0ed3838156ab22052f5cc51340d30c45e41c6bf15",
       "checks": [
         "action-consent-bound",
+        "callback-random-port-planned",
         "channel-identity-endpoint-pinned",
+        "connection-readiness-plan-sealed",
         "external-write-surface-absent",
         "notify-subscribers-disabled",
         "oauth-pkce-plan-only",
@@ -65,7 +67,7 @@
         "resumable-chunks-contiguous",
         "revocation-append-only"
       ],
-      "receipt_hash": "90f1f5ad152ce08596fedf1edc1d55175d7e25108359e679e115164656fd6946"
+      "receipt_hash": "f72736dd59904abe871575cd22566f661959ad78e8fb92b60e7382d7d168357b"
     }
   ],
   "execution_proofs": [
@@ -110,5 +112,5 @@
       "report_hash": "029366a4ddfc6bfd9f6f1dc700cb2f4ba0ef6d2dae67da175c1235c314b2c44d"
     }
   ],
-  "aggregate_hash": "eb6f47f76f40faa01c2c89d7f6c0566572ec38ee0fdb3afc3dfad53e6324d521"
+  "aggregate_hash": "10a904887fde9cc3f7c9841c032b80e8aa8e7b7885df7fc1656ae5fe079bb0fa"
 }
