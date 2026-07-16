@@ -13,6 +13,9 @@ func validateCreditReport(value CreditReport, month string, ref ProofRef) error 
 		value.ReportHash != ref.ReportHash || !requiredCreditChecks(value.Checks) {
 		return errors.New("Ledger credit execution proof boundary is invalid")
 	}
+	if err := validateCreditTemplateReport(value.ImportTemplate, month); err != nil {
+		return err
+	}
 	if value.OAuth.SchemaVersion != "myhome.ledger-oauth-token-rehearsal/v1" || value.OAuth.ExecutionMode != "loopback_emulation" ||
 		!value.OAuth.LoopbackOnly || value.OAuth.CredentialsRead || value.OAuth.ExternalNetwork || value.OAuth.ExternalWrites ||
 		!value.OAuth.AuthorizationCodeExchange || !value.OAuth.RefreshTokenExchange || !value.OAuth.OfficialOriginPinned ||
@@ -42,10 +45,12 @@ func validateCreditReport(value CreditReport, month string, ref ProofRef) error 
 }
 
 func requiredCreditChecks(checks []string) bool {
-	for _, required := range []string{"allowed-sender-enforced", "append-only-receipts-validated", "archive-dedup-enforced", "bounded-retry-recovered", "credit-refunds-netted", "idempotent-replay", "loopback-origin-enforced", "oauth-official-origin-pinned", "oauth-redirect-rejected", "oauth-response-bounded", "oauth-token-contract-validated"} {
-		if !slices.Contains(checks, required) {
-			return false
-		}
-	}
-	return true
+	return slices.Equal(checks, []string{
+		"allowed-sender-enforced", "append-only-category-history", "append-only-receipts-validated",
+		"archive-dedup-enforced", "bounded-retry-recovered", "credit-refunds-netted",
+		"cross-version-source-id-dedup", "idempotent-replay", "immutable-template-version-registry",
+		"loopback-origin-enforced", "oauth-official-origin-pinned", "oauth-redirect-rejected",
+		"oauth-response-bounded", "oauth-token-contract-validated", "structured-export-reconciled",
+		"template-versions-explicit",
+	})
 }

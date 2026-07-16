@@ -1,6 +1,6 @@
 {
-  "schema_version": "myhome.local-finance-evidence-contract/v10",
-  "manifest_schema": "myhome.local-finance-evidence-manifest/v12",
+  "schema_version": "myhome.local-finance-evidence-contract/v11",
+  "manifest_schema": "myhome.local-finance-evidence-manifest/v13",
   "receipt_schema": "myhome.indirect-evidence/v1",
   "required_components": {
     "ledger": "monthly-credit-summary",
@@ -19,7 +19,7 @@
     "shorts-activation": "youtube-activation-boundary-rehearsal"
   },
   "execution_proof_schemas": {
-    "ledger": "myhome.ledger-credit-collection-rehearsal/v2",
+    "ledger": "myhome.ledger-credit-collection-rehearsal/v3",
     "portfolio": "myhome.portfolio-readonly-collection-rehearsal/v2",
     "revenue": "myhome.revenue-youtube-analytics-rehearsal/v2",
     "finance-operator": "myhome.finance-operator-monthly-rehearsal/v1",

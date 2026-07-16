@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.ledger-credit-collection-rehearsal/v2",
+  "schema_version": "myhome.ledger-credit-collection-rehearsal/v3",
   "execution_mode": "loopback_emulation",
   "loopback_only": true,
   "credentials_read": false,
@@ -7,6 +7,78 @@
   "external_writes": false,
   "month": "2026-07",
   "attachment_content_hash": "a1572578f5f7913a047ab043388d92a5fdda5e112a8e3949cfc27a15d3409f81",
+  "import_template_rehearsal": {
+    "schema_version": "myhome.ledger-credit-import-template-rehearsal/v1",
+    "execution_mode": "fixture_only",
+    "credentials_read": false,
+    "external_network": false,
+    "external_writes": false,
+    "month": "2026-07",
+    "template_v1_import": {
+      "run_id": "import-e2ec55f2431257d8",
+      "file_sha256": "e2ec55f2431257d89fc0716000a73e892544557753722ac5829a422d37599608",
+      "template_id": "synthetic-card-export",
+      "template_version": 1,
+      "profile_sha256": "61e658f262ec6c9d01a6d38c7e6ac564b65f051bbde453e044a839c0ddc8ba04",
+      "fingerprint_set_hash": "4282b1edccb32b17a5217bb5a838caec55a38f2a334c7bb736b76245e47f5693",
+      "read": 3,
+      "inserted": 3,
+      "duplicates": 0,
+      "suggestions_recorded": 3,
+      "normalized_debit_minor": 20900,
+      "normalized_credit_minor": 2200
+    },
+    "template_v2_import": {
+      "run_id": "import-02fea04787c86a8f",
+      "file_sha256": "02fea04787c86a8fa59910888e694e014bf962c8de6759f45b45d61968d0239a",
+      "template_id": "synthetic-card-export",
+      "template_version": 2,
+      "profile_sha256": "098ac5d55297185f2e727746b3b879767c5f702563d747ec75654f439120377b",
+      "fingerprint_set_hash": "4282b1edccb32b17a5217bb5a838caec55a38f2a334c7bb736b76245e47f5693",
+      "read": 3,
+      "inserted": 0,
+      "duplicates": 3,
+      "suggestions_recorded": 3,
+      "normalized_debit_minor": 20900,
+      "normalized_credit_minor": 2200
+    },
+    "classification_history": {
+      "entry_count": 6,
+      "version_1_entries": 3,
+      "version_2_entries": 3,
+      "history_hash": "f2216736e46b75111dac2187f8e0f4c1e2a542e3f6645aa8062a5ba9fe444c0f",
+      "existing_category_preserved": true,
+      "raw_rows_reported": false
+    },
+    "reconciliation": {
+      "transaction_count": 3,
+      "card_spend_minor": 20900,
+      "card_refund_minor": 2200,
+      "net_card_spend_minor": 18700,
+      "both_versions_match": true,
+      "monthly_match": true
+    },
+    "guard_attacks": {
+      "stable_identity_conflict_rejected": true,
+      "missing_source_id_rejected": true,
+      "template_version_mutation_rejected": true,
+      "partial_writes_after_rejection": false
+    },
+    "checks": [
+      "append-only-category-history",
+      "classification-suggestion-only",
+      "cross-version-source-id-dedup",
+      "deterministic-fingerprint-set",
+      "immutable-template-version-registry",
+      "profile-hashes-distinct",
+      "raw-rows-not-reported",
+      "source-hashes-bound",
+      "stable-identity-conflict-denied",
+      "structured-export-reconciled",
+      "template-versions-explicit"
+    ],
+    "report_hash": "8083903ffdcac47b2d7bf603368405250fa5ea7aaaa63cadaed21e9f8201d252"
+  },
   "oauth_token_boundary": {
     "schema_version": "myhome.ledger-oauth-token-rehearsal/v1",
     "execution_mode": "loopback_emulation",
@@ -86,16 +158,21 @@
   },
   "checks": [
     "allowed-sender-enforced",
+    "append-only-category-history",
     "append-only-receipts-validated",
     "archive-dedup-enforced",
     "bounded-retry-recovered",
     "credit-refunds-netted",
+    "cross-version-source-id-dedup",
     "idempotent-replay",
+    "immutable-template-version-registry",
     "loopback-origin-enforced",
     "oauth-official-origin-pinned",
     "oauth-redirect-rejected",
     "oauth-response-bounded",
-    "oauth-token-contract-validated"
+    "oauth-token-contract-validated",
+    "structured-export-reconciled",
+    "template-versions-explicit"
   ],
-  "report_hash": "5665398a97cf0db1fef43bf12a37f3c292d2dc29d378c1e44933cde035dd4480"
+  "report_hash": "577b96ea4bc4aa2bdd90c77c8568a4f2864dd3de219374e65a89eba2d5464079"
 }

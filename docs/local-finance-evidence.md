@@ -13,7 +13,9 @@ execution rehearsals without account credentials or external writes:
   private state roots, and explicit activation while account binding stays off.
 - ledger credit collection: the production OAuth token and Gmail attachment
   paths exercised against exact IPv4-loopback emulators, followed by private
-  inbox import and monthly SQLite reconciliation.
+  inbox import and monthly SQLite reconciliation. The same proof embeds two
+  immutable versions of a synthetic issuer template, cross-version source-ID
+  deduplication, and append-only category suggestion history.
 - portfolio collection: the production KIS token and read-only balance path
   exercised against an exact IPv4-loopback emulator, followed by temporary
   SQLite persistence and aggregate-only Ledger publication.
@@ -54,7 +56,13 @@ exchanges, official token-origin pinning, redirect rejection, a 1 MiB response
 bound, one bounded Gmail retry after an injected 503, allowlisted sender
 filtering, append-only attachment receipts, idempotent replay, archive hash
 fallback after receipt loss, and a reconciled July result of KRW 20,900 in
-purchases, KRW 2,200 in refunds, and KRW 18,700 net card spend.
+purchases, KRW 2,200 in refunds, and KRW 18,700 net card spend. Its nested
+template proof binds two source hashes and two distinct profile hashes to one
+stable fingerprint set. The second template adds three new classification
+suggestions without rewriting the three accepted transactions. Jarvis also
+requires immutable template-version registration, missing-source-ID denial,
+stable-identity conflict rollback, zero partial writes, and exact nested and
+outer report hashes.
 
 The Portfolio rehearsal verifies the client-credentials token contract, exact
 official KIS origin and token endpoint, order-path rejection, redirect

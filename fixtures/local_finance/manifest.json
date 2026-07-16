@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.local-finance-evidence-manifest/v12",
+  "schema_version": "myhome.local-finance-evidence-manifest/v13",
   "month": "2026-07",
   "external_writes_enabled": false,
   "receipts": [
@@ -74,10 +74,10 @@
     {
       "component": "ledger",
       "capability": "credit-collection-rehearsal",
-      "proof_schema": "myhome.ledger-credit-collection-rehearsal/v2",
+      "proof_schema": "myhome.ledger-credit-collection-rehearsal/v3",
       "path": "proofs/ledger-credit-loopback.json",
-      "artifact_sha256": "bfc1c59673c0ff91a5df179a53538f48e31046d0512db4bf843b62aa9b14a8cf",
-      "report_hash": "5665398a97cf0db1fef43bf12a37f3c292d2dc29d378c1e44933cde035dd4480"
+      "artifact_sha256": "a9667ac556d7291e00146f420e38ea69fa6d545938ff00f8fbfbd82d04ddb8d5",
+      "report_hash": "577b96ea4bc4aa2bdd90c77c8568a4f2864dd3de219374e65a89eba2d5464079"
     },
     {
       "component": "portfolio",
@@ -120,5 +120,5 @@
       "report_hash": "6cc88a81c5fa51c3c32612a544c76552205fc65a10478c0869fb96760519cf2a"
     }
   ],
-  "aggregate_hash": "ea78b83c8d553d71a17f27f82d66e22f1dfd31b1a53c822a17743afc4435e4c2"
+  "aggregate_hash": "975e85b8adc9cae863b302190fc42ac6a44e7635005cbe8ee540534f50936dfc"
 }
