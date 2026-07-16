@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.ledger-credit-collection-rehearsal/v1",
+  "schema_version": "myhome.ledger-credit-collection-rehearsal/v2",
   "execution_mode": "loopback_emulation",
   "loopback_only": true,
   "credentials_read": false,
@@ -7,6 +7,22 @@
   "external_writes": false,
   "month": "2026-07",
   "attachment_content_hash": "a1572578f5f7913a047ab043388d92a5fdda5e112a8e3949cfc27a15d3409f81",
+  "oauth_token_boundary": {
+    "schema_version": "myhome.ledger-oauth-token-rehearsal/v1",
+    "execution_mode": "loopback_emulation",
+    "loopback_only": true,
+    "credentials_read": false,
+    "external_network": false,
+    "external_writes": false,
+    "authorization_code_exchange": true,
+    "refresh_token_exchange": true,
+    "official_origin_pinned": true,
+    "redirect_rejected": true,
+    "oversized_response_rejected": true,
+    "token_requests": 2,
+    "redirect_requests": 1,
+    "oversized_requests": 1
+  },
   "first_gmail_sync": {
     "schema_version": "myhome.ledger-gmail-sync/v1",
     "sources": 1,
@@ -75,7 +91,11 @@
     "bounded-retry-recovered",
     "credit-refunds-netted",
     "idempotent-replay",
-    "loopback-origin-enforced"
+    "loopback-origin-enforced",
+    "oauth-official-origin-pinned",
+    "oauth-redirect-rejected",
+    "oauth-response-bounded",
+    "oauth-token-contract-validated"
   ],
-  "report_hash": "f05b8ccfb85d676dab71a2faac8f03c0963cbc1f32264fbfac86b7e50d8bf5fb"
+  "report_hash": "5665398a97cf0db1fef43bf12a37f3c292d2dc29d378c1e44933cde035dd4480"
 }

@@ -63,8 +63,12 @@
     "external-writes-disabled",
     "gmail-scope-readonly",
     "launchd-not-installed",
+    "oauth-exact-loopback-callback",
+    "oauth-redirects-disabled",
+    "oauth-response-bounded",
+    "oauth-token-origin-pinned",
     "private-config-ignored"
   ],
   "template_hash": "6b6c21df20b57678fa45ec995e7592b0c81e125fb525d2794caa53ce8921d78e",
-  "plan_hash": "563ca930f75fe5d8728dec343f18d54bbe106a2024cf0c42e7b0f4f63d26fdbd"
+  "plan_hash": "c4d7a7bdfc011a1a9d1dfcee9f0a42d2b91866b7fabbb73a60ef84165f7d5e4f"
 }

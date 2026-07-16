@@ -12,8 +12,8 @@
     {
       "component": "ledger",
       "path": "plans/ledger.json",
-      "artifact_sha256": "5d39ac346ced48968f4f3347918234ae841df3e1205896ce94a394d102895d33",
-      "plan_hash": "563ca930f75fe5d8728dec343f18d54bbe106a2024cf0c42e7b0f4f63d26fdbd"
+      "artifact_sha256": "0b6a0c1b6943de56dc8aea994561f25472a3ac0c877806ca029c91cdb875f201",
+      "plan_hash": "c4d7a7bdfc011a1a9d1dfcee9f0a42d2b91866b7fabbb73a60ef84165f7d5e4f"
     },
     {
       "component": "portfolio",
@@ -86,5 +86,5 @@
       "action": "verify-indirect-evidence"
     }
   ],
-  "aggregate_hash": "2f3e540534592bbd4a3774b68d6147463c6387b0d849903f21cbc9846677cd80"
+  "aggregate_hash": "c8ed013883d268c096e03471557fdb054d5bbbd74ff785d8b2eb31af6dacc01e"
 }

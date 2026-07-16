@@ -27,8 +27,28 @@ func validatePlan(value Plan, ref Ref) error {
 			return errors.New("write-capable OAuth scope is present")
 		}
 	}
+	if value.Component == "ledger" && !validLedgerOAuthBoundary(value) {
+		return errors.New("Ledger OAuth readiness boundary is incomplete")
+	}
 	if !hashPattern.MatchString(value.TemplateHash) || value.PlanHash != ref.PlanHash || value.PlanHash != planHash(value) {
 		return errors.New("plan hash is invalid")
 	}
 	return nil
+}
+
+func validLedgerOAuthBoundary(value Plan) bool {
+	if !slices.Equal(value.OAuthScopes, []string{"https://www.googleapis.com/auth/gmail.readonly"}) {
+		return false
+	}
+	for _, host := range []string{"accounts.google.com", "gmail.googleapis.com", "oauth2.googleapis.com"} {
+		if !slices.Contains(value.OfficialHosts, host) {
+			return false
+		}
+	}
+	for _, check := range []string{"oauth-exact-loopback-callback", "oauth-redirects-disabled", "oauth-response-bounded", "oauth-token-origin-pinned"} {
+		if !slices.Contains(value.Checks, check) {
+			return false
+		}
+	}
+	return true
 }

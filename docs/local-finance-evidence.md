@@ -7,9 +7,9 @@ execution rehearsals without account credentials or external writes:
 - portfolio: read-only holdings parsing from an official-response-shaped fixture;
 - revenue: monthly YouTube revenue and local cost reconciliation from fixtures;
 - shorts: a private-upload plan whose runtime boundary remains plan-only.
-- ledger credit collection: the production Gmail attachment path exercised
-  against an exact IPv4-loopback emulator, followed by private inbox import and
-  monthly SQLite reconciliation.
+- ledger credit collection: the production OAuth token and Gmail attachment
+  paths exercised against exact IPv4-loopback emulators, followed by private
+  inbox import and monthly SQLite reconciliation.
 - portfolio collection: the production KIS token and read-only balance path
   exercised against an exact IPv4-loopback emulator, followed by temporary
   SQLite persistence and aggregate-only Ledger publication.
@@ -35,9 +35,11 @@ verifies an aggregate hash bound to the manifest month. Unknown JSON fields,
 extra JSON values, missing components, hash changes, and any enabled external
 write fail closed.
 
-The rehearsal verifies one bounded retry after an injected 503, allowlisted
-sender filtering, append-only attachment receipts, idempotent replay, archive
-hash fallback after receipt loss, and a reconciled July result of KRW 20,900 in
+The Ledger rehearsal verifies authorization-code plus PKCE and refresh-token
+exchanges, official token-origin pinning, redirect rejection, a 1 MiB response
+bound, one bounded Gmail retry after an injected 503, allowlisted sender
+filtering, append-only attachment receipts, idempotent replay, archive hash
+fallback after receipt loss, and a reconciled July result of KRW 20,900 in
 purchases, KRW 2,200 in refunds, and KRW 18,700 net card spend.
 
 The Portfolio rehearsal verifies one bounded retry after an injected 503, the

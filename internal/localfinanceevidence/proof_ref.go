@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const creditProofSchema = "myhome.ledger-credit-collection-rehearsal/v1"
+const creditProofSchema = "myhome.ledger-credit-collection-rehearsal/v2"
 const portfolioProofSchema = "myhome.portfolio-readonly-collection-rehearsal/v1"
 const revenueProofSchema = "myhome.revenue-youtube-analytics-rehearsal/v1"
 const operatorProofSchema = "myhome.finance-operator-monthly-rehearsal/v1"

@@ -9,6 +9,7 @@ type CreditReport struct {
 	ExternalWrites        bool           `json:"external_writes"`
 	Month                 string         `json:"month"`
 	AttachmentContentHash string         `json:"attachment_content_hash"`
+	OAuth                 CreditOAuth    `json:"oauth_token_boundary"`
 	FirstGmail            CreditSync     `json:"first_gmail_sync"`
 	FirstWatch            CreditWatch    `json:"first_inbox_watch"`
 	ReplayGmail           CreditSync     `json:"replay_gmail_sync"`
