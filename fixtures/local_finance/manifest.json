@@ -1,0 +1,132 @@
+{
+  "schema_version": "myhome.local-finance-evidence-manifest/v16",
+  "month": "2026-07",
+  "external_writes_enabled": false,
+  "receipts": [
+    {
+      "schema_version": "myhome.indirect-evidence/v1",
+      "component": "ledger",
+      "capability": "monthly-credit-summary",
+      "execution_mode": "fixture_only",
+      "external_writes_enabled": false,
+      "artifact_hash": "565a8f437618928aa15d1b51d5ea2f22360b84a7be77cdb83ce9f2cf59b1756b",
+      "checks": [
+        "credit-refund-normalized",
+        "deterministic-import-dedup",
+        "monthly-card-spend-reconciled",
+        "private-data-boundary-preserved"
+      ],
+      "receipt_hash": "eb9c42846a632a461a826b2fcb4cba637f33ba97a1245639a28a7dcbad3e53b3"
+    },
+    {
+      "schema_version": "myhome.indirect-evidence/v1",
+      "component": "portfolio",
+      "capability": "read-only-holdings-snapshot",
+      "execution_mode": "fixture_only",
+      "external_writes_enabled": false,
+      "artifact_hash": "212d61addf2728d93df88f7ee6fdc47927ea82d9aa42375101a86ffa8fe54860",
+      "checks": [
+        "aggregate-only-ledger-boundary",
+        "official-response-shape-parsed",
+        "order-endpoint-absent",
+        "snapshot-reconciliation-preserved"
+      ],
+      "receipt_hash": "1e50e4457430e81986e8dda4f3167bf8c319d4240da160d9a7878b28c27ab62f"
+    },
+    {
+      "schema_version": "myhome.indirect-evidence/v1",
+      "component": "revenue",
+      "capability": "youtube-monthly-revenue",
+      "execution_mode": "fixture_only",
+      "external_writes_enabled": false,
+      "artifact_hash": "0ea2a33c9e8d65bdfd49ecd8c407ad618c315addb7ffb2d2f1c98c64f67fd4f1",
+      "checks": [
+        "channel-identity-bound",
+        "cost-attribution-reconciled",
+        "estimated-revenue-normalized",
+        "month-replacement-idempotent"
+      ],
+      "receipt_hash": "6007afbd6476e64acc89b8ee6e691d0b04ec76afb9be28a667234ee865a8c57d"
+    },
+    {
+      "schema_version": "myhome.indirect-evidence/v1",
+      "component": "shorts",
+      "capability": "youtube-private-upload-plan",
+      "execution_mode": "plan_only",
+      "external_writes_enabled": false,
+      "artifact_hash": "d47945186b756da3ddc177a0ed3838156ab22052f5cc51340d30c45e41c6bf15",
+      "checks": [
+        "action-consent-bound",
+        "callback-random-port-planned",
+        "channel-identity-endpoint-pinned",
+        "connection-readiness-plan-sealed",
+        "external-write-surface-absent",
+        "notify-subscribers-disabled",
+        "oauth-pkce-plan-only",
+        "quota-snapshot-sealed",
+        "resumable-chunks-contiguous",
+        "revocation-append-only"
+      ],
+      "receipt_hash": "f72736dd59904abe871575cd22566f661959ad78e8fb92b60e7382d7d168357b"
+    }
+  ],
+  "execution_proofs": [
+    {
+      "component": "ledger-batch-apply",
+      "capability": "credit-batch-apply-rehearsal",
+      "proof_schema": "myhome.ledger-credit-batch-apply-rehearsal/v1",
+      "path": "proofs/ledger-credit-batch-apply.json",
+      "artifact_sha256": "bbc4c64279e10e96ea41ba147a2e31d62273fc7309e015a2753a300d04bf0b45",
+      "report_hash": "21a1c43c311fa0b06f46bd4c62d82a9eb0970c80cc690331e11e0d6e677061b4"
+    },
+    {
+      "component": "ledger",
+      "capability": "credit-collection-rehearsal",
+      "proof_schema": "myhome.ledger-credit-collection-rehearsal/v5",
+      "path": "proofs/ledger-credit-loopback.json",
+      "artifact_sha256": "13f93efd82d473cfdba729217d7ed48f34dc2e7d62fcb8a1f0d392b2b82e6c2c",
+      "report_hash": "a169a9eaa9b4261e596d7ac9a19c80425f5c50a4c7fd6794e055316220cfdb60"
+    },
+    {
+      "component": "portfolio",
+      "capability": "readonly-collection-rehearsal",
+      "proof_schema": "myhome.portfolio-readonly-collection-rehearsal/v2",
+      "path": "proofs/portfolio-holdings-loopback.json",
+      "artifact_sha256": "5ad42a1e1b317039cecf1a4b41be3de1e1d5f219162ab4ed99c740cb5f8df319",
+      "report_hash": "4ad3677cc2c488d7fef9e526dc9134d0250983ef2e077bf03567e9332f53ce03"
+    },
+    {
+      "component": "revenue",
+      "capability": "youtube-revenue-collection-rehearsal",
+      "proof_schema": "myhome.revenue-youtube-analytics-rehearsal/v2",
+      "path": "proofs/revenue-youtube-loopback.json",
+      "artifact_sha256": "e3c63502dfc36fe48b8c4254a0d569d65f699611d5aca35693817f63d7997d87",
+      "report_hash": "c5ca6ec3de490614812d9f18976275779d0461663df889d07fffd17fe778d88a"
+    },
+    {
+      "component": "finance-operator",
+      "capability": "monthly-orchestration-rehearsal",
+      "proof_schema": "myhome.finance-operator-monthly-rehearsal/v1",
+      "path": "proofs/finance-operator-loopback.json",
+      "artifact_sha256": "e67bb52c014f4ba5ee7169491bdd1bec9c0417d05f80ce9b21282d4a2c6fc260",
+      "report_hash": "c5ae49b386b5b7e78a90bef22a7b56447cbf996a9da9647b60596fd9c770056c"
+    },
+    {
+      "component": "shorts",
+      "capability": "youtube-private-upload-rehearsal",
+      "proof_schema": "shorts.youtube-loopback-fixture-report/v2",
+      "path": "proofs/shorts-youtube-loopback.json",
+      "artifact_sha256": "ff37ca507ad9f1735c4a553d31c652d580fe3d3b1c2c0746d114909e08d03b6d",
+      "report_hash": "029366a4ddfc6bfd9f6f1dc700cb2f4ba0ef6d2dae67da175c1235c314b2c44d"
+    },
+    {
+      "component": "shorts-activation",
+      "capability": "youtube-activation-boundary-rehearsal",
+      "proof_schema": "shorts.youtube-activation-boundary-rehearsal/v2",
+      "path": "proofs/shorts-youtube-activation.json",
+      "artifact_sha256": "d6102db83d47ddf334025cd2eed97b00faa5bf21cbc2b874e36d195fbe73d235",
+      "report_hash": "6cc88a81c5fa51c3c32612a544c76552205fc65a10478c0869fb96760519cf2a"
+    }
+  ],
+  "aggregate_hash": "cc770843c72a6f42888d62d1cec0db7bac16318e99e6446a290c2062c418f17f"
+}

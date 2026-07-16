@@ -1,0 +1,158 @@
+{
+  "schema_version": "myhome.ledger-credit-batch-apply-rehearsal/v1",
+  "execution_mode": "fixture_only",
+  "credentials_read": false,
+  "external_network": false,
+  "external_writes": false,
+  "ephemeral_local_database_writes": true,
+  "persistent_database_writes": false,
+  "apply_plan": {
+    "schema_version": "myhome.ledger-import-batch-apply-plan/v1",
+    "execution_mode": "approval_plan_only",
+    "credentials_read": false,
+    "external_network": false,
+    "external_writes": false,
+    "manifest_sha256": "f378379d8cf2aadf06f3a9e984796d634e0e27760b71372d3a8e96afced90efa",
+    "preview_set_hash": "708cc7e3903d230ab6205762bf5103de193e490b6d22ee4f8bf1540f8955deac",
+    "batch_hash": "d555bdd7ddcedb83901e9953c71f363d917d5279c46f583d0194fa1a624e0050",
+    "statement_count": 2,
+    "approval_challenge_sha256": "eef36c1d0a914efad8a812ab3ecde337bbae16eef72b08f45f3e2e56bee97496",
+    "checks": [
+      "all-statements-ready",
+      "approval-challenge-hash-bound",
+      "batch-hash-bound",
+      "manifest-hash-bound",
+      "preview-set-hash-bound"
+    ],
+    "plan_hash": "82d4b6f49d18d22163ce631e67ed1e3eb350ec88b9e1268f4aa2636afa9ac07e"
+  },
+  "approval": {
+    "schema_version": "myhome.ledger-import-batch-approval/v1",
+    "decision": "approve",
+    "plan_hash": "82d4b6f49d18d22163ce631e67ed1e3eb350ec88b9e1268f4aa2636afa9ac07e",
+    "approval_challenge_sha256": "eef36c1d0a914efad8a812ab3ecde337bbae16eef72b08f45f3e2e56bee97496",
+    "manifest_sha256": "f378379d8cf2aadf06f3a9e984796d634e0e27760b71372d3a8e96afced90efa",
+    "preview_set_hash": "708cc7e3903d230ab6205762bf5103de193e490b6d22ee4f8bf1540f8955deac",
+    "batch_hash": "d555bdd7ddcedb83901e9953c71f363d917d5279c46f583d0194fa1a624e0050",
+    "approval_hash": "bef24a05b408645d2e689eb195c65d8487863da3998b7d6591700106400bc4b8"
+  },
+  "first_apply": {
+    "schema_version": "myhome.ledger-import-batch-apply-report/v1",
+    "execution_mode": "approved_local_batch_apply",
+    "credentials_read": false,
+    "external_network": false,
+    "external_writes": false,
+    "local_database_writes": true,
+    "plan_hash": "82d4b6f49d18d22163ce631e67ed1e3eb350ec88b9e1268f4aa2636afa9ac07e",
+    "approval_hash": "bef24a05b408645d2e689eb195c65d8487863da3998b7d6591700106400bc4b8",
+    "manifest_sha256": "f378379d8cf2aadf06f3a9e984796d634e0e27760b71372d3a8e96afced90efa",
+    "preview_set_hash": "708cc7e3903d230ab6205762bf5103de193e490b6d22ee4f8bf1540f8955deac",
+    "batch_hash": "d555bdd7ddcedb83901e9953c71f363d917d5279c46f583d0194fa1a624e0050",
+    "statement_count": 2,
+    "transaction_count": 5,
+    "rows_inserted": 5,
+    "duplicates": 0,
+    "suggestions_recorded": 3,
+    "all_or_nothing": true,
+    "raw_file_names_reported": false,
+    "raw_rows_reported": false,
+    "statements": [
+      {
+        "source_name_sha256": "d8852d20dfb991da62854549f8ebe761d1cba30a5fc62dc658b18684f3432079",
+        "preview_hash": "8c3488195ef60cd72498d8c569b61870398e25ee0b4513206488fd51b49b2eef",
+        "rows_read": 2,
+        "rows_inserted": 2,
+        "duplicates": 0,
+        "suggestions_recorded": 0
+      },
+      {
+        "source_name_sha256": "e817e6bee3b048c5ce3abde65a8a1576681ebd6c86e306382145274f15874df6",
+        "preview_hash": "e5a89a5320372d3050c2219f359972f2d5840b07d0b63728a3d8ba53217e96f0",
+        "rows_read": 3,
+        "rows_inserted": 3,
+        "duplicates": 0,
+        "suggestions_recorded": 3
+      }
+    ],
+    "apply_set_hash": "0fe3127acd6f8b81bd77505009cc5b3f10a72963e8da0611d501e72e7186ea9e",
+    "checks": [
+      "approval-exact-match",
+      "atomic-multi-file-transaction",
+      "current-bytes-renormalized",
+      "filename-hash-only",
+      "manifest-reloaded",
+      "preview-fields-recomputed",
+      "raw-rows-not-reported"
+    ],
+    "report_hash": "d3a22d2bc46b32027d3cbb9675f8b1062aea4811b7fec44fce4d8514f6efe37b"
+  },
+  "replay": {
+    "schema_version": "myhome.ledger-import-batch-apply-report/v1",
+    "execution_mode": "approved_local_batch_apply",
+    "credentials_read": false,
+    "external_network": false,
+    "external_writes": false,
+    "local_database_writes": true,
+    "plan_hash": "82d4b6f49d18d22163ce631e67ed1e3eb350ec88b9e1268f4aa2636afa9ac07e",
+    "approval_hash": "bef24a05b408645d2e689eb195c65d8487863da3998b7d6591700106400bc4b8",
+    "manifest_sha256": "f378379d8cf2aadf06f3a9e984796d634e0e27760b71372d3a8e96afced90efa",
+    "preview_set_hash": "708cc7e3903d230ab6205762bf5103de193e490b6d22ee4f8bf1540f8955deac",
+    "batch_hash": "d555bdd7ddcedb83901e9953c71f363d917d5279c46f583d0194fa1a624e0050",
+    "statement_count": 2,
+    "transaction_count": 5,
+    "rows_inserted": 0,
+    "duplicates": 5,
+    "suggestions_recorded": 0,
+    "all_or_nothing": true,
+    "raw_file_names_reported": false,
+    "raw_rows_reported": false,
+    "statements": [
+      {
+        "source_name_sha256": "d8852d20dfb991da62854549f8ebe761d1cba30a5fc62dc658b18684f3432079",
+        "preview_hash": "8c3488195ef60cd72498d8c569b61870398e25ee0b4513206488fd51b49b2eef",
+        "rows_read": 2,
+        "rows_inserted": 0,
+        "duplicates": 2,
+        "suggestions_recorded": 0
+      },
+      {
+        "source_name_sha256": "e817e6bee3b048c5ce3abde65a8a1576681ebd6c86e306382145274f15874df6",
+        "preview_hash": "e5a89a5320372d3050c2219f359972f2d5840b07d0b63728a3d8ba53217e96f0",
+        "rows_read": 3,
+        "rows_inserted": 0,
+        "duplicates": 3,
+        "suggestions_recorded": 0
+      }
+    ],
+    "apply_set_hash": "b9041292db24867197fab2083b25e94b247aee1423bc38a9bbfd8e283c708a7a",
+    "checks": [
+      "approval-exact-match",
+      "atomic-multi-file-transaction",
+      "current-bytes-renormalized",
+      "filename-hash-only",
+      "manifest-reloaded",
+      "preview-fields-recomputed",
+      "raw-rows-not-reported"
+    ],
+    "report_hash": "1cbc68dab644dfe99211b16f42657896232a1179e7aeacc332f8325fc2e69833"
+  },
+  "stale_approval_rejected": true,
+  "denied_approval_rejected": true,
+  "mid_batch_failure_rejected": true,
+  "rollback_state": {
+    "accounts": 0,
+    "transactions": 0,
+    "import_runs": 0,
+    "templates": 0,
+    "category_suggestions": 0
+  },
+  "checks": [
+    "approval-denial-before-write",
+    "approval-staleness-before-write",
+    "atomic-mid-batch-rollback",
+    "ephemeral-database-only",
+    "first-apply-five-inserted",
+    "replay-five-deduplicated"
+  ],
+  "report_hash": "21a1c43c311fa0b06f46bd4c62d82a9eb0970c80cc690331e11e0d6e677061b4"
+}

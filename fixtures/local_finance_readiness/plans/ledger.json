@@ -1,0 +1,74 @@
+{
+  "schema_version": "myhome.connection-readiness-plan/v1",
+  "component": "ledger",
+  "execution_mode": "plan_only",
+  "credentials_read": false,
+  "external_network_enabled": false,
+  "external_writes_enabled": false,
+  "install_allowed": false,
+  "public_config_source": "config/ledger.json",
+  "keychain_handles": [
+    {
+      "service": "myhome-ledger",
+      "account": "google-client-id"
+    },
+    {
+      "service": "myhome-ledger",
+      "account": "google-client-secret"
+    },
+    {
+      "service": "myhome-ledger",
+      "account": "google-refresh-token"
+    },
+    {
+      "service": "myhome-ledger",
+      "account": "local-reader-token"
+    }
+  ],
+  "oauth_scopes": [
+    "https://www.googleapis.com/auth/gmail.readonly"
+  ],
+  "official_hosts": [
+    "accounts.google.com",
+    "gmail.googleapis.com",
+    "oauth2.googleapis.com"
+  ],
+  "local_dependencies": [
+    "credit-card-private-inbox"
+  ],
+  "enabled_collectors": [
+    "credit-card-normalized-inbox"
+  ],
+  "deferred_collectors": [
+    "gmail-attachment-collector-awaiting-source-allowlist"
+  ],
+  "monthly_schedule": {
+    "day": 2,
+    "hour": 7,
+    "minute": 0,
+    "timezone": "Asia/Seoul"
+  },
+  "launchd": {
+    "template_path": "ops/launchd/com.kimsemi.myhome-ledger.monthly.plist.template",
+    "label": "com.kimsemi.myhome-ledger.monthly",
+    "program_arguments": [
+      "__LEDGERCTL__",
+      "collect",
+      "monthly"
+    ]
+  },
+  "checks": [
+    "credentials-not-read",
+    "external-network-disabled",
+    "external-writes-disabled",
+    "gmail-scope-readonly",
+    "launchd-not-installed",
+    "oauth-exact-loopback-callback",
+    "oauth-redirects-disabled",
+    "oauth-response-bounded",
+    "oauth-token-origin-pinned",
+    "private-config-ignored"
+  ],
+  "template_hash": "6b6c21df20b57678fa45ec995e7592b0c81e125fb525d2794caa53ce8921d78e",
+  "plan_hash": "c4d7a7bdfc011a1a9d1dfcee9f0a42d2b91866b7fabbb73a60ef84165f7d5e4f"
+}

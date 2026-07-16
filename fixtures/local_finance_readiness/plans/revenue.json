@@ -1,0 +1,82 @@
+{
+  "schema_version": "myhome.connection-readiness-plan/v1",
+  "component": "revenue",
+  "execution_mode": "plan_only",
+  "credentials_read": false,
+  "external_network_enabled": false,
+  "external_writes_enabled": false,
+  "install_allowed": false,
+  "public_config_source": "config/revenue.json",
+  "keychain_handles": [
+    {
+      "service": "myhome-ledger",
+      "account": "local-reader-token"
+    },
+    {
+      "service": "myhome-revenue-lab",
+      "account": "google-client-id"
+    },
+    {
+      "service": "myhome-revenue-lab",
+      "account": "google-client-secret"
+    },
+    {
+      "service": "myhome-revenue-lab",
+      "account": "google-refresh-token"
+    },
+    {
+      "service": "myhome-revenue-lab",
+      "account": "local-reader-token"
+    }
+  ],
+  "oauth_scopes": [
+    "https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/yt-analytics-monetary.readonly"
+  ],
+  "official_hosts": [
+    "accounts.google.com",
+    "oauth2.googleapis.com",
+    "www.googleapis.com",
+    "youtubeanalytics.googleapis.com"
+  ],
+  "local_dependencies": [
+    "http://127.0.0.1:8171"
+  ],
+  "enabled_collectors": [
+    "youtube-monetary-analytics-readonly"
+  ],
+  "deferred_collectors": [
+    "ledger-income-publish",
+    "youtube-channel-identity-binding"
+  ],
+  "monthly_schedule": {
+    "day": 5,
+    "hour": 7,
+    "minute": 40,
+    "timezone": "Asia/Seoul"
+  },
+  "launchd": {
+    "template_path": "ops/launchd/com.kimsemi.myhome-revenue.monthly.plist.template",
+    "label": "com.kimsemi.myhome-revenue.monthly",
+    "program_arguments": [
+      "__BINARY__",
+      "collect",
+      "monthly"
+    ]
+  },
+  "checks": [
+    "channel-write-scope-absent",
+    "credentials-not-read",
+    "external-network-disabled",
+    "external-writes-disabled",
+    "launchd-not-installed",
+    "oauth-callback-exact",
+    "oauth-official-origin-pinned",
+    "oauth-redirect-disabled",
+    "oauth-response-bounded",
+    "oauth-scopes-readonly",
+    "private-config-ignored"
+  ],
+  "template_hash": "2aa39c5d934607d813077d8188f57aaf6558ec7e6cb96d4ecb9d326a9cc29c2d",
+  "plan_hash": "9d90f56c4127d8469bd4921cbb58dcf27ff1a137ed44c3bba1e6f6b0b25ab9b3"
+}

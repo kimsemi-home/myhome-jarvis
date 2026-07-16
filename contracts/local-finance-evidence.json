@@ -1,0 +1,34 @@
+{
+  "schema_version": "myhome.local-finance-evidence-contract/v14",
+  "manifest_schema": "myhome.local-finance-evidence-manifest/v16",
+  "receipt_schema": "myhome.indirect-evidence/v1",
+  "required_components": {
+    "ledger": "monthly-credit-summary",
+    "portfolio": "read-only-holdings-snapshot",
+    "revenue": "youtube-monthly-revenue",
+    "shorts": "youtube-private-upload-plan"
+  },
+  "allowed_execution_modes": ["fixture_only", "plan_only"],
+  "shorts_required_receipt_checks": ["action-consent-bound", "callback-random-port-planned", "channel-identity-endpoint-pinned", "connection-readiness-plan-sealed", "external-write-surface-absent", "notify-subscribers-disabled", "oauth-pkce-plan-only", "quota-snapshot-sealed", "resumable-chunks-contiguous", "revocation-append-only"],
+  "required_execution_proofs": {
+    "ledger": "credit-collection-rehearsal",
+    "ledger-batch-apply": "credit-batch-apply-rehearsal",
+    "portfolio": "readonly-collection-rehearsal",
+    "revenue": "youtube-revenue-collection-rehearsal",
+    "finance-operator": "monthly-orchestration-rehearsal",
+    "shorts": "youtube-private-upload-rehearsal",
+    "shorts-activation": "youtube-activation-boundary-rehearsal"
+  },
+  "execution_proof_schemas": {
+    "ledger": "myhome.ledger-credit-collection-rehearsal/v5",
+    "ledger-batch-apply": "myhome.ledger-credit-batch-apply-rehearsal/v1",
+    "portfolio": "myhome.portfolio-readonly-collection-rehearsal/v2",
+    "revenue": "myhome.revenue-youtube-analytics-rehearsal/v2",
+    "finance-operator": "myhome.finance-operator-monthly-rehearsal/v1",
+    "shorts": "shorts.youtube-loopback-fixture-report/v2",
+    "shorts-activation": "shorts.youtube-activation-boundary-rehearsal/v2"
+  },
+  "allowed_execution_proof_modes": ["fixture_only", "loopback_emulation", "loopback_fake_runner", "ipv4_loopback", "local_subprocess_emulation"],
+  "external_writes_enabled": false,
+  "hash_algorithm": "sha256"
+}

@@ -12,6 +12,8 @@ func routeOperations(root string, args []string) (bool, error) {
 		return true, routeContextPack(root, args[1:])
 	case "finance-consent":
 		return true, routeFinanceConsent(root, args[1:])
+	case "local-finance":
+		return true, routeLocalFinance(root, args[1:])
 	case "codex-cost":
 		return true, routeCodexCost(root, args[1:])
 	case "codex-sustainability":
@@ -60,16 +62,6 @@ func routeLoop(root string, args []string) error {
 	}
 	if len(args) >= 1 && args[0] == "worker" {
 		return loopWorker(root, args[1:])
-	}
-	return usage()
-}
-
-func routeVerification(root string, args []string) error {
-	if len(args) == 1 && args[0] == "verify" {
-		return runVerificationVerify(root)
-	}
-	if len(args) == 1 && args[0] == "evidence" {
-		return runVerificationEvidence(root)
 	}
 	return usage()
 }

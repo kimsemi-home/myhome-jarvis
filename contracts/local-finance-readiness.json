@@ -1,0 +1,17 @@
+{
+  "schema_version": "myhome.local-finance-readiness-contract/v2",
+  "manifest_schema": "myhome.local-finance-readiness-manifest/v2",
+  "plan_schema": "myhome.connection-readiness-plan/v1",
+  "operator_plan_schema": "myhome.finance-operator-readiness-plan/v1",
+  "required_components": ["ledger", "portfolio", "revenue", "finance-operator"],
+  "execution_mode": "plan_only",
+  "credentials_read": false,
+  "external_network_enabled": false,
+  "external_writes_enabled": false,
+  "install_allowed": false,
+  "timezone": "Asia/Seoul",
+  "execution_owner": "finance-operator",
+  "direct_child_schedules_enabled": false,
+  "required_stage_order": ["ledger", "portfolio", "revenue", "finance-operator", "jarvis"],
+  "hash_algorithm": "sha256"
+}

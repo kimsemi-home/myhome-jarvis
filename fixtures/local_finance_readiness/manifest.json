@@ -1,0 +1,90 @@
+{
+  "schema_version": "myhome.local-finance-readiness-manifest/v2",
+  "execution_mode": "plan_only",
+  "credentials_read": false,
+  "external_network_enabled": false,
+  "external_writes_enabled": false,
+  "install_allowed": false,
+  "timezone": "Asia/Seoul",
+  "execution_owner": "finance-operator",
+  "direct_child_schedules_enabled": false,
+  "plans": [
+    {
+      "component": "ledger",
+      "path": "plans/ledger.json",
+      "artifact_sha256": "0b6a0c1b6943de56dc8aea994561f25472a3ac0c877806ca029c91cdb875f201",
+      "plan_hash": "c4d7a7bdfc011a1a9d1dfcee9f0a42d2b91866b7fabbb73a60ef84165f7d5e4f"
+    },
+    {
+      "component": "portfolio",
+      "path": "plans/portfolio.json",
+      "artifact_sha256": "6d8029a0ed3abcb13265253020082a6947f24116317b62db9d18c0733f06a1dd",
+      "plan_hash": "7a055884449e77ef196e17eb69bfaef80d510dec36b41310e47975f72840d51a"
+    },
+    {
+      "component": "revenue",
+      "path": "plans/revenue.json",
+      "artifact_sha256": "a3381bc20ca0e0718095e6102b126a74965611dc18f53a01104555344d94d9dd",
+      "plan_hash": "9d90f56c4127d8469bd4921cbb58dcf27ff1a137ed44c3bba1e6f6b0b25ab9b3"
+    },
+    {
+      "component": "finance-operator",
+      "path": "plans/operator.json",
+      "artifact_sha256": "d06926c1b59253426a2f27ad4c715854ab6db2d275c30af221011c99e42b3f69",
+      "plan_hash": "c316b974597e88913a1c2e34e7982ecffc9ca7aa52bc2e291751fcec859dd37d"
+    }
+  ],
+  "stages": [
+    {
+      "position": 1,
+      "component": "ledger",
+      "executor": "finance-operator",
+      "day": 2,
+      "hour": 8,
+      "minute": 10,
+      "depends_on": [],
+      "action": "collect-monthly"
+    },
+    {
+      "position": 2,
+      "component": "portfolio",
+      "executor": "finance-operator",
+      "day": 3,
+      "hour": 8,
+      "minute": 10,
+      "depends_on": ["ledger"],
+      "action": "collect-monthly"
+    },
+    {
+      "position": 3,
+      "component": "revenue",
+      "executor": "finance-operator",
+      "day": 5,
+      "hour": 8,
+      "minute": 10,
+      "depends_on": ["ledger", "portfolio"],
+      "action": "collect-monthly"
+    },
+    {
+      "position": 4,
+      "component": "finance-operator",
+      "executor": "finance-operator",
+      "day": 5,
+      "hour": 8,
+      "minute": 10,
+      "depends_on": ["ledger", "portfolio", "revenue"],
+      "action": "aggregate-monthly-snapshot"
+    },
+    {
+      "position": 5,
+      "component": "jarvis",
+      "executor": "jarvis",
+      "day": 5,
+      "hour": 10,
+      "minute": 0,
+      "depends_on": ["finance-operator"],
+      "action": "verify-indirect-evidence"
+    }
+  ],
+  "aggregate_hash": "92b75dff3e86a10d5e2d87b6345e9bb109cb3a62635b0febc0a79806689aa685"
+}
