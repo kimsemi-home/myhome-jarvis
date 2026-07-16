@@ -23,7 +23,7 @@ func TestTamperedCreditProofFails(t *testing.T) {
 	}
 	ref := ProofRef{Component: "ledger", Capability: "credit-collection-rehearsal",
 		ProofSchema: creditProofSchema, Path: "proof.json", ArtifactSHA256: digest(string(tampered)),
-		ReportHash: "577b96ea4bc4aa2bdd90c77c8568a4f2864dd3de219374e65a89eba2d5464079"}
+		ReportHash: "6a4372c1f3a70556dec45af221a86b79ce3382235bae4df52a9a142b8744014a"}
 	if err := validateProofFiles(root, "2026-07", []ProofRef{ref}); err == nil {
 		t.Fatal("expected tampered credit proof to fail")
 	}
@@ -45,7 +45,7 @@ func TestDisabledOAuthBoundaryFails(t *testing.T) {
 	}
 	ref := ProofRef{Component: "ledger", Capability: "credit-collection-rehearsal",
 		ProofSchema: creditProofSchema, Path: "proof.json", ArtifactSHA256: digest(string(tampered)),
-		ReportHash: "577b96ea4bc4aa2bdd90c77c8568a4f2864dd3de219374e65a89eba2d5464079"}
+		ReportHash: "6a4372c1f3a70556dec45af221a86b79ce3382235bae4df52a9a142b8744014a"}
 	if err := validateProofFiles(root, "2026-07", []ProofRef{ref}); err == nil {
 		t.Fatal("expected disabled OAuth boundary to fail")
 	}

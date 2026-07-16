@@ -64,6 +64,14 @@ requires immutable template-version registration, missing-source-ID denial,
 stable-identity conflict rollback, zero partial writes, and exact nested and
 outer report hashes.
 
+The nested onboarding proof adds two independently hash-validated read-only
+previews. Jarvis requires each preview to select exactly one versioned profile,
+bind its source/profile/fingerprint hashes and purchase/refund totals to the
+subsequent import, omit raw rows, and become import-ready only after expected
+totals reconcile. Ambiguous catalogs, unsupported statements, mismatched
+totals, and source-byte mutations are required attack cases; disabling any one
+and recomputing both nested and outer hashes still fails consumer validation.
+
 The Portfolio rehearsal verifies the client-credentials token contract, exact
 official KIS origin and token endpoint, order-path rejection, redirect
 rejection, bounded token responses, one bounded retry after an injected 503,

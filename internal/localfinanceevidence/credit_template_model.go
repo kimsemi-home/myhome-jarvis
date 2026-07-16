@@ -49,6 +49,7 @@ type CreditTemplateReport struct {
 	Month           string                       `json:"month"`
 	FirstImport     CreditTemplateImport         `json:"template_v1_import"`
 	SecondImport    CreditTemplateImport         `json:"template_v2_import"`
+	Onboarding      CreditTemplateOnboarding     `json:"profile_onboarding"`
 	History         CreditTemplateHistory        `json:"classification_history"`
 	Reconciliation  CreditTemplateReconciliation `json:"reconciliation"`
 	Guards          CreditTemplateGuards         `json:"guard_attacks"`

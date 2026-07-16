@@ -28,9 +28,10 @@ func validateCreditTemplateParts(value CreditTemplateReport) error {
 
 func requiredCreditTemplateChecks() []string {
 	return []string{
-		"append-only-category-history", "classification-suggestion-only", "cross-version-source-id-dedup",
+		"ambiguous-profile-denied", "append-only-category-history", "classification-suggestion-only", "cross-version-source-id-dedup",
 		"deterministic-fingerprint-set", "immutable-template-version-registry", "profile-hashes-distinct",
-		"raw-rows-not-reported", "source-hashes-bound", "stable-identity-conflict-denied",
-		"structured-export-reconciled", "template-versions-explicit",
+		"profile-auto-detected", "preview-hash-sealed", "raw-rows-not-reported", "reconciliation-gates-import",
+		"source-hashes-bound", "source-mutation-rebound", "stable-identity-conflict-denied",
+		"structured-export-reconciled", "template-versions-explicit", "unsupported-statement-denied",
 	}
 }

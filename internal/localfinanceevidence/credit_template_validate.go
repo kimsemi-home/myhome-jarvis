@@ -5,7 +5,7 @@ import (
 	"errors"
 )
 
-const creditTemplateProofSchema = "myhome.ledger-credit-import-template-rehearsal/v1"
+const creditTemplateProofSchema = "myhome.ledger-credit-import-template-rehearsal/v2"
 
 func validateCreditTemplateReport(value CreditTemplateReport, month string) error {
 	if value.SchemaVersion != creditTemplateProofSchema || value.ExecutionMode != "fixture_only" ||
@@ -13,6 +13,9 @@ func validateCreditTemplateReport(value CreditTemplateReport, month string) erro
 		return errors.New("Ledger credit import-template boundary is invalid")
 	}
 	if err := validateCreditTemplateImports(value.FirstImport, value.SecondImport); err != nil {
+		return err
+	}
+	if err := validateCreditOnboarding(value.Onboarding, value.FirstImport, value.SecondImport); err != nil {
 		return err
 	}
 	if err := validateCreditTemplateParts(value); err != nil {
