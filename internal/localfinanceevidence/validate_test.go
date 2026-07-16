@@ -13,7 +13,7 @@ func TestFixtureManifestValidates(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if manifest.Month != "2026-07" || len(manifest.Receipts) != 4 || len(manifest.ExecutionProofs) != 4 {
+	if manifest.Month != "2026-07" || len(manifest.Receipts) != 4 || len(manifest.ExecutionProofs) != 5 {
 		t.Fatalf("unexpected manifest: %#v", manifest)
 	}
 }

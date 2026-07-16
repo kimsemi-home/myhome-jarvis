@@ -1,5 +1,5 @@
 {
-  "schema_version": "myhome.local-finance-evidence-manifest/v8",
+  "schema_version": "myhome.local-finance-evidence-manifest/v9",
   "month": "2026-07",
   "external_writes_enabled": false,
   "receipts": [
@@ -54,16 +54,18 @@
       "capability": "youtube-private-upload-plan",
       "execution_mode": "plan_only",
       "external_writes_enabled": false,
-      "artifact_hash": "4e40a8c644baa1d5860eaf33fa132e93d1ffa414a650ef9c4eae1bac82363025",
+      "artifact_hash": "4cd6487beba04b77b8b434a4e3ae55c65d9272526cd411af23218eaadcbb58fe",
       "checks": [
         "action-consent-bound",
+        "channel-identity-endpoint-pinned",
         "external-write-surface-absent",
+        "notify-subscribers-disabled",
         "oauth-pkce-plan-only",
         "quota-snapshot-sealed",
         "resumable-chunks-contiguous",
         "revocation-append-only"
       ],
-      "receipt_hash": "feb3fee4c5f74e2037a82ffcbef1c11ab2dd40d20702b051bd2b118b64c46e2a"
+      "receipt_hash": "90f1f5ad152ce08596fedf1edc1d55175d7e25108359e679e115164656fd6946"
     }
   ],
   "execution_proofs": [
@@ -98,7 +100,15 @@
       "path": "proofs/finance-operator-loopback.json",
       "artifact_sha256": "e67bb52c014f4ba5ee7169491bdd1bec9c0417d05f80ce9b21282d4a2c6fc260",
       "report_hash": "c5ae49b386b5b7e78a90bef22a7b56447cbf996a9da9647b60596fd9c770056c"
+    },
+    {
+      "component": "shorts",
+      "capability": "youtube-private-upload-rehearsal",
+      "proof_schema": "shorts.youtube-loopback-fixture-report/v2",
+      "path": "proofs/shorts-youtube-loopback.json",
+      "artifact_sha256": "ff37ca507ad9f1735c4a553d31c652d580fe3d3b1c2c0746d114909e08d03b6d",
+      "report_hash": "029366a4ddfc6bfd9f6f1dc700cb2f4ba0ef6d2dae67da175c1235c314b2c44d"
     }
   ],
-  "aggregate_hash": "4e0ae0f5e93e52f5d34b22db48157665744539bae9db83088e7285313982301f"
+  "aggregate_hash": "eb6f47f76f40faa01c2c89d7f6c0566572ec38ee0fdb3afc3dfad53e6324d521"
 }

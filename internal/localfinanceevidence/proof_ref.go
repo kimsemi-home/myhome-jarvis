@@ -10,6 +10,7 @@ const creditProofSchema = "myhome.ledger-credit-collection-rehearsal/v2"
 const portfolioProofSchema = "myhome.portfolio-readonly-collection-rehearsal/v2"
 const revenueProofSchema = "myhome.revenue-youtube-analytics-rehearsal/v2"
 const operatorProofSchema = "myhome.finance-operator-monthly-rehearsal/v1"
+const shortsProofSchema = "shorts.youtube-loopback-fixture-report/v2"
 
 var requiredProofs = map[string]struct {
 	capability string
@@ -19,11 +20,12 @@ var requiredProofs = map[string]struct {
 	"portfolio":        {"readonly-collection-rehearsal", portfolioProofSchema},
 	"revenue":          {"youtube-revenue-collection-rehearsal", revenueProofSchema},
 	"finance-operator": {"monthly-orchestration-rehearsal", operatorProofSchema},
+	"shorts":           {"youtube-private-upload-rehearsal", shortsProofSchema},
 }
 
 func validateProofRefs(refs []ProofRef) error {
 	if len(refs) != len(requiredProofs) {
-		return errors.New("Ledger, Portfolio, Revenue, and Finance Operator execution proofs are required")
+		return errors.New("Ledger, Portfolio, Revenue, Finance Operator, and Shorts execution proofs are required")
 	}
 	seen := map[string]bool{}
 	for _, ref := range refs {

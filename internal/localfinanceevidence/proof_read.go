@@ -57,6 +57,12 @@ func validateProofBody(body []byte, month string, ref ProofRef) error {
 			return err
 		}
 		validateErr = validateOperatorReport(report, month, ref)
+	case shortsProofSchema:
+		var report ShortsReport
+		if err := decoder.Decode(&report); err != nil {
+			return err
+		}
+		validateErr = validateShortsReport(report, ref)
 	default:
 		return errors.New("local finance execution proof schema is unsupported")
 	}
