@@ -2,6 +2,7 @@ package financeconnector
 
 import (
 	"bufio"
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -11,13 +12,44 @@ import (
 
 const FixtureRelativePath = "fixtures/finance_toss_mydata.jsonl"
 
+type LoadedData struct {
+	Transactions []SourceTransaction
+	Parity       ParityReport
+}
+
+func LoadConfigured(ctx context.Context, root string) (LoadedData, error) {
+	config, err := RuntimeConfigFromEnv(os.Getenv)
+	if err != nil {
+		return LoadedData{}, err
+	}
+	if config.Mode == ModeMyData {
+		transactions, err := (LiveClient{Config: config}).Fetch(ctx)
+		if err != nil {
+			return LoadedData{}, err
+		}
+		report := AssessLiveParity(transactions)
+		report.FixturePath = myDataTransactionsPath
+		return LoadedData{Transactions: transactions, Parity: report}, nil
+	}
+	transactions, err := LoadFixture(root)
+	if err != nil {
+		return LoadedData{}, err
+	}
+	report := AssessParity(transactions)
+	report.FixturePath = FixtureRelativePath
+	return LoadedData{Transactions: transactions, Parity: report}, nil
+}
+
 func LoadFixture(root string) ([]SourceTransaction, error) {
 	file, err := os.Open(filepath.Join(root, FixtureRelativePath))
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
+	return scanFixture(file)
+}
 
+func scanFixture(file *os.File) ([]SourceTransaction, error) {
 	var transactions []SourceTransaction
 	scanner := bufio.NewScanner(file)
 	line := 0

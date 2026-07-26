@@ -7,9 +7,9 @@ import (
 )
 
 func (server *Server) handleFinanceParity(writer http.ResponseWriter, request *http.Request) error {
-	report, err := financeconnector.VerifyFixture(server.config.Root)
+	loaded, err := financeconnector.LoadConfigured(request.Context(), server.config.Root)
 	if err != nil {
 		return err
 	}
-	return writeJSON(writer, http.StatusOK, report)
+	return writeJSON(writer, http.StatusOK, loaded.Parity)
 }

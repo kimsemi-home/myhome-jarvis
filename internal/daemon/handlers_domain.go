@@ -2,12 +2,10 @@ package daemon
 
 import (
 	"net/http"
-
-	"github.com/kimsemi-home/myhome-jarvis/internal/domain"
 )
 
 func (server *Server) handleDomainSummary(writer http.ResponseWriter, request *http.Request) error {
-	summary, err := domain.BuildSummary(server.config.Root)
+	summary, err := server.buildSummary(request.Context())
 	if err != nil {
 		return err
 	}
@@ -15,7 +13,7 @@ func (server *Server) handleDomainSummary(writer http.ResponseWriter, request *h
 }
 
 func (server *Server) handleHouseholdSummary(writer http.ResponseWriter, request *http.Request) error {
-	summary, err := domain.BuildSummary(server.config.Root)
+	summary, err := server.buildSummary(request.Context())
 	if err != nil {
 		return err
 	}
@@ -23,7 +21,7 @@ func (server *Server) handleHouseholdSummary(writer http.ResponseWriter, request
 }
 
 func (server *Server) handleRecommendationsSummary(writer http.ResponseWriter, request *http.Request) error {
-	summary, err := domain.BuildSummary(server.config.Root)
+	summary, err := server.buildSummary(request.Context())
 	if err != nil {
 		return err
 	}

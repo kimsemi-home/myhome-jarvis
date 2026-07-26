@@ -135,8 +135,11 @@ CI uses the committed Linux renderer baseline at
 the README image above. This keeps pixel assertions deterministic across the
 two supported verification environments.
 
-The live MyData/Toss-style connector remains fixture-only until a provider,
-consent flow, and server-side credential boundary are configured.
+The default remains fixture-only, while the server-side MyData adapter can be
+opted into with provider-approved credentials and two read-only connection
+scopes. It resolves only `op://` references on the server, maps the supported
+bank transaction contract, and keeps Flutter and public GitHub Actions
+credential-free. See [`docs/finance-connector-loop.md`](docs/finance-connector-loop.md).
 
 ## Closed-loop local verification
 

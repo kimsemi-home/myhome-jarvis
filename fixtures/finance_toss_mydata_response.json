@@ -1,0 +1,23 @@
+{
+  "rsp_code": "00000",
+  "rsp_msg": "정상",
+  "next_page": "",
+  "trans_list": [
+    {
+      "trans_dtime": "20260726090000",
+      "trans_no": "replay-jooyoon-001",
+      "trans_type": "03",
+      "currency_code": "KRW",
+      "trans_amt": "4500000",
+      "trans_memo": "급여"
+    },
+    {
+      "trans_dtime": "20260726100000",
+      "trans_no": "replay-semmi-001",
+      "trans_type": "02",
+      "currency_code": "KRW",
+      "trans_amt": "42000",
+      "trans_memo": "카페"
+    }
+  ]
+}

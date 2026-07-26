@@ -29,11 +29,13 @@ func TestRuntimeConfigRequiresOnePasswordReferenceForMyData(t *testing.T) {
 			return ModeMyData
 		case "MYHOME_FINANCE_1PASSWORD_REF":
 			return "op://MyHome-Jarvis/Finance-Connector/api"
+		case "MYHOME_FINANCE_ALLOW_EXTERNAL":
+			return "true"
 		default:
 			return ""
 		}
 	})
-	if err != nil || !config.LiveModeRequested || config.ExternalCallsLive || config.OnePasswordRef == "" {
+	if err != nil || !config.LiveModeRequested || !config.ExternalCallsLive || config.OnePasswordRef == "" {
 		t.Fatalf("config = %#v err = %v", config, err)
 	}
 }
