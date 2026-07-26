@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:myhome_jarvis_app/daemon_client.dart';
 import 'package:myhome_jarvis_app/snapshot.dart';
@@ -66,4 +67,9 @@ part 'ui/household_scope_state.dart';
 part 'ui/household_scope_body.dart';
 part 'ui/household_scope_tile.dart';
 
-void main() => runApp(JarvisApp(client: DaemonSnapshotClient.local()));
+void main() {
+  final client = kIsWeb
+      ? const StaticSnapshotClient(JarvisSnapshot.sample)
+      : DaemonSnapshotClient.local();
+  runApp(JarvisApp(client: client));
+}

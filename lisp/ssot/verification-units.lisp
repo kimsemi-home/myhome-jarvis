@@ -71,4 +71,4 @@
                     "generated/assistant_vision.generated.json" "generated/codex_cost.generated.json"
                     "generated/authority.generated.json")
      :failure_artifact "apps/flutter/test/failures"
-     :commands #("flutter test" "flutter analyze" "test -s test/golden/finance_dashboard.png" "test -s test/golden/finance_dashboard_linux.png" "grep -Fq \"test/golden/finance_dashboard.png\" README.md" "grep -Fq \"apps/flutter/test/golden/finance_dashboard.png\" ../../README.md"))))
+     :commands #("flutter test" "flutter analyze" "flutter build web --release --base-href /myhome-jarvis/" "test -s test/golden/finance_dashboard.png" "test -s test/golden/finance_dashboard_linux.png" "grep -Fq \"test/golden/finance_dashboard.png\" README.md" "grep -Fq \"apps/flutter/test/golden/finance_dashboard.png\" ../../README.md"))))

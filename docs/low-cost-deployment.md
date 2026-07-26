@@ -35,11 +35,17 @@ API. It requires active consent, a provider-issued access token in 1Password,
 and the provider's approved MyData base URL. Without those runtime inputs the
 fixture path remains the safe, deterministic fallback.
 
-## GitHub Actions publication
+## GitHub Actions publication and public demo
 
-After a successful `quality` run on `main`, the public repository's
-`publish` workflow packages the verified commit, Go daemon binary, Flutter
-client, fixtures, generated contracts, and docs as a short-retention Actions
-artifact. It uses the free public-repository runner path and does not start a
-paid server or expose household data. A later release/tag policy can promote
-the same verified archive without changing the finance contract.
+After a successful `quality` run on `main`, the public repository's `publish`
+workflow packages the verified commit, Go daemon binary, Flutter client,
+fixtures, generated contracts, and docs as a short-retention Actions artifact.
+The `deploy-flutter-demo` workflow also publishes the Flutter Web screen to
+GitHub Pages. That public page is explicitly fixture-only: it never receives a
+1Password reference, provider token, account number, cookie, or live response.
+
+Enable GitHub Pages with **Source: GitHub Actions** once in repository settings.
+After that, each verified `main` commit is published by the free public-repository
+runner path. The live finance daemon remains a separate private-network
+deployment, so public static hosting does not expose household data or require
+a paid server.

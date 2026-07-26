@@ -93,11 +93,14 @@ Current scope:
   boundary.
 - Optional Bearer token support for LAN daemon clients.
 - Widget and client tests for the first local operations screens.
+- Fixture-only Flutter Web build for the public GitHub Pages demo; web builds
+  never create a live daemon connection or receive MyData credentials.
 - Static/offline fallback command tests read `generated/commands.generated.json`
   and fail if command names or payload fields drift from the SSOT catalog.
 
-Platform runner files are intentionally deferred until packaging or device
-integration is needed.
+Native platform runner files remain intentionally deferred. The checked-in
+`web/` entrypoint exists only for the public fixture-only Pages demo; live
+MyData access stays in the local/server-side daemon path.
 
 Validation:
 
@@ -105,6 +108,7 @@ Validation:
 cd apps/flutter
 flutter test
 flutter analyze
+flutter build web --release --base-href /myhome-jarvis/
 ```
 
 Next UI migration order:

@@ -123,6 +123,10 @@ compares 김주윤, 김세미, and shared household spending in one read-only vi
 
 ![Flutter household finance dashboard](apps/flutter/test/golden/finance_dashboard.png)
 
+The Flutter client can be published as a free, fixture-only GitHub Pages demo
+after the verified `main` workflow completes. Live MyData access remains
+server-side and private; see [low-cost deployment](docs/low-cost-deployment.md).
+
 The image is generated from the golden test:
 
 ```sh

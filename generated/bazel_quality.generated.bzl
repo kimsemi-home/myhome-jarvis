@@ -77,6 +77,7 @@ def mhj_verification_graph():
         args = [
             "cd apps/flutter && flutter test",
             "cd apps/flutter && flutter analyze",
+            "cd apps/flutter && flutter build web --release --base-href /myhome-jarvis/",
             "cd apps/flutter && test -s test/golden/finance_dashboard.png",
             "cd apps/flutter && test -s test/golden/finance_dashboard_linux.png",
             "cd apps/flutter && grep -Fq \"test/golden/finance_dashboard.png\" README.md",
