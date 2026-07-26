@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"time"
 )
 
 type LiveClient struct {
@@ -27,9 +26,6 @@ func (client LiveClient) Fetch(ctx context.Context) ([]SourceTransaction, error)
 	if client.Resolve == nil {
 		client.Resolve = ResolveOnePasswordCLI
 	}
-	if client.HTTP == nil {
-		client.HTTP = &http.Client{Timeout: 15 * time.Second}
-	}
 	var all []SourceTransaction
 	for _, connection := range client.Config.Connections {
 		credential, err := client.Resolve(ctx, connection.Credential.OnePasswordRef, client.Config.Provider)
@@ -39,13 +35,19 @@ func (client LiveClient) Fetch(ctx context.Context) ([]SourceTransaction, error)
 		if credential.Provider != client.Config.Provider {
 			return nil, fmt.Errorf("credential bundle provider mismatch")
 		}
-		transactions, err := client.fetchConnection(ctx, connection, credential)
+		httpClient, err := client.httpClientForCredential(credential)
+		if err != nil {
+			return nil, err
+		}
+		connectionClient := client
+		connectionClient.HTTP = httpClient
+		transactions, err := connectionClient.fetchConnection(ctx, connection, credential)
 		if err != nil {
 			return nil, err
 		}
 		all = append(all, transactions...)
 		if client.Config.IncludeCards {
-			cardTransactions, err := client.fetchCardTransactions(ctx, connection, credential)
+			cardTransactions, err := connectionClient.fetchCardTransactions(ctx, connection, credential)
 			if err != nil {
 				return nil, err
 			}

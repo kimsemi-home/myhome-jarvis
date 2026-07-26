@@ -57,6 +57,7 @@ public GitHub Actions workflow never calls the provider and never receives a
 export MYHOME_FINANCE_MODE=mydata
 export MYHOME_FINANCE_ALLOW_EXTERNAL=true
 export MYHOME_MYDATA_BASE_URL=https://<provider-test-endpoint>
+export MYHOME_MYDATA_AUTH_BASE_URL=https://mydata.cert.toss.im
 export MYHOME_MYDATA_API_TYPE=2
 export MYHOME_MYDATA_INCLUDE_CARDS=true
 export MYHOME_FINANCE_CONNECTIONS_JSON='[{"owner":"user","credential_ref":"op://MyHome-Jarvis/Finance-Connector/jooyoon-credential","org_code":"<org>","account_num":"<account>"},{"owner":"spouse","credential_ref":"op://MyHome-Jarvis/Finance-Connector/semmi-credential","org_code":"<org>","account_num":"<account>"}]'
@@ -72,9 +73,11 @@ reference are rotated together:
 {"schema":"myhome.finance.credential/v1","provider":"toss_mydata","client_id":"test_client","client_secret":"<secret>","auth_access_token":"<auth-token>","data_access_token":"<data-token>","mtls_certificate_pem":"<certificate>","mtls_private_key_pem":"<private-key>"}
 ```
 
-The provider-specific authentication/certification flow is outside this
-public repository; the provider authentication boundary and atomic credential
-bundle are documented in
+The provider-specific user ceremony still happens in the Toss app and requires
+provider-issued test credentials. The server-side verification call is
+implemented by `LiveClient.SignVerification`; it accepts the signed consent
+proof and uses the same atomic bundle as the data fetch. The provider
+authentication boundary and atomic credential bundle are documented in
 [`docs/toss-mydata-auth-boundary.md`](toss-mydata-auth-boundary.md). See [Toss MyData integrated authentication](https://toss.im/tosscert/docs/guides/integration/mydata)
 and the [KFTC MyData testbed API catalog](https://developers.mydatakorea.org/mdtb/apg/dgi/bas/FSAG0102),
 [bank API specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSAG0404?id=1),
