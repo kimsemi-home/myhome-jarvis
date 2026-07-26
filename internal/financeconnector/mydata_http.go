@@ -15,7 +15,7 @@ func (client LiveClient) doMyDataJSON(
 	method string,
 	path string,
 	query url.Values,
-	token string,
+	credential credentialEnvelope,
 	body []byte,
 ) ([]byte, error) {
 	endpoint := strings.TrimRight(client.Config.BaseURL, "/") + path
@@ -26,14 +26,14 @@ func (client LiveClient) doMyDataJSON(
 	if err != nil {
 		return nil, err
 	}
-	request.Header.Set("Authorization", "Bearer "+token)
+	request.Header.Set("Authorization", "Bearer "+credential.DataAccessToken)
 	request.Header.Set("x-api-tran-id", transactionID())
 	request.Header.Set("x-api-type", client.apiType())
 	if len(body) > 0 {
 		request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	}
-	if client.Config.ClientID != "" {
-		request.Header.Set("x-client-id", client.Config.ClientID)
+	if credential.ClientID != "" {
+		request.Header.Set("x-client-id", credential.ClientID)
 	}
 	response, err := client.HTTP.Do(request)
 	if err != nil {

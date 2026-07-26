@@ -43,10 +43,10 @@ Flutter -> local Go daemon -> MyData/Toss adapter -> 1Password reference
 ```
 
 Flutter never receives a token, cookie, account identifier, card number, or
-raw provider response. The Go process accepts only an `op://...` reference
-when `MYHOME_FINANCE_MODE=mydata`; the deployment environment is responsible
-for resolving that reference. The default remains `fixture`, with external
-calls disabled.
+raw provider response. Each connection accepts one `op://...` reference to a
+versioned credential bundle when `MYHOME_FINANCE_MODE=mydata`; the server
+resolves provider identity, auth material, data access, and optional mTLS from
+that same bundle. The default remains `fixture`, with external calls disabled.
 
 Live mode is opt-in and requires provider approval, MyData consent/certification,
 private review of both spouses' scopes, and a permitted test account. The
@@ -59,13 +59,22 @@ export MYHOME_FINANCE_ALLOW_EXTERNAL=true
 export MYHOME_MYDATA_BASE_URL=https://<provider-test-endpoint>
 export MYHOME_MYDATA_API_TYPE=2
 export MYHOME_MYDATA_INCLUDE_CARDS=true
-export MYHOME_FINANCE_CONNECTIONS_JSON='[{"owner":"user","onepassword_ref":"op://MyHome-Jarvis/Finance-Connector/jooyoon-token","org_code":"<org>","account_num":"<account>"},{"owner":"spouse","onepassword_ref":"op://MyHome-Jarvis/Finance-Connector/semmi-token","org_code":"<org>","account_num":"<account>"}]'
+export MYHOME_FINANCE_CONNECTIONS_JSON='[{"owner":"user","credential_ref":"op://MyHome-Jarvis/Finance-Connector/jooyoon-credential","org_code":"<org>","account_num":"<account>"},{"owner":"spouse","credential_ref":"op://MyHome-Jarvis/Finance-Connector/semmi-credential","org_code":"<org>","account_num":"<account>"}]'
 go run ./cmd/mhj finance-consent status
 go run ./cmd/mhj finance parity
 ```
 
+Each referenced 1Password field contains one private JSON bundle. The access
+token, client credentials, consent/auth token, and optional certificate
+reference are rotated together:
+
+```json
+{"schema":"myhome.finance.credential/v1","provider":"toss_mydata","client_id":"test_client","client_secret":"<secret>","auth_access_token":"<auth-token>","data_access_token":"<data-token>","mtls_certificate_pem":"<certificate>","mtls_private_key_pem":"<private-key>"}
+```
+
 The provider-specific authentication/certification flow is outside this
-public repository; the two-plane boundary is documented in
+public repository; the provider authentication boundary and atomic credential
+bundle are documented in
 [`docs/toss-mydata-auth-boundary.md`](toss-mydata-auth-boundary.md). See [Toss MyData integrated authentication](https://toss.im/tosscert/docs/guides/integration/mydata)
 and the [KFTC MyData testbed API catalog](https://developers.mydatakorea.org/mdtb/apg/dgi/bas/FSAG0102),
 [bank API specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSAG0404?id=1),

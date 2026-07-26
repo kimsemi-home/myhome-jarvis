@@ -31,7 +31,8 @@ func configureReplayEnvironment(t *testing.T, baseURL string) {
 	t.Helper()
 	opDir := t.TempDir()
 	opPath := filepath.Join(opDir, "op")
-	if err := os.WriteFile(opPath, []byte("#!/bin/sh\nprintf '%s' replay-token\n"), 0o700); err != nil {
+	bundle := `{"schema":"myhome.finance.credential/v1","provider":"toss_mydata","data_access_token":"replay-token"}`
+	if err := os.WriteFile(opPath, []byte("#!/bin/sh\nprintf '%s' '"+bundle+"'\n"), 0o700); err != nil {
 		t.Fatal(err)
 	}
 	t.Setenv("PATH", opDir+string(os.PathListSeparator)+os.Getenv("PATH"))
@@ -40,7 +41,7 @@ func configureReplayEnvironment(t *testing.T, baseURL string) {
 	t.Setenv("MYHOME_MYDATA_PROVIDER", ProviderTossMyData)
 	t.Setenv("MYHOME_MYDATA_BASE_URL", baseURL)
 	t.Setenv("MYHOME_MYDATA_INCLUDE_CARDS", "false")
-	t.Setenv("MYHOME_FINANCE_CONNECTIONS_JSON", `[{"owner":"spouse","onepassword_ref":"op://vault/item/token","org_code":"ORG","account_num":"ACCOUNT"}]`)
+	t.Setenv("MYHOME_FINANCE_CONNECTIONS_JSON", `[{"owner":"spouse","credential_ref":"op://vault/item/credential","org_code":"ORG","account_num":"ACCOUNT"}]`)
 }
 
 func configuredReplayHandler(writer http.ResponseWriter, request *http.Request) {

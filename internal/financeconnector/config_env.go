@@ -21,15 +21,14 @@ func RuntimeConfigFromEnv(getenv func(string) string) (RuntimeConfig, error) {
 	}
 	if len(connections) == 0 && ref != "" {
 		connections = []ConnectionConfig{{
-			Owner: "household", OnePasswordRef: ref,
+			Owner: "household", Credential: CredentialBinding{OnePasswordRef: ref},
 			OrgCode:       strings.TrimSpace(getenv("MYHOME_MYDATA_ORG_CODE")),
 			AccountNumber: strings.TrimSpace(getenv("MYHOME_MYDATA_ACCOUNT_NUM")),
 		}}
 	}
 	config := RuntimeConfig{
-		Mode: mode, Provider: provider, OnePasswordRef: ref,
+		Mode: mode, Provider: provider,
 		BaseURL:  strings.TrimRight(strings.TrimSpace(getenv("MYHOME_MYDATA_BASE_URL")), "/"),
-		ClientID: strings.TrimSpace(getenv("MYHOME_MYDATA_CLIENT_ID")),
 		APIType:  strings.TrimSpace(getenv("MYHOME_MYDATA_API_TYPE")),
 		FromDate: strings.TrimSpace(getenv("MYHOME_MYDATA_FROM_DATE")),
 		ToDate:   strings.TrimSpace(getenv("MYHOME_MYDATA_TO_DATE")),

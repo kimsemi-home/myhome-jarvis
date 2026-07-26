@@ -24,7 +24,7 @@ type myDataCard struct {
 func (client LiveClient) discoverCards(
 	ctx context.Context,
 	connection ConnectionConfig,
-	token string,
+	credential credentialEnvelope,
 ) ([]string, error) {
 	var cards []string
 	nextPage := ""
@@ -37,7 +37,7 @@ func (client LiveClient) discoverCards(
 			query.Del("search_timestamp")
 			query.Set("next_page", nextPage)
 		}
-		data, err := client.doMyDataJSON(ctx, http.MethodGet, myDataCardsPath, query, token, nil)
+		data, err := client.doMyDataJSON(ctx, http.MethodGet, myDataCardsPath, query, credential, nil)
 		if err != nil {
 			return nil, err
 		}

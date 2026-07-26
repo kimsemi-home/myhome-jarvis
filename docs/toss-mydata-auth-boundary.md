@@ -1,8 +1,10 @@
 # Toss MyData authentication boundary
 
-Toss authentication and financial data retrieval are two related but distinct
-planes. Keeping them separate prevents a Toss certification token from being
-mistaken for a bank/card data access token.
+Toss authentication and financial data retrieval are two related operations,
+but this application binds them to one connection credential bundle. The
+bundle is the atomic unit of configuration and rotation: a bank/card request
+cannot select a client id, consent token, data token, or certificate from a
+different connection.
 
 ## Authentication plane
 
@@ -26,9 +28,12 @@ MyData data endpoint configured by `MYHOME_MYDATA_BASE_URL`:
 - `GET /v2/card/cards/{card_id}/approval-domestic`
 - `GET /v2/card/cards/{card_id}/approval-overseas`
 
-Each connection stores only an `op://...` reference in configuration. The
-server resolves the provider-issued data access token through 1Password; the
-Flutter client and public Actions jobs never receive it. The adapter filters
+Each connection stores only one `op://...` reference to a
+`myhome.finance.credential/v1` JSON bundle in configuration. The bundle keeps
+`provider`, `client_id`, `client_secret`, `auth_access_token`,
+`data_access_token`, and optional mTLS certificate/private key material together. The server
+resolves the bundle through 1Password; the Flutter client and public Actions
+jobs never receive it. The adapter filters
 accounts/cards by active consent, maps the bank and card response fields into
 the canonical transaction IR, and rejects unsupported transaction codes.
 
@@ -42,7 +47,7 @@ and [card specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSA
 The repository can verify the complete adapter and daemon loop with replay
 responses. To verify a real provider call, supply outside the public repo:
 
-1. provider-approved test base URL and data access token for each spouse;
+1. provider-approved test base URL and one credential bundle for each spouse;
 2. the corresponding `org_code`, account number, and optional card ids;
 3. active approved read-only consent records;
 4. an allowed network route to the provider test environment.

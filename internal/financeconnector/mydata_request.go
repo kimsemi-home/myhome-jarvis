@@ -12,7 +12,7 @@ const myDataTransactionsPath = "/v2/bank/accounts/deposit/transactions"
 func (client LiveClient) requestPage(
 	ctx context.Context,
 	connection ConnectionConfig,
-	token string,
+	credential credentialEnvelope,
 	nextPage string,
 ) (myDataResponse, error) {
 	body := map[string]string{
@@ -30,7 +30,7 @@ func (client LiveClient) requestPage(
 		return myDataResponse{}, err
 	}
 	data, err := client.doMyDataJSON(
-		ctx, http.MethodPost, myDataTransactionsPath, url.Values{}, token, encoded,
+		ctx, http.MethodPost, myDataTransactionsPath, url.Values{}, credential, encoded,
 	)
 	if err != nil {
 		return myDataResponse{}, err

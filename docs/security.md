@@ -39,6 +39,9 @@ sensitive-looking file names, and secret-looking literals. Findings report
 commit, repo-relative path, line number, code, and a coarse message only;
 matched secret contents are not returned. Its report root is also redacted as
 `.`.
+Public GitHub `users.noreply.github.com` author and committer addresses are
+treated as public metadata; private names or paths in commit subjects and
+other metadata remain findings.
 
 Daemon `GET /security/status` reports public-safety state for local status
 surfaces, then returns only aggregate booleans, finding counts, and a checked

@@ -14,6 +14,9 @@ func TestLiveClientFetchesMyDataPagesThroughResolvedToken(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		requests++
 		assertMyDataHeaders(t, request, "test-token")
+		if request.Header.Get("x-client-id") != "test-client" {
+			t.Fatalf("x-client-id = %q", request.Header.Get("x-client-id"))
+		}
 		if request.Method == http.MethodGet && request.URL.Path == myDataAccountsPath {
 			_, _ = writer.Write([]byte(`{"rsp_code":"00000","account_list":[{"account_num":"ACCOUNT","is_consent":true}]}`))
 			return
@@ -41,13 +44,13 @@ func TestLiveClientFetchesMyDataPagesThroughResolvedToken(t *testing.T) {
 		Config: RuntimeConfig{
 			Mode: ModeMyData, Provider: ProviderTossMyData, ExternalCallsLive: true,
 			BaseURL: server.URL, FromDate: "20260701", ToDate: "20260726",
-			Connections: []ConnectionConfig{{Owner: "spouse", OnePasswordRef: "op://vault/item/token", OrgCode: "ORG", AccountNumber: "ACCOUNT"}},
+			Connections: []ConnectionConfig{{Owner: "spouse", Credential: CredentialBinding{OnePasswordRef: "op://vault/item/credential"}, OrgCode: "ORG", AccountNumber: "ACCOUNT"}},
 		},
-		Resolve: func(_ context.Context, reference string) (string, error) {
-			if reference != "op://vault/item/token" {
+		Resolve: func(_ context.Context, reference string, provider string) (credentialEnvelope, error) {
+			if reference != "op://vault/item/credential" || provider != ProviderTossMyData {
 				t.Fatalf("reference = %q", reference)
 			}
-			return "test-token", nil
+			return credentialEnvelope{Provider: ProviderTossMyData, ClientID: "test-client", DataAccessToken: "test-token"}, nil
 		},
 	}
 	transactions, err := client.Fetch(context.Background())

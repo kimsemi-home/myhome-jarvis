@@ -142,9 +142,10 @@ two supported verification environments.
 
 The default remains fixture-only, while the server-side MyData adapter can be
 opted into with provider-approved credentials and two read-only connection
-scopes. It resolves only `op://` references on the server, maps the supported
-bank and card transaction contracts, and keeps Flutter and public GitHub Actions
-credential-free. See [`docs/finance-connector-loop.md`](docs/finance-connector-loop.md).
+scopes. Each connection resolves one versioned credential bundle from an
+`op://` reference, maps the supported bank and card transaction contracts, and
+keeps Flutter and public GitHub Actions credential-free. See
+[`docs/finance-connector-loop.md`](docs/finance-connector-loop.md).
 
 ## Closed-loop local verification
 

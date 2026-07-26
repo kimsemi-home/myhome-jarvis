@@ -9,9 +9,7 @@ const (
 type RuntimeConfig struct {
 	Mode              string             `json:"mode"`
 	Provider          string             `json:"provider"`
-	OnePasswordRef    string             `json:"-"`
 	BaseURL           string             `json:"base_url,omitempty"`
-	ClientID          string             `json:"client_id,omitempty"`
 	APIType           string             `json:"api_type,omitempty"`
 	FromDate          string             `json:"from_date,omitempty"`
 	ToDate            string             `json:"to_date,omitempty"`
@@ -22,9 +20,15 @@ type RuntimeConfig struct {
 }
 
 type ConnectionConfig struct {
-	Owner          string   `json:"owner"`
-	OnePasswordRef string   `json:"-"`
-	OrgCode        string   `json:"-"`
-	AccountNumber  string   `json:"-"`
-	CardIDs        []string `json:"-"`
+	Owner         string            `json:"owner"`
+	Credential    CredentialBinding `json:"-"`
+	OrgCode       string            `json:"-"`
+	AccountNumber string            `json:"-"`
+	CardIDs       []string          `json:"-"`
+}
+
+// CredentialBinding keeps provider authentication and data access on one
+// server-side reference. A connection cannot select them independently.
+type CredentialBinding struct {
+	OnePasswordRef string `json:"-"`
 }

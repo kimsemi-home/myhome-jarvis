@@ -31,7 +31,7 @@ type myDataApproval struct {
 func (client LiveClient) fetchCardApprovals(
 	ctx context.Context,
 	connection ConnectionConfig,
-	token string,
+	credential credentialEnvelope,
 	cardID string,
 	approvalPath string,
 	scope string,
@@ -47,7 +47,7 @@ func (client LiveClient) fetchCardApprovals(
 			query.Set("next_page", nextPage)
 		}
 		endpoint := path.Join(myDataCardsPath, cardID, approvalPath)
-		data, err := client.doMyDataJSON(ctx, http.MethodGet, endpoint, query, token, nil)
+		data, err := client.doMyDataJSON(ctx, http.MethodGet, endpoint, query, credential, nil)
 		if err != nil {
 			return nil, err
 		}

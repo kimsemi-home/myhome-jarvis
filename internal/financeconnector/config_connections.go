@@ -7,11 +7,11 @@ import (
 )
 
 type connectionInput struct {
-	Owner          string   `json:"owner"`
-	OnePasswordRef string   `json:"onepassword_ref"`
-	OrgCode        string   `json:"org_code"`
-	AccountNumber  string   `json:"account_num"`
-	CardIDs        []string `json:"card_ids"`
+	Owner         string   `json:"owner"`
+	CredentialRef string   `json:"credential_ref"`
+	OrgCode       string   `json:"org_code"`
+	AccountNumber string   `json:"account_num"`
+	CardIDs       []string `json:"card_ids"`
 }
 
 func parseConnections(raw string) ([]ConnectionConfig, error) {
@@ -25,7 +25,7 @@ func parseConnections(raw string) ([]ConnectionConfig, error) {
 	connections := make([]ConnectionConfig, 0, len(inputs))
 	for _, input := range inputs {
 		connections = append(connections, ConnectionConfig{
-			Owner: input.Owner, OnePasswordRef: input.OnePasswordRef,
+			Owner: input.Owner, Credential: CredentialBinding{OnePasswordRef: input.CredentialRef},
 			OrgCode: input.OrgCode, AccountNumber: input.AccountNumber,
 			CardIDs: input.CardIDs,
 		})
@@ -35,7 +35,7 @@ func parseConnections(raw string) ([]ConnectionConfig, error) {
 
 func allConnectionsHaveRefs(connections []ConnectionConfig) bool {
 	for _, connection := range connections {
-		if !strings.HasPrefix(strings.TrimSpace(connection.OnePasswordRef), "op://") {
+		if !strings.HasPrefix(strings.TrimSpace(connection.Credential.OnePasswordRef), "op://") {
 			return false
 		}
 	}
