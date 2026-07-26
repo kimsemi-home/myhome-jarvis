@@ -102,6 +102,7 @@ flutter:
     - flutter test
     - flutter analyze
     - test -s test/golden/finance_dashboard.png
+    - test -s test/golden/finance_dashboard_linux.png
     - rg -q "test/golden/finance_dashboard.png" README.md
     - rg -q "apps/flutter/test/golden/finance_dashboard.png" ../../README.md
   artifacts:

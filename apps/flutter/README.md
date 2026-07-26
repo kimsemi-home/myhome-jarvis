@@ -15,7 +15,10 @@ flutter test --update-goldens test/finance_dashboard_golden_test.dart
 flutter test test/finance_dashboard_golden_test.dart
 ```
 
-Golden image: [`test/golden/finance_dashboard.png`](test/golden/finance_dashboard.png)
+Golden images: [`test/golden/finance_dashboard.png`](test/golden/finance_dashboard.png)
+for local macOS runs and
+[`test/golden/finance_dashboard_linux.png`](test/golden/finance_dashboard_linux.png)
+for the Linux CI runner.
 
 The local closed loop also checks that this README and the repository README
 continue to point at the generated image:

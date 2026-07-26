@@ -130,6 +130,11 @@ flutter test --update-goldens test/finance_dashboard_golden_test.dart
 flutter test test/finance_dashboard_golden_test.dart
 ```
 
+CI uses the committed Linux renderer baseline at
+`apps/flutter/test/golden/finance_dashboard_linux.png`; local macOS runs use
+the README image above. This keeps pixel assertions deterministic across the
+two supported verification environments.
+
 The live MyData/Toss-style connector remains fixture-only until a provider,
 consent flow, and server-side credential boundary are configured.
 

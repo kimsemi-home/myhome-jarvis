@@ -19,9 +19,12 @@ void main() {
     await pumpJarvis(tester);
     await openTab(tester, 'Finance');
 
+    final goldenPath = Platform.operatingSystem == 'linux'
+        ? 'golden/finance_dashboard_linux.png'
+        : 'golden/finance_dashboard.png';
     await expectLater(
       find.byType(JarvisScaffold),
-      matchesGoldenFile('golden/finance_dashboard.png'),
+      matchesGoldenFile(goldenPath),
     );
   });
 }
