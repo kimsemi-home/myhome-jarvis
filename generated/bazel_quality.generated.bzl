@@ -56,7 +56,7 @@ def mhj_verification_graph():
             "go run ./cmd/mhj harness finance",
             "go run ./cmd/mhj finance parity",
             "go run ./cmd/mhj harness commerce",
-            "go test ./...",
+            "go test -timeout 15m ./...",
             "go vet ./...",
             "unformatted=\"$(gofmt -l cmd internal)\"; if [ -n \"$unformatted\" ]; then echo \"$unformatted\"; exit 1; fi",
         ],

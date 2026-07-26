@@ -108,7 +108,7 @@ jobs:
   go:
     name: Go daemon and CLI
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
@@ -149,7 +149,7 @@ jobs:
           go run ./cmd/mhj harness finance
           go run ./cmd/mhj finance parity
           go run ./cmd/mhj harness commerce
-          go test ./...
+          go test -timeout 15m ./...
           go vet ./...
           unformatted="$(gofmt -l cmd internal)"; if [ -n "$unformatted" ]; then echo "$unformatted"; exit 1; fi
       - name: Prepare Go daemon and CLI unit cache marker

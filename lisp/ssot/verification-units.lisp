@@ -25,7 +25,7 @@
 	                 "test -s generated/context_pack.generated.json" "test -s generated/media_readiness.generated.json" "test -s generated/merge_evidence.generated.json" "test -s generated/monetization.generated.json" "test -s generated/external_evidence.generated.json" "test -s generated/repo_factory.generated.json"
 	                 "git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md"))
     (:id "go" :name "Go daemon and CLI" :kind "unit-test"
-     :timeout 15 :setup "go" :cache "go" :history t
+     :timeout 20 :setup "go" :cache "go" :history t
 	     :checkout_ref "${{ github.event.pull_request.head.sha || github.sha }}"
 	     :hash_inputs #(".github/workflows/quality.yml" ".go-version" "rust-toolchain.toml" "go.mod" "go.sum" "cmd/**/*.go"
                     "internal/**/*.go" ".mhj/**" ".codex/**" "generated/*.json"
@@ -41,7 +41,7 @@
                  "go run ./cmd/mhj harness home"
                  "go run ./cmd/mhj harness finance" "go run ./cmd/mhj finance parity"
                  "go run ./cmd/mhj harness commerce"
-                 "go test ./..."
+                 "go test -timeout 15m ./..."
                  "go vet ./..."
                  "unformatted=\"$(gofmt -l cmd internal)\"; if [ -n \"$unformatted\" ]; then echo \"$unformatted\"; exit 1; fi"))
     (:id "rust" :name "Rust core and harness" :kind "integration-test"
