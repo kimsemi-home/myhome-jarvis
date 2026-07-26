@@ -1,6 +1,7 @@
 (in-package #:myhome-jarvis.ssot)
 (defparameter *verification-units*
   #((:id "public-safety" :name "Public safety" :kind "release-check" :timeout 10 :setup "go" :history t
+     :checkout_ref "${{ github.event.pull_request.head.sha || github.sha }}"
      :commands #("go run ./cmd/mhj security check"
                  "go run ./cmd/mhj security history"))
     (:id "ssot" :name "SSOT and generated artifacts" :kind "conformance"
