@@ -1,0 +1,48 @@
+{
+  "schema_version": "shorts.gate-request/v1",
+  "job_id": "public-safe-example-job",
+  "logical_channel_slot": "channel-01",
+  "state": "qa_ready",
+  "claim_evidence": {
+    "independent_sources": 2,
+    "primary_sources": 1,
+    "fresh_sources": 2,
+    "unresolved_contradictions": 0,
+    "contradiction_reviewed": true,
+    "uncertainty_disclosed": true
+  },
+  "originality": {
+    "original_script": true,
+    "original_analysis": true,
+    "cross_channel_duplicate": false,
+    "template_only": false
+  },
+  "rights": {
+    "all_assets_cleared": true,
+    "evidence_count": 2
+  },
+  "synthetic_content": {
+    "realistic_or_meaningful": false,
+    "disclosure_required": false,
+    "disclosure_planned": false
+  },
+  "privacy": {
+    "contains_credentials": false,
+    "contains_account_identifiers": false,
+    "contains_raw_private_evidence": false,
+    "contains_revenue_details": false
+  },
+  "youtube_consent": {
+    "required": true,
+    "receipt_ref": "consent:public-safe-example",
+    "visibility": "private"
+  },
+  "input_hashes": {
+    "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "evidence": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "assets": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "execution_plan": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "channel_binding": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "consent_receipt": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  }
+}

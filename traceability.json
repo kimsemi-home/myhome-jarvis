@@ -1,0 +1,13 @@
+{
+  "schema_version": "repo.traceability/v1",
+  "groups": [
+    {
+      "id": "shorts-factory",
+      "document_sources": ["docs-src/shorts-factory.json"],
+      "generated_documents": ["docs/shorts-factory.md"],
+      "code": ["cmd/shortsctl", "internal/shortsfactory", "internal/repogovernance", "contracts/shorts-factory.json", "fixtures/shorts_gate_pass.json", "traceability.json"],
+      "tests": ["internal/shortsfactory/gate_test.go", "internal/repogovernance/trace_test.go"],
+      "change_policy": "bidirectional"
+    }
+  ]
+}

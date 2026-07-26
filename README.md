@@ -9,7 +9,7 @@ finance, commerce, storage, and closed-loop Linear-managed development.
 - No Python, Node.js, TypeScript, or shell-scripted core logic.
 - Allowed implementation languages: Go, Rust, Common Lisp, and Flutter.
 - Flutter-required Dart is allowed.
-- Go toolchain is pinned to 1.26.2.
+- Go toolchain is pinned to 1.26.5.
 - Rust toolchain is pinned by `rust-toolchain.toml`.
 - Default behavior is local-only and dry-run.
 - Secrets, private data, raw finance data, local tokens, and lake files must

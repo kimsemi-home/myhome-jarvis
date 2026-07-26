@@ -6,7 +6,7 @@ import (
 )
 
 func TestValidateToolchainPinsAcceptsMatchingPins(t *testing.T) {
-	root := writeToolchainFixture(t, "1.26.2", "1.26.2", "1.26.2", "1.96.0", "1.96.0")
+	root := writeToolchainFixture(t, "1.26.5", "1.26.5", "1.26.5", "1.96.0", "1.96.0")
 
 	if err := validateToolchainPins(root); err != nil {
 		t.Fatalf("validateToolchainPins() error = %v", err)
@@ -14,7 +14,7 @@ func TestValidateToolchainPinsAcceptsMatchingPins(t *testing.T) {
 }
 
 func TestValidateToolchainPinsRejectsDrift(t *testing.T) {
-	root := writeToolchainFixture(t, "1.26.2", "1.26.1", "1.26.2", "1.96.0", "1.96.0")
+	root := writeToolchainFixture(t, "1.26.5", "1.26.4", "1.26.5", "1.96.0", "1.96.0")
 
 	err := validateToolchainPins(root)
 	if err == nil {

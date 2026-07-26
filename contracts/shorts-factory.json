@@ -1,0 +1,40 @@
+{
+  "schema_version": "shorts.factory-public-contract/v1",
+  "contract_id": "myhome-shorts-factory",
+  "public_safe": true,
+  "logical_channel_slots": 20,
+  "approval_authority": "evidence_gate",
+  "criteria_version": "evidence-gate/v1",
+  "minimum_independent_sources_per_claim": 2,
+  "minimum_primary_sources_per_claim": 1,
+  "maximum_api_data_revalidation_days": 30,
+  "default_upload_visibility": "private",
+  "external_write_default": "deny",
+  "youtube_action_consent_receipt_required": true,
+  "required_criteria": [
+    "claim_evidence",
+    "contradiction_review",
+    "uncertainty_disclosure",
+    "originality",
+    "asset_rights",
+    "synthetic_content_disclosure",
+    "privacy",
+    "youtube_action_consent",
+    "input_hash_integrity"
+  ],
+  "released_open_loop_steps": [
+    "upload_private",
+    "processing_poll",
+    "publish_when_scheduled",
+    "private_metrics_refresh"
+  ],
+  "linked_public_contracts": [
+    "generated/evidence.generated.json",
+    "generated/evidence_quality.generated.json",
+    "generated/external_evidence.generated.json",
+    "generated/media_readiness.generated.json",
+    "generated/monetization.generated.json",
+    "generated/pdca.generated.json"
+  ],
+  "private_runtime_repository": "kimsemi-home/myhome-shorts-factory"
+}
