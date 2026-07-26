@@ -1,6 +1,6 @@
 package domain
 
-import "path/filepath"
+import "github.com/kimsemi-home/myhome-jarvis/internal/financeconnector"
 
 type Summary struct {
 	Finance         FinanceSummary         `json:"finance"`
@@ -11,29 +11,11 @@ type Summary struct {
 }
 
 func BuildSummary(root string) (Summary, error) {
-	finance, err := BuildFinanceSummary(
-		filepath.Join(root, "fixtures", "finance_transactions.jsonl"),
-	)
+	transactions, err := financeconnector.LoadFixture(root)
 	if err != nil {
 		return Summary{}, err
 	}
-	commerce, err := BuildCommerceSummary(
-		filepath.Join(root, "fixtures", "commerce_purchases.jsonl"),
-	)
-	if err != nil {
-		return Summary{}, err
-	}
-	storage, err := ReadStoragePolicy(
-		filepath.Join(root, "generated", "storage.generated.json"),
-	)
-	if err != nil {
-		return Summary{}, err
-	}
-	return Summary{
-		Finance:         finance,
-		Commerce:        commerce,
-		Storage:         storage,
-		Recommendations: BuildRecommendationsSummary(finance, commerce),
-		Household:       BuildHouseholdSummary(finance, commerce),
-	}, nil
+	parity := financeconnector.AssessParity(transactions)
+	parity.FixturePath = financeconnector.FixtureRelativePath
+	return BuildSummaryWithFinance(root, transactions, parity)
 }

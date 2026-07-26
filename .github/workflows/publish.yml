@@ -1,0 +1,61 @@
+name: publish
+
+on:
+  workflow_run:
+    workflows: [quality]
+    types: [completed]
+    branches: [main]
+
+concurrency:
+  group: publish-main
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  GO_VERSION: "1.26.5"
+
+jobs:
+  package:
+    name: Publish verified daemon bundle
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Check out verified commit
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+          cache-dependency-path: go.mod
+
+      - name: Build daemon bundle
+        run: |
+          mkdir -p dist/myhome-jarvis/bin
+          go build -trimpath -ldflags='-s -w' -o dist/myhome-jarvis/bin/mhj ./cmd/mhj
+          mkdir -p dist/myhome-jarvis/apps
+          cp -R apps/flutter dist/myhome-jarvis/apps/
+          cp -R crates dist/myhome-jarvis/crates
+          cp -R docs fixtures generated dist/myhome-jarvis
+          cp -R cmd internal dist/myhome-jarvis
+          cp README.md .env.example go.mod go.sum Cargo.toml Cargo.lock rust-toolchain.toml dist/myhome-jarvis
+          printf '%s\n' '${{ github.event.workflow_run.head_sha }}' > dist/myhome-jarvis/VERIFIED_COMMIT
+          tar -czf "dist/myhome-jarvis-${{ github.event.workflow_run.head_sha }}.tar.gz" -C dist myhome-jarvis
+
+      - name: Upload verified bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: myhome-jarvis-verified-${{ github.event.workflow_run.head_sha }}
+          path: dist/myhome-jarvis-${{ github.event.workflow_run.head_sha }}.tar.gz
+          if-no-files-found: error
+          retention-days: 14

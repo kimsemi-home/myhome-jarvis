@@ -31,7 +31,7 @@ func writeToolchainFixture(t *testing.T, goVersion string, goModVersion string, 
 	writeTestFile(t, root, ".go-version", goVersion+"\n")
 	writeTestFile(t, root, "go.mod", "module github.com/kimsemi-home/myhome-jarvis\n\ngo "+goModVersion+"\n")
 	writeTestFile(t, root, "rust-toolchain.toml", "[toolchain]\nchannel = \""+rustVersion+"\"\nprofile = \"minimal\"\ncomponents = [\"rustfmt\", \"clippy\"]\n")
-	writeTestFile(t, root, ".github/workflows/quality.yml", "env:\n  GO_VERSION: \""+workflowGoVersion+"\"\n  FLUTTER_VERSION: \"3.44.2\"\n  RUST_TOOLCHAIN: \""+workflowRustVersion+"\"\n")
+	writeTestFile(t, root, ".github/workflows/quality.yml", "env:\n  GO_VERSION: \""+workflowGoVersion+"\"\n  FLUTTER_VERSION: \"3.44.5\"\n  RUST_TOOLCHAIN: \""+workflowRustVersion+"\"\n")
 	writeTestFile(t, root, "generated/commands.generated.json", `{"project":{"go_version":"`+goVersion+`"},"commands":[]}`+"\n")
 	return root
 }

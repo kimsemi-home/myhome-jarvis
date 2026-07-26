@@ -17,6 +17,10 @@
      :uses "actions/cache/save@v5"
      :runtime "node24"
      :evidence "GitHub tags: actions/cache v5")
+    (:key "upload-artifact"
+     :uses "actions/upload-artifact@v4"
+     :runtime "node20"
+     :evidence "GitHub tags: actions/upload-artifact v4")
     (:key "setup-lisp"
      :uses "40ants/setup-lisp@v4"
      :runtime "managed"

@@ -34,6 +34,9 @@ class FinanceDashboard {
     required this.categories,
     required this.owners,
     this.fixtureOnly = false,
+    this.connectorProvider = '',
+    this.connectorParityPercent = 0,
+    this.connectorParityPass = false,
   });
 
   final int records;
@@ -48,4 +51,7 @@ class FinanceDashboard {
   final List<String> categories;
   final List<FinanceOwner> owners;
   final bool fixtureOnly;
+  final String connectorProvider;
+  final double connectorParityPercent;
+  final bool connectorParityPass;
 }

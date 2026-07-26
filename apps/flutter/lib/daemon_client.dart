@@ -1,5 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
+
+import 'daemon_client_platform.dart'
+    if (dart.library.html) 'daemon_client_platform_web.dart';
 
 import 'package:flutter/material.dart';
 import 'package:myhome_jarvis_app/snapshot.dart';

@@ -25,7 +25,7 @@ func TestDomainSummaryReturnsFixtureStatus(t *testing.T) {
 	}
 	body := recorder.Body.String()
 	for _, expected := range []string{
-		`"net_minor_units": 4346800`,
+		`"net_minor_units": 4304800`,
 		`"recurring_candidate_count": 1`,
 		`"recommendations"`,
 		`"household"`,

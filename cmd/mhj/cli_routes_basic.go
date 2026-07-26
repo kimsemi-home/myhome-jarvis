@@ -25,6 +25,8 @@ func routeBasics(root string, args []string) (bool, error) {
 		return true, runLearning(root, args[1:])
 	case "harness":
 		return true, runHarness(root, args[1:])
+	case "finance":
+		return true, runFinance(root, args[1:])
 	case "linear":
 		return true, runLinear(root, args[1:])
 	case "repo-factory":

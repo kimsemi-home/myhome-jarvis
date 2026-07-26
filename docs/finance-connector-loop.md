@@ -1,0 +1,75 @@
+# Finance connector closed loop
+
+The finance path is built as a closed loop before real account access is
+enabled:
+
+```text
+Toss/MyData-shaped replay or permitted live response
+  -> normalized transaction IR
+  -> required-field and 95% parity gate
+  -> Go domain summary
+  -> daemon /domain/summary
+  -> Flutter household dashboard
+  -> golden test
+  -> README image link check
+```
+
+The committed normalized fixture is `fixtures/finance_toss_mydata.jsonl` and
+the raw-response-shaped replay is `fixtures/finance_toss_mydata_response.json`.
+The adapter supports the bank deposit transaction endpoint and card approval
+endpoints used by the KFTC MyData testbed. It discovers only consented bank
+accounts/cards, then maps domestic and overseas card approvals into the same
+transaction IR. A bank-only response intentionally excludes `card_id` because
+that field is not supplied by the bank endpoint; when card approvals are
+included, the full 14-field contract is evaluated.
+
+Bank transaction direction follows the v2 transaction codes: withdrawal and
+withdrawal correction/cancellation codes become debit, deposit and deposit
+correction/cancellation codes become credit. The ambiguous `01` (new) code is
+rejected instead of being silently counted as household income or spending.
+
+Fixture mode maps 14 canonical fields and reports 100% parity:
+
+```sh
+go run ./cmd/mhj finance parity
+```
+
+## Live mode and 1Password boundary
+
+Live mode is server-side only:
+
+```text
+Flutter -> local Go daemon -> MyData/Toss adapter -> 1Password reference
+```
+
+Flutter never receives a token, cookie, account identifier, card number, or
+raw provider response. The Go process accepts only an `op://...` reference
+when `MYHOME_FINANCE_MODE=mydata`; the deployment environment is responsible
+for resolving that reference. The default remains `fixture`, with external
+calls disabled.
+
+Live mode is opt-in and requires provider approval, MyData consent/certification,
+private review of both spouses' scopes, and a permitted test account. The
+public GitHub Actions workflow never calls the provider and never receives a
+1Password session. Local server configuration is shaped like this:
+
+```sh
+export MYHOME_FINANCE_MODE=mydata
+export MYHOME_FINANCE_ALLOW_EXTERNAL=true
+export MYHOME_MYDATA_BASE_URL=https://<provider-test-endpoint>
+export MYHOME_MYDATA_API_TYPE=2
+export MYHOME_MYDATA_INCLUDE_CARDS=true
+export MYHOME_FINANCE_CONNECTIONS_JSON='[{"owner":"user","onepassword_ref":"op://MyHome-Jarvis/Finance-Connector/jooyoon-token","org_code":"<org>","account_num":"<account>"},{"owner":"spouse","onepassword_ref":"op://MyHome-Jarvis/Finance-Connector/semmi-token","org_code":"<org>","account_num":"<account>"}]'
+go run ./cmd/mhj finance-consent status
+go run ./cmd/mhj finance parity
+```
+
+The provider-specific authentication/certification flow is outside this
+public repository; the two-plane boundary is documented in
+[`docs/toss-mydata-auth-boundary.md`](toss-mydata-auth-boundary.md). See [Toss MyData integrated authentication](https://toss.im/tosscert/docs/guides/integration/mydata)
+and the [KFTC MyData testbed API catalog](https://developers.mydatakorea.org/mdtb/apg/dgi/bas/FSAG0102),
+[bank API specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSAG0404?id=1),
+and [card API specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSAG0406?id=2)
+for the official provider-side prerequisites and request contract. The
+implemented replay fixtures cover bank transactions, card list discovery, and
+domestic/overseas card approval shapes.

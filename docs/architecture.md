@@ -136,11 +136,12 @@ items in an Optimize tab with score, rationale, estimated amount, and evidence
 count. Recommendations never execute purchases, subscription changes, card
 actions, transfers, or investment trades.
 
-The first finance dashboard is fixture-only. Flutter reads finance totals,
+The first finance dashboard has a deterministic fixture fallback and a
+consented live mode. Flutter reads the same normalized finance totals,
 subscription spend, card-linked debit review totals, categories, and owner
-breakdowns from daemon `/domain/summary`; it does not request credentials,
-connect to banks or cards, or execute transfers, subscription changes, card
-actions, or investment trades.
+breakdowns from daemon `/domain/summary`; only the Go daemon connects to
+MyData, and no UI path executes transfers, subscription changes, card actions,
+or investment trades.
 
 The first purchases dashboard is fixture-only. Flutter reads commerce spend,
 recurring purchase candidates, categories, and owner spend breakdowns from

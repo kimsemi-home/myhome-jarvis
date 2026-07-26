@@ -15,6 +15,13 @@ int? _int(Object? value) {
   return null;
 }
 
+double? _double(Object? value) {
+  if (value is num) {
+    return value.toDouble();
+  }
+  return null;
+}
+
 Map<String, Object?>? _object(Object? value) {
   if (value is Map<String, Object?>) {
     return value;

@@ -12,6 +12,10 @@ type FinanceSummary struct {
 	CardDebitCount         int                   `json:"card_debit_count"`
 	Categories             []string              `json:"categories"`
 	OwnerBreakdown         []FinanceOwnerSummary `json:"owner_breakdown"`
+	ConnectorProvider      string                `json:"connector_provider,omitempty"`
+	ConnectorFixtureOnly   bool                  `json:"connector_fixture_only"`
+	ConnectorParityPercent float64               `json:"connector_parity_percent,omitempty"`
+	ConnectorParityPass    bool                  `json:"connector_parity_pass,omitempty"`
 }
 
 type FinanceOwnerSummary struct {

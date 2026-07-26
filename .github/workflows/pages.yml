@@ -1,0 +1,51 @@
+name: deploy-flutter-demo
+
+on:
+  workflow_run:
+    workflows: [quality]
+    types: [completed]
+    branches: [main]
+
+concurrency:
+  group: pages-main
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  FLUTTER_VERSION: "3.44.5"
+
+jobs:
+  deploy:
+    name: Deploy fixture-only Flutter demo
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out verified commit
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 1
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - name: Build public fixture-only demo
+        working-directory: apps/flutter
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/flutter/build/web
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

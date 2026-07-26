@@ -48,9 +48,10 @@ Current scope:
 - Redacted Linear status rendering from `/linear/status` using sync state,
   viewer-configured boolean, team count, and repo-relative queue path only.
 - Domain summary rendering from `/domain/summary` for finance, commerce, and
-  storage fixture status.
-- Dedicated fixture-only Finance tab for cashflow totals, subscription spend,
-  card-linked debit review totals, categories, and owner breakdowns.
+  storage summaries.
+- Dedicated Finance tab for cashflow totals, subscription spend, card-linked
+  debit review totals, categories, and owner breakdowns; it uses the
+  deterministic fixture fallback or the server-side consented live adapter.
 - Dedicated fixture-only Purchases tab for commerce spend, recurring purchase
   candidates, categories, and owner spend breakdowns.
 - Repository status rendering from `/repo/status` as a clean/dirty status
@@ -92,11 +93,14 @@ Current scope:
   boundary.
 - Optional Bearer token support for LAN daemon clients.
 - Widget and client tests for the first local operations screens.
+- Fixture-only Flutter Web build for the public GitHub Pages demo; web builds
+  never create a live daemon connection or receive MyData credentials.
 - Static/offline fallback command tests read `generated/commands.generated.json`
   and fail if command names or payload fields drift from the SSOT catalog.
 
-Platform runner files are intentionally deferred until packaging or device
-integration is needed.
+Native platform runner files remain intentionally deferred. The checked-in
+`web/` entrypoint exists only for the public fixture-only Pages demo; live
+MyData access stays in the local/server-side daemon path.
 
 Validation:
 
@@ -104,6 +108,7 @@ Validation:
 cd apps/flutter
 flutter test
 flutter analyze
+flutter build web --release --base-href /myhome-jarvis/
 ```
 
 Next UI migration order:

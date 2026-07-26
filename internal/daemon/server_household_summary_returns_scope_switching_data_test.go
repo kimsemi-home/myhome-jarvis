@@ -26,7 +26,7 @@ func TestHouseholdSummaryReturnsScopeSwitchingData(t *testing.T) {
 		`"scope": "user"`,
 		`"scope": "spouse"`,
 		`"scope": "household"`,
-		`"finance_net_minor_units": 4346800`,
+		`"finance_net_minor_units": 4304800`,
 	} {
 		if !bytes.Contains([]byte(body), []byte(expected)) {
 			t.Fatalf("expected %s in %s", expected, body)

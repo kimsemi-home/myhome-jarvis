@@ -1,17 +1,20 @@
 part of '../snapshot.dart';
 
 const _sampleFinanceDashboard = FinanceDashboard(
-  records: 3,
+  records: 4,
   fixtureOnly: true,
   currency: 'KRW',
   creditMinorUnits: 4500000,
-  debitMinorUnits: 153200,
-  netMinorUnits: 4346800,
+  debitMinorUnits: 195200,
+  netMinorUnits: 4304800,
   subscriptionMinorUnits: 65900,
   subscriptionCount: 1,
-  cardDebitMinorUnits: 153200,
-  cardDebitCount: 2,
-  categories: ['income', 'subscription', 'utilities'],
+  cardDebitMinorUnits: 195200,
+  cardDebitCount: 3,
+  connectorProvider: 'toss_mydata',
+  connectorParityPercent: 100,
+  connectorParityPass: true,
+  categories: ['dining', 'grocery', 'income', 'subscription'],
   owners: [
     FinanceOwner(
       owner: 'household',
@@ -28,6 +31,14 @@ const _sampleFinanceDashboard = FinanceDashboard(
       creditMinorUnits: 0,
       debitMinorUnits: 87300,
       netMinorUnits: -87300,
+    ),
+    FinanceOwner(
+      owner: 'spouse',
+      records: 1,
+      currency: 'KRW',
+      creditMinorUnits: 0,
+      debitMinorUnits: 42000,
+      netMinorUnits: -42000,
     ),
   ],
 );

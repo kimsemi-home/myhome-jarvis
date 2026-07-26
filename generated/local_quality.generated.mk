@@ -49,14 +49,11 @@ verify-go:
 	go run ./cmd/shortsctl trace ci
 	go run ./cmd/mhj harness home
 	go run ./cmd/mhj harness finance
+	go run ./cmd/mhj finance parity
 	go run ./cmd/mhj harness commerce
-	go test ./...
+	go test -timeout 15m ./...
 	go vet ./...
-	unformatted="$$(gofmt -l cmd internal)"
-	if [ -n "$$unformatted" ]; then
-	  echo "$$unformatted"
-	  exit 1
-	fi
+	unformatted="$$(gofmt -l cmd internal)"; if [ -n "$$unformatted" ]; then echo "$$unformatted"; exit 1; fi
 
 verify-rust:
 	cargo test --workspace
@@ -65,6 +62,10 @@ verify-rust:
 	cargo clippy --workspace -- -D warnings
 
 verify-flutter:
-	cd apps/flutter
-	flutter test
-	flutter analyze
+	cd apps/flutter && flutter test
+	cd apps/flutter && flutter analyze
+	cd apps/flutter && flutter build web --release --base-href /myhome-jarvis/
+	cd apps/flutter && test -s test/golden/finance_dashboard.png
+	cd apps/flutter && test -s test/golden/finance_dashboard_linux.png
+	cd apps/flutter && grep -Fq "test/golden/finance_dashboard.png" README.md
+	cd apps/flutter && grep -Fq "apps/flutter/test/golden/finance_dashboard.png" ../../README.md

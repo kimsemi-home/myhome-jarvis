@@ -12,11 +12,11 @@ func assertHouseholdSummary(t *testing.T, summary Summary) {
 		t.Fatalf("user scope = %#v", user)
 	}
 	spouse := summary.Household.Scopes[1]
-	if spouse.Scope != "spouse" || spouse.FinanceRecords != 0 || spouse.PurchaseRecords != 0 {
+	if spouse.Scope != "spouse" || spouse.FinanceRecords != 1 || spouse.FinanceNetMinorUnits != -42_000 || spouse.PurchaseRecords != 0 {
 		t.Fatalf("spouse scope = %#v", spouse)
 	}
 	household := summary.Household.Scopes[2]
-	if household.Scope != "household" || household.FinanceNetMinorUnits != 4_346_800 || household.PurchaseSpendMinorUnits != 26_800 {
+	if household.Scope != "household" || household.FinanceNetMinorUnits != 4_304_800 || household.PurchaseSpendMinorUnits != 26_800 {
 		t.Fatalf("household scope = %#v", household)
 	}
 }

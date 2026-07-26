@@ -18,7 +18,7 @@ func shouldScanFileContent(rel string) bool {
 	}
 	ext := strings.ToLower(filepath.Ext(rel))
 	switch ext {
-	case ".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico", ".pdf", ".zip", ".gz", ".tar", ".tgz", ".parquet":
+	case ".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico", ".pdf", ".zip", ".gz", ".tar", ".tgz", ".parquet", ".ttf", ".otf", ".woff", ".woff2", ".wasm":
 		return false
 	default:
 		return true

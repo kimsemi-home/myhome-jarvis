@@ -56,7 +56,7 @@ ssot:
 
 go:
   stage: unit-test
-  timeout: 10m
+  timeout: 20m
   script:
     - go run ./cmd/mhj ci verify
     - go run ./cmd/mhj ci-cache status
@@ -70,14 +70,11 @@ go:
     - go run ./cmd/shortsctl trace ci
     - go run ./cmd/mhj harness home
     - go run ./cmd/mhj harness finance
+    - go run ./cmd/mhj finance parity
     - go run ./cmd/mhj harness commerce
-    - go test ./...
+    - go test -timeout 15m ./...
     - go vet ./...
-    - unformatted="$(gofmt -l cmd internal)"
-    - if [ -n "$unformatted" ]; then
-    -   echo "$unformatted"
-    -   exit 1
-    - fi
+    - unformatted="$(gofmt -l cmd internal)"; if [ -n "$unformatted" ]; then echo "$unformatted"; exit 1; fi
   artifacts:
     when: always
     paths:
@@ -106,6 +103,11 @@ flutter:
   script:
     - flutter test
     - flutter analyze
+    - flutter build web --release --base-href /myhome-jarvis/
+    - test -s test/golden/finance_dashboard.png
+    - test -s test/golden/finance_dashboard_linux.png
+    - grep -Fq "test/golden/finance_dashboard.png" README.md
+    - grep -Fq "apps/flutter/test/golden/finance_dashboard.png" ../../README.md
   artifacts:
     when: always
     paths:

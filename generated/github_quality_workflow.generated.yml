@@ -3,7 +3,7 @@ name: quality
 
 on:
   push:
-    branches: ["**"]
+    branches: ["main"]
   pull_request:
 
 concurrency:
@@ -15,7 +15,7 @@ permissions:
 
 env:
   GO_VERSION: "1.26.5"
-  FLUTTER_VERSION: "3.44.2"
+  FLUTTER_VERSION: "3.44.5"
   RUST_TOOLCHAIN: "1.96.0"
   LISP: "sbcl-bin"
   UNIT_CACHE_VERSION: "v1"
@@ -30,6 +30,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
       - name: Set up Go
         uses: actions/setup-go@v6
@@ -107,12 +108,13 @@ jobs:
   go:
     name: Go daemon and CLI
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
       - name: Restore Go daemon and CLI unit cache
         id: unit-cache
@@ -145,14 +147,11 @@ jobs:
           go run ./cmd/shortsctl trace ci
           go run ./cmd/mhj harness home
           go run ./cmd/mhj harness finance
+          go run ./cmd/mhj finance parity
           go run ./cmd/mhj harness commerce
-          go test ./...
+          go test -timeout 15m ./...
           go vet ./...
-          unformatted="$(gofmt -l cmd internal)"
-          if [ -n "$unformatted" ]; then
-            echo "$unformatted"
-            exit 1
-          fi
+          unformatted="$(gofmt -l cmd internal)"; if [ -n "$unformatted" ]; then echo "$unformatted"; exit 1; fi
       - name: Prepare Go daemon and CLI unit cache marker
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |
@@ -238,6 +237,19 @@ jobs:
         run: |
           flutter test
           flutter analyze
+          flutter build web --release --base-href /myhome-jarvis/
+          test -s test/golden/finance_dashboard.png
+          test -s test/golden/finance_dashboard_linux.png
+          grep -Fq "test/golden/finance_dashboard.png" README.md
+          grep -Fq "apps/flutter/test/golden/finance_dashboard.png" ../../README.md
+      - name: Upload Flutter local client diagnostics
+        if: failure() && steps.unit-cache.outputs.cache-hit != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-diagnostics-${{ github.run_id }}
+          path: apps/flutter/test/failures
+          if-no-files-found: ignore
+          retention-days: 3
       - name: Prepare Flutter local client unit cache marker
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |

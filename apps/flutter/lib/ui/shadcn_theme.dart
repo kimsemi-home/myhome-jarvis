@@ -31,6 +31,7 @@ class JarvisShadTheme {
         selection: JarvisAstryxTokens.tealMuted,
       ),
       radius: const BorderRadius.all(JarvisAstryxTokens.radius),
+      textTheme: ShadTextTheme(family: 'NotoSansKR'),
     );
   }
 
@@ -43,6 +44,7 @@ class JarvisShadTheme {
       ),
       scaffoldBackgroundColor: shad.colorScheme.background,
       dividerColor: shad.colorScheme.border,
+      fontFamily: 'NotoSansKR',
       useMaterial3: true,
       chipTheme: ChipThemeData(
         side: BorderSide(color: shad.colorScheme.border),

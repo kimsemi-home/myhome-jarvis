@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:myhome_jarvis_app/daemon_client.dart';
 import 'package:myhome_jarvis_app/snapshot.dart';
@@ -19,10 +20,14 @@ part 'ui/scaffold.dart';
 part 'ui/status.dart';
 part 'ui/status_metric_tile.dart';
 part 'ui/finance.dart';
+part 'ui/finance_at_a_glance.dart';
+part 'ui/finance_connection_card.dart';
+part 'ui/finance_formatters.dart';
 part 'ui/finance_dashboard_state.dart';
 part 'ui/finance_metrics_grid.dart';
 part 'ui/finance_metric_tile.dart';
 part 'ui/finance_owner_section.dart';
+part 'ui/finance_owner_card.dart';
 part 'ui/purchases.dart';
 part 'ui/purchase_dashboard_state.dart';
 part 'ui/purchase_metrics_grid.dart';
@@ -62,4 +67,9 @@ part 'ui/household_scope_state.dart';
 part 'ui/household_scope_body.dart';
 part 'ui/household_scope_tile.dart';
 
-void main() => runApp(JarvisApp(client: DaemonSnapshotClient.local()));
+void main() {
+  final client = kIsWeb
+      ? const StaticSnapshotClient(JarvisSnapshot.sample)
+      : DaemonSnapshotClient.local();
+  runApp(JarvisApp(client: client));
+}

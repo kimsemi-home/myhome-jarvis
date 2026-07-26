@@ -34,10 +34,7 @@ class JarvisScaffold extends StatelessWidget {
             tabs: [
               Tab(icon: Icon(Icons.monitor_heart_outlined), text: 'Status'),
               Tab(icon: Icon(Icons.tune_outlined), text: 'Commands'),
-              Tab(
-                icon: Icon(Icons.account_balance_wallet_outlined),
-                text: 'Finance',
-              ),
+              Tab(icon: Icon(Icons.account_balance_wallet_outlined), text: 'Finance'),
               Tab(icon: Icon(Icons.shopping_bag_outlined), text: 'Purchases'),
               Tab(icon: Icon(Icons.hub_outlined), text: 'Linear'),
               Tab(icon: Icon(Icons.storage_outlined), text: 'Storage'),
@@ -54,7 +51,9 @@ class JarvisScaffold extends StatelessWidget {
               children: [
                 StatusView(metrics: snapshot.metrics),
                 CommandsView(commands: snapshot.commands, client: client),
-                FinanceView(dashboard: snapshot.financeDashboard),
+                FinanceView(
+                  dashboard: snapshot.financeDashboard,
+                ),
                 PurchasesView(dashboard: snapshot.purchaseDashboard),
                 PlainListView(title: 'Linear', items: snapshot.linearItems),
                 PlainListView(title: 'Storage', items: snapshot.storageItems),

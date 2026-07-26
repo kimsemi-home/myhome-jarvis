@@ -1,0 +1,15 @@
+{
+  "rsp_code": "00000",
+  "rsp_msg": "정상",
+  "next_page": "",
+  "card_list": [
+    {
+      "card_id": "card-replay-semmi",
+      "is_consent": true
+    },
+    {
+      "card_id": "card-replay-no-consent",
+      "is_consent": false
+    }
+  ]
+}

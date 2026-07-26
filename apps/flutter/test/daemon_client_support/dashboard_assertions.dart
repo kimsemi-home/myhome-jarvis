@@ -23,14 +23,16 @@ void expectPurchaseDashboard(JarvisSnapshot snapshot) {
 
 void expectFinanceDashboard(JarvisSnapshot snapshot) {
   expect(snapshot.financeDashboard.fixtureOnly, isFalse);
-  expect(snapshot.financeDashboard.netMinorUnits, 4346800);
+  expect(snapshot.financeDashboard.netMinorUnits, 4304800);
   expect(snapshot.financeDashboard.subscriptionMinorUnits, 65900);
-  expect(snapshot.financeDashboard.cardDebitCount, 2);
+  expect(snapshot.financeDashboard.cardDebitCount, 3);
   expect(snapshot.financeDashboard.categories, contains('subscription'));
   expect(snapshot.financeDashboard.owners.map((owner) => owner.owner), [
     'household',
     'user',
+    'spouse',
   ]);
+  expect(snapshot.financeDashboard.connectorParityPass, isTrue);
   expect(snapshot.financeDashboard.owners.first.netMinorUnits, 4434100);
 }
 

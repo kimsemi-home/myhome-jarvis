@@ -98,10 +98,11 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/planner`: generated planner task graph status.
 - `internal/repo`: Git worktree status inspection for closed-loop safety.
 - `internal/domain`: read-only finance, commerce, household, storage, and recommendation summaries.
+- `internal/financeconnector`: consent-gated MyData bank/card adapter with fixture replay and 95% parity checks.
 - `internal/orchestrator`: one-shot checkpoint loop foundation.
 - `internal/qualitylog`: private quality gate evidence journal.
 - `internal/scheduler`: heartbeat, backoff, rate-limit, and recovery state for bounded loop workers.
-- `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading and fixture finance/purchases dashboards.
+- `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading and finance/purchases dashboards.
 - `crates/mhj-commerce`: fixture-only purchase IR validation, spend summaries, and recurring purchase candidates.
 - `crates/mhj-finance`: fixture-only finance IR validation, cashflow summaries, and subscription review candidates.
 - `crates/mhj-core/src/benchmark.rs`: fixture-pipeline benchmark smoke tests.
@@ -114,3 +115,55 @@ cd apps/flutter && flutter test && flutter analyze
 - `crates`: Rust command and harness foundations.
 - `fixtures`: deterministic JSONL inputs.
 - `docs`: working log, architecture notes, ADRs, and backlog.
+
+## Flutter finance dashboard
+
+The Flutter finance screen is verified by a golden test and shown below. It
+compares 김주윤, 김세미, and shared household spending in one read-only view.
+
+![Flutter household finance dashboard](apps/flutter/test/golden/finance_dashboard.png)
+
+The Flutter client can be published as a free, fixture-only GitHub Pages demo
+after the verified `main` workflow completes. Live MyData access remains
+server-side and private; see [low-cost deployment](docs/low-cost-deployment.md).
+
+The image is generated from the golden test:
+
+```sh
+cd apps/flutter
+flutter test --update-goldens test/finance_dashboard_golden_test.dart
+flutter test test/finance_dashboard_golden_test.dart
+```
+
+CI uses the committed Linux renderer baseline at
+`apps/flutter/test/golden/finance_dashboard_linux.png`; local macOS runs use
+the README image above. This keeps pixel assertions deterministic across the
+two supported verification environments.
+
+The default remains fixture-only, while the server-side MyData adapter can be
+opted into with provider-approved credentials and two read-only connection
+scopes. It resolves only `op://` references on the server, maps the supported
+bank and card transaction contracts, and keeps Flutter and public GitHub Actions
+credential-free. See [`docs/finance-connector-loop.md`](docs/finance-connector-loop.md).
+
+## Closed-loop local verification
+
+Run the same verification graph locally that CI generates:
+
+```sh
+make -f generated/local_quality.generated.mk verify
+```
+
+The loop fails when the normalized MyData fixture drops below 95% field
+parity, when the Flutter golden changes without regeneration, or when either
+the Flutter README or this README loses the golden link. Regenerate the
+screen image intentionally with:
+
+```sh
+cd apps/flutter
+flutter test --update-goldens test/finance_dashboard_golden_test.dart
+```
+
+When this branch is merged to `main`, the public repository's GitHub Actions
+`publish` workflow packages the verified daemon/client bundle as a 14-day
+artifact. It does not publish secrets or expose the finance daemon publicly.

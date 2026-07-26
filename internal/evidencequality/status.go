@@ -11,11 +11,14 @@ import (
 )
 
 func StatusForRoot(root string) (Status, error) {
+	return statusForRootAt(root, time.Now().UTC())
+}
+
+func statusForRootAt(root string, checkedAt time.Time) (Status, error) {
 	policy, err := ReadPolicy(root)
 	if err != nil {
 		return Status{}, err
 	}
-	checkedAt := time.Now().UTC()
 	status := newStatus(policy, checkedAt)
 	file, err := os.Open(filepath.Join(root, filepath.FromSlash(policy.PrivateSnapshotLedger)))
 	if errors.Is(err, os.ErrNotExist) {

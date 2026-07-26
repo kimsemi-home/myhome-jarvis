@@ -1,0 +1,16 @@
+{
+  "rsp_code": "00000",
+  "rsp_msg": "정상",
+  "next_page": "",
+  "account_cnt": 2,
+  "account_list": [
+    {
+      "account_num": "1111222233334444",
+      "is_consent": true
+    },
+    {
+      "account_num": "9999888877776666",
+      "is_consent": false
+    }
+  ]
+}
