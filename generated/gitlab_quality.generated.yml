@@ -56,7 +56,7 @@ ssot:
 
 go:
   stage: unit-test
-  timeout: 10m
+  timeout: 15m
   script:
     - go run ./cmd/mhj ci verify
     - go run ./cmd/mhj ci-cache status

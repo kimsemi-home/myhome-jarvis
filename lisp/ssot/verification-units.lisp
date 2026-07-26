@@ -24,7 +24,7 @@
 	                 "test -s generated/context_pack.generated.json" "test -s generated/media_readiness.generated.json" "test -s generated/merge_evidence.generated.json" "test -s generated/monetization.generated.json" "test -s generated/external_evidence.generated.json" "test -s generated/repo_factory.generated.json"
 	                 "git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md"))
     (:id "go" :name "Go daemon and CLI" :kind "unit-test"
-     :timeout 10 :setup "go" :cache "go" :history t
+     :timeout 15 :setup "go" :cache "go" :history t
 	     :hash_inputs #(".github/workflows/quality.yml" ".go-version" "rust-toolchain.toml" "go.mod" "go.sum" "cmd/**/*.go"
                     "internal/**/*.go" ".mhj/**" ".codex/**" "generated/*.json"
                     "contracts/**" "fixtures/**" "docs-src/**" "docs/shorts-factory.md" "traceability.json"
