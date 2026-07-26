@@ -48,7 +48,8 @@ jobs:
           cp -R crates dist/myhome-jarvis/crates
           cp -R docs fixtures generated dist/myhome-jarvis
           cp -R cmd internal dist/myhome-jarvis
-          cp README.md .env.example go.mod go.sum Cargo.toml Cargo.lock rust-toolchain.toml dist/myhome-jarvis
+          cp README.md .env.example go.mod Cargo.toml Cargo.lock rust-toolchain.toml dist/myhome-jarvis
+          if test -f go.sum; then cp go.sum dist/myhome-jarvis; fi
           printf '%s\n' '${{ github.event.workflow_run.head_sha }}' > dist/myhome-jarvis/VERIFIED_COMMIT
           tar -czf "dist/myhome-jarvis-${{ github.event.workflow_run.head_sha }}.tar.gz" -C dist myhome-jarvis
 
