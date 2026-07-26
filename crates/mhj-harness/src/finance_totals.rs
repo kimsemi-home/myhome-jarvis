@@ -7,7 +7,7 @@ pub(crate) fn finance_total_checks(snapshot: &FinanceSnapshot) -> Vec<HarnessRes
     vec![
         check(
             "finance fixture records",
-            snapshot.transaction_count == 3 && summary.records == 3,
+            snapshot.transaction_count == 4 && summary.records == 4,
             format!(
                 "records={} summary={}",
                 snapshot.transaction_count, summary.records
@@ -25,12 +25,12 @@ pub(crate) fn finance_total_checks(snapshot: &FinanceSnapshot) -> Vec<HarnessRes
         ),
         check(
             "finance debit total",
-            summary.debit_minor_units == 153_200,
+            summary.debit_minor_units == 195_200,
             format!("debit={}", summary.debit_minor_units),
         ),
         check(
             "finance net total",
-            summary.net_minor_units == 4_346_800,
+            summary.net_minor_units == 4_304_800,
             format!("net={}", summary.net_minor_units),
         ),
     ]

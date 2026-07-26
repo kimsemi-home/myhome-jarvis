@@ -3,7 +3,7 @@ use super::*;
 #[test]
 fn fixture_recommendations_are_ranked_and_bounded() {
     let recommendations = fixture_recommendations().expect("recommendations score");
-    assert_eq!(recommendations.len(), 4);
+    assert_eq!(recommendations.len(), 5);
     assert!(recommendations
         .windows(2)
         .all(|window| window[0].score >= window[1].score));

@@ -17,6 +17,9 @@ FinanceDashboard _financeDashboard(Map<String, Object?> domain) {
     cardDebitCount: _int(finance['card_debit_count']) ?? 0,
     categories: _stringList(finance['categories']),
     owners: _financeOwners(finance['owner_breakdown']),
+    connectorProvider: _string(finance['connector_provider']) ?? '',
+    connectorParityPercent: _double(finance['connector_parity_percent']) ?? 0,
+    connectorParityPass: finance['connector_parity_pass'] == true,
   );
 }
 

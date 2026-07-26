@@ -3,7 +3,7 @@ use super::*;
 #[test]
 fn finance_fixture_ir_is_valid_jsonl() {
     let transactions = fixture_transactions().expect("finance fixture parses");
-    assert_eq!(transactions.len(), 3);
+    assert_eq!(transactions.len(), 4);
     assert!(transactions
         .iter()
         .all(|transaction| transaction.validate().is_ok()));
@@ -14,8 +14,8 @@ fn cashflow_summary_uses_direction_not_signed_amounts() {
     let transactions = fixture_transactions().expect("finance fixture parses");
     let summary = summarize_cashflow(&transactions, "KRW").expect("cashflow summarizes");
     assert_eq!(summary.credit_minor_units, 4_500_000);
-    assert_eq!(summary.debit_minor_units, 153_200);
-    assert_eq!(summary.net_minor_units, 4_346_800);
+    assert_eq!(summary.debit_minor_units, 195_200);
+    assert_eq!(summary.net_minor_units, 4_304_800);
 }
 
 #[test]
@@ -23,12 +23,14 @@ fn card_usage_candidates_are_review_only() {
     let transactions = fixture_transactions().expect("finance fixture parses");
     let candidates = card_usage_candidates(&transactions, "KRW").expect("cards summarize");
 
-    assert_eq!(candidates.len(), 1);
+    assert_eq!(candidates.len(), 2);
     assert_eq!(candidates[0].currency, "KRW");
     assert_eq!(candidates[0].transaction_count, 2);
     assert_eq!(candidates[0].debit_minor_units, 153_200);
     assert_eq!(candidates[0].subscription_count, 1);
     assert_eq!(candidates[0].subscription_minor_units, 65_900);
+    assert_eq!(candidates[1].transaction_count, 1);
+    assert_eq!(candidates[1].debit_minor_units, 42_000);
 }
 
 #[test]

@@ -25,7 +25,7 @@ pub(crate) fn finance_candidate_checks(snapshot: &FinanceSnapshot) -> Vec<Harnes
 }
 
 fn card_candidate_ok(snapshot: &FinanceSnapshot) -> bool {
-    snapshot.cards.len() == 1
+    snapshot.cards.len() == 2
         && snapshot.cards[0].transaction_count == 2
         && snapshot.cards[0].debit_minor_units == 153_200
         && snapshot.cards[0].subscription_count == 1

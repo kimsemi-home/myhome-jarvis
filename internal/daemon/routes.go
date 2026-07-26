@@ -23,6 +23,7 @@ func (server *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /context-pack/status", server.wrap(server.handleContextPackStatus))
 	mux.HandleFunc("GET /loop/status", server.wrap(server.handleLoopStatus))
 	mux.HandleFunc("GET /domain/summary", server.wrap(server.handleDomainSummary))
+	mux.HandleFunc("GET /finance/parity", server.wrap(server.handleFinanceParity))
 	mux.HandleFunc("GET /connectors/status", server.wrap(server.handleConnectorsStatus))
 	mux.HandleFunc("GET /agent-cluster/status", server.wrap(server.handleAgentClusterStatus))
 	mux.HandleFunc("GET /learning/status", server.wrap(server.handleLearningStatus))

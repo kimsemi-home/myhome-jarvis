@@ -141,14 +141,11 @@ jobs:
           go run ./cmd/mhj code-shape status
           go run ./cmd/mhj harness home
           go run ./cmd/mhj harness finance
+          go run ./cmd/mhj finance parity
           go run ./cmd/mhj harness commerce
           go test ./...
           go vet ./...
-          unformatted="$(gofmt -l cmd internal)"
-          if [ -n "$unformatted" ]; then
-            echo "$unformatted"
-            exit 1
-          fi
+          unformatted="$(gofmt -l cmd internal)"; if [ -n "$unformatted" ]; then echo "$unformatted"; exit 1; fi
       - name: Prepare Go daemon and CLI unit cache marker
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |
@@ -234,6 +231,9 @@ jobs:
         run: |
           flutter test
           flutter analyze
+          test -s test/golden/finance_dashboard.png
+          rg -q "test/golden/finance_dashboard.png" README.md
+          rg -q "apps/flutter/test/golden/finance_dashboard.png" ../../README.md
       - name: Prepare Flutter local client unit cache marker
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |

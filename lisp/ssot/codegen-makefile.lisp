@@ -32,19 +32,23 @@
 
 (defun emit-make-unit (stream unit)
   (wf stream "verify-~A:" (getf unit :id))
-  (when (getf unit :working_directory)
-    (wf stream "~Acd ~A" #\Tab (getf unit :working_directory)))
-  (emit-make-commands stream (policy-list unit :commands)))
+  (emit-make-commands stream
+                      (policy-list unit :commands)
+                      (getf unit :working_directory)))
 
-(defun emit-make-commands (stream commands)
+(defun emit-make-commands (stream commands working-directory)
   (dolist (command commands)
-    (wf stream "~A~A" #\Tab (make-escape (local-command command)))))
+    (wf stream "~A~A" #\Tab
+        (make-escape (local-command command working-directory)))))
 
-(defun local-command (command)
+(defun local-command (command &optional working-directory)
   (let ((prefix "ros -Q run -- --script "))
-    (if (string-prefix-p prefix command)
-        (format nil "sbcl --script ~A" (subseq command (length prefix)))
-        command)))
+    (let ((local (if (string-prefix-p prefix command)
+                     (format nil "sbcl --script ~A" (subseq command (length prefix)))
+                     command)))
+      (if working-directory
+          (format nil "cd ~A && ~A" working-directory local)
+          local))))
 
 (defun make-escape (command)
   (with-output-to-string (stream)

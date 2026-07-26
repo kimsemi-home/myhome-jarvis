@@ -114,3 +114,43 @@ cd apps/flutter && flutter test && flutter analyze
 - `crates`: Rust command and harness foundations.
 - `fixtures`: deterministic JSONL inputs.
 - `docs`: working log, architecture notes, ADRs, and backlog.
+
+## Flutter finance dashboard
+
+The Flutter finance screen is verified by a golden test and shown below. It
+compares 김주윤, 김세미, and shared household spending in one read-only view.
+
+![Flutter household finance dashboard](apps/flutter/test/golden/finance_dashboard.png)
+
+The image is generated from the golden test:
+
+```sh
+cd apps/flutter
+flutter test --update-goldens test/finance_dashboard_golden_test.dart
+flutter test test/finance_dashboard_golden_test.dart
+```
+
+The live MyData/Toss-style connector remains fixture-only until a provider,
+consent flow, and server-side credential boundary are configured.
+
+## Closed-loop local verification
+
+Run the same verification graph locally that CI generates:
+
+```sh
+make -f generated/local_quality.generated.mk verify
+```
+
+The loop fails when the normalized MyData fixture drops below 95% field
+parity, when the Flutter golden changes without regeneration, or when either
+the Flutter README or this README loses the golden link. Regenerate the
+screen image intentionally with:
+
+```sh
+cd apps/flutter
+flutter test --update-goldens test/finance_dashboard_golden_test.dart
+```
+
+When this branch is merged to `main`, the public repository's GitHub Actions
+`publish` workflow packages the verified daemon/client bundle as a 14-day
+artifact. It does not publish secrets or expose the finance daemon publicly.

@@ -4,23 +4,28 @@ import "testing"
 
 func assertFinanceSummary(t *testing.T, summary Summary) {
 	t.Helper()
-	if summary.Finance.Records != 3 {
+	if summary.Finance.Records != 4 {
 		t.Fatalf("finance records = %d", summary.Finance.Records)
 	}
 	if summary.Finance.Currency != "KRW" {
 		t.Fatalf("finance currency = %q", summary.Finance.Currency)
 	}
-	if summary.Finance.NetMinorUnits != 4_346_800 {
+	if summary.Finance.NetMinorUnits != 4_304_800 {
 		t.Fatalf("finance net = %d", summary.Finance.NetMinorUnits)
 	}
 	if summary.Finance.SubscriptionMinorUnits != 65_900 {
 		t.Fatalf("subscription total = %d", summary.Finance.SubscriptionMinorUnits)
 	}
-	if summary.Finance.CardDebitMinorUnits != 153_200 || summary.Finance.CardDebitCount != 2 {
+	if summary.Finance.CardDebitMinorUnits != 195_200 || summary.Finance.CardDebitCount != 3 {
 		t.Fatalf("card debit summary = %#v", summary.Finance)
 	}
-	if len(summary.Finance.OwnerBreakdown) != 2 {
+	if len(summary.Finance.OwnerBreakdown) != 3 {
 		t.Fatalf("finance owner breakdown = %#v", summary.Finance.OwnerBreakdown)
+	}
+	if summary.Finance.ConnectorProvider != "toss_mydata" ||
+		summary.Finance.ConnectorParityPercent < 95 ||
+		!summary.Finance.ConnectorParityPass {
+		t.Fatalf("finance connector parity = %#v", summary.Finance)
 	}
 }
 

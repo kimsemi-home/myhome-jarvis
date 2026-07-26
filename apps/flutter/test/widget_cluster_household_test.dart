@@ -36,8 +36,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('empty'), findsOneWidget);
-    expect(find.text('Finance net: 0 KRW'), findsOneWidget);
+    expect(find.text('owner scoped'), findsOneWidget);
+    expect(find.text('Finance net: -42000 KRW'), findsOneWidget);
     expect(find.text('Purchase spend: 0 KRW'), findsOneWidget);
 
     await tester.tap(
@@ -49,7 +49,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('household scoped'), findsOneWidget);
-    expect(find.text('Finance net: 4346800 KRW'), findsOneWidget);
+    expect(find.text('Finance net: 4304800 KRW'), findsOneWidget);
     expect(find.text('Purchase spend: 26800 KRW'), findsOneWidget);
   });
 

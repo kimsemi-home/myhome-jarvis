@@ -37,15 +37,11 @@
                  "go run ./cmd/mhj toolchain verify"
                  "go run ./cmd/mhj code-shape status"
                  "go run ./cmd/mhj harness home"
-                 "go run ./cmd/mhj harness finance"
+                 "go run ./cmd/mhj harness finance" "go run ./cmd/mhj finance parity"
                  "go run ./cmd/mhj harness commerce"
                  "go test ./..."
                  "go vet ./..."
-                 "unformatted=\"$(gofmt -l cmd internal)\""
-                 "if [ -n \"$unformatted\" ]; then"
-                 "  echo \"$unformatted\""
-                 "  exit 1"
-                 "fi"))
+                 "unformatted=\"$(gofmt -l cmd internal)\"; if [ -n \"$unformatted\" ]; then echo \"$unformatted\"; exit 1; fi"))
     (:id "rust" :name "Rust core and harness" :kind "integration-test"
      :timeout 10 :setup "rust" :cache "rust"
      :hash_inputs #(".github/workflows/quality.yml" "rust-toolchain.toml"
@@ -72,4 +68,4 @@
                     "generated/code_shape.generated.json"
                     "generated/assistant_vision.generated.json" "generated/codex_cost.generated.json"
                     "generated/authority.generated.json")
-     :commands #("flutter test" "flutter analyze"))))
+     :commands #("flutter test" "flutter analyze" "test -s test/golden/finance_dashboard.png" "rg -q \"test/golden/finance_dashboard.png\" README.md" "rg -q \"apps/flutter/test/golden/finance_dashboard.png\" ../../README.md"))))

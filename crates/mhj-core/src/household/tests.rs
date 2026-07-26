@@ -18,15 +18,16 @@ fn fixture_household_scopes_include_user_spouse_and_household() {
         .iter()
         .find(|scope| scope.scope == "spouse")
         .expect("spouse scope exists");
-    assert_eq!(spouse.finance_records, 0);
+    assert_eq!(spouse.finance_records, 1);
+    assert_eq!(spouse.finance_net_minor_units, -42_000);
     assert_eq!(spouse.purchase_records, 0);
 
     let household = scopes
         .iter()
         .find(|scope| scope.scope == "household")
         .expect("household scope exists");
-    assert_eq!(household.finance_records, 3);
-    assert_eq!(household.finance_net_minor_units, 4_346_800);
+    assert_eq!(household.finance_records, 4);
+    assert_eq!(household.finance_net_minor_units, 4_304_800);
     assert_eq!(household.purchase_records, 3);
     assert_eq!(household.purchase_spend_minor_units, 26_800);
 }

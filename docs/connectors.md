@@ -37,7 +37,13 @@ Validation:
 
 ```sh
 go run ./cmd/mhj connectors status
+go run ./cmd/mhj finance parity
 go test ./internal/connectors ./internal/daemon
 go run ./cmd/mhj codegen verify
 go run ./cmd/mhj quality
 ```
+
+The finance-specific closed loop is documented in
+[`docs/finance-connector-loop.md`](finance-connector-loop.md). It keeps the
+1Password reference and any future provider credentials on the server side;
+the current app remains fixture-only and read-only.

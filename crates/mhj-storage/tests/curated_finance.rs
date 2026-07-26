@@ -25,8 +25,8 @@ fn curated_writer_materializes_finance_parquet_zstd_fixture() {
     );
     assert_eq!(report.format, StorageFormat::Parquet);
     assert_eq!(report.compression, Compression::Zstd);
-    assert_eq!(report.row_count, 3);
-    assert_parquet_file(&root.join(&report.relative_path), 3);
+    assert_eq!(report.row_count, 4);
+    assert_parquet_file(&root.join(&report.relative_path), 4);
 
     let read_report = inspect_curated_parquet(
         &root,
@@ -35,7 +35,7 @@ fn curated_writer_materializes_finance_parquet_zstd_fixture() {
         DatasetKind::FinanceTransactions,
     )
     .expect("curated finance reader succeeds");
-    assert_eq!(read_report.row_count, 3);
+    assert_eq!(read_report.row_count, 4);
     assert_eq!(read_report.row_group_count, 1);
     assert_eq!(read_report.column_count, 15);
     assert_eq!(read_report.compression, Compression::Zstd);

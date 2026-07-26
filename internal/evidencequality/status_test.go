@@ -1,12 +1,15 @@
 package evidencequality
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 func TestMissingLedgerReturnsZeroRedactedStatus(t *testing.T) {
 	root := t.TempDir()
 	writePolicy(t, root, testPolicy())
 
-	status, err := StatusForRoot(root)
+	status, err := statusForRootAt(root, time.Date(2026, 6, 19, 0, 0, 0, 0, time.UTC))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -26,7 +29,7 @@ func TestStatusCountsStaleLowBlockedAndMappingDebt(t *testing.T) {
 			`{"id":"eq_2","at":"2026-06-18T00:00:00Z","evidence_ref":"docs/evidence-graph.md","purpose":"root_cause","quality_level":"low","schema_version":"evidence:v1","ontology_version":"concepts:v1","mapping_confidence":"low","assessed_by":"governance_steward","reassessment_reasons":["ontology_version_change"],"raw_evidence":"private"}`+"\n"+
 			`{"id":"eq_3","at":"2026-06-18T00:00:00Z","evidence_ref":"docs/incident-lifecycle.md","purpose":"incident_review","quality_level":"blocked","schema_version":"evidence:v1","ontology_version":"concepts:v1","mapping_confidence":"unknown","assessed_by":"governance_steward","reassessment_reasons":["security_incident"]}`+"\n")
 
-	status, err := StatusForRoot(root)
+	status, err := statusForRootAt(root, time.Date(2026, 6, 19, 0, 0, 0, 0, time.UTC))
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -19,7 +19,8 @@ fn owner_cashflow_keeps_household_and_personal_views_separate() {
 
     assert_eq!(user.records, 1);
     assert_eq!(user.net_minor_units, -87_300);
-    assert_eq!(spouse.records, 0);
+    assert_eq!(spouse.records, 1);
+    assert_eq!(spouse.net_minor_units, -42_000);
     assert_eq!(household.records, 2);
     assert_eq!(household.net_minor_units, 4_434_100);
 }

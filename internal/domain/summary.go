@@ -1,6 +1,10 @@
 package domain
 
-import "path/filepath"
+import (
+	"path/filepath"
+
+	"github.com/kimsemi-home/myhome-jarvis/internal/financeconnector"
+)
 
 type Summary struct {
 	Finance         FinanceSummary         `json:"finance"`
@@ -17,6 +21,13 @@ func BuildSummary(root string) (Summary, error) {
 	if err != nil {
 		return Summary{}, err
 	}
+	parity, err := financeconnector.VerifyFixture(root)
+	if err != nil {
+		return Summary{}, err
+	}
+	finance.ConnectorProvider = parity.Provider
+	finance.ConnectorParityPercent = parity.ParityPercent
+	finance.ConnectorParityPass = parity.Pass
 	commerce, err := BuildCommerceSummary(
 		filepath.Join(root, "fixtures", "commerce_purchases.jsonl"),
 	)

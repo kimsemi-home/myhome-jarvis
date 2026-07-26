@@ -17,7 +17,7 @@ func assertRecommendationSummary(t *testing.T, summary Summary) {
 	for _, item := range summary.Recommendations.Items {
 		if item.Kind == "card_usage_review" {
 			foundCardReview = true
-			if item.EstimatedMonthlyMinorUnits != 153_200 || item.EvidenceCount != 2 {
+			if item.EstimatedMonthlyMinorUnits != 195_200 || item.EvidenceCount != 3 {
 				t.Fatalf("card recommendation = %#v", item)
 			}
 		}
