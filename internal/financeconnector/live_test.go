@@ -10,11 +10,17 @@ import (
 
 func TestLiveClientFetchesMyDataPagesThroughResolvedToken(t *testing.T) {
 	requests := 0
+	transactionRequests := 0
 	server := httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		requests++
+		if request.Method == http.MethodGet && request.URL.Path == myDataAccountsPath {
+			_, _ = writer.Write([]byte(`{"rsp_code":"00000","account_list":[{"account_num":"ACCOUNT","is_consent":true}]}`))
+			return
+		}
 		if request.Method != http.MethodPost || request.URL.Path != myDataTransactionsPath {
 			t.Fatalf("request = %s %s", request.Method, request.URL.Path)
 		}
+		transactionRequests++
 		if request.Header.Get("Authorization") != "Bearer test-token" {
 			t.Fatalf("authorization header = %q", request.Header.Get("Authorization"))
 		}
@@ -25,7 +31,7 @@ func TestLiveClientFetchesMyDataPagesThroughResolvedToken(t *testing.T) {
 		if body["org_code"] != "ORG" || body["account_num"] != "ACCOUNT" || body["limit"] != "500" {
 			t.Fatalf("request body = %#v", body)
 		}
-		if requests == 1 {
+		if transactionRequests == 1 {
 			_, _ = writer.Write([]byte(`{"rsp_code":"00000","next_page":"2","trans_list":[{"trans_dtime":"20260726090000","trans_no":"1","trans_type":"03","currency_code":"KRW","trans_amt":4500000,"trans_memo":"Salary"}]}`))
 			return
 		}
@@ -54,7 +60,7 @@ func TestLiveClientFetchesMyDataPagesThroughResolvedToken(t *testing.T) {
 		t.Fatalf("transactions = %#v", transactions)
 	}
 	report := AssessLiveParity(transactions)
-	if requests != 2 || transactions[0].Category != "uncategorized" || !report.Pass || report.ParityPercent < 95 {
+	if requests != 3 || transactions[0].Category != "uncategorized" || !report.Pass || report.ParityPercent < 95 {
 		t.Fatalf("requests = %d transactions = %#v", requests, transactions)
 	}
 }

@@ -15,9 +15,12 @@ default; do not expose the finance endpoint directly to the public internet.
    path and keep `MYHOME_EXECUTE=false`.
 
 3. Keep `MYHOME_FINANCE_MODE=fixture` until consent and provider approval are
-   complete. For a later live deployment, inject only the server-side
-   `MYHOME_FINANCE_1PASSWORD_REF=op://...` reference through the runtime
-   secret store. Do not commit the resolved value.
+   complete. For a later live deployment, record active read-only household
+   consent first (`go run ./cmd/mhj finance-consent status`), then inject only
+   server-side `op://...` references through the runtime secret store. The
+   adapter discovers consented bank accounts and cards by default; set
+   `MYHOME_MYDATA_INCLUDE_CARDS=false` only when card approval data is out of
+   scope. Do not commit a resolved token or account number.
 
 4. Back up only the private consent and review ledgers through an encrypted
    channel. Public repository artifacts contain fixture summaries and the
@@ -26,6 +29,11 @@ default; do not expose the finance endpoint directly to the public internet.
 The deployment gate is therefore reproducible on a laptop first and portable
 to a small VM/container later, without making hosting a prerequisite for UI
 or data-contract development.
+
+The live path is intentionally a private daemon path, not a public finance
+API. It requires active consent, a provider-issued access token in 1Password,
+and the provider's approved MyData base URL. Without those runtime inputs the
+fixture path remains the safe, deterministic fallback.
 
 ## GitHub Actions publication
 

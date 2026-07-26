@@ -27,3 +27,8 @@ continue to point at the generated image:
 cd ../..
 make -f generated/local_quality.generated.mk verify-flutter
 ```
+
+The Flutter client receives only the normalized `/domain/summary` shape. The
+Go daemon keeps the default fixture fallback and can opt into consented live
+MyData bank/card data without passing tokens or raw provider responses to
+Flutter.

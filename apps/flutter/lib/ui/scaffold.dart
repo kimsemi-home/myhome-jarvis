@@ -53,7 +53,6 @@ class JarvisScaffold extends StatelessWidget {
                 CommandsView(commands: snapshot.commands, client: client),
                 FinanceView(
                   dashboard: snapshot.financeDashboard,
-                  connectors: snapshot.connectors,
                 ),
                 PurchasesView(dashboard: snapshot.purchaseDashboard),
                 PlainListView(title: 'Linear', items: snapshot.linearItems),

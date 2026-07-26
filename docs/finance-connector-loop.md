@@ -16,10 +16,12 @@ Toss/MyData-shaped replay or permitted live response
 
 The committed normalized fixture is `fixtures/finance_toss_mydata.jsonl` and
 the raw-response-shaped replay is `fixtures/finance_toss_mydata_response.json`.
-The adapter also supports the bank deposit transaction endpoint used by the
-KFTC MyData testbed. The live bank contract intentionally excludes `card_id`
-because that field is not supplied by this bank endpoint; all 13 supported
-fields must be present on every record and the release threshold remains 95%.
+The adapter supports the bank deposit transaction endpoint and card approval
+endpoints used by the KFTC MyData testbed. It discovers only consented bank
+accounts/cards, then maps domestic and overseas card approvals into the same
+transaction IR. A bank-only response intentionally excludes `card_id` because
+that field is not supplied by the bank endpoint; when card approvals are
+included, the full 14-field contract is evaluated.
 
 Fixture mode maps 14 canonical fields and reports 100% parity:
 
@@ -50,11 +52,16 @@ public GitHub Actions workflow never calls the provider and never receives a
 export MYHOME_FINANCE_MODE=mydata
 export MYHOME_FINANCE_ALLOW_EXTERNAL=true
 export MYHOME_MYDATA_BASE_URL=https://<provider-test-endpoint>
+export MYHOME_MYDATA_API_TYPE=2
+export MYHOME_MYDATA_INCLUDE_CARDS=true
 export MYHOME_FINANCE_CONNECTIONS_JSON='[{"owner":"user","onepassword_ref":"op://MyHome-Jarvis/Finance-Connector/jooyoon-token","org_code":"<org>","account_num":"<account>"},{"owner":"spouse","onepassword_ref":"op://MyHome-Jarvis/Finance-Connector/semmi-token","org_code":"<org>","account_num":"<account>"}]'
+go run ./cmd/mhj finance-consent status
 go run ./cmd/mhj finance parity
 ```
 
 The provider-specific authentication/certification flow is outside this
 public repository. See [Toss MyData integrated authentication](https://toss.im/tosscert/docs/guides/integration/mydata)
-and the [KFTC MyData testbed bank transaction API](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSAG0404?id=1)
-for the official provider-side prerequisites and request contract.
+and the [KFTC MyData testbed API catalog](https://developers.mydatakorea.org/mdtb/apg/dgi/bas/FSAG0102)
+for the official provider-side prerequisites and request contract. The
+implemented replay fixtures cover bank transactions, card list discovery, and
+domestic/overseas card approval shapes.

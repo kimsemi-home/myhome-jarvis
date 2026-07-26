@@ -1,0 +1,22 @@
+{
+  "rsp_code": "00000",
+  "rsp_msg": "정상",
+  "next_page": "",
+  "approved_list": [
+    {
+      "approved_num": "approval-replay-001",
+      "approved_dtime": "20260726142000",
+      "status": "01",
+      "merchant_name": "Semmi Cafe",
+      "approved_amt": "42000"
+    },
+    {
+      "approved_num": "approval-replay-002",
+      "approved_dtime": "20260726150000",
+      "status": "02",
+      "trans_dtime": "20260726160000",
+      "merchant_name": "Semmi Cafe",
+      "approved_amt": "10000"
+    }
+  ]
+}

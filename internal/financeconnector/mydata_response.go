@@ -3,6 +3,7 @@ package financeconnector
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 type myDataResponse struct {
@@ -36,11 +37,15 @@ func (response myDataResponse) transactions(connection ConnectionConfig, provide
 		if id == "" {
 			id = fmt.Sprintf("%s-%d", item.TransDTime, index)
 		}
+		merchant := strings.TrimSpace(item.TransMemo)
+		if merchant == "" {
+			merchant = unknownMerchant
+		}
 		transactions = append(transactions, SourceTransaction{
 			TransactionID: id, Source: provider, Owner: connection.Owner,
 			OccurredAt: item.TransDTime, PostedAt: item.TransDTime,
 			Amount: amount, Currency: currency(item.CurrencyCode), Direction: direction,
-			MerchantName: item.TransMemo, Category: "uncategorized",
+			MerchantName: merchant, Category: "uncategorized",
 			AccountID: "mydata-account", RawRef: "mydata:" + id, Tags: []string{"mydata"},
 		})
 	}

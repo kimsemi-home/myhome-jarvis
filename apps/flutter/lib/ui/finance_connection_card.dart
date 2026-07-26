@@ -3,20 +3,16 @@ part of '../main.dart';
 class FinanceConnectionCard extends StatelessWidget {
   const FinanceConnectionCard({
     super.key,
-    required this.connectors,
     required this.fixtureOnly,
     required this.dashboard,
   });
 
-  final List<ConnectorReadiness> connectors;
   final bool fixtureOnly;
   final FinanceDashboard dashboard;
 
   @override
   Widget build(BuildContext context) {
-    final matches = connectors.where((item) => item.key == 'mydata');
-    final connector = matches.isEmpty ? null : matches.first;
-    final fixture = fixtureOnly || connector?.fixtureMode != false;
+    final fixture = fixtureOnly;
     return JarvisSurface(
       padding: const EdgeInsets.all(14),
       child: Row(

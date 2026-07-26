@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -23,6 +22,9 @@ func LoadConfigured(ctx context.Context, root string) (LoadedData, error) {
 		return LoadedData{}, err
 	}
 	if config.Mode == ModeMyData {
+		if err := requireActiveConsent(root); err != nil {
+			return LoadedData{}, err
+		}
 		transactions, err := (LiveClient{Config: config}).Fetch(ctx)
 		if err != nil {
 			return LoadedData{}, err
@@ -38,15 +40,6 @@ func LoadConfigured(ctx context.Context, root string) (LoadedData, error) {
 	report := AssessParity(transactions)
 	report.FixturePath = FixtureRelativePath
 	return LoadedData{Transactions: transactions, Parity: report}, nil
-}
-
-func LoadFixture(root string) ([]SourceTransaction, error) {
-	file, err := os.Open(filepath.Join(root, FixtureRelativePath))
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-	return scanFixture(file)
 }
 
 func scanFixture(file *os.File) ([]SourceTransaction, error) {

@@ -16,5 +16,6 @@ func BuildSummary(root string) (Summary, error) {
 		return Summary{}, err
 	}
 	parity := financeconnector.AssessParity(transactions)
+	parity.FixturePath = financeconnector.FixtureRelativePath
 	return BuildSummaryWithFinance(root, transactions, parity)
 }

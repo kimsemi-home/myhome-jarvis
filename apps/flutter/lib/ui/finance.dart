@@ -4,11 +4,9 @@ class FinanceView extends StatelessWidget {
   const FinanceView({
     super.key,
     required this.dashboard,
-    required this.connectors,
   });
 
   final FinanceDashboard dashboard;
-  final List<ConnectorReadiness> connectors;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,6 @@ class FinanceView extends StatelessWidget {
       ),
       const SizedBox(height: 16),
       FinanceConnectionCard(
-        connectors: connectors,
         fixtureOnly: dashboard.fixtureOnly,
         dashboard: dashboard,
       ),

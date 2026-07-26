@@ -2,6 +2,7 @@ package domain
 
 import (
 	"path/filepath"
+	"strings"
 
 	"github.com/kimsemi-home/myhome-jarvis/internal/financeconnector"
 )
@@ -16,6 +17,7 @@ func BuildSummaryWithFinance(
 		return Summary{}, err
 	}
 	finance.ConnectorProvider = parity.Provider
+	finance.ConnectorFixtureOnly = strings.HasPrefix(parity.FixturePath, "fixtures/")
 	finance.ConnectorParityPercent = parity.ParityPercent
 	finance.ConnectorParityPass = parity.Pass
 	commerce, err := BuildCommerceSummary(filepath.Join(root, "fixtures", "commerce_purchases.jsonl"))

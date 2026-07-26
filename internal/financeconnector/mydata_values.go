@@ -7,11 +7,21 @@ import (
 	"strings"
 )
 
+const unknownMerchant = "미제공"
+
 func currency(value string) string {
 	if strings.TrimSpace(value) == "" {
 		return "KRW"
 	}
 	return strings.TrimSpace(value)
+}
+
+func normalizedCurrency(value string) string {
+	value = strings.TrimSpace(value)
+	if value == "" {
+		return "KRW"
+	}
+	return value
 }
 
 func parseMyDataAmount(raw json.RawMessage) (int64, error) {

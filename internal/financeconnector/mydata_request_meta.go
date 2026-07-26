@@ -19,6 +19,13 @@ func (client LiveClient) toDate() string {
 	return time.Now().Format("20060102")
 }
 
+func (client LiveClient) apiType() string {
+	if client.Config.APIType == "" {
+		return "2"
+	}
+	return client.Config.APIType
+}
+
 func transactionID() string {
 	return fmt.Sprintf("MHJ%022d", time.Now().UnixNano())
 }

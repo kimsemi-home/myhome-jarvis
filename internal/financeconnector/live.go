@@ -41,6 +41,13 @@ func (client LiveClient) Fetch(ctx context.Context) ([]SourceTransaction, error)
 			return nil, err
 		}
 		all = append(all, transactions...)
+		if client.Config.IncludeCards {
+			cardTransactions, err := client.fetchCardTransactions(ctx, connection, token)
+			if err != nil {
+				return nil, err
+			}
+			all = append(all, cardTransactions...)
+		}
 	}
 	if len(all) == 0 {
 		return nil, fmt.Errorf("mydata returned no transactions")

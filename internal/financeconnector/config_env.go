@@ -28,14 +28,21 @@ func RuntimeConfigFromEnv(getenv func(string) string) (RuntimeConfig, error) {
 	}
 	config := RuntimeConfig{
 		Mode: mode, Provider: provider, OnePasswordRef: ref,
-		BaseURL:     strings.TrimRight(strings.TrimSpace(getenv("MYHOME_MYDATA_BASE_URL")), "/"),
-		ClientID:    strings.TrimSpace(getenv("MYHOME_MYDATA_CLIENT_ID")),
-		FromDate:    strings.TrimSpace(getenv("MYHOME_MYDATA_FROM_DATE")),
-		ToDate:      strings.TrimSpace(getenv("MYHOME_MYDATA_TO_DATE")),
+		BaseURL:  strings.TrimRight(strings.TrimSpace(getenv("MYHOME_MYDATA_BASE_URL")), "/"),
+		ClientID: strings.TrimSpace(getenv("MYHOME_MYDATA_CLIENT_ID")),
+		APIType:  strings.TrimSpace(getenv("MYHOME_MYDATA_API_TYPE")),
+		FromDate: strings.TrimSpace(getenv("MYHOME_MYDATA_FROM_DATE")),
+		ToDate:   strings.TrimSpace(getenv("MYHOME_MYDATA_TO_DATE")),
+		IncludeCards: !strings.EqualFold(
+			strings.TrimSpace(getenv("MYHOME_MYDATA_INCLUDE_CARDS")), "false",
+		),
 		Connections: connections, LiveModeRequested: mode == ModeMyData,
 		ExternalCallsLive: mode == ModeMyData && strings.EqualFold(
 			strings.TrimSpace(getenv("MYHOME_FINANCE_ALLOW_EXTERNAL")), "true",
 		),
+	}
+	if config.APIType == "" {
+		config.APIType = "2"
 	}
 	return validateRuntimeConfig(config)
 }
