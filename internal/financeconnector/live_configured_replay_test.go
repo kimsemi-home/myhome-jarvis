@@ -49,7 +49,7 @@ func configuredReplayHandler(writer http.ResponseWriter, request *http.Request) 
 		return
 	}
 	if request.URL.Path == myDataTransactionsPath {
-		_, _ = writer.Write([]byte(`{"rsp_code":"00000","trans_list":[{"trans_dtime":"20260726090000","trans_no":"income-1","trans_type":"02","currency_code":"KRW","trans_amt":"4500000","trans_memo":"Salary"},{"trans_dtime":"20260726100000","trans_no":"spend-1","trans_type":"03","currency_code":"KRW","trans_amt":42000,"trans_memo":"Cafe"}]}`))
+		_, _ = writer.Write([]byte(`{"rsp_code":"00000","trans_list":[{"trans_dtime":"20260726090000","trans_no":"income-1","trans_type":"03","currency_code":"KRW","trans_amt":"4500000","trans_memo":"Salary"},{"trans_dtime":"20260726100000","trans_no":"spend-1","trans_type":"02","currency_code":"KRW","trans_amt":42000,"trans_memo":"Cafe"}]}`))
 		return
 	}
 	http.NotFound(writer, request)
