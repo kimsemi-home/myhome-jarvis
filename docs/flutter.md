@@ -48,9 +48,10 @@ Current scope:
 - Redacted Linear status rendering from `/linear/status` using sync state,
   viewer-configured boolean, team count, and repo-relative queue path only.
 - Domain summary rendering from `/domain/summary` for finance, commerce, and
-  storage fixture status.
-- Dedicated fixture-only Finance tab for cashflow totals, subscription spend,
-  card-linked debit review totals, categories, and owner breakdowns.
+  storage summaries.
+- Dedicated Finance tab for cashflow totals, subscription spend, card-linked
+  debit review totals, categories, and owner breakdowns; it uses the
+  deterministic fixture fallback or the server-side consented live adapter.
 - Dedicated fixture-only Purchases tab for commerce spend, recurring purchase
   candidates, categories, and owner spend breakdowns.
 - Repository status rendering from `/repo/status` as a clean/dirty status

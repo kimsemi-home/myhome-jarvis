@@ -98,10 +98,11 @@ cd apps/flutter && flutter test && flutter analyze
 - `internal/planner`: generated planner task graph status.
 - `internal/repo`: Git worktree status inspection for closed-loop safety.
 - `internal/domain`: read-only finance, commerce, household, storage, and recommendation summaries.
+- `internal/financeconnector`: consent-gated MyData bank/card adapter with fixture replay and 95% parity checks.
 - `internal/orchestrator`: one-shot checkpoint loop foundation.
 - `internal/qualitylog`: private quality gate evidence journal.
 - `internal/scheduler`: heartbeat, backoff, rate-limit, and recovery state for bounded loop workers.
-- `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading and fixture finance/purchases dashboards.
+- `apps/flutter`: Dart-only Flutter local client with daemon snapshot loading and finance/purchases dashboards.
 - `crates/mhj-commerce`: fixture-only purchase IR validation, spend summaries, and recurring purchase candidates.
 - `crates/mhj-finance`: fixture-only finance IR validation, cashflow summaries, and subscription review candidates.
 - `crates/mhj-core/src/benchmark.rs`: fixture-pipeline benchmark smoke tests.

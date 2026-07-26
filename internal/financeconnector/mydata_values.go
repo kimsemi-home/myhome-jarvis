@@ -38,9 +38,9 @@ func parseMyDataAmount(raw json.RawMessage) (int64, error) {
 
 func myDataDirection(code string) (string, error) {
 	switch strings.TrimSpace(code) {
-	case "03", "04", "98":
+	case "03", "04", "06", "09", "98":
 		return "credit", nil
-	case "02", "05", "06", "07", "09", "99":
+	case "02", "05", "07", "10", "99":
 		return "debit", nil
 	default:
 		return "", fmt.Errorf("unsupported MyData transaction type %q", code)

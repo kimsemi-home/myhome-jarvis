@@ -46,4 +46,6 @@ go run ./cmd/mhj quality
 The finance-specific closed loop is documented in
 [`docs/finance-connector-loop.md`](finance-connector-loop.md). It keeps the
 1Password reference and any future provider credentials on the server side;
-the current app remains fixture-only and read-only.
+the public connector catalog and Flutter offline fallback remain fixture-only,
+while the finance dashboard has a separate consented live adapter path. The
+catalog deliberately does not claim that live provider access is enabled.

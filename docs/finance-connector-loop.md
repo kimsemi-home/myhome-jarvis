@@ -23,6 +23,11 @@ transaction IR. A bank-only response intentionally excludes `card_id` because
 that field is not supplied by the bank endpoint; when card approvals are
 included, the full 14-field contract is evaluated.
 
+Bank transaction direction follows the v2 transaction codes: withdrawal and
+withdrawal correction/cancellation codes become debit, deposit and deposit
+correction/cancellation codes become credit. The ambiguous `01` (new) code is
+rejected instead of being silently counted as household income or spending.
+
 Fixture mode maps 14 canonical fields and reports 100% parity:
 
 ```sh
@@ -61,7 +66,9 @@ go run ./cmd/mhj finance parity
 
 The provider-specific authentication/certification flow is outside this
 public repository. See [Toss MyData integrated authentication](https://toss.im/tosscert/docs/guides/integration/mydata)
-and the [KFTC MyData testbed API catalog](https://developers.mydatakorea.org/mdtb/apg/dgi/bas/FSAG0102)
+and the [KFTC MyData testbed API catalog](https://developers.mydatakorea.org/mdtb/apg/dgi/bas/FSAG0102),
+[bank API specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSAG0404?id=1),
+and [card API specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSAG0406?id=2)
 for the official provider-side prerequisites and request contract. The
 implemented replay fixtures cover bank transactions, card list discovery, and
 domestic/overseas card approval shapes.
