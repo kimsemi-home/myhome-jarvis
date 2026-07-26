@@ -77,8 +77,8 @@ def mhj_verification_graph():
             "cd apps/flutter && flutter analyze",
             "cd apps/flutter && test -s test/golden/finance_dashboard.png",
             "cd apps/flutter && test -s test/golden/finance_dashboard_linux.png",
-            "cd apps/flutter && rg -q \"test/golden/finance_dashboard.png\" README.md",
-            "cd apps/flutter && rg -q \"apps/flutter/test/golden/finance_dashboard.png\" ../../README.md",
+            "cd apps/flutter && grep -Fq \"test/golden/finance_dashboard.png\" README.md",
+            "cd apps/flutter && grep -Fq \"apps/flutter/test/golden/finance_dashboard.png\" ../../README.md",
         ],
     )
     native.test_suite(
