@@ -42,7 +42,7 @@ class FinanceConnectionCard extends StatelessWidget {
         Text(
           fixture
               ? '로컬 fixture · 읽기 전용 · 정규화 패리티 ${dashboard.connectorParityPercent.toStringAsFixed(0)}%'
-              : 'provider connected',
+              : '서버 live · 읽기 전용 · 정규화 패리티 ${dashboard.connectorParityPercent.toStringAsFixed(0)}%',
           style: Theme.of(context).textTheme.labelSmall,
         ),
       ],
