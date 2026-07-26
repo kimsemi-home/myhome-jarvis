@@ -8,9 +8,9 @@ import (
 func (client LiveClient) fetchCardTransactions(
 	ctx context.Context,
 	connection ConnectionConfig,
-	token string,
+	credential credentialEnvelope,
 ) ([]SourceTransaction, error) {
-	consentedCards, err := client.discoverCards(ctx, connection, token)
+	consentedCards, err := client.discoverCards(ctx, connection, credential)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (client LiveClient) fetchCardTransactions(
 			scope string
 		}{{"approval-domestic", "domestic"}, {"approval-overseas", "overseas"}} {
 			transactions, err := client.fetchCardApprovals(
-				ctx, connection, token, cardID, target.path, target.scope,
+				ctx, connection, credential, cardID, target.path, target.scope,
 			)
 			if err != nil {
 				return nil, err

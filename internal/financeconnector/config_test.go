@@ -11,7 +11,7 @@ func TestRuntimeConfigDefaultsToFixtureMode(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if config.Mode != ModeFixture || config.ExternalCallsLive || config.OnePasswordRef != "" {
+	if config.Mode != ModeFixture || config.ExternalCallsLive || len(config.Connections) != 0 {
 		t.Fatalf("config = %#v", config)
 	}
 }
@@ -39,7 +39,8 @@ func TestRuntimeConfigRequiresOnePasswordReferenceForMyData(t *testing.T) {
 			return ""
 		}
 	})
-	if err != nil || !config.LiveModeRequested || !config.ExternalCallsLive || config.OnePasswordRef == "" {
+	if err != nil || !config.LiveModeRequested || !config.ExternalCallsLive ||
+		len(config.Connections) != 1 || config.Connections[0].Credential.OnePasswordRef == "" {
 		t.Fatalf("config = %#v err = %v", config, err)
 	}
 }
@@ -49,7 +50,7 @@ func TestRuntimeConfigParsesConnectionReferencesWithoutSerializingSecrets(t *tes
 		values := map[string]string{
 			"MYHOME_FINANCE_MODE":             ModeMyData,
 			"MYHOME_FINANCE_ALLOW_EXTERNAL":   "true",
-			"MYHOME_FINANCE_CONNECTIONS_JSON": `[{"owner":"spouse","onepassword_ref":"op://vault/item/token","org_code":"ORG","account_num":"ACCOUNT"}]`,
+			"MYHOME_FINANCE_CONNECTIONS_JSON": `[{"owner":"spouse","credential_ref":"op://vault/item/credential","org_code":"ORG","account_num":"ACCOUNT"}]`,
 		}
 		return values[name]
 	})

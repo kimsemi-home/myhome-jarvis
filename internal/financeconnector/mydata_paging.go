@@ -5,8 +5,8 @@ import (
 	"fmt"
 )
 
-func (client LiveClient) fetchConnection(ctx context.Context, connection ConnectionConfig, token string) ([]SourceTransaction, error) {
-	consentedAccounts, err := client.discoverAccounts(ctx, connection, token)
+func (client LiveClient) fetchConnection(ctx context.Context, connection ConnectionConfig, credential credentialEnvelope) ([]SourceTransaction, error) {
+	consentedAccounts, err := client.discoverAccounts(ctx, connection, credential)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func (client LiveClient) fetchConnection(ctx context.Context, connection Connect
 	var all []SourceTransaction
 	for _, account := range accounts {
 		connection.AccountNumber = account
-		transactions, err := client.fetchAccountTransactions(ctx, connection, token)
+		transactions, err := client.fetchAccountTransactions(ctx, connection, credential)
 		if err != nil {
 			return nil, err
 		}
@@ -36,12 +36,12 @@ func (client LiveClient) fetchConnection(ctx context.Context, connection Connect
 }
 
 func (client LiveClient) fetchAccountTransactions(
-	ctx context.Context, connection ConnectionConfig, token string,
+	ctx context.Context, connection ConnectionConfig, credential credentialEnvelope,
 ) ([]SourceTransaction, error) {
 	var all []SourceTransaction
 	nextPage := ""
 	for page := 0; page < 100; page++ {
-		response, err := client.requestPage(ctx, connection, token, nextPage)
+		response, err := client.requestPage(ctx, connection, credential, nextPage)
 		if err != nil {
 			return nil, err
 		}

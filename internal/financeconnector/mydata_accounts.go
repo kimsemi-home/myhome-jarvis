@@ -25,7 +25,7 @@ type myDataAccount struct {
 func (client LiveClient) discoverAccounts(
 	ctx context.Context,
 	connection ConnectionConfig,
-	token string,
+	credential credentialEnvelope,
 ) ([]string, error) {
 	var accounts []string
 	nextPage := ""
@@ -38,7 +38,7 @@ func (client LiveClient) discoverAccounts(
 			query.Del("search_timestamp")
 			query.Set("next_page", nextPage)
 		}
-		data, err := client.doMyDataJSON(ctx, http.MethodGet, myDataAccountsPath, query, token, nil)
+		data, err := client.doMyDataJSON(ctx, http.MethodGet, myDataAccountsPath, query, credential, nil)
 		if err != nil {
 			return nil, err
 		}

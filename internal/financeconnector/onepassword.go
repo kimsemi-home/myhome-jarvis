@@ -7,21 +7,17 @@ import (
 	"strings"
 )
 
-type SecretResolver func(context.Context, string) (string, error)
+type CredentialResolver func(context.Context, string, string) (credentialEnvelope, error)
 
-func ResolveOnePasswordCLI(ctx context.Context, reference string) (string, error) {
+func ResolveOnePasswordCLI(ctx context.Context, reference string, provider string) (credentialEnvelope, error) {
 	if !strings.HasPrefix(strings.TrimSpace(reference), "op://") {
-		return "", fmt.Errorf("secret reference must use op://")
+		return credentialEnvelope{}, fmt.Errorf("credential reference must use op://")
 	}
 	output, err := exec.CommandContext(
 		ctx, "op", "read", "--no-newline", reference,
 	).Output()
 	if err != nil {
-		return "", fmt.Errorf("1Password read failed")
+		return credentialEnvelope{}, fmt.Errorf("1Password read failed")
 	}
-	value := strings.TrimSpace(string(output))
-	if value == "" {
-		return "", fmt.Errorf("1Password reference resolved to an empty value")
-	}
-	return value, nil
+	return parseCredentialEnvelope(string(output), provider)
 }

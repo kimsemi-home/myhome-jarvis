@@ -32,10 +32,10 @@ func TestLiveClientFetchesConsentedCardApprovals(t *testing.T) {
 		Mode: ModeMyData, Provider: ProviderTossMyData, ExternalCallsLive: true,
 		BaseURL: server.URL, FromDate: "20260701", ToDate: "20260726",
 		IncludeCards: true, Connections: []ConnectionConfig{{Owner: "spouse", OrgCode: "ORG"}},
-	}, HTTP: server.Client(), Resolve: func(context.Context, string) (string, error) {
-		return "token", nil
+	}, HTTP: server.Client(), Resolve: func(context.Context, string, string) (credentialEnvelope, error) {
+		return credentialEnvelope{Provider: ProviderTossMyData, DataAccessToken: "token"}, nil
 	}}
-	transactions, err := client.fetchCardTransactions(context.Background(), client.Config.Connections[0], "token")
+	transactions, err := client.fetchCardTransactions(context.Background(), client.Config.Connections[0], credentialEnvelope{Provider: ProviderTossMyData, DataAccessToken: "token"})
 	if err != nil {
 		t.Fatal(err)
 	}

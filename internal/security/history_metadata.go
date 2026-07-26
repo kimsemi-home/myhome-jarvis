@@ -23,8 +23,8 @@ func checkMetadataLine(line string, privateIdentity *regexp.Regexp, report *Hist
 		return
 	}
 	commit := parts[0]
-	for _, field := range parts[1:] {
-		if privateIdentity.MatchString(field) {
+	for index, field := range parts[1:] {
+		if !isPublicGitHubIdentityField(parts[1:], index) && privateIdentity.MatchString(field) {
 			report.addHistory(commit, "(commit metadata)", 0, "history_private_identity_metadata", "git commit metadata must not contain private identity markers")
 			return
 		}
@@ -33,4 +33,18 @@ func checkMetadataLine(line string, privateIdentity *regexp.Regexp, report *Hist
 			return
 		}
 	}
+}
+
+func isPublicGitHubIdentityField(fields []string, index int) bool {
+	emailIndex := -1
+	switch index {
+	case 0, 1:
+		emailIndex = 1
+	case 2, 3:
+		emailIndex = 3
+	}
+	return emailIndex >= 0 && emailIndex < len(fields) && strings.HasSuffix(
+		strings.ToLower(strings.TrimSpace(fields[emailIndex])),
+		"@users.noreply.github.com",
+	)
 }

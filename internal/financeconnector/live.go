@@ -10,7 +10,7 @@ import (
 
 type LiveClient struct {
 	Config  RuntimeConfig
-	Resolve SecretResolver
+	Resolve CredentialResolver
 	HTTP    *http.Client
 }
 
@@ -32,17 +32,20 @@ func (client LiveClient) Fetch(ctx context.Context) ([]SourceTransaction, error)
 	}
 	var all []SourceTransaction
 	for _, connection := range client.Config.Connections {
-		token, err := client.Resolve(ctx, connection.OnePasswordRef)
+		credential, err := client.Resolve(ctx, connection.Credential.OnePasswordRef, client.Config.Provider)
 		if err != nil {
 			return nil, err
 		}
-		transactions, err := client.fetchConnection(ctx, connection, token)
+		if credential.Provider != client.Config.Provider {
+			return nil, fmt.Errorf("credential bundle provider mismatch")
+		}
+		transactions, err := client.fetchConnection(ctx, connection, credential)
 		if err != nil {
 			return nil, err
 		}
 		all = append(all, transactions...)
 		if client.Config.IncludeCards {
-			cardTransactions, err := client.fetchCardTransactions(ctx, connection, token)
+			cardTransactions, err := client.fetchCardTransactions(ctx, connection, credential)
 			if err != nil {
 				return nil, err
 			}
