@@ -12,6 +12,7 @@ func TestLiveClientFetchesConsentedCardApprovals(t *testing.T) {
 		if request.Method != http.MethodGet {
 			t.Fatalf("method = %s", request.Method)
 		}
+		assertMyDataHeaders(t, request, "token")
 		if request.URL.Path == myDataCardsPath {
 			_, _ = writer.Write([]byte(`{"rsp_code":"00000","card_list":[{"card_id":"card-1","is_consent":true}]}`))
 			return

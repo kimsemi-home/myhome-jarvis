@@ -13,6 +13,7 @@ func TestLiveClientFetchesMyDataPagesThroughResolvedToken(t *testing.T) {
 	transactionRequests := 0
 	server := httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		requests++
+		assertMyDataHeaders(t, request, "test-token")
 		if request.Method == http.MethodGet && request.URL.Path == myDataAccountsPath {
 			_, _ = writer.Write([]byte(`{"rsp_code":"00000","account_list":[{"account_num":"ACCOUNT","is_consent":true}]}`))
 			return
@@ -21,14 +22,11 @@ func TestLiveClientFetchesMyDataPagesThroughResolvedToken(t *testing.T) {
 			t.Fatalf("request = %s %s", request.Method, request.URL.Path)
 		}
 		transactionRequests++
-		if request.Header.Get("Authorization") != "Bearer test-token" {
-			t.Fatalf("authorization header = %q", request.Header.Get("Authorization"))
-		}
 		var body map[string]string
 		if err := json.NewDecoder(request.Body).Decode(&body); err != nil {
 			t.Fatal(err)
 		}
-		if body["org_code"] != "ORG" || body["account_num"] != "ACCOUNT" || body["limit"] != "500" {
+		if body["org_code"] != "ORG" || body["account_num"] != "ACCOUNT" || body["from_date"] != "20260701" || body["to_date"] != "20260726" || body["limit"] != "500" {
 			t.Fatalf("request body = %#v", body)
 		}
 		if transactionRequests == 1 {

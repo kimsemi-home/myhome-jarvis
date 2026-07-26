@@ -37,14 +37,15 @@ func TestLiveFinanceSummaryReachesDaemonBoundary(t *testing.T) {
 	}
 	for _, expected := range []string{
 		`"connector_fixture_only": false`, `"connector_parity_percent": 100`,
-		`"credit_minor_units": 4500000`, `"debit_minor_units": 42000`,
-		`"finance_net_minor_units": 4458000`, `"owner": "spouse"`,
+		`"credit_minor_units": 4513000`, `"debit_minor_units": 84000`,
+		`"finance_net_minor_units": 4429000`, `"card_debit_minor_units": 42000`,
+		`"owner": "spouse"`,
 	} {
 		if !bytes.Contains(recorder.Body.Bytes(), []byte(expected)) {
 			t.Fatalf("expected %s in %s", expected, recorder.Body.String())
 		}
 	}
-	for _, forbidden := range []string{"replay-token", "ACCOUNT"} {
+	for _, forbidden := range []string{"replay-token", "ACCOUNT", "CARD-1", "CARD-2"} {
 		if bytes.Contains(recorder.Body.Bytes(), []byte(forbidden)) {
 			t.Fatalf("live secret material leaked: %s", recorder.Body.String())
 		}
@@ -62,6 +63,6 @@ func configureDaemonLiveEnvironment(t *testing.T, baseURL string) {
 	t.Setenv("MYHOME_FINANCE_MODE", "mydata")
 	t.Setenv("MYHOME_FINANCE_ALLOW_EXTERNAL", "true")
 	t.Setenv("MYHOME_MYDATA_BASE_URL", baseURL)
-	t.Setenv("MYHOME_MYDATA_INCLUDE_CARDS", "false")
+	t.Setenv("MYHOME_MYDATA_INCLUDE_CARDS", "true")
 	t.Setenv("MYHOME_FINANCE_CONNECTIONS_JSON", `[{"owner":"spouse","onepassword_ref":"op://vault/item/token","org_code":"ORG","account_num":"ACCOUNT"}]`)
 }

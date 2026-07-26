@@ -65,7 +65,8 @@ go run ./cmd/mhj finance parity
 ```
 
 The provider-specific authentication/certification flow is outside this
-public repository. See [Toss MyData integrated authentication](https://toss.im/tosscert/docs/guides/integration/mydata)
+public repository; the two-plane boundary is documented in
+[`docs/toss-mydata-auth-boundary.md`](toss-mydata-auth-boundary.md). See [Toss MyData integrated authentication](https://toss.im/tosscert/docs/guides/integration/mydata)
 and the [KFTC MyData testbed API catalog](https://developers.mydatakorea.org/mdtb/apg/dgi/bas/FSAG0102),
 [bank API specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSAG0404?id=1),
 and [card API specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSAG0406?id=2)
