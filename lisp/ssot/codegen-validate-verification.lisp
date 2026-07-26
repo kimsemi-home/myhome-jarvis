@@ -56,6 +56,7 @@
 
 (defun validate-github-action-refs (refs)
   (require-members '("checkout" "setup-go" "cache-restore" "cache-save"
+                     "upload-artifact"
                      "setup-lisp" "setup-flutter")
                    (mapcar (lambda (ref) (getf ref :key)) refs)
                    "GitHub action ref missing: ~A")

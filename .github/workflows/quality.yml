@@ -234,6 +234,14 @@ jobs:
           test -s test/golden/finance_dashboard.png
           rg -q "test/golden/finance_dashboard.png" README.md
           rg -q "apps/flutter/test/golden/finance_dashboard.png" ../../README.md
+      - name: Upload Flutter local client diagnostics
+        if: failure() && steps.unit-cache.outputs.cache-hit != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-diagnostics-${{ github.run_id }}
+          path: apps/flutter/test/failures
+          if-no-files-found: ignore
+          retention-days: 3
       - name: Prepare Flutter local client unit cache marker
         if: steps.unit-cache.outputs.cache-hit != 'true'
         run: |

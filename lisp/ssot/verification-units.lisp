@@ -68,4 +68,5 @@
                     "generated/code_shape.generated.json"
                     "generated/assistant_vision.generated.json" "generated/codex_cost.generated.json"
                     "generated/authority.generated.json")
+     :failure_artifact "apps/flutter/test/failures"
      :commands #("flutter test" "flutter analyze" "test -s test/golden/finance_dashboard.png" "rg -q \"test/golden/finance_dashboard.png\" README.md" "rg -q \"apps/flutter/test/golden/finance_dashboard.png\" ../../README.md"))))
