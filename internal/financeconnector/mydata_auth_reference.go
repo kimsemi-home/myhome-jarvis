@@ -20,5 +20,9 @@ func (client LiveClient) SignVerificationFromReference(
 	if credential.Provider != client.Config.Provider {
 		return "", fmt.Errorf("credential bundle provider mismatch")
 	}
+	credential.AuthAccessToken, err = client.authAccessToken(ctx, credential)
+	if err != nil {
+		return "", err
+	}
 	return client.SignVerification(ctx, credential, request)
 }

@@ -11,6 +11,7 @@ type RuntimeConfig struct {
 	Provider          string             `json:"provider"`
 	BaseURL           string             `json:"base_url,omitempty"`
 	AuthBaseURL       string             `json:"auth_base_url,omitempty"`
+	AuthTokenBaseURL  string             `json:"auth_token_base_url,omitempty"`
 	APIType           string             `json:"api_type,omitempty"`
 	FromDate          string             `json:"from_date,omitempty"`
 	ToDate            string             `json:"to_date,omitempty"`

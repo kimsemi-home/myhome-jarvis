@@ -32,6 +32,9 @@ func RuntimeConfigFromEnv(getenv func(string) string) (RuntimeConfig, error) {
 		AuthBaseURL: strings.TrimRight(
 			strings.TrimSpace(getenv("MYHOME_MYDATA_AUTH_BASE_URL")), "/",
 		),
+		AuthTokenBaseURL: strings.TrimRight(
+			strings.TrimSpace(getenv("MYHOME_MYDATA_AUTH_TOKEN_BASE_URL")), "/",
+		),
 		APIType:  strings.TrimSpace(getenv("MYHOME_MYDATA_API_TYPE")),
 		FromDate: strings.TrimSpace(getenv("MYHOME_MYDATA_FROM_DATE")),
 		ToDate:   strings.TrimSpace(getenv("MYHOME_MYDATA_TO_DATE")),
@@ -48,6 +51,9 @@ func RuntimeConfigFromEnv(getenv func(string) string) (RuntimeConfig, error) {
 	}
 	if config.AuthBaseURL == "" {
 		config.AuthBaseURL = "https://mydata.cert.toss.im"
+	}
+	if config.AuthTokenBaseURL == "" {
+		config.AuthTokenBaseURL = "https://oauth2.cert.toss.im"
 	}
 	return validateRuntimeConfig(config)
 }
