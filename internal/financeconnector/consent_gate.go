@@ -6,7 +6,7 @@ import (
 	"github.com/kimsemi-home/myhome-jarvis/internal/financeconsent"
 )
 
-func requireActiveConsent(root string) error {
+func RequireActiveConsent(root string) error {
 	status, err := financeconsent.StatusForRoot(root)
 	if err != nil {
 		return err
