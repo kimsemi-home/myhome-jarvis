@@ -19,7 +19,7 @@
   (wf stream "")
   (wf stream "on:")
   (wf stream "  push:")
-  (wf stream "    branches: [\"**\"]")
+  (wf stream "    branches: [\"main\"]")
   (wf stream "  pull_request:")
   (wf stream "")
   (wf stream "concurrency:")
