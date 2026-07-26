@@ -26,6 +26,7 @@
 	                 "git diff --exit-code -- generated .github/workflows/quality.yml docs/verification-graph.md"))
     (:id "go" :name "Go daemon and CLI" :kind "unit-test"
      :timeout 15 :setup "go" :cache "go" :history t
+	     :checkout_ref "${{ github.event.pull_request.head.sha || github.sha }}"
 	     :hash_inputs #(".github/workflows/quality.yml" ".go-version" "rust-toolchain.toml" "go.mod" "go.sum" "cmd/**/*.go"
                     "internal/**/*.go" ".mhj/**" ".codex/**" "generated/*.json"
                     "contracts/**" "fixtures/**" "docs-src/**" "docs/shorts-factory.md" "traceability.json"
