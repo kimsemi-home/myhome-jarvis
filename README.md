@@ -147,6 +147,19 @@ scopes. Each connection resolves one versioned credential bundle from an
 keeps Flutter and public GitHub Actions credential-free. See
 [`docs/finance-connector-loop.md`](docs/finance-connector-loop.md).
 
+After the provider returns each spouse's signed-consent document, the private
+local auth boundary can be exercised without putting the document in shell
+history:
+
+```sh
+go run ./cmd/mhj finance auth user < data/private/finance/user-signed-consent.json
+go run ./cmd/mhj finance auth spouse < data/private/finance/spouse-signed-consent.json
+go run ./cmd/mhj finance parity
+```
+
+The auth command prints only provider, owner, and verification status. It never
+prints the CI, signed consent, resolved 1Password bundle, or raw provider data.
+
 ## Closed-loop local verification
 
 Run the same verification graph locally that CI generates:

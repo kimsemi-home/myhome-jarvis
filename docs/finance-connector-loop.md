@@ -62,6 +62,9 @@ export MYHOME_MYDATA_API_TYPE=2
 export MYHOME_MYDATA_INCLUDE_CARDS=true
 export MYHOME_FINANCE_CONNECTIONS_JSON='[{"owner":"user","credential_ref":"op://MyHome-Jarvis/Finance-Connector/jooyoon-credential","org_code":"<org>","account_num":"<account>"},{"owner":"spouse","credential_ref":"op://MyHome-Jarvis/Finance-Connector/semmi-credential","org_code":"<org>","account_num":"<account>"}]'
 go run ./cmd/mhj finance-consent status
+# Feed the provider-issued signed-consent document from a private file/stdin.
+go run ./cmd/mhj finance auth user < data/private/finance/user-signed-consent.json
+go run ./cmd/mhj finance auth spouse < data/private/finance/spouse-signed-consent.json
 go run ./cmd/mhj finance parity
 ```
 

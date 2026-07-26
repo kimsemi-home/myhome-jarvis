@@ -22,7 +22,7 @@ func LoadConfigured(ctx context.Context, root string) (LoadedData, error) {
 		return LoadedData{}, err
 	}
 	if config.Mode == ModeMyData {
-		if err := requireActiveConsent(root); err != nil {
+		if err := RequireActiveConsent(root); err != nil {
 			return LoadedData{}, err
 		}
 		transactions, err := (LiveClient{Config: config}).Fetch(ctx)

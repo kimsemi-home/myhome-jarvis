@@ -65,4 +65,15 @@ responses. To verify a real provider call, supply outside the public repo:
 
 Then run `go run ./cmd/mhj finance parity` locally. A passing report at or above
 95% is the live evidence; fixture/replay parity must not be presented as a
-production provider call.
+production provider call. The local authentication command reads one private
+signed-consent JSON document from stdin, resolves the selected owner's bundle,
+and returns only `{ "provider": "toss_mydata", "owner": "...", "verified": true }`:
+
+```sh
+go run ./cmd/mhj finance auth user < data/private/finance/user-signed-consent.json
+go run ./cmd/mhj finance auth spouse < data/private/finance/spouse-signed-consent.json
+go run ./cmd/mhj finance parity
+```
+
+The signed-consent documents are never committed, printed, or sent to the
+Flutter client.
