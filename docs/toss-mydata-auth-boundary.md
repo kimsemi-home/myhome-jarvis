@@ -58,6 +58,13 @@ and [card specification](https://developers.mydatakorea.org/mdtb/apg/mac/bas/FSA
 
 ## Final live verification inputs
 
+Run `go run ./cmd/mhj finance preflight` first. It fails closed unless the
+runtime is in MyData mode, external calls are explicitly enabled, read-only
+consent is active, the data endpoint is configured, and every owner resolves a
+valid atomic bundle. Its output contains only readiness booleans and owner
+labels; it never prints `op://` references, tokens, certificates, account
+numbers, signed consent, or provider responses.
+
 The repository can verify the complete adapter and daemon loop with replay
 responses. To verify a real provider call, supply outside the public repo:
 
