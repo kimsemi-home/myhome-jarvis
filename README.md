@@ -159,8 +159,9 @@ go run ./cmd/mhj finance parity
 
 The auth command prints only provider, owner, and verification status. It uses
 the bundle's existing auth token or obtains one in memory from the Toss client
-credentials; it never prints the CI, signed consent, resolved 1Password
-bundle, or raw provider data.
+credentials; if Toss rejects a cached token, it refreshes once and retries.
+It never prints the CI, signed consent, resolved 1Password bundle, or raw
+provider data.
 
 ## Closed-loop local verification
 
