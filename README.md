@@ -148,8 +148,15 @@ keeps Flutter and public GitHub Actions credential-free. See
 [`docs/finance-connector-loop.md`](docs/finance-connector-loop.md).
 
 After the provider returns each spouse's signed-consent document, the private
-local auth boundary can be exercised without putting the document in shell
-history:
+preflight checks the runtime without printing credential references or secret
+fields:
+
+```sh
+go run ./cmd/mhj finance preflight
+```
+
+After preflight passes, the private auth boundary can be exercised without
+putting the signed-consent document in shell history:
 
 ```sh
 go run ./cmd/mhj finance auth user < data/private/finance/user-signed-consent.json
