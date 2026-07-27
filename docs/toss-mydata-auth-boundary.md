@@ -20,10 +20,12 @@ The OAuth client-credentials exchange that produces the Toss access token is
 also server-side. `SignVerificationFromReference` uses an existing
 `auth_access_token` when present; otherwise it exchanges the bundle's
 `client_id` and `client_secret` at `MYHOME_MYDATA_AUTH_TOKEN_BASE_URL` with
-`scope=ca`, keeping the issued token in memory only. The data access token
-remains in the same bundle; no auth token is placed in a separate environment
-variable. The provider may require mTLS in the test environment, so the
-optional certificate and private key in that same bundle are installed into
+`scope=ca`, keeping the issued token in memory only. If Toss rejects a cached
+token with HTTP 401, the same bundle is exchanged once and the verification is
+retried once. The data access token remains in the same bundle; no auth token
+is placed in a separate environment variable. The provider may require mTLS in
+the test environment, so the optional certificate and private key in that same
+bundle are installed into
 the per-connection HTTP client. Partial or invalid mTLS material is rejected.
 
 See the [Toss MyData integrated authentication guide](https://toss.im/tosscert/docs/guides/integration/mydata)
