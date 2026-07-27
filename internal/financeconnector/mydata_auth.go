@@ -54,7 +54,7 @@ func (client LiveClient) SignVerification(
 	}
 	defer response.Body.Close()
 	if response.StatusCode < 200 || response.StatusCode >= 300 {
-		return "", fmt.Errorf("mydata auth request returned HTTP %d", response.StatusCode)
+		return "", myDataHTTPError{statusCode: response.StatusCode}
 	}
 	var decoded signVerificationResponse
 	limited := io.LimitReader(response.Body, 1<<20)

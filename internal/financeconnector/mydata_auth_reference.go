@@ -2,6 +2,7 @@ package financeconnector
 
 import (
 	"context"
+	"errors"
 	"fmt"
 )
 
@@ -24,5 +25,19 @@ func (client LiveClient) SignVerificationFromReference(
 	if err != nil {
 		return "", err
 	}
+	ci, err := client.SignVerification(ctx, credential, request)
+	if err == nil || !isMyDataUnauthorized(err) {
+		return ci, err
+	}
+	credential.AuthAccessToken = ""
+	credential.AuthAccessToken, err = client.authAccessToken(ctx, credential)
+	if err != nil {
+		return "", err
+	}
 	return client.SignVerification(ctx, credential, request)
+}
+
+func isMyDataUnauthorized(err error) bool {
+	var httpErr myDataHTTPError
+	return errors.As(err, &httpErr) && httpErr.statusCode == 401
 }

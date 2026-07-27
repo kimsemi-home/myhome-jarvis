@@ -71,8 +71,9 @@ go run ./cmd/mhj finance parity
 Each referenced 1Password field contains one private JSON bundle. The data
 access token, client credentials, optional cached auth token, consent/auth
 material, and optional certificate reference are rotated together. When the
-cached auth token is omitted, the local auth command obtains one in memory via
-the OAuth client-credentials grant:
+cached auth token is omitted—or Toss rejects it with HTTP 401—the local auth
+command obtains one in memory via the OAuth client-credentials grant and
+retries the verification once:
 
 ```json
 {"schema":"myhome.finance.credential/v1","provider":"toss_mydata","client_id":"test_client","client_secret":"<secret>","data_access_token":"<data-token>","mtls_certificate_pem":"<certificate>","mtls_private_key_pem":"<private-key>"}
